@@ -1,0 +1,23 @@
+[debug] [2019-12-02T10:48:57.171Z] ----------------------------------------------------------------------
+[debug] [2019-12-02T10:48:57.172Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2019-12-02T10:48:57.173Z] CLI Version:   6.1.1
+[debug] [2019-12-02T10:48:57.173Z] Platform:      darwin
+[debug] [2019-12-02T10:48:57.173Z] Node Version:  v10.14.1
+[debug] [2019-12-02T10:48:57.174Z] Time:          Mon Dec 02 2019 13:48:57 GMT+0300 (East Africa Time)
+[debug] [2019-12-02T10:48:57.174Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-12-02T10:48:57.186Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-12-02T10:48:57.186Z] > authorizing via signed-in user
+[debug] [2019-12-02T10:48:57.186Z] [iam] checking project gezako-8a7aa for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2019-12-02T10:48:57.188Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/gezako-8a7aa:testIamPermissions  
+
+[debug] [2019-12-02T10:48:59.083Z] <<< HTTP RESPONSE 200
+[debug] [2019-12-02T10:48:59.084Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/gezako-8a7aa  
+ 
+[debug] [2019-12-02T10:48:59.716Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'gezako-8a7aa'...
+[info] 
+[info] i  deploying hosting
+[debug] [2019-12-02T10:48:59.719Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/gezako-8a7aa/versions  
+
