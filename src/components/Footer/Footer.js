@@ -5,8 +5,8 @@ import PropTypes from "prop-types";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // material-ui core components
-import { List, ListItem } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import {List, ListItem} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
 
 // @material-ui/icons
 import Favorite from "@material-ui/icons/Favorite";
@@ -17,7 +17,7 @@ const useStyles = makeStyles(styles);
 
 export default function Footer(props) {
   const classes = useStyles();
-  const { whiteFont } = props;
+  const {whiteFont} = props;
   const footerClasses = classNames({
     [classes.footer]: true,
     [classes.footerWhiteFont]: whiteFont
@@ -27,37 +27,32 @@ export default function Footer(props) {
     [classes.footerWhiteFont]: whiteFont
   });
   return (
-    <footer className={footerClasses}>
-      <div className={classes.container}>
-        <div className={classes.left}>
-          <List className={classes.list}>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="https://medium.com/@powermukisa"
-                className={classes.block}
-                target="_blank"
-              >
-                About us
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="https://medium.com/@powermukisa"
-                className={classes.block}
-                target="_blank"
-              >
-                Blog
-              </a>
-            </ListItem>
-          </List>
+      <footer className={footerClasses}>
+        <div className={classes.container}>
+          <div className={classes.left}>
+            <List className={classes.list}>
+              <ListItem className={classes.inlineBlock}>
+                <a
+                    href="https://medium.com/@powermukisa"
+                    className={classes.block}
+                    target="_blank"
+                >
+                  About us
+                </a>
+              </ListItem>
+              <ListItem className={classes.inlineBlock}>
+                <a
+                    href="https://medium.com/@powermukisa"
+                    className={classes.block}
+                    target="_blank"
+                >
+                  Blog
+                </a>
+              </ListItem>
+            </List>
+          </div>
         </div>
-        <div className={classes.right}>
-          &copy; {1900 + new Date().getYear()} , made with{" "}
-          <Favorite className={classes.icon} /> by PGM
-          for great Software QA.
-        </div>
-      </div>
-    </footer>
+      </footer>
   );
 }
 
