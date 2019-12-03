@@ -1,6 +1,6 @@
 import React from "react";
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Icon from "@material-ui/core/Icon";
@@ -21,83 +21,64 @@ import Button from "components/CustomButtons/Button.js";
 import image from "assets/img/bg.jpg";
 import profileImage from "assets/img/faces/avatar.jpg";
 
-import styles from "assets/jss/material-kit-react/views/componentsSections/navbarsStyle.js";
+import styles
+  from "assets/jss/material-kit-react/views/componentsSections/navbarsStyle.js";
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles(styles);
 
 export default function SectionNavbars() {
   const classes = useStyles();
   return (
-    <div className={classes.section}>
+      <div className={classes.section}>
 
-      <div id="navbar" className={classes.navbar}>
+        <div id="navbar" className={classes.navbar}>
           <Header
-            brand="Gezako"
-            color="info"
-            rightLinks={
-              <List className={classes.list}>
-                <ListItem className={classes.listItem}>
-                  <Button
-                    href="#pablo"
-                    className={classes.navLink}
-                    onClick={e => e.preventDefault()}
-                    color="transparent"
-                  >
-                    Discover
-                  </Button>
-                </ListItem>
-                <ListItem className={classes.listItem}>
-                  <Button
-                    href="#pablo"
-                    className={classes.navLink}
-                    onClick={e => e.preventDefault()}
-                    color="transparent"
-                  >
-                    Wishlist
-                  </Button>
-                </ListItem>
-                <ListItem className={classes.listItem}>
-                  <Button
-                    justIcon
-                    round
-                    href="#pablo"
-                    className={classes.notificationNavLink}
-                    onClick={e => e.preventDefault()}
-                    color="rose"
-                  >
-                    <Email className={classes.icons} />
-                  </Button>
-                </ListItem>
-                <ListItem className={classes.listItem}>
-                  <CustomDropdown
-                    left
-                    caret={false}
-                    hoverColor="black"
-                    dropdownHeader="Dropdown Header"
-                    buttonText={
-                      <img
-                        src={profileImage}
-                        className={classes.img}
-                        alt="profile"
-                      />
-                    }
-                    buttonProps={{
-                      className:
-                        classes.navLink + " " + classes.imageDropdownButton,
-                      color: "transparent"
-                    }}
-                    dropdownList={[
-                      "Me",
-                      "Settings and other stuff",
-                      "Sign out"
-                    ]}
-                  />
-                </ListItem>
-              </List>
-            }
+              brand="Gezako"
+              color="info"
+              rightLinks={
+                <List className={classes.list}>
+                  <ListItem className={classes.listItem}>
+                    <Button
+                        href="/create"
+                        className={classes.navLink}
+                        onClick={e => e.preventDefault()}
+                        color="transparent"
+                    >
+                      {/*<Link to="/create" class="btn btn-primary">Upload Spock*/}
+                        {/*Report</Link>*/}
+                      Upload Spock Report
+                    </Button>
+                  </ListItem>
+                  <ListItem className={classes.listItem}>
+                    <CustomDropdown
+                        left
+                        caret={false}
+                        hoverColor="lightblue" //todo add this
+                        dropdownHeader="Username here"
+                        buttonText={
+                          <img
+                              src={profileImage}
+                              className={classes.img}
+                              alt="profile"
+                          />
+                        }
+                        buttonProps={{
+                          className:
+                              classes.navLink + " "
+                              + classes.imageDropdownButton,
+                          color: "transparent"
+                        }}
+                        dropdownList={[
+                          "Sign out"
+                        ]}
+                    />
+                  </ListItem>
+                </List>
+              }
           />
 
+        </div>
       </div>
-    </div>
   );
 }
