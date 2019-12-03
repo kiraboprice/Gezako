@@ -1,11 +1,28 @@
 import React, { Component } from 'react';
+
+// nodejs library that concatenates classes
+import classNames from "classnames";
+
+// @material-ui/core components
+import { makeStyles } from "@material-ui/core/styles";
+
 import { Link } from 'react-router-dom';
 import 'App.css';
 import firebase from 'firebase';
 // import firebase from 'Firebase';
 
+//core components
+import Footer from "components/Footer/Footer.js";
+
+// sections for this page
+import SectionNavbars from "views/Sections/SectionNavbars.js";
+
 import logo from 'logo.svg';
 import withFirebaseAuth from 'react-with-firebase-auth'
+
+import styles from "assets/jss/material-kit-react/views/components.js";
+
+const useStyles = makeStyles(styles);
 
 class HomePage extends Component {
   constructor(props) {
@@ -39,8 +56,15 @@ class HomePage extends Component {
   }
 
   render() {
+    // const classes = useStyles();
     return (
-        <div class="container">
+        <div>
+
+          {/*<div className={classNames(classes.main, classes.mainRaised)}>*/}
+            <div>
+            <SectionNavbars />
+          </div>
+
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">
@@ -70,7 +94,10 @@ class HomePage extends Component {
               </table>
             </div>
           </div>
+
+          <Footer />
         </div>
+
     );
   }
 
