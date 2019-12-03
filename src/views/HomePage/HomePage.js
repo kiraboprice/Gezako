@@ -9,7 +9,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Link } from 'react-router-dom';
 import 'App.css';
 import firebase from 'firebase';
-// import firebase from 'Firebase';
 
 //core components
 import Footer from "components/Footer/Footer.js";
@@ -65,15 +64,15 @@ class HomePage extends Component {
             <SectionNavbars />
           </div>
 
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">
+          <div >
+            <div >
+              <h3 >
                 Spock Reports
               </h3>
             </div>
-            <div class="panel-body">
+            <div >
               <h4><Link to="/create" class="btn btn-primary">Add Report</Link></h4>
-              <table class="table table-stripe">
+              <table >
                 <thead>
                 <tr>
                   <th>Service</th>

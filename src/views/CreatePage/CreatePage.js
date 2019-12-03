@@ -15,6 +15,7 @@ class CreatePage extends Component {
       file: '',
       fileDownLoadUrl: ''
     };
+    // this.uploadFile = this.uploadFile.bind(this); //todo experiment with this
   }
 
   onChange = (e) => {
@@ -31,7 +32,7 @@ class CreatePage extends Component {
 
   uploadFile = (e) => {
     const state = this.state
-    var context = this
+    var context = this //maybe this can be avoid be biding this function in the constructor? check commented code
     var metadata = {
       contentType: 'text/html'
     };

@@ -8,17 +8,16 @@ import * as serviceWorker from './serviceWorker';
 import "assets/scss/material-kit-react.scss?v=1.8.0";
 
 // pages for this product
-import LandingPage from "views/LandingPage/LandingPage.js";
 import HomePage from "views/HomePage/HomePage.js";
 import EditPage from "views/EditPage/EditPage.js";
 import CreatePage from "views/CreatePage/CreatePage.js";
 import ShowPage from "views/ShowPage/ShowPage.js";
-import App from './App'; //this is actually needed here
+import App from './App';
 
 ReactDOM.render(
     <Router>
       <div>
-        <Route exact path='/' component={LandingPage} />
+        <Route exact path='/' component={App} />
         <Route path="/reports" component={HomePage} />
         <Route path='/edit/:id' component={EditPage} />
         <Route path='/create' component={CreatePage} />
