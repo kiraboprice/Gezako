@@ -17,6 +17,7 @@ import Footer from "components/Footer/Footer.js";
 import SectionNavbars from "views/Sections/SectionNavbars.js";
 
 import styles from "assets/jss/material-kit-react/views/components.js";
+import ReportsTable from "./Sections/ReportsTable";
 
 const useStyles = makeStyles(styles);
 
@@ -62,7 +63,11 @@ class SpockReportsPage extends Component {
           {/*TODO Add this as one of the buttons in the InfoTable*/}
           {/*<h4><Link to="/create" class="btn btn-primary">Add Report</Link></h4>*/}
 
-          Spock Reports Here
+          Loans
+          <ReportsTable/>
+          <br/>
+          <br/>
+          <ReportsTable/>
           <Footer />
         </div>
 

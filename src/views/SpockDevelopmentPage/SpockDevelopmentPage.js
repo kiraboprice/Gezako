@@ -20,7 +20,7 @@ import logo from 'logo.svg';
 import withFirebaseAuth from 'react-with-firebase-auth'
 
 import styles from "assets/jss/material-kit-react/views/components.js";
-import ReportsTable from "./Sections/ReportsTable";
+import DevelopmentReportsTable from "./Sections/DevelopmentReportsTable";
 
 const useStyles = makeStyles(styles);
 
@@ -63,7 +63,7 @@ class SpockReportsPage extends Component {
           <SectionNavbars />
           {/*</div>*/}
 
-          <ReportsTable/>
+          <DevelopmentReportsTable/>
           <Footer />
         </div>
 

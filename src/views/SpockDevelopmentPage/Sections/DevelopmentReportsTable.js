@@ -1,7 +1,7 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 
-export default function ReportsTable() {
+export default function DevelopmentReportsTable() {
   const [state, setState] = React.useState({
     columns: [
       { title: 'Name', field: 'name' },
