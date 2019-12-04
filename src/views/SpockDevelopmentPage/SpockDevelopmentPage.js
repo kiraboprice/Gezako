@@ -20,11 +20,11 @@ import logo from 'logo.svg';
 import withFirebaseAuth from 'react-with-firebase-auth'
 
 import styles from "assets/jss/material-kit-react/views/components.js";
-import InfoTable from "./Sections/InfoTable.js";
+import ReportsTable from "./Sections/ReportsTable";
 
 const useStyles = makeStyles(styles);
 
-class HomePage extends Component {
+class SpockReportsPage extends Component {
   constructor(props) {
     super(props);
     this.ref = firebase.firestore().collection('reports');
@@ -61,11 +61,9 @@ class HomePage extends Component {
         <div>
           {/*<div className={classNames(classes.main, classes.mainRaised)}>*/}
           <SectionNavbars />
+          {/*</div>*/}
 
-          {/*TODO Add this as one of the buttons in the InfoTable*/}
-          {/*<h4><Link to="/create" class="btn btn-primary">Add Report</Link></h4>*/}
-
-          <InfoTable/>
+          <ReportsTable/>
           <Footer />
         </div>
 
@@ -85,4 +83,4 @@ class HomePage extends Component {
       {/*</tr>*/}
   {/*)}*/}
 {/*</tbody>*/}
-export default HomePage;
+export default SpockReportsPage;

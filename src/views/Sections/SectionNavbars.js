@@ -45,11 +45,22 @@ export default function SectionNavbars() {
                         onClick={e => e.preventDefault()}
                         color="transparent"
                     >
-                      {/*<Link to="/create" class="btn btn-primary">Upload Spock*/}
-                        {/*Report</Link>*/}
-                      Upload Spock Report
+                      <Link to="/spock-reports" class="btn btn-primary" style={{ color: '#FFF' }}>Spock Test Reports</Link>
+
                     </Button>
                   </ListItem>
+
+                  <ListItem className={classes.listItem}>
+                    <Button
+                        href="/create"
+                        className={classes.navLink}
+                        onClick={e => e.preventDefault()}
+                        color="transparent"
+                    >
+                      <Link to="/spock-development" class="btn btn-primary" style={{ color: '#FFF' }}>Development</Link>
+                    </Button>
+                  </ListItem>
+
                   <ListItem className={classes.listItem}>
                     <CustomDropdown
                         left

@@ -7,8 +7,9 @@ import * as serviceWorker from './serviceWorker';
 
 import "assets/scss/material-kit-react.scss?v=1.8.0";
 
-// pages for this product
-import HomePage from "views/HomePage/HomePage.js";
+// pages
+import SpockReportsPage from "views/SpockReportsPage/SpockReportsPage.js";
+import SpockDevelopmentPage from "views/SpockDevelopmentPage/SpockDevelopmentPage.js";
 import EditPage from "views/EditPage/EditPage.js";
 import CreatePage from "views/CreatePage/CreatePage.js";
 import ShowPage from "views/ShowPage/ShowPage.js";
@@ -18,7 +19,8 @@ ReactDOM.render(
     <Router>
       <div>
         <Route exact path='/' component={App} />
-        <Route path="/reports" component={HomePage} />
+        <Route path="/spock-reports" component={SpockReportsPage} />
+        <Route path="/spock-development" component={SpockDevelopmentPage} />
         <Route path='/edit/:id' component={EditPage} />
         <Route path='/create' component={CreatePage} />
         <Route path='/show/:id' component={ShowPage} />

@@ -3,7 +3,7 @@ import firebase from './Firebase';
 // import firebase from 'firebase';
 import withFirebaseAuth from 'react-with-firebase-auth'
 import LandingPage from "./views/LandingPage/LandingPage";
-import HomePage from "./views/HomePage/HomePage";
+import SpockReportsPage from "./views/SpockReportsPage/SpockReportsPage";
 
 class App extends Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class App extends Component {
             </div>
             {
               user
-                  ? <HomePage/>
+                  ? <SpockReportsPage/>
                   : <LandingPage/>
             }
           </div>
