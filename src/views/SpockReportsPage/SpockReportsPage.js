@@ -66,7 +66,7 @@ class SpockReportsPage extends Component {
 
           <SideBar/>
           Loans
-          <ReportsTable/>
+          <ReportsTable />
           <br/>
           <br/>
           <ReportsTable/>

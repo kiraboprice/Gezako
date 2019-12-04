@@ -21,6 +21,7 @@ class SideBar extends React.Component {
             open={this.state.sidebarOpen}
             onSetOpen={this.onSetSidebarOpen}
             styles={{ sidebar: { background: "white" } }}
+            docked={true}
         >
           <button onClick={() => this.onSetSidebarOpen(true)}>
             Open sidebar
