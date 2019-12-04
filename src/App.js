@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import firebase from './Firebase';
 // import firebase from 'firebase';
 import withFirebaseAuth from 'react-with-firebase-auth'
@@ -17,22 +17,17 @@ class App extends Component {
       signInWithGoogle,
     } = this.props;
     return (
-      <div class="container">
-        <div class="panel panel-default">
-          <div class="panel-heading">
+        <div class="container">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+            </div>
+            {
+              user
+                  ? <HomePage/>
+                  : <LandingPage/>
+            }
           </div>
-                {
-                  user
-                      ? <p>Hello, {user.displayName}</p>
-                      : <p>Please sign in.</p>
-                }
-                {
-                  user
-                      ? <HomePage />
-                      : <LandingPage />
-                }
         </div>
-      </div>
     );
   }
 }
