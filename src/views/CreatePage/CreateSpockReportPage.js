@@ -11,7 +11,8 @@ class CreateSpockReportPage extends Component {
     this.storageRef = firebase.storage().ref();
     this.state = {
       service: '',
-      feature: '',
+      reportType: '',
+      reportTitle: '',
       file: '',
       fileDownLoadUrl: ''
     };
@@ -83,16 +84,18 @@ class CreateSpockReportPage extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const {service, feature, fileDownLoadUrl} = this.state;
+    const {service, reportType, reportTitle, fileDownLoadUrl} = this.state;
 
     this.ref.add({
       service,
-      feature,
+      reportType,
+      reportTitle,
       fileDownLoadUrl
     }).then((docRef) => {
       this.setState({
         service: '',
-        feature: '',
+        reportType: '',
+        reportTitle: '',
         fileDownloadURL: ''
       });
       this.props.history.push("/")
@@ -103,25 +106,19 @@ class CreateSpockReportPage extends Component {
   }
 
   render() {
-    const {service, feature} = this.state;
+    const {service, reportType, reportTitle} = this.state;
     return (
         <div class="container">
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">
-                Upload Development Report
+                Upload Spock Report
               </h3>
             </div>
             <div class="panel-body">
               <h4><Link to="/" class="btn btn-primary">Reports</Link></h4>
               <div className="form-group">
                 <input type="file" name="file" onChange={this.onFileSelected}
-                       accept="html/*"/>
-                <button onClick={this.uploadFile}>Upload File</button>
-              </div>
-
-              <div hidden={true}>
-                <input name="fileDownLoadUrl" onChange={this.onChange}
                        accept="html/*"/>
                 <button onClick={this.uploadFile}>Upload File</button>
               </div>
@@ -133,10 +130,16 @@ class CreateSpockReportPage extends Component {
                          placeholder="service"/>
                 </div>
                 <div class="form-group">
-                  <label for="description">Feature:</label>
-                  <textArea class="form-control" name="feature"
-                            onChange={this.onChange} placeholder="feature"
-                            cols="80" rows="3">{feature}</textArea>
+                  <label for="description">Report Type:</label>
+                  <textArea class="form-control" name="reportType"
+                            onChange={this.onChange} placeholder="reportType"
+                            cols="80" rows="3">{reportType}</textArea>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="description">Report Title:</label>
+                  <textArea class="form-control" name="reportTitle"
+                            onchange={this.onChange} placeholder="reportTitle"
+                            cols="80" rows="3">{reportTitle}</textArea>
                 </div>
                 <button type="submit" class="btn btn-success">Submit</button>
               </form>
