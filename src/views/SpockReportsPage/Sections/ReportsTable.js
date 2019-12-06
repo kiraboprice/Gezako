@@ -10,7 +10,7 @@ import 'App.css';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: theme.palette.common.black, //todo change color here
     color: theme.palette.common.white,
   },
   body: {
@@ -26,18 +26,6 @@ const StyledTableRow = withStyles(theme => ({
   },
 }))(TableRow);
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 const useStyles = makeStyles({
   root: {
     width: '80%',
@@ -49,9 +37,9 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ReportsTable() {
+export default function ReportsTable(props) {
   const classes = useStyles();
-
+  const reports = props.reports;
   return (
       //<div className="MainContent">
       <div >
@@ -59,23 +47,16 @@ export default function ReportsTable() {
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-              <StyledTableCell align="right">Calories</StyledTableCell>
-              <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-              <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-              <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+              <StyledTableCell>Title</StyledTableCell>
+              <StyledTableCell align="right">Report</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
-                <StyledTableRow key={row.name}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                  <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                  <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                  <StyledTableCell align="right">{row.protein}</StyledTableCell>
+            {reports.map(report => (
+                //todo pass the db key here
+                <StyledTableRow key={report.fileDownLoadUrl}>
+                  <StyledTableCell align="right">{report.reportTitle}</StyledTableCell>
+                  <StyledTableCell align="right"><a href = {report.fileDownLoadUrl}>Report</a></StyledTableCell>
                 </StyledTableRow>
             ))}
           </TableBody>

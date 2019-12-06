@@ -26,27 +26,45 @@ const useStyles = makeStyles(styles);
 class SpockReportsPage extends Component {
   constructor(props) {
     super(props);
-    this.ref = firebase.firestore().collection('reports');
+    this.ref = firebase.firestore().collection('spock-reports');
     this.unsubscribe = null;
     this.state = {
-      reports: []
+      featureReports: [],
+      endpointReports: []
     };
   }
 
   onCollectionUpdate = (querySnapshot) => {
-    const reports = [];
+    const featureReports = [];
+    const endpointReports = [];
     querySnapshot.forEach((doc) => {
-      const { service, feature, fileDownLoadUrl } = doc.data();
-      reports.push({
-        key: doc.id,
-        doc, // DocumentSnapshot
-        service,
-        feature,
-        fileDownLoadUrl
-      });
+      const { service, reportType, reportTitle, feature, fileDownLoadUrl } = doc.data();
+      if(reportType === "feature"){
+        featureReports.push({
+          key: doc.id,
+          doc, // DocumentSnapshot
+          service,
+          reportTitle,
+          feature,
+          fileDownLoadUrl
+        });
+      }
+
+      if(reportType === "endpoint"){
+        endpointReports.push({
+          key: doc.id,
+          doc, // DocumentSnapshot
+          service,
+          reportTitle,
+          feature,
+          fileDownLoadUrl
+        });
+      }
+
     });
     this.setState({
-      reports
+      featureReports,
+      endpointReports
     });
   }
 
@@ -55,7 +73,6 @@ class SpockReportsPage extends Component {
   }
 
   render() {
-    // const classes = useStyles(); //todo need to make this a function component
     return (
        <div style={{position: 'relative'}}>
           {/*<div>*/}
@@ -67,11 +84,12 @@ class SpockReportsPage extends Component {
           {/*<h4><Link to="/create" class="btn btn-primary">Add Report</Link></h4>*/}
 
           <SideBar/>
-          Loans
-          <ReportsTable />
+         <span>Features</span>
+          <ReportsTable reports={this.state.featureReports}/>
           <br/>
           <br/>
-          <ReportsTable/>
+         <span>Endpoints</span>
+         <ReportsTable reports={this.state.endpointReports}/>
           <Footer />
         </div>
 
@@ -84,7 +102,6 @@ class SpockReportsPage extends Component {
 {/*<tbody>*/}
 {/*{this.state.reports.map(report =>*/}
       {/*<tr>*/}
-        {/*<td>{report.service}</td>*/}
         {/*<td>{report.feature}</td>*/}
         {/*<td><a href = {report.fileDownLoadUrl}>Report</a></td>*/}
         {/*/!*TODO we could have the utc time displayed here as text for "report"*!/*/}
