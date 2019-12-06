@@ -1,0 +1,25 @@
+#accordion-holder{
+    width: 200px;
+    position: fixed;
+    left: 0;
+    margin-left: 25px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    background: white;
+}
+
+.accordion{
+    width: 100%;
+    outline: 0;
+    inline: 0;
+    border: 0;
+    color: black;
+    text-align: left;
+    background: white;
+}
+
+#close_down_panel{
+    right: 0;
+    margin-right: 25px;
+    position: absolute;
+}
