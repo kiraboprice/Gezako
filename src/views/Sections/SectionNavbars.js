@@ -19,7 +19,7 @@ import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
 import Button from "components/CustomButtons/Button.js";
 
 import image from "assets/img/bg.jpg";
-import profileImage from "assets/img/faces/avatar.jpg";
+import profileImage from "assets/img/examples/cynthia-del-rio.jpg";
 
 import styles
   from "assets/jss/material-kit-react/views/componentsSections/navbarsStyle.js";

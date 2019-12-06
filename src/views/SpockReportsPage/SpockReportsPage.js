@@ -91,7 +91,7 @@ class SpockReportsPage extends Component {
           <br/>
          <span>Endpoints</span>
          <ReportsTable reports={this.state.endpointReports}/>
-          <Footer />
+          {/*<Footer />*/}
         </div>
 
     );
@@ -99,14 +99,4 @@ class SpockReportsPage extends Component {
 
 }
 
-
-{/*<tbody>*/}
-{/*{this.state.reports.map(report =>*/}
-      {/*<tr>*/}
-        {/*<td>{report.feature}</td>*/}
-        {/*<td><a href = {report.fileDownLoadUrl}>Report</a></td>*/}
-        {/*/!*TODO we could have the utc time displayed here as text for "report"*!/*/}
-      {/*</tr>*/}
-  {/*)}*/}
-{/*</tbody>*/}
 export default SpockReportsPage;

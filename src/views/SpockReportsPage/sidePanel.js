@@ -9,11 +9,11 @@ export class SidePanel extends React.PureComponent {
         return(
             <div id='accordion-holder'>
 
-                <Panel index = '1'/>
+                <Panel title = 'Spock Reports'/>
 
-                <Panel index = '2'/>
+                <Panel title = 'Development'/>
 
-                <Panel index = '3'/>
+                <Panel title = 'Performance Tests'/>
 
             </div>
         )
