@@ -16,7 +16,9 @@ const navbarsStyle = theme => ({
   navbar: {
     marginBottom: "-20px",
     zIndex: "100",
-    position: "relative",
+    position: "fixed",
+    top: '0',
+    width: '100%',
     boxShadow: '0'
   },
   navigation: {

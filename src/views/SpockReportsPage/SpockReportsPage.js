@@ -75,16 +75,9 @@ class SpockReportsPage extends Component {
 
   render() {
     return (
-       <div style={{position: 'relative', margin: '0 auto'}}>
-          {/*<div>*/}
-          {/*<div className={classNames(classes.main, classes.mainRaised)}>*/}
-          <SectionNavbars />
+        <div style={{marginTop: '65px'}}>
+        <SectionNavbars />
           <SidePanel/>
-          {/*</div>*/}
-
-          {/*TODO Add this as one of the buttons in the InfoTable*/}
-          {/*<h4><Link to="/create" class="btn btn-primary">Add Report</Link></h4>*/}
-
           <ReportsTable reports={this.state.featureReports} title={'Features'}/>
           <br/>
           <br/>

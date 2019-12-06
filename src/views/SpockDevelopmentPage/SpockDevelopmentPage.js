@@ -58,8 +58,8 @@ class SpockReportsPage extends Component {
   render() {
     // const classes = useStyles();
     return (
-        <div>
-          <SectionNavbars />
+        <div style={{marginTop: '65px'}}>
+        <SectionNavbars />
           <SidePanel/>
           <table className="table table-stripe" style={{marginLeft: '250px'}}>
             <thead>
