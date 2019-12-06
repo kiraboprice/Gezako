@@ -6,7 +6,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import 'App.css';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -40,9 +39,9 @@ const rows = [
 
 const useStyles = makeStyles({
   root: {
-    width: '80%',
+    width: '70%',
     // overflowX: 'auto',
-    marginLeft: '150px'
+    marginLeft: '350px'
   },
   table: {
     minWidth: 700

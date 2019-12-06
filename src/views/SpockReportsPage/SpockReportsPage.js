@@ -7,11 +7,12 @@ import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Link } from 'react-router-dom';
-import 'App.css';
 import firebase from 'firebase';
 
 //core components
 import Footer from "components/Footer/Footer.js";
+
+import {SidePanel} from './sidePanel';
 
 // sections for this page
 import SectionNavbars from "views/Sections/SectionNavbars.js";
@@ -61,13 +62,13 @@ class SpockReportsPage extends Component {
           {/*<div>*/}
           {/*<div className={classNames(classes.main, classes.mainRaised)}>*/}
           <SectionNavbars />
+          <SidePanel/>
           {/*</div>*/}
 
           {/*TODO Add this as one of the buttons in the InfoTable*/}
           {/*<h4><Link to="/create" class="btn btn-primary">Add Report</Link></h4>*/}
 
-          <SideBar/>
-          Loans
+          
           <ReportsTable />
           <br/>
           <br/>
