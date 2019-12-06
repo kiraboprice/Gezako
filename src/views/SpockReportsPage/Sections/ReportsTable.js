@@ -41,22 +41,23 @@ export default function ReportsTable(props) {
   const classes = useStyles();
   const reports = props.reports;
   return (
-      //<div className="MainContent">
       <div >
       <Paper className={classes.root}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
             <TableRow>
               <StyledTableCell>Title</StyledTableCell>
-              <StyledTableCell align="right">Report</StyledTableCell>
+              <StyledTableCell align="left">Report</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {reports.map(report => (
                 //todo pass the db key here
                 <StyledTableRow key={report.fileDownLoadUrl}>
-                  <StyledTableCell align="right">{report.reportTitle}</StyledTableCell>
-                  <StyledTableCell align="right"><a href = {report.fileDownLoadUrl}>Report</a></StyledTableCell>
+                  <StyledTableCell align="left">{report.reportTitle}</StyledTableCell>
+                  <StyledTableCell align="left"><a href = {report.fileDownLoadUrl}>Report</a></StyledTableCell>
+                  <a href={report.fileDownLoadUrl}>Report</a>
+                  <td><a href = {report.fileDownLoadUrl}>Report</a></td>
                 </StyledTableRow>
             ))}
           </TableBody>
