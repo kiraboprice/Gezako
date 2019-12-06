@@ -28,19 +28,15 @@ class SideBar extends React.Component {
     return (
         //<div style={sideBar}>
         <Sidebar
-            sidebar={<b>Sidebar content</b>}
+            sidebar={
+              <b>Spock Reports</b>
+            }
             open={this.state.sidebarOpen}
             onSetOpen={this.onSetSidebarOpen}
             styles={{ sidebar: { background: "white" }, root: {top: 70} }}
             docked={true}
         >
-          {/*Loans*/}
-          {/*<ReportsTable />*/}
-          {/*<br/>*/}
-          {/*<br/>*/}
-          {/*<ReportsTable/>*/}
         </Sidebar>
-        //</div>
     );
   }
 }
