@@ -16,11 +16,7 @@ const navbarsStyle = theme => ({
   navbar: {
     marginBottom: "-20px",
     zIndex: "100",
-    position: "relative",
-    overflow: "hidden",
-    "& header": {
-      borderRadius: "0"
-    }
+    position: "relative"
   },
   navigation: {
     backgroundPosition: "center center",
