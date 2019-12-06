@@ -7,7 +7,6 @@ import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Link } from 'react-router-dom';
-import 'App.css';
 import firebase from 'firebase';
 
 //core components

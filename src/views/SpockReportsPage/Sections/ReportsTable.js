@@ -6,7 +6,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import 'App.css';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -28,9 +27,9 @@ const StyledTableRow = withStyles(theme => ({
 
 const useStyles = makeStyles({
   root: {
-    width: '80%',
+    width: '70%',
     // overflowX: 'auto',
-    marginLeft: '150px'
+    marginLeft: '350px'
   },
   table: {
     minWidth: 700
@@ -56,8 +55,6 @@ export default function ReportsTable(props) {
                 <StyledTableRow key={report.fileDownLoadUrl}>
                   <StyledTableCell align="left">{report.reportTitle}</StyledTableCell>
                   <StyledTableCell align="left"><a href = {report.fileDownLoadUrl}>Report</a></StyledTableCell>
-                  <a href={report.fileDownLoadUrl}>Report</a>
-                  <td><a href = {report.fileDownLoadUrl}>Report</a></td>
                 </StyledTableRow>
             ))}
           </TableBody>
