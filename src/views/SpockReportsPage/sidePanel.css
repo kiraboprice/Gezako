@@ -1,8 +1,8 @@
 #accordion-holder{
-    width: 200px;
+    width: 235px;
     position: fixed;
     left: 0;
-    margin-left: 25px;
+    margin-left: 2px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 10px;
     background: white;
@@ -22,4 +22,8 @@
     right: 0;
     margin-right: 25px;
     position: absolute;
+}
+
+.panel{
+    margin-left: 25px;
 }

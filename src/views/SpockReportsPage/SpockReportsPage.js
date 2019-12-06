@@ -75,7 +75,7 @@ class SpockReportsPage extends Component {
 
   render() {
     return (
-       <div style={{position: 'relative'}}>
+       <div style={{position: 'relative', margin: '0 auto'}}>
           {/*<div>*/}
           {/*<div className={classNames(classes.main, classes.mainRaised)}>*/}
           <SectionNavbars />
@@ -85,12 +85,10 @@ class SpockReportsPage extends Component {
           {/*TODO Add this as one of the buttons in the InfoTable*/}
           {/*<h4><Link to="/create" class="btn btn-primary">Add Report</Link></h4>*/}
 
-         <span>Features</span>
-          <ReportsTable reports={this.state.featureReports}/>
+          <ReportsTable reports={this.state.featureReports} title={'Features'}/>
           <br/>
           <br/>
-         <span>Endpoints</span>
-         <ReportsTable reports={this.state.endpointReports}/>
+         <ReportsTable reports={this.state.endpointReports} title={'Endpoints'}/>
           {/*<Footer />*/}
         </div>
 

@@ -8,9 +8,9 @@ export class Panel extends React.PureComponent{
 
     render(){
         return(
-            <React.Fragment>
+            <div>
                 <button className="accordion" onClick={() => this.state.display ? this.setState({display: false}) : this.setState({display: true})}>
-                  {this.props.title}
+                    <span style={{fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif", color:'black', fontSize: '14px', lineHeight: '1.6em'}}> {this.props.title} </span>
                     <span id='close_down_panel' onClick={
                         () => this.state.display ? this.setState({display: false}) : this.setState({display: true})
                     }>
@@ -33,7 +33,7 @@ export class Panel extends React.PureComponent{
               <div className="panel"  style={{display: this.state.display ? 'block' : 'none'}}>
                 <p>Surveys</p>
               </div>
-            </React.Fragment>
+            </div>
         )
     }
 }

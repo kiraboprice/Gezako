@@ -1,6 +1,7 @@
 import React from 'react';
 import {Panel} from './panel';
 import './sidePanel.css';
+import {Link} from "react-router-dom";
 
 
 export class SidePanel extends React.PureComponent {
@@ -11,9 +12,9 @@ export class SidePanel extends React.PureComponent {
 
                 <Panel title = 'Spock Reports'/>
 
-                <Panel title = 'Development'/>
+              <Link to="/spock-development" ><Panel title = 'Development'/></Link>
 
-                <Panel title = 'Performance Tests'/>
+              <Panel title = 'Performance Tests'/>
 
             </div>
         )

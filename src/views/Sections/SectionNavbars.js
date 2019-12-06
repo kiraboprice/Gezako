@@ -39,29 +39,6 @@ export default function SectionNavbars() {
               rightLinks={
                 <List className={classes.list}>
                   <ListItem className={classes.listItem}>
-                    <Button
-                        href="/create"
-                        className={classes.navLink}
-                        onClick={e => e.preventDefault()}
-                        color="transparent"
-                    >
-                      <Link to="/spock-reports" class="btn btn-primary" style={{ color: '#FFF' }}>Spock Test Reports</Link>
-
-                    </Button>
-                  </ListItem>
-
-                  <ListItem className={classes.listItem}>
-                    <Button
-                        href="/create"
-                        className={classes.navLink}
-                        onClick={e => e.preventDefault()}
-                        color="transparent"
-                    >
-                      <Link to="/spock-development" class="btn btn-primary" style={{ color: '#FFF' }}>Development</Link>
-                    </Button>
-                  </ListItem>
-
-                  <ListItem className={classes.listItem}>
                     <CustomDropdown
                         left
                         caret={false}

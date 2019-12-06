@@ -3,7 +3,7 @@ import headerLinksStyle from "assets/jss/material-kit-react/components/headerLin
 
 const navbarsStyle = theme => ({
   section: {
-    padding: "70px 0",
+    padding: "25px 0",
     paddingTop: "0"
   },
   container,
@@ -16,7 +16,8 @@ const navbarsStyle = theme => ({
   navbar: {
     marginBottom: "-20px",
     zIndex: "100",
-    position: "relative"
+    position: "relative",
+    boxShadow: '0'
   },
   navigation: {
     backgroundPosition: "center center",
