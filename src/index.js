@@ -11,9 +11,10 @@ import "assets/scss/material-kit-react.scss?v=1.8.0";
 import SpockReportsPage from "views/SpockReportsPage/SpockReportsPage.js";
 import SpockDevelopmentPage from "views/SpockDevelopmentPage/SpockDevelopmentPage.js";
 import EditPage from "views/EditPage/EditPage.js";
-import CreatePage from "views/CreatePage/CreatePage.js";
+import CreateDevelopmentReportPage from "views/CreatePage/CreateDevelopmentReportPage.js";
 import ShowPage from "views/ShowPage/ShowPage.js";
 import App from './App';
+import CreateSpockReportPage from "./views/CreatePage/CreateSpockReportPage";
 
 ReactDOM.render(
     <Router>
@@ -22,7 +23,8 @@ ReactDOM.render(
         <Route path="/spock-reports" component={SpockReportsPage} />
         <Route path="/spock-development" component={SpockDevelopmentPage} />
         <Route path='/edit/:id' component={EditPage} />
-        <Route path='/create' component={CreatePage} />
+        <Route path='/create' component={CreateDevelopmentReportPage} />
+        <Route path='/create-spock-report' component={CreateSpockReportPage} />
         <Route path='/show/:id' component={ShowPage} />
       </div>
     </Router>,

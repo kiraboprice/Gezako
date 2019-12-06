@@ -15,10 +15,11 @@ import Footer from "components/Footer/Footer.js";
 
 // sections for this page
 import SectionNavbars from "views/Sections/SectionNavbars.js";
-
-import styles from "assets/jss/material-kit-react/views/components.js";
 import ReportsTable from "./Sections/ReportsTable";
 import SideBar from "../../components/SideBar/SideBar";
+
+//styles
+import styles from "assets/jss/material-kit-react/views/spockReportsPage.js";
 
 const useStyles = makeStyles(styles);
 
@@ -54,9 +55,10 @@ class SpockReportsPage extends Component {
   }
 
   render() {
-    // const classes = useStyles();
+    // const classes = useStyles(); //todo need to make this a function component
     return (
-        <div>
+       <div style={{position: 'relative'}}>
+          {/*<div>*/}
           {/*<div className={classNames(classes.main, classes.mainRaised)}>*/}
           <SectionNavbars />
           {/*</div>*/}

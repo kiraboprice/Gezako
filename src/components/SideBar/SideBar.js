@@ -1,5 +1,6 @@
 import React from "react";
 import Sidebar from "react-sidebar";
+import ReportsTable from "../../views/SpockReportsPage/Sections/ReportsTable";
 
 class SideBar extends React.Component {
   constructor(props) {
@@ -15,18 +16,31 @@ class SideBar extends React.Component {
   }
 
   render() {
+    const sideBar = {
+      // position: 'relative',
+      // top: '100px',
+      // left: '300px',
+      // right: '0',
+      // bottom: '0',
+      marginTop:'10px'
+    };
+
     return (
+        //<div style={sideBar}>
         <Sidebar
             sidebar={<b>Sidebar content</b>}
             open={this.state.sidebarOpen}
             onSetOpen={this.onSetSidebarOpen}
-            styles={{ sidebar: { background: "white" } }}
+            styles={{ sidebar: { background: "white" }, root: {top: 70} }}
             docked={true}
         >
-          <button onClick={() => this.onSetSidebarOpen(true)}>
-            Open sidebar
-          </button>
+          {/*Loans*/}
+          {/*<ReportsTable />*/}
+          {/*<br/>*/}
+          {/*<br/>*/}
+          {/*<ReportsTable/>*/}
         </Sidebar>
+        //</div>
     );
   }
 }

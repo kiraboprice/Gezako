@@ -25,9 +25,11 @@ const footerStyle = {
     padding: "0.9375rem 0",
     textAlign: "center",
     display: "flex",
-    zIndex: "2",
-    position: "relative"
-  },
+    zIndex: "6",
+    // position: "absolute",
+    height: "2.5rem"
+
+},
   a: {
     color: primaryColor,
     textDecoration: "none",

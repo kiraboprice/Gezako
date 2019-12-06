@@ -6,6 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import 'App.css';
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -39,11 +40,12 @@ const rows = [
 
 const useStyles = makeStyles({
   root: {
-    width: '100%',
-    overflowX: 'auto',
+    width: '80%',
+    // overflowX: 'auto',
+    marginLeft: '150px'
   },
   table: {
-    minWidth: 700,
+    minWidth: 700
   },
 });
 
@@ -51,6 +53,8 @@ export default function ReportsTable() {
   const classes = useStyles();
 
   return (
+      //<div className="MainContent">
+      <div >
       <Paper className={classes.root}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
@@ -77,5 +81,6 @@ export default function ReportsTable() {
           </TableBody>
         </Table>
       </Paper>
+      </div>
   );
 }

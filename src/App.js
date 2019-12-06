@@ -23,7 +23,7 @@ class App extends Component {
             </div>
             {
               user
-                  ? <SpockReportsPage/>
+                  ? <SpockReportsPage />
                   : <LandingPage/>
             }
           </div>

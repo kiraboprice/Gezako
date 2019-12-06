@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import firebase from 'firebase';
 import {Link} from 'react-router-dom';
 
-class CreatePage extends Component {
+class CreateSpockReportPage extends Component {
 
   constructor() {
     super();
-    this.ref = firebase.firestore().collection('reports');
+    this.ref = firebase.firestore().collection('spock-reports');
     this.storageRef = firebase.storage().ref();
     this.state = {
       service: '',
@@ -36,7 +36,7 @@ class CreatePage extends Component {
     var metadata = {
       contentType: 'text/html'
     };
-    var uploadTask = this.storageRef.child('reports/' + state[e.target.file].name).put(
+    var uploadTask = this.storageRef.child('spock-reports/' + state[e.target.file].name).put(
         state[e.target.file], metadata);
 
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
@@ -109,7 +109,7 @@ class CreatePage extends Component {
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">
-                Upload Report
+                Upload Development Report
               </h3>
             </div>
             <div class="panel-body">
@@ -148,4 +148,4 @@ class CreatePage extends Component {
 
 }
 
-export default CreatePage;
+export default CreateSpockReportPage;
