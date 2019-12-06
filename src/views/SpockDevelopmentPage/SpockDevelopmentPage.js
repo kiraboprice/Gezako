@@ -62,7 +62,7 @@ class SpockReportsPage extends Component {
           <SectionNavbars />
           {/*</div>*/}
 
-          <DevelopmentReportsTable/>
+          <DevelopmentReportsTable reports={this.state.reports}/>
           <Footer />
         </div>
 
