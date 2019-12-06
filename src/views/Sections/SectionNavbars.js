@@ -19,7 +19,7 @@ import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
 import Button from "components/CustomButtons/Button.js";
 
 import image from "assets/img/bg.jpg";
-import profileImage from "assets/img/faces/avatar.jpg";
+import profileImage from "assets/img/examples/cynthia-del-rio.jpg";
 
 import styles
   from "assets/jss/material-kit-react/views/componentsSections/navbarsStyle.js";
@@ -38,29 +38,6 @@ export default function SectionNavbars() {
               color="info"
               rightLinks={
                 <List className={classes.list}>
-                  <ListItem className={classes.listItem}>
-                    <Button
-                        href="/create"
-                        className={classes.navLink}
-                        onClick={e => e.preventDefault()}
-                        color="transparent"
-                    >
-                      <Link to="/spock-reports" class="btn btn-primary" style={{ color: '#FFF' }}>Spock Test Reports</Link>
-
-                    </Button>
-                  </ListItem>
-
-                  <ListItem className={classes.listItem}>
-                    <Button
-                        href="/create"
-                        className={classes.navLink}
-                        onClick={e => e.preventDefault()}
-                        color="transparent"
-                    >
-                      <Link to="/spock-development" class="btn btn-primary" style={{ color: '#FFF' }}>Development</Link>
-                    </Button>
-                  </ListItem>
-
                   <ListItem className={classes.listItem}>
                     <CustomDropdown
                         left

@@ -20,6 +20,7 @@ import withFirebaseAuth from 'react-with-firebase-auth'
 
 import styles from "assets/jss/material-kit-react/views/components.js";
 import DevelopmentReportsTable from "./Sections/DevelopmentReportsTable";
+import {SidePanel} from "../SpockReportsPage/sidePanel";
 
 const useStyles = makeStyles(styles);
 
@@ -58,12 +59,32 @@ class SpockReportsPage extends Component {
     // const classes = useStyles();
     return (
         <div>
-          {/*<div className={classNames(classes.main, classes.mainRaised)}>*/}
           <SectionNavbars />
-          {/*</div>*/}
+          <SidePanel/>
+          <table className="table table-stripe" style={{marginLeft: '250px'}}>
+            <thead>
+            <tr>
+              <th>Service</th>
+              <th>Feature</th>
+              <th>Report</th>
+            </tr>
+            </thead>
+          <tbody>
+          {this.state.reports.map(report =>
+          <tr>
+          <td>{report.service}</td>
+          <td>{report.feature}</td>
+          <td><a href = {report.fileDownLoadUrl}>Report</a></td>
+          {/*TODO we could have the utc time displayed here as text for "report"*/}
+          </tr>
+          )}
+          </tbody>
+          </table>
 
-          <DevelopmentReportsTable reports={this.state.reports}/>
-          <Footer />
+          {/*//todo revert back to this below!*/}
+          {/*<DevelopmentReportsTable reports={this.state.reports}/>*/}
+
+          {/*<Footer />*/}
         </div>
 
     );
@@ -71,15 +92,4 @@ class SpockReportsPage extends Component {
 
 }
 
-
-{/*<tbody>*/}
-{/*{this.state.reports.map(report =>*/}
-      {/*<tr>*/}
-        {/*<td>{report.service}</td>*/}
-        {/*<td>{report.feature}</td>*/}
-        {/*<td><a href = {report.fileDownLoadUrl}>Report</a></td>*/}
-        {/*/!*TODO we could have the utc time displayed here as text for "report"*!/*/}
-      {/*</tr>*/}
-  {/*)}*/}
-{/*</tbody>*/}
 export default SpockReportsPage;

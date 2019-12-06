@@ -75,7 +75,7 @@ class SpockReportsPage extends Component {
 
   render() {
     return (
-       <div style={{position: 'relative'}}>
+       <div style={{position: 'relative', margin: '0 auto'}}>
           {/*<div>*/}
           {/*<div className={classNames(classes.main, classes.mainRaised)}>*/}
           <SectionNavbars />
@@ -89,7 +89,7 @@ class SpockReportsPage extends Component {
           <br/>
           <br/>
          <ReportsTable reports={this.state.endpointReports} title={'Endpoints'}/>
-          <Footer />
+          {/*<Footer />*/}
         </div>
 
     );
@@ -97,14 +97,4 @@ class SpockReportsPage extends Component {
 
 }
 
-
-{/*<tbody>*/}
-{/*{this.state.reports.map(report =>*/}
-      {/*<tr>*/}
-        {/*<td>{report.feature}</td>*/}
-        {/*<td><a href = {report.fileDownLoadUrl}>Report</a></td>*/}
-        {/*/!*TODO we could have the utc time displayed here as text for "report"*!/*/}
-      {/*</tr>*/}
-  {/*)}*/}
-{/*</tbody>*/}
 export default SpockReportsPage;
