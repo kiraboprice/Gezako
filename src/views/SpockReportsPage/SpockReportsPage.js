@@ -12,6 +12,8 @@ import firebase from 'firebase';
 //core components
 import Footer from "components/Footer/Footer.js";
 
+import {SidePanel} from './sidePanel';
+
 // sections for this page
 import SectionNavbars from "views/Sections/SectionNavbars.js";
 import ReportsTable from "./Sections/ReportsTable";
@@ -60,6 +62,7 @@ class SpockReportsPage extends Component {
           {/*<div>*/}
           {/*<div className={classNames(classes.main, classes.mainRaised)}>*/}
           <SectionNavbars />
+          <SidePanel/>
           {/*</div>*/}
 
           {/*TODO Add this as one of the buttons in the InfoTable*/}

@@ -39,9 +39,9 @@ const rows = [
 
 const useStyles = makeStyles({
   root: {
-    width: '80%',
+    width: '70%',
     // overflowX: 'auto',
-    marginLeft: '150px'
+    marginLeft: '350px'
   },
   table: {
     minWidth: 700
