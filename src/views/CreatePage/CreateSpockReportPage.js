@@ -85,7 +85,6 @@ class CreateSpockReportPage extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     const {service, reportType, reportTitle, fileDownLoadUrl} = this.state;
-
     this.ref.add({
       service,
       reportType,
@@ -138,7 +137,7 @@ class CreateSpockReportPage extends Component {
                 <div className="form-group">
                   <label htmlFor="description">Report Title:</label>
                   <textArea class="form-control" name="reportTitle"
-                            onchange={this.onChange} placeholder="reportTitle"
+                            onChange={this.onChange} placeholder="reportTitle"
                             cols="80" rows="3">{reportTitle}</textArea>
                 </div>
                 <button type="submit" class="btn btn-success">Submit</button>
