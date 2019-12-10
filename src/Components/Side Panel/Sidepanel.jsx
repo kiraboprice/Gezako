@@ -80,7 +80,7 @@ export default class SidePanel  extends React.PureComponent{
                     this.state.showMenu ? 
                     this.setState({showMenu: false}) : 
                     this.setState({showMenu: true})}
-                }> {this.state.showMenu ? 'x' : '+'}</div>
+                }> {this.state.showMenu ? 'x' : '='}</div>
             </React.Fragment>
         )
     }
