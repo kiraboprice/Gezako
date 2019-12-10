@@ -2,6 +2,8 @@ import React from 'react';
 import './sidepanel.css';
 import Links from './Link';
 
+import menu from '../../Assets/Icons/menu.png';
+
 export default class SidePanel  extends React.PureComponent{
     constructor(props){
         super(props);
@@ -80,7 +82,7 @@ export default class SidePanel  extends React.PureComponent{
                     this.state.showMenu ? 
                     this.setState({showMenu: false}) : 
                     this.setState({showMenu: true})}
-                }> {this.state.showMenu ? 'x' : '='}</div>
+                }> {this.state.showMenu ? 'x' : <img id='menu_bar' src={menu} alt='menu bar' ></img>}</div>
             </React.Fragment>
         )
     }
