@@ -17,7 +17,8 @@
 .env.production.local
 vcs.xml
 workspace.xml
-
+/.idea
+./idea
 package-lock.json
 
 npm-debug.log*
