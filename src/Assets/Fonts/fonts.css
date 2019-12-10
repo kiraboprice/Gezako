@@ -1,0 +1,19 @@
+
+@font-face {
+    font-family: 'Quicksand';
+    font-display: swap;
+    src: url(WoffFonts/Quicksand-Medium.woff);
+} 
+
+@font-face {
+    font-family: 'Quicksand Light';
+    font-display: swap;
+    src: url(WoffFonts/Quicksand-Light.woff);
+} 
+
+@font-face {
+    font-family: 'Quicksand Bold';
+    font-display: swap;
+    src: url(WoffFonts/Quicksand-Bold.woff);
+} 
+
