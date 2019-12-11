@@ -38,12 +38,12 @@ firebase.initializeApp(config); //todo update this on deploy
 class App extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {loggedIn: false}
+    this.state = {firebaseAuthLoaded: false}
   }
 
   componentDidMount () {
     firebase.auth().onAuthStateChanged(user => {
-        this.setState({loggedIn: true})
+        this.setState({firebaseAuthLoaded: true})
     })
   }
 
@@ -53,11 +53,11 @@ class App extends React.PureComponent {
         <div className="container">
           <Router>
             <Switch>
-              <Route path='/developments' exact component={Development}/>
-              {this.state.loggedIn
+              <Route path='/development' exact component={Development}/>
+              {this.state.firebaseAuthLoaded
                   ? <React.Fragment>
                           {firebase.auth().currentUser
-                              ? 
+                              ?
                               <React.Fragment>
                                   <Route path='/' exact component={Home}/>
                               </React.Fragment>
