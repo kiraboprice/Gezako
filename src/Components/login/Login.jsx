@@ -12,22 +12,22 @@ import './login.css';
 class App extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.callGoogleSignIn = this.callGoogleSignIn.bind(this);
+        this.signInWithGoogle = this.signInWithGoogle.bind(this);
     }
 
     componentDidMount () {
         firebase.auth().onAuthStateChanged(user => {
         })
     }
-
-    // Cals the login with google firebase authentication
-    callGoogleSignIn () {
+    
+    signInWithGoogle () {
         let provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function(result) {
             window.location.replace('/')
 
         }).catch(function(error) {
-            alert("An error occured, please try again")
+          // console.log(error)
+            alert("An error occurRed, please try again")
         });
     }
 
@@ -66,7 +66,7 @@ class App extends React.PureComponent {
                                         All your software QA needs in one place.
                                     </h2> 
 
-                                    <div id='button' onClick={this.callGoogleSignIn}>
+                                    <div id='button' onClick={this.signInWithGoogle}>
                                         LOGIN IN WITH GOOGLE
                                     </div>
                                 </div>
