@@ -2,32 +2,32 @@ import React from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import Dashboard from '../Dashboard Page/Dashboard';
+import Home from '../home/Home';
 
-import backgroundImage from '../../Assets/Imgs/bg.jpg';
-import twitterIcon from '../../Assets/Icons/twitter.png';
+import backgroundImage from '../../assets/Imgs/bg.jpg';
+import twitterIcon from '../../assets/Icons/twitter.png';
 
 import './login.css';
 
 class App extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.callGoogleSignIn = this.callGoogleSignIn.bind(this);
+        this.signInWithGoogle = this.signInWithGoogle.bind(this);
     }
 
     componentDidMount () {
         firebase.auth().onAuthStateChanged(user => {
         })
     }
-
-    // Cals the login with google firebase authentication
-    callGoogleSignIn () {
+    
+    signInWithGoogle () {
         let provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function(result) {
             window.location.replace('/')
 
         }).catch(function(error) {
-            alert("An error occured, please try again")
+          // console.log(error)
+            alert("An error occurred, please try again")
         });
     }
 
@@ -36,11 +36,10 @@ class App extends React.PureComponent {
         return (
             <React.Fragment>
                 {
-                    firebase.auth().currentUser 
-
+                    firebase.auth().currentUser
                     ? 
 
-                    <Dashboard/> 
+                    <Home/>
                     
                     :
                     <div class="login">
@@ -58,13 +57,15 @@ class App extends React.PureComponent {
                                 </div>
                                 <div id='description'>
                                     <h1 id='big_text'>
-                                        Gezako Software  Quality Assurance
+                                        Gezako Software
+                                        <br/>
+                                      Quality Assurance
                                     </h1>
                                     <h2 id='small_text'>
                                         All your software QA needs in one place.
                                     </h2> 
 
-                                    <div id='button' onClick={this.callGoogleSignIn}>
+                                    <div id='button' onClick={this.signInWithGoogle}>
                                         LOGIN IN WITH GOOGLE
                                     </div>
                                 </div>

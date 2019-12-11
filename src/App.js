@@ -3,32 +3,47 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
-import Login from './Components/Login Page/Login';
-import Dashboard from './Components/Dashboard Page/Dashboard';
+import Login from './components/login/Login';
+import Home from './components/home/Home';
 
-import './Assets/Fonts/fonts.css';
+import './assets/fonts/fonts.css';
 import './App.css';
-import Developments from './Components/Reports/Developments/Developments';
+import Development from './components/development/Development';
 
-firebase.initializeApp({
-  apiKey: "AIzaSyCkXI9xk9GcwQ9IlVC5_NUitcH4n5tiukM",
-  authDomain: "gezako-8a7aa.firebaseapp.com",
+// use when deploying to prod
+//todo find a safe way to do this
+
+// var config = {
+//   apiKey: "AIzaSyCkXI9xk9GcwQ9IlVC5_NUitcH4n5tiukM",
+//   authDomain: "gezako-8a7aa.firebaseapp.com",
+//   // databaseURL: "YOUR_DATABASE_URL",
+//   projectId: "gezako-8a7aa",
+//   storageBucket: "gezako-8a7aa.appspot.com"
+// }
+
+//use when deploying to stage
+var config = {
+  apiKey: "AIzaSyDyx214BC8smASa57pqCQpkweAnZV83gBc",
+  authDomain: "gezako-staging.firebaseapp.com",
   // databaseURL: "YOUR_DATABASE_URL",
-  projectId: "gezako-8a7aa",
-  storageBucket: "gezako-8a7aa.appspot.com"
-});
+  projectId: "gezako-staging",
+  storageBucket: "gezako-staging.appspot.com"
+}
 
+// const config =
+//     process.env.NODE_ENV === 'production' ? prodConfig : stageConfig;
+
+firebase.initializeApp(config); //todo update this on deploy
 
 class App extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {loggedIn: false}
+    this.state = {firebaseAuthLoaded: false}
   }
 
-  // Excutes when the component renders
   componentDidMount () {
     firebase.auth().onAuthStateChanged(user => {
-        this.setState({loggedIn: true})
+        this.setState({firebaseAuthLoaded: true})
     })
   }
 
@@ -38,13 +53,13 @@ class App extends React.PureComponent {
         <div className="container">
           <Router>
             <Switch>
-              <Route path='/developments' exact component={Developments}/>
-              {this.state.loggedIn
+              <Route path='/development' exact component={Development}/>
+              {this.state.firebaseAuthLoaded
                   ? <React.Fragment>
                           {firebase.auth().currentUser
-                              ? 
+                              ?
                               <React.Fragment>
-                                  <Route path='/' exact component={Dashboard}/>
+                                  <Route path='/' exact component={Home}/>
                               </React.Fragment>
 
                               : <Route path='/' exact component={Login}/>

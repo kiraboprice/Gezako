@@ -2,14 +2,14 @@ import React from 'react';
 import './sidepanel.css';
 import Links from './Link';
 
-import menu from '../../Assets/Icons/menu.png';
+import menu from '../../assets/Icons/menu.png';
 
 export default class SidePanel  extends React.PureComponent{
     constructor(props){
         super(props);
         this.state ={
             spockReportsActive: window.location.pathname === '/' ? true : false,
-            developmentActive: window.location.pathname === '/developments' ? true : false,
+            developmentActive: window.location.pathname === '/development' ? true : false,
             showMenu: false
         }
 
@@ -45,11 +45,11 @@ export default class SidePanel  extends React.PureComponent{
 
                     <div onClick={this.setDevelopmentActive}>
                         <Links
-                            title = 'Developments'
+                            title = 'Development'
                             haslinks = {false}
                             active = {this.state.developmentActive}
                             links ={[]}
-                            whereto = {'/developments'}
+                            whereto = {'/development'}
                         />
                     </div>
                 </div>
@@ -69,11 +69,11 @@ export default class SidePanel  extends React.PureComponent{
 
                     <div onClick={this.setDevelopmentActive}>
                         <Links
-                            title = 'Developments'
+                            title = 'Development'
                             haslinks = {false}
                             active = {this.state.developmentActive}
                             links ={[]}
-                            whereto = {'/developments'}
+                            whereto = {'/development'}
                         />
                     </div>
                 </div>
