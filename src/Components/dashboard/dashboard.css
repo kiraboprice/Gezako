@@ -1,0 +1,84 @@
+#dashboard{
+    background: #fafafa;
+}
+
+#navigation-top{
+    padding: 20px;
+    height: 30px;
+    position: fixed;
+    background: #fafafa;
+    box-shadow: 0 0 10px rgba(150, 150, 150, 0.1);
+    width: 100%;
+    z-index: 9999999999;
+    top: 0;
+    text-align: center;
+    transition: all ease-in-out 400ms;
+}
+
+#navigation-logo{
+    font-size: 20px;
+    font-family: 'Quicksand Bold', sans-serif;
+    margin-top: 2.5px;
+    transition: all ease-in-out 400ms;
+}
+
+#signout{
+    position: fixed;
+    right: 0;
+    transition: all ease-in-out 400ms;
+    cursor: pointer;
+    top: 0;
+    margin-top: 25px;
+    margin-right: 80px;
+}
+
+#profile-pictire{
+    position: fixed;
+    right: 0;
+    top: 0;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+#profile-pictire img{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 12.5px;
+    object-fit: cover;
+    border: solid grey 1px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#reports-section{
+    width: 40%;
+    margin: 125px auto 0 auto;
+}
+
+h4{
+    font-size: 18px;
+    font-family: 'Quicksand Bold', sans-serif;
+}
+
+#endpoints-reports{
+    margin-top: 50px;
+}
+
+@media  only screen and (max-width: 768px) {
+    #reports-section{
+        width: 80%;
+        margin: 125px auto 0 auto;
+    }
+}
+
+@media  only screen and (max-width: 550px) {
+    #navigation-top{
+        text-align: left;
+        transition: all ease-in-out 400ms;
+    }
+    
+    #navigation-logo{
+        margin-left: 50px;
+        transition: all ease-in-out 400ms;
+    }
+}
