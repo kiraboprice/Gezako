@@ -27,7 +27,7 @@ class App extends React.PureComponent {
 
         }).catch(function(error) {
           // console.log(error)
-            alert("An error occurRed, please try again")
+            alert("An error occurred, please try again")
         });
     }
 
@@ -36,8 +36,7 @@ class App extends React.PureComponent {
         return (
             <React.Fragment>
                 {
-                    firebase.auth().currentUser 
-
+                    firebase.auth().currentUser
                     ? 
 
                     <Home/>

@@ -9,7 +9,7 @@ export default class SidePanel  extends React.PureComponent{
         super(props);
         this.state ={
             spockReportsActive: window.location.pathname === '/' ? true : false,
-            developmentActive: window.location.pathname === '/developments' ? true : false,
+            developmentActive: window.location.pathname === '/development' ? true : false,
             showMenu: false
         }
 
@@ -45,11 +45,11 @@ export default class SidePanel  extends React.PureComponent{
 
                     <div onClick={this.setDevelopmentActive}>
                         <Links
-                            title = 'Developments'
+                            title = 'Development'
                             haslinks = {false}
                             active = {this.state.developmentActive}
                             links ={[]}
-                            whereto = {'/developments'}
+                            whereto = {'/development'}
                         />
                     </div>
                 </div>
@@ -69,11 +69,11 @@ export default class SidePanel  extends React.PureComponent{
 
                     <div onClick={this.setDevelopmentActive}>
                         <Links
-                            title = 'Developments'
+                            title = 'Development'
                             haslinks = {false}
                             active = {this.state.developmentActive}
                             links ={[]}
-                            whereto = {'/developments'}
+                            whereto = {'/development'}
                         />
                     </div>
                 </div>
