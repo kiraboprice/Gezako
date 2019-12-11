@@ -2,9 +2,9 @@ import React from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import Report from '../Reports/Reports';
-import SidePanel from '../Side Panel/Sidepanel';
-import Navigation from '../Navigation Top/Navigation';
+import Report from '../reports/Reports';
+import SidePanel from '../sidepanel/SidePanel';
+import Navigation from '../navigation/Navigation';
 
 import './dashboard.css';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import Dashboard from '../Dashboard Page/Dashboard';
+import Dashboard from '../dashboard/Dashboard';
 
 import backgroundImage from '../../Assets/Imgs/bg.jpg';
 import twitterIcon from '../../Assets/Icons/twitter.png';

@@ -3,12 +3,12 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
-import Login from './Components/Login Page/Login';
-import Dashboard from './Components/Dashboard Page/Dashboard';
+import Login from './components/login/Login';
+import Dashboard from './components/dashboard/Dashboard';
 
 import './Assets/Fonts/fonts.css';
 import './App.css';
-import Developments from './Components/Reports/Developments/Developments';
+import Development from './components/reports/development/development';
 
 firebase.initializeApp({
   apiKey: "AIzaSyCkXI9xk9GcwQ9IlVC5_NUitcH4n5tiukM",
@@ -38,7 +38,7 @@ class App extends React.PureComponent {
         <div className="container">
           <Router>
             <Switch>
-              <Route path='/developments' exact component={Developments}/>
+              <Route path='/developments' exact component={Development}/>
               {this.state.loggedIn
                   ? <React.Fragment>
                           {firebase.auth().currentUser
