@@ -2,7 +2,7 @@ import React from 'react';
 import './sidepanel.css';
 import Links from './Link';
 
-import menu from '../../Assets/Icons/menu.png';
+import menu from '../../assets/Icons/menu.png';
 
 export default class SidePanel  extends React.PureComponent{
     constructor(props){

@@ -1,12 +1,8 @@
-#dashboard{
-    background: #fafafa;
-}
-
 #navigation-top{
     padding: 20px;
     height: 30px;
     position: fixed;
-    background: #fafafa;
+    background: #01ACC1;
     box-shadow: 0 0 10px rgba(150, 150, 150, 0.1);
     width: 100%;
     z-index: 9999999999;
@@ -17,7 +13,7 @@
 
 #navigation-logo{
     font-size: 20px;
-    font-family: 'Quicksand Bold', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin-top: 2.5px;
     transition: all ease-in-out 400ms;
 }
@@ -32,7 +28,7 @@
     margin-right: 80px;
 }
 
-#profile-pictire{
+#profile-picture{
     position: fixed;
     right: 0;
     top: 0;
@@ -40,7 +36,7 @@
     margin-right: 20px;
 }
 
-#profile-pictire img{
+#profile-picture img{
     width: 30px;
     height: 30px;
     cursor: pointer;
@@ -50,25 +46,9 @@
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-#reports-section{
-    width: 40%;
-    margin: 125px auto 0 auto;
-}
-
 h4{
     font-size: 18px;
-    font-family: 'Quicksand Bold', sans-serif;
-}
-
-#endpoints-reports{
-    margin-top: 50px;
-}
-
-@media  only screen and (max-width: 768px) {
-    #reports-section{
-        width: 80%;
-        margin: 125px auto 0 auto;
-    }
+    font-family: 'Roboto', sans-serif;
 }
 
 @media  only screen and (max-width: 550px) {

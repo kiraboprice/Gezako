@@ -2,10 +2,10 @@ import React from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import Dashboard from '../dashboard/Dashboard';
+import Home from '../home/Home';
 
-import backgroundImage from '../../Assets/Imgs/bg.jpg';
-import twitterIcon from '../../Assets/Icons/twitter.png';
+import backgroundImage from '../../assets/Imgs/bg.jpg';
+import twitterIcon from '../../assets/Icons/twitter.png';
 
 import './login.css';
 
@@ -40,7 +40,7 @@ class App extends React.PureComponent {
 
                     ? 
 
-                    <Dashboard/> 
+                    <Home/>
                     
                     :
                     <div class="login">
@@ -58,7 +58,9 @@ class App extends React.PureComponent {
                                 </div>
                                 <div id='description'>
                                     <h1 id='big_text'>
-                                        Gezako Software  Quality Assurance
+                                        Gezako Software
+                                        <br/>
+                                      Quality Assurance
                                     </h1>
                                     <h2 id='small_text'>
                                         All your software QA needs in one place.

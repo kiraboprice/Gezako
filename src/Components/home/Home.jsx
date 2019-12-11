@@ -6,9 +6,9 @@ import Report from '../reports/Reports';
 import SidePanel from '../sidepanel/SidePanel';
 import Navigation from '../navigation/Navigation';
 
-import './dashboard.css';
+import './home.css';
 
-export default class Dashboard extends React.PureComponent {
+export default class Home extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -90,7 +90,7 @@ export default class Dashboard extends React.PureComponent {
     render() {
 
         return (
-            <div id='dashboard'>
+            <div id='home'>
                 <Navigation/>
 
                 {/* Side Panel  */}

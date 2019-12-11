@@ -67,7 +67,7 @@
 }
 
 #big_text{
-    font-family: 'Quicksand Bold', sans-serif;
+    font-family: 'Roboto Slab', sans-serif;
     margin-top: 150px;
     font-size: 50px;
     transition: all ease-in-out 400ms;
@@ -75,15 +75,15 @@
 
 #small_text{
     font-size: 20px;
-    font-family: 'Quicksand Light', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 #button{
     margin-top: 35px;
     font-size: 13px;
-    background: blue;
+    background: #01ACC1;
     padding: 20px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Roboto', sans-serif;
     width: 175px;
     cursor: pointer;
     border-radius: 2.5px;
@@ -98,7 +98,7 @@
 
 #others{
     font-size: 12px;
-    font-family: 'Quicksand Bold', sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: rgb(100, 100, 100);
     margin: 0 auto;
     width: 67.5%;
