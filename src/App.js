@@ -3,12 +3,12 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
-import Login from './components/login/Login';
-import Home from './components/home/Home';
+import Login from './Components/login/Login';
+import Home from './Components/home/Home';
 
 import './assets/fonts/fonts.css';
 import './App.css';
-import Development from './components/development/Development';
+import Development from './Components/development/Development';
 
 // use when deploying to prod
 //todo find a safe way to do this

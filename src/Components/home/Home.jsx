@@ -3,7 +3,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import Report from '../reports/Reports';
-import SidePanel from '../sidepanel/SidePanel';
+import SidePanel from '../sidepanel/Sidepanel';
 import Navigation from '../navigation/Navigation';
 
 import './home.css';

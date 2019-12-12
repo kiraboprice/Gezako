@@ -3,8 +3,9 @@
     height: 30px;
     position: fixed;
     background: #01ACC1;
-    box-shadow: 0 0 10px rgba(150, 150, 150, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     width: 100%;
+    color: white;
     z-index: 9999999999;
     top: 0;
     text-align: center;
