@@ -17,7 +17,6 @@ export default class Development extends React.PureComponent{
             display: 'block'
         }
     }
-
     componentDidMount () {
         firebase.auth().onAuthStateChanged(user => {
             if(user){
