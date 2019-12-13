@@ -5,17 +5,22 @@
 }
 
 #report-service{
-    margin-right: 75px;
+    flex: 1;
     transition: all ease-in-out 400ms;
 }
 
+#report-title{
+    flex: 2;
+}
+
 #report-link{
-    position: absolute;
+    text-align: right;
     right: 0;
+    flex: 1;
 }
 
 #report-link a{
-    color: blue;
+    color: #ffc400;
     text-decoration: none;
 }
 
@@ -23,20 +28,4 @@ hr{
     border-top: 0;
     border-bottom: solid 1px #f0f0f0;
     outline: 0;
-}
-
-@media only screen and (max-width: 768px){
-    #report-service{
-        margin-right: 50px;
-        transition: all ease-in-out 400ms;
-    }
-    
-}
-
-@media only screen and (max-width: 550px){
-    #report-service{
-        margin-right: 25px;
-        transition: all ease-in-out 400ms;
-    }
-    
 }

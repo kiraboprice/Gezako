@@ -6,7 +6,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     width: 100%;
     color: white;
-    z-index: 9999999999;
+    z-index: 1;
     top: 0;
     text-align: center;
     transition: all ease-in-out 400ms;
