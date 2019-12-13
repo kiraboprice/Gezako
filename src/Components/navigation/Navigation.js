@@ -6,7 +6,7 @@ import './navigation.css';
 
 export default class Navigation extends React.PureComponent {
     state = {
-        display: 'block'
+        display: 'none'
     }
 
     componentDidMount () {
@@ -19,27 +19,34 @@ export default class Navigation extends React.PureComponent {
     
     render() {
         return (
-            <div id='navigation-top'>
-                    <div id='navigation-logo'>
+            <React.Fragment>
+              {
+                firebase.auth().currentUser
+                    ?
+                    <div id='navigation-top'>
+                      <div id='navigation-logo'>
                         Gezako
-                    </div>
-                    <div id='signout' style={{display: this.state.display}} onClick={ () => {
+                      </div>
+                      <div id='signout' style={{display: this.state.display}} onClick={ () => {
                         // Logs out the user
                         firebase.auth().signOut().then(function() {
-                            console.log("Signed out succesfully!")
-                            window.location.replace('/')
+                          console.log("Signed out succesfully!")
+                          window.location.replace('/')
                         }).catch(function(error) {
-                            console.log("An error happened.")
+                          console.log("An error happened.")
                         })
-                    }}>
+                      }}>
                         sign out
-                    </div>
-                    <div id='profile-picture'>
+                      </div>
+                      <div id='profile-pictire'>
                         <img src={this.state.profileURL} alt={this.state.name} onClick={
-                            () => this.state.display === 'block' ? this.setState({display: 'none'}) : this.setState({display: 'block'})
+                          () => this.state.display === 'none' ? this.setState({display: 'block'}) : this.setState({display: 'none'})
                         }></img>
-                    </div>
-            </div>
+                      </div>
+                    </div> : null
+
+              }
+            </React.Fragment>
         )
     }
 }

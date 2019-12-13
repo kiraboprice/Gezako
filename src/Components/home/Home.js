@@ -3,8 +3,6 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import Report from '../reports/Reports';
-import SidePanel from '../sidepanel/Sidepanel';
-import Navigation from '../navigation/Navigation';
 
 import './home.css';
 
@@ -33,7 +31,7 @@ export default class Home extends React.PureComponent {
             if(firebase.auth().currentUser){
 
                 // Getting feature reports (Also include time stamps when uploading reports so that we can order them by date)
-                firebase.firestore().collection('spock-reports').where('reportType', '==', 'feature').limit(10).onSnapshot(snapshot =>{
+                firebase.firestore().collection('spock-reports').where('reportType', '==', 'feature').limit(15).onSnapshot(snapshot =>{
                     if(snapshot.size){
                         this.setState({hasMessages: true})
                         this.setState({featureReports: snapshot.docs})
@@ -54,7 +52,7 @@ export default class Home extends React.PureComponent {
                 })
 
                 // Getting endpoint reports (Also include time stamps when uploading reports so that we can order them by date)
-                firebase.firestore().collection('spock-reports').where('reportType', '==', 'endpoint').limit(10).onSnapshot(snapshot =>{
+                firebase.firestore().collection('spock-reports').where('reportType', '==', 'endpoint').limit(15).onSnapshot(snapshot =>{
                     if(snapshot.size){
                         this.setState({hasEndpointMessages: true})
                         this.setState({endpointReports: snapshot.docs})
@@ -91,15 +89,16 @@ export default class Home extends React.PureComponent {
 
         return (
             <div id='home'>
-                <Navigation/>
-
-                {/* Side Panel  */}
-                <SidePanel/>
 
                 {/* Reports  */}
                 <div id='reports-section'>
                     <div id='features-reports'>
                         <h4>Features</h4>
+                      <div id='headers'>
+                        {/* TODO Upgrade Headers so that it is more scalable */}
+                        <div id='head-start'>Title</div>
+                        <div id='head-end'>Report</div>
+                      </div>
                         {
                             this.state.featureReports ? this.state.featureReports.map((report, index) =>{
                                 return(
@@ -116,6 +115,11 @@ export default class Home extends React.PureComponent {
                     </div>
                     <div id='endpoints-reports'>
                         <h4>Endpoints</h4>
+                      <div id='headers'>
+                        {/* TODO Upgrade Headers so that it is more scalable */}
+                        <div id='head-start'>Title</div>
+                        <div id='head-end'>Report</div>
+                      </div>
                         {
                             this.state.endpointReports ? this.state.endpointReports.map((report, index) =>{
                                 return(

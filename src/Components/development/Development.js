@@ -27,7 +27,7 @@ export default class Development extends React.PureComponent{
         try{
 
             // Getting endpoint reports (Also include time stamps when uploading reports so that we can order them by date)
-            firebase.firestore().collection('reports').limit(10).onSnapshot(snapshot =>{
+            firebase.firestore().collection('reports').limit(15).onSnapshot(snapshot =>{
                 if(snapshot.size){
                     this.setState({hasEndpointMessages: true})
                     this.setState({developmentReports: snapshot.docs})
@@ -63,6 +63,12 @@ export default class Development extends React.PureComponent{
                     {/* Reports  */}
                     <div id='features-reports'>
                         <h4>Development</h4>
+                        <div id='headers'>
+                            {/* TODO Upgrade Headers so that it is more scalable */}
+                            <div id='head-start' className='service'>Service</div>
+                            <div id='head'>Title</div>
+                            <div id='head-end'>Report</div>
+                        </div>
                         {
                             this.state.developmentReports ? this.state.developmentReports.map(report =>{
                                 return(

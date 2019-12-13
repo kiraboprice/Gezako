@@ -19,7 +19,7 @@ class App extends React.PureComponent {
         firebase.auth().onAuthStateChanged(user => {
         })
     }
-    
+
     signInWithGoogle () {
         let provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(function(result) {
@@ -37,12 +37,12 @@ class App extends React.PureComponent {
             <React.Fragment>
                 {
                     firebase.auth().currentUser
-                    ? 
+                    ?
 
                     <Home/>
-                    
+
                     :
-                    <div class="login">
+                    <div className="login">
                         <img id='back_image' src={backgroundImage} alt='background cover'></img>
                         <div id='cover'></div>
                         <div id='full-opaque-cover'>
@@ -57,13 +57,11 @@ class App extends React.PureComponent {
                                 </div>
                                 <div id='description'>
                                     <h1 id='big_text'>
-                                        Gezako Software
-                                        <br/>
-                                      Quality Assurance
+                                        Gezako Software <br></br> Quality Assurance
                                     </h1>
                                     <h2 id='small_text'>
                                         All your software QA needs in one place.
-                                    </h2> 
+                                    </h2>
 
                                     <div id='button' onClick={this.signInWithGoogle}>
                                         LOGIN IN WITH GOOGLE
@@ -71,20 +69,24 @@ class App extends React.PureComponent {
                                 </div>
                             </div>
                         </div>
-                        
-                        <ul id='others'>
-                            <a href='https://medium.com/@powermukisa' target='_blank' rel="noopener noreferrer">
-                                <li>
-                                    ABOUT US
-                                </li>
-                            </a>
 
-                            <a href='https://medium.com/@powermukisa' target='_blank' rel="noopener noreferrer">
-                                <li>
-                                    BLOG
-                                </li>
-                            </a>
-                        </ul>
+                      <ul id='others'>
+                        <div id='others-contain'>
+                          <a href='https://medium.com/@powermukisa'
+                             target='_blank' rel="noopener noreferrer">
+                            <li>
+                              ABOUT US
+                            </li>
+                          </a>
+
+                          <a href='https://medium.com/@powermukisa'
+                             target='_blank' rel="noopener noreferrer">
+                            <li>
+                              BLOG
+                            </li>
+                          </a>
+                        </div>
+                      </ul>
                     </div>
                 }
             </React.Fragment>
