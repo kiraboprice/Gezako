@@ -41,7 +41,7 @@
     width: 30px;
     height: 30px;
     cursor: pointer;
-    border-radius: 12.5px;
+    border-radius: 100%;
     object-fit: cover;
     border: solid grey 1px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
