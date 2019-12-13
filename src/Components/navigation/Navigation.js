@@ -38,7 +38,7 @@ export default class Navigation extends React.PureComponent {
                       }}>
                         sign out
                       </div>
-                      <div id='profile-pictire'>
+                      <div id='profile-picture'>
                         <img src={this.state.profileURL} alt={this.state.name} onClick={
                           () => this.state.display === 'none' ? this.setState({display: 'block'}) : this.setState({display: 'none'})
                         }></img>

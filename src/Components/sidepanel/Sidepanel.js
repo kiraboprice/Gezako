@@ -6,10 +6,10 @@ import Links from './Link';
 
 import { Link } from 'react-router-dom';
 
-import menu from '../../Assets/Icons/menu.png';
-import report from '../../Assets/Icons/report.png';
-import dev from '../../Assets/Icons/dev.png';
-import perf from '../../Assets/Icons/perf.png';
+import menu from '../../assets/Icons/menu.png';
+import report from '../../assets/Icons/report.png';
+import dev from '../../assets/Icons/dev.png';
+import perf from '../../assets/Icons/perf.png';
 
 export default class SidePanel extends React.PureComponent{
     constructor(props){
