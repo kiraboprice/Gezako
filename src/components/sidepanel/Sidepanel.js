@@ -98,7 +98,7 @@ export default class SidePanel extends React.PureComponent{
                                 haslinks = {true}
                                 icon = {dev}
                                 active = {this.state.developmentActive}
-                                links = {['Mobile Dev', 'Web Dev']}
+                                links = {[['Loans', this.state.developmentActive], ['Rails', null], ['Users', null], ['Auth', null], ['Surveys', null]]}
                                 whereto = {'/development'}
                             />
                           </Link>
@@ -139,7 +139,7 @@ export default class SidePanel extends React.PureComponent{
                               haslinks = {true}
                               icon = {dev}
                               active = {this.state.developmentActive}
-                              links = {['Mobile Dev', 'Web Dev']}
+                              links = {[['Loans', this.state.developmentActive], ['Rails', null], ['Users', null], ['Auth', null], ['Surveys', null]]}
                               whereto = {'/development'}
                           />
                         </div>
