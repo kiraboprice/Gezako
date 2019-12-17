@@ -29,7 +29,7 @@ export default class Links  extends React.PureComponent{
                         <ul>
                             {this.props.links.map((link, index) => {
                                 return (
-                                    <li key={index}>{link}</li>
+                                    <li key={index} style={{fontWeight: link[1] ? "700" : "100", textDecoration: link[1] ? "underline" : "none"}}>{link[0]}</li>
                                 )
                             })}
                         </ul>

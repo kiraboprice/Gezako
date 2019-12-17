@@ -57,8 +57,6 @@ export default class Development extends React.PureComponent{
     render(){
         return(
             <React.Fragment>
-                <Navigation/>
-                <SidePanel/>
                 <div id='reports-section'>
                     {/* Reports  */}
                     <div id='features-reports'>

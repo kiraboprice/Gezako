@@ -19,8 +19,9 @@ export default class SidePanel extends React.PureComponent{
             developmentActive: window.location.pathname === '/development' ? true : false,
           perfomanceActive: window.location.pathname === '/perfomance' ? true : false,
           showMenu: false,
-          showDesktopMenu: false,
-          isHoveredMobile: true
+          showDesktopMenu: true,
+          isHoveredMobile: true,
+          hovered: true
         }
 
         this.setSpockActive = this.setSpockActive.bind(this);
@@ -82,7 +83,7 @@ export default class SidePanel extends React.PureComponent{
                                 isHovered = {this.state.hovered}
                                 icon = {report}
                                 haslinks = {true}
-                                links = {['Loans', 'Rails', 'Users', 'Auth', 'Surveys']}
+                                links = {[['Loans', this.state.spockReportsActive], ['Rails', null], ['Users', null], ['Auth', null], ['Surveys', null]]}
                                 active = {this.state.spockReportsActive}
                                 whereto = {'/'}
                             />
@@ -90,15 +91,15 @@ export default class SidePanel extends React.PureComponent{
                         </div>
 
                         <div onClick={this.setDevelopmentActive}>
-                          <Link to='/developments'>
+                          <Link to='/development'>
                             <Links
-                                title = {this.state.hovered ? 'Developments' : ''}
+                                title = {this.state.hovered ? 'Development' : ''}
                                 isHovered = {this.state.hovered}
                                 haslinks = {true}
                                 icon = {dev}
                                 active = {this.state.developmentActive}
                                 links = {['Mobile Dev', 'Web Dev']}
-                                whereto = {'/developments'}
+                                whereto = {'/development'}
                             />
                           </Link>
                         </div>
@@ -125,7 +126,7 @@ export default class SidePanel extends React.PureComponent{
                               isHovered = {this.state.isHoveredMobile}
                               haslinks = {true}
                               icon = {report}
-                              links ={['Loans', 'Rails', 'Users', 'Auth', 'Surveys']}
+                              links = {[['Loans', this.state.spockReportsActive], ['Rails', null], ['Users', null], ['Auth', null], ['Surveys', null]]}
                               active = {this.state.spockReportsActive}
                               whereto = {'/'}
                           />
@@ -133,13 +134,13 @@ export default class SidePanel extends React.PureComponent{
 
                         <div onClick={this.setDevelopmentActive}>
                           <Links
-                              title = 'Developments'
+                              title = 'Development'
                               isHovered = {this.state.isHoveredMobile}
                               haslinks = {true}
                               icon = {dev}
                               active = {this.state.developmentActive}
                               links = {['Mobile Dev', 'Web Dev']}
-                              whereto = {'/developments'}
+                              whereto = {'/development'}
                           />
                         </div>
                         <div onClick={this.setPerfomanceActive}>
