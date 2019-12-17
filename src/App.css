@@ -4,12 +4,26 @@ body{
     padding: 0;
     margin: 0;
     background: #fafafa;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
     font-size-adjust: 0.58;
     transition: all ease-in-out 400ms;
+}
+
+
+@media  only screen and (max-width: 768px) {
+
+    body{
+        /*font-family: 'Quicksand', sans-serif;*/
+        font-family: 'Roboto', sans-serif;
+        padding: 0;
+        margin: 0;
+        background: #fafafa;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        font-size-adjust: 0.58;
+        transition: all ease-in-out 400ms;
+    }
 }
