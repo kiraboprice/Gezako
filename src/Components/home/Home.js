@@ -2,9 +2,9 @@ import React from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import Report from '../reports/Reports';
 
 import './home.css';
+import Report from "../reports/Reports";
 
 export default class Home extends React.PureComponent {
     constructor(props) {
