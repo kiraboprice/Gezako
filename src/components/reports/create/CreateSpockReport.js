@@ -112,7 +112,7 @@ class CreateSpockReport extends Component {
   render() {
     const {service, reportType, reportTitle} = this.state;
     return (
-        <div class="container">
+        <div style={{marginLeft: "400px"}}>
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">

@@ -52,7 +52,10 @@ export default class Home extends React.PureComponent {
                 })
 
                 // Getting endpoint reports (Also include time stamps when uploading reports so that we can order them by date)
-                firebase.firestore().collection('spock-reports').where('reportType', '==', 'endpoint').limit(15).onSnapshot(snapshot =>{
+                // firebase.firestore().collection('spock-reports').where('reportType', '==', 'endpoint').limit(15).onSnapshot(snapshot =>{
+                  firebase.firestore().collection('spock-reports').limit(15).onSnapshot(snapshot =>{
+                    console.log("-------++++++--")
+                  console.log(snapshot)
                     if(snapshot.size){
                         this.setState({hasEndpointMessages: true})
                         this.setState({endpointReports: snapshot.docs})

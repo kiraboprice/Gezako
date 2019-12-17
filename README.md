@@ -29,7 +29,7 @@ to prod, checkout master branch,
 - update the functions api url in package.json proxy entry
 "proxy": "http://localhost:5000/gezako-staging/us-central1/api/v1" //local
 "proxy": "https://us-central1-gezako-staging.cloudfunctions.net/api/v1" //staging
-"proxy": "https://us-central1-gezako-staging.cloudfunctions.net/api/v1" //prod
+"proxy": "https://us-central1-gezako-ae23.cloudfunctions.net/api/v1" //prod
 
 - build the project 
 `npm run build`
