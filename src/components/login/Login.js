@@ -22,12 +22,11 @@ class App extends React.PureComponent {
 
     signInWithGoogle () {
         let provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider).then(function(result) {
+        firebase.auth().signInWithRedirect(provider).then(function(result) {
             window.location.replace('/')
 
         }).catch(function(error) {
-          // console.log(error)
-            alert("An error occurred, please try again")
+          console.log("Error logging in", error)
         });
     }
 
