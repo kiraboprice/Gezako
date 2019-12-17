@@ -1,0 +1,31 @@
+#report{
+    display: flex;
+    position: relative;
+    line-height: 2.2em;
+}
+
+#report-service{
+    flex: 1;
+    transition: all ease-in-out 400ms;
+}
+
+#report-title{
+    flex: 2;
+}
+
+#report-link{
+    text-align: right;
+    right: 0;
+    flex: 1;
+}
+
+#report-link a{
+    color: #01ACC1;
+    text-decoration: none;
+}
+
+hr{
+    border-top: 0;
+    border-bottom: solid 1px #f0f0f0;
+    outline: 0;
+}

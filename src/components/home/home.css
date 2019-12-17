@@ -1,0 +1,62 @@
+#home{
+    background: #fafafa;
+}
+
+#reports-section{
+    width: 40%;
+    position: relative;
+    margin: 125px auto 0 auto;
+    transition: all ease-in-out 400ms;
+}
+
+h4{
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+}
+
+#headers{
+    position: relative;
+    display: flex;
+    color: grey;
+    align-items: center;
+    margin-top: 15px;
+    padding: 0;
+    margin-bottom: 25px;
+}
+
+#head-start{
+    flex: 1;
+    transition: all ease-in-out 400ms;
+    margin-top: -2.5px;
+}
+
+#head{
+    flex: 2;
+}
+
+#head-end{
+    text-align: right;
+    right: 0;
+    flex: 1;
+}
+
+.service{
+    margin-top: 10px;
+}
+
+#features-reports{
+    padding: 0;
+}
+
+#endpoints-reports{
+    margin-top: 50px;
+    position: relative;
+}
+
+@media  only screen and (max-width: 768px) {
+    #reports-section{
+        width: 80%;
+        margin: 125px auto 0 auto;
+        transition: all ease-in-out 400ms;
+    }
+}

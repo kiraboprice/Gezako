@@ -17,3 +17,15 @@
     src: url(woffFonts/Quicksand-Bold.woff);
 } 
 
+@font-face {
+    font-family: 'Roboto';
+    font-display: swap;
+    src: url(woffFonts/Roboto-Regular.woff);
+} 
+
+@font-face {
+    font-family: 'Quicksand Bold';
+    font-display: swap;
+    src: url(woffFonts/Quicksand-Bold.woff);
+} 
+
