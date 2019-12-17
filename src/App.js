@@ -11,6 +11,7 @@ import './App.css';
 import Development from './components/development/Development';
 import Navigation from "./components/navigation/Navigation";
 import SidePanel from "./components/sidepanel/Sidepanel";
+import CreateSpockReport from "./components/reports/create/CreateSpockReport";
 
 // use when deploying to prod
 //todo find a safe way to do this
@@ -58,6 +59,7 @@ class App extends React.PureComponent {
             <SidePanel />
             <Switch>
               <Route path='/development' exact component={Development}/>
+              <Route path='/create-spock-report' exact component={CreateSpockReport}/>
               {this.state.firebaseAuthLoaded
                   ? <React.Fragment>
                           {firebase.auth().currentUser
