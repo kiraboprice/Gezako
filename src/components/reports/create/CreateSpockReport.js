@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import firebase from 'firebase';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 
 class CreateSpockReport extends Component {
 
@@ -93,20 +93,20 @@ class CreateSpockReport extends Component {
       fileDownLoadUrl
     };
 
-    axios.post(
-        '/spock_reports',
-        jsonObject)
-    .then(res => {
-      this.setState({
-        service: '',
-        reportType: '',
-        reportTitle: '',
-        fileDownloadURL: ''
-      });
-      this.props.history.push("/")
-      return JSON.stringify(res.data);
-    })
-    .catch(err => console.error("Error adding document: ", err));
+    // axios.post(
+    //     '/spock_reports',
+    //     jsonObject)
+    // .then(res => {
+    //   this.setState({
+    //     service: '',
+    //     reportType: '',
+    //     reportTitle: '',
+    //     fileDownloadURL: ''
+    //   });
+    //   this.props.history.push("/")
+    //   return JSON.stringify(res.data);
+    // })
+    // .catch(err => console.error("Error adding document: ", err));
   }
 
   render() {
