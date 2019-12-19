@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react'
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import { connect } from 'react-redux';
 
 import './home.css';
 import Report from "../reports/Reports";
 
-export default class Home extends React.PureComponent {
+class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -30,26 +31,27 @@ export default class Home extends React.PureComponent {
         try{
             if(firebase.auth().currentUser){
 
-                // Getting feature reports (Also include time stamps when uploading reports so that we can order them by date)
-                firebase.firestore().collection('spock-reports').where('reportType', '==', 'feature').limit(15).onSnapshot(snapshot =>{
-                    if(snapshot.size){
-                        this.setState({hasMessages: true})
-                        this.setState({featureReports: snapshot.docs})
-                        this.setState({dataLength: snapshot.size})
-                        this.setState({last: snapshot.docs[snapshot.docs.length-1]})
-                        if(snapshot.size === 10){
-                            this.setState({showMore: true})
-                        }
-                        else{
-                            this.setState({showMore: false})
-                        }
-                    }
-                    else{
-                        this.setState({showMore: false})
-                    }
-                    }, err => {
-                        console.log(`Encountered error: ${err}`);
-                })
+                // // Getting feature reports (Also include time stamps when uploading reports so that we can order them by date)
+                // firebase.firestore().collection('spock-reports').where('reportType', '==', 'feature').limit(15).onSnapshot(snapshot =>{
+                //     if(snapshot.size){
+                //         this.setState({hasMessages: true})
+                //         this.setState({featureReports: snapshot.docs})
+                //         this.setState({dataLength: snapshot.size})
+                //         this.setState({last: snapshot.docs[snapshot.docs.length-1]})
+                //         if(snapshot.size === 10){
+                //             this.setState({showMore: true})
+                //         }
+                //         else{
+                //             this.setState({showMore: false})
+                //         }
+                //     }
+                //     else{
+                //         this.setState({showMore: false})
+                //     }
+                //     }, err => {
+                //         console.log(`Encountered error: ${err}`);
+                // })
+
 
                 // Getting endpoint reports (Also include time stamps when uploading reports so that we can order them by date)
                 // firebase.firestore().collection('spock-reports').where('reportType', '==', 'endpoint').limit(15).onSnapshot(snapshot =>{
@@ -78,10 +80,10 @@ export default class Home extends React.PureComponent {
 
             else{
                 throw new Error("User Not logged in")
-            }      
-                
+            }
+
         }
-        
+
         catch(e){
             console.log(e)
             window.location.replace('/')
@@ -89,7 +91,8 @@ export default class Home extends React.PureComponent {
     }
 
     render() {
-
+      console.log("this.props.featureReports2")
+      console.log(this.props.featureReports2)
         return (
             <div id='home'>
 
@@ -103,19 +106,20 @@ export default class Home extends React.PureComponent {
                         <div id='head-end'>Report</div>
                       </div>
                         {
-                            this.state.featureReports ? this.state.featureReports.map((report, index) =>{
+                            this.state.featureReports.map((report, index) =>{
                                 return(
                                     <div key={index}>
-                                        <Report 
+                                        <Report
                                             title = {report.data().reportTitle}
                                             report = {report.data().fileDownLoadUrl}
                                         />
                                         <hr></hr>
                                     </div>
                                 )
-                            }) : 'No reports check back later'
+                            })
                         }
                     </div>
+
                     <div id='endpoints-reports'>
                         <h4>Endpoints</h4>
                       <div id='headers'>
@@ -127,7 +131,7 @@ export default class Home extends React.PureComponent {
                             this.state.endpointReports ? this.state.endpointReports.map((report, index) =>{
                                 return(
                                     <div key={index}>
-                                        <Report 
+                                        <Report
                                             title = {report.data().reportTitle}
                                             report = {report.data().fileDownLoadUrl}
                                         />
@@ -143,3 +147,11 @@ export default class Home extends React.PureComponent {
 
     }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    featureReports2: state.featureReport.reports
+  }
+};
+
+export default connect(mapStateToProps)(Home)
