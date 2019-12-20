@@ -7,6 +7,9 @@ import { connect } from 'react-redux';
 import './home.css';
 import Report from "../reports/Reports";
 
+import {fetchFeatureReports} from "../../store/actions/reportActions";
+import featureReportReducer from "../../store/reducers/featureReportReducer";
+
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -91,8 +94,8 @@ class Home extends Component {
     }
 
     render() {
-      console.log("this.props.featureReports2")
-      console.log(this.props.featureReports2)
+      console.log("this.props.fetchFeatureReports----")
+      this.props.fetchFeatureReports("feature")
         return (
             <div id='home'>
 
@@ -128,7 +131,7 @@ class Home extends Component {
                         <div id='head-end'>Report</div>
                       </div>
                         {
-                            this.state.endpointReports ? this.state.endpointReports.map((report, index) =>{
+                            this.state.endpointReports && this.state.endpointReports.map((report, index) =>{
                                 return(
                                     <div key={index}>
                                         <Report
@@ -138,7 +141,7 @@ class Home extends Component {
                                         <hr></hr>
                                     </div>
                                 )
-                            }) : 'No reports check back later'
+                            })
                         }
                     </div>
                 </div>
@@ -154,4 +157,10 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps)(Home)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchFeatureReports: (reportType) => dispatch(fetchFeatureReports(reportType))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

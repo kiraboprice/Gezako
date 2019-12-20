@@ -1,5 +1,5 @@
 import React from 'react';
-import firebase from 'firebase/app';
+// import firebase from 'firebase/app';
 import 'firebase/auth';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
@@ -12,31 +12,7 @@ import Development from './components/development/Development';
 import Navigation from "./components/navigation/Navigation";
 import SidePanel from "./components/sidepanel/Sidepanel";
 import CreateSpockReport from "./components/reports/create/CreateSpockReport";
-
-// use when deploying to prod
-//todo find a safe way to do this
-
-var config = {
-  apiKey: "AIzaSyCkXI9xk9GcwQ9IlVC5_NUitcH4n5tiukM",
-  authDomain: "gezako-8a7aa.firebaseapp.com",
-  // databaseURL: "YOUR_DATABASE_URL",
-  projectId: "gezako-8a7aa",
-  storageBucket: "gezako-8a7aa.appspot.com"
-}
-
-//use when deploying to stage
-// var config = {
-//   apiKey: "AIzaSyDyx214BC8smASa57pqCQpkweAnZV83gBc",
-//   authDomain: "gezako-staging.firebaseapp.com",
-//   // databaseURL: "YOUR_DATABASE_URL",
-//   projectId: "gezako-staging",
-//   storageBucket: "gezako-staging.appspot.com"
-// }
-
-// const config =
-//     process.env.NODE_ENV === 'production' ? prodConfig : stageConfig;
-
-firebase.initializeApp(config); //todo update this on deploy
+import firebase from './firebase'
 
 class App extends React.PureComponent {
   constructor(props) {
