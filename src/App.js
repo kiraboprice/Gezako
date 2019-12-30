@@ -13,6 +13,7 @@ import Navigation from "./components/navigation/Navigation";
 import SidePanel from "./components/sidepanel/Sidepanel";
 import CreateSpockReport from "./components/reports/create/CreateSpockReport";
 import Tasks from "./components/tasks/Tasks";
+import CreateTask from "./components/tasks/CreateTask";
 
 import firebase from './firebase'
 
@@ -40,6 +41,7 @@ class App extends Component {
               <Route path='/development' exact component={Development}/>
               <Route path='/create-spock-report' exact component={CreateSpockReport}/>
               <Route path='/tasks' exact component={Tasks}/>
+              <Route path='/create-task' exact component={CreateTask}/>
               {this.state.firebaseAuthLoaded
                   ? <React.Fragment>
                           {firebase.auth().currentUser

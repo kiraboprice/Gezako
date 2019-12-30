@@ -5,12 +5,12 @@ const initState = {
 
 const featureReportReducer = (state = initState, action) => {
   switch (action.type) {
-    case 'FETCH_FEATURE_REPORTS':
+    case 'FETCH_TASKS':
       console.log('fetched feature reports', action.reports);
       //update the state?
       return state;
 
-    case 'FETCH_FEATURE_REPORTS_ERROR':
+    case 'FETCH_TASKS_ERROR':
       console.log('fetch feature reports failed', action.err);
       //update the state?
       return state;

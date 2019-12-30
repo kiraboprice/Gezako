@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import './home.css';
 import Report from "../reports/Reports";
 
-import {fetchFeatureReports} from "../../store/actions/reportActions";
+import {fetchTasks} from "../../store/actions/taskActions";
 import featureReportReducer from "../../store/reducers/featureReportReducer";
 
 class Home extends Component {
@@ -34,33 +34,30 @@ class Home extends Component {
         try{
             if(firebase.auth().currentUser){
 
-                // // Getting feature reports (Also include time stamps when uploading reports so that we can order them by date)
-                // firebase.firestore().collection('spock-reports').where('reportType', '==', 'feature').limit(15).onSnapshot(snapshot =>{
-                //     if(snapshot.size){
-                //         this.setState({hasMessages: true})
-                //         this.setState({featureReports: snapshot.docs})
-                //         this.setState({dataLength: snapshot.size})
-                //         this.setState({last: snapshot.docs[snapshot.docs.length-1]})
-                //         if(snapshot.size === 10){
-                //             this.setState({showMore: true})
-                //         }
-                //         else{
-                //             this.setState({showMore: false})
-                //         }
-                //     }
-                //     else{
-                //         this.setState({showMore: false})
-                //     }
-                //     }, err => {
-                //         console.log(`Encountered error: ${err}`);
-                // })
-
+                // Getting feature reports (Also include time stamps when uploading reports so that we can order them by date)
+                firebase.firestore().collection('spock-reports').where('reportType', '==', 'feature').limit(15).onSnapshot(snapshot =>{
+                    if(snapshot.size){
+                        this.setState({hasMessages: true})
+                        this.setState({featureReports: snapshot.docs})
+                        this.setState({dataLength: snapshot.size})
+                        this.setState({last: snapshot.docs[snapshot.docs.length-1]})
+                        if(snapshot.size === 10){
+                            this.setState({showMore: true})
+                        }
+                        else{
+                            this.setState({showMore: false})
+                        }
+                    }
+                    else{
+                        this.setState({showMore: false})
+                    }
+                    }, err => {
+                        console.log(`Encountered error: ${err}`);
+                })
 
                 // Getting endpoint reports (Also include time stamps when uploading reports so that we can order them by date)
-                // firebase.firestore().collection('spock-reports').where('reportType', '==', 'endpoint').limit(15).onSnapshot(snapshot =>{
-                  firebase.firestore().collection('spock-reports').limit(15).onSnapshot(snapshot =>{
-                    console.log("-------++++++--")
-                  console.log(snapshot)
+                firebase.firestore().collection('spock-reports').where('reportType', '==', 'endpoint').limit(15).onSnapshot(snapshot =>{
+                //   firebase.firestore().collection('spock-reports').limit(15).onSnapshot(snapshot =>{
                     if(snapshot.size){
                         this.setState({hasEndpointMessages: true})
                         this.setState({endpointReports: snapshot.docs})
@@ -94,8 +91,6 @@ class Home extends Component {
     }
 
     render() {
-      console.log("this.props.fetchFeatureReports----")
-      this.props.fetchFeatureReports("feature")
         return (
             <div id='home'>
 
@@ -151,16 +146,4 @@ class Home extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    featureReports2: state.featureReport.reports
-  }
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchFeatureReports: (reportType) => dispatch(fetchFeatureReports(reportType))
-  }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default Home
