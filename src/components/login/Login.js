@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react'
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -9,7 +9,7 @@ import twitterIcon from '../../assets/Icons/twitter.png';
 
 import './login.css';
 
-class App extends React.PureComponent {
+class App extends Component {
     constructor(props) {
         super(props);
         this.signInWithGoogle = this.signInWithGoogle.bind(this);

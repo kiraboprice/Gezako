@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react'
 // import firebase from 'firebase/app';
 import 'firebase/auth';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
@@ -12,9 +12,12 @@ import Development from './components/development/Development';
 import Navigation from "./components/navigation/Navigation";
 import SidePanel from "./components/sidepanel/Sidepanel";
 import CreateSpockReport from "./components/reports/create/CreateSpockReport";
+import Tasks from "./components/tasks/Tasks";
+
 import firebase from './firebase'
 
-class App extends React.PureComponent {
+
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {firebaseAuthLoaded: false}
@@ -36,6 +39,7 @@ class App extends React.PureComponent {
             <Switch>
               <Route path='/development' exact component={Development}/>
               <Route path='/create-spock-report' exact component={CreateSpockReport}/>
+              <Route path='/tasks' exact component={Tasks}/>
               {this.state.firebaseAuthLoaded
                   ? <React.Fragment>
                           {firebase.auth().currentUser

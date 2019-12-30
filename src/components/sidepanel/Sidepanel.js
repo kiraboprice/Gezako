@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react'
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import './sidepanel.css';
@@ -11,13 +11,14 @@ import report from '../../assets/Icons/report.png';
 import dev from '../../assets/Icons/dev.png';
 import perf from '../../assets/Icons/perf.png';
 
-export default class SidePanel extends React.PureComponent{
+export default class SidePanel extends Component{
     constructor(props){
         super(props);
         this.state ={
             spockReportsActive: window.location.pathname === '/' ? true : false,
             developmentActive: window.location.pathname === '/development' ? true : false,
-          perfomanceActive: window.location.pathname === '/perfomance' ? true : false,
+          performanceActive: window.location.pathname === '/performance' ? true : false,
+          tasksActive: window.location.pathname === '/tasks' ? true : false,
           showMenu: false,
           showDesktopMenu: true,
           isHoveredMobile: true,
@@ -26,7 +27,8 @@ export default class SidePanel extends React.PureComponent{
 
         this.setSpockActive = this.setSpockActive.bind(this);
         this.setDevelopmentActive = this.setDevelopmentActive.bind(this);
-        this.setPerfomanceActive = this.setPerfomanceActive.bind(this);
+        this.setPerformanceActive = this.setPerformanceActive.bind(this);
+      this.setTasksActive = this.setTasksActive.bind(this);
     }
   componentDidMount () {
     firebase.auth().onAuthStateChanged(user => {
@@ -41,7 +43,8 @@ export default class SidePanel extends React.PureComponent{
       this.setState({developmentActive: false})
       this.setState({spockReportsActive: true});
       this.setState({developmentActive: false});
-      this.setState({perfomanceActive: false});
+      this.setState({performanceActive: false});
+      this.setState({tasksActive: false});
       this.setState({showMenu: false});
     }
 
@@ -50,16 +53,26 @@ export default class SidePanel extends React.PureComponent{
       this.setState({developmentActive: true})
       this.setState({spockReportsActive: false});
       this.setState({developmentActive: true});
-      this.setState({perfomanceActive: false});
+      this.setState({performanceActive: false});
+      this.setState({tasksActive: false});
       this.setState({showMenu: false});
     }
 
-    setPerfomanceActive = () => {
+    setPerformanceActive = () => {
       this.setState({spockReportsActive: false});
       this.setState({developmentActive: false});
-      this.setState({perfomanceActive: true});
+      this.setState({performanceActive: true});
+      this.setState({tasksActive: false});
       this.setState({showMenu: false});
     }
+
+  setTasksActive = () => {
+    this.setState({spockReportsActive: false});
+    this.setState({developmentActive: false});
+    this.setState({performanceActive: false});
+    this.setState({tasksActive: true});
+    this.setState({showMenu: false});
+  }
 
     render(){
         return(
@@ -104,16 +117,30 @@ export default class SidePanel extends React.PureComponent{
                           </Link>
                         </div>
 
-                        <div onClick={this.setPerfomanceActive}>
-                          <Link to='/perfomance'>
+                        <div onClick={this.setPerformanceActive}>
+                          <Link to='/performance'>
                             <Links
-                                title = {this.state.hovered ? 'Perfomance Tests' : ''}
+                                title = {this.state.hovered ? 'Performance Tests' : ''}
                                 isHovered = {this.state.hovered}
                                 haslinks = {false}
                                 icon = {perf}
-                                active = {this.state.perfomanceActive}
+                                active = {this.state.performanceActive}
                                 links = {[]}
-                                whereto = {'/perfomance'}
+                                whereto = {'/performance'}
+                            />
+                          </Link>
+                        </div>
+
+                        <div onClick={this.setTasksActive}>
+                          <Link to='/tasks'>
+                            <Links
+                                title = {this.state.hovered ? 'Tasks' : ''}
+                                isHovered = {this.state.hovered}
+                                haslinks = {false}
+                                icon = {perf}
+                                active = {this.state.performanceActive}
+                                links = {[]}
+                                whereto = {'/tasks'}
                             />
                           </Link>
                         </div>
@@ -143,17 +170,31 @@ export default class SidePanel extends React.PureComponent{
                               whereto = {'/development'}
                           />
                         </div>
-                        <div onClick={this.setPerfomanceActive}>
+
+                        <div onClick={this.setPerformanceActive}>
                           <Links
-                              title = 'Perfomance Tests'
+                              title = 'Performance Tests'
                               isHovered = {this.state.isHoveredMobile}
                               haslinks = {false}
                               icon = {perf}
-                              active = {this.state.perfomanceActive}
+                              active = {this.state.performanceActive}
                               links = {[]}
-                              whereto = {'/perfomance'}
+                              whereto = {'/performance'}
                           />
                         </div>
+
+                        <div onClick={this.setTasksActive}>
+                          <Links
+                              title = 'Tasks'
+                              isHovered = {this.state.isHoveredMobile}
+                              haslinks = {false}
+                              icon = {perf}
+                              active = {this.state.tasksActive}
+                              links = {[]}
+                              whereto = {'/tasks'}
+                          />
+                        </div>
+
                       </div>
 
                       <div id='mobile-expand-icon' onClick={() => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react'
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
@@ -7,7 +7,7 @@ import SidePanel from '../sidepanel/Sidepanel';
 import Navigation from '../navigation/Navigation';
 import Report from "../reports/Reports";
 
-export default class Development extends React.PureComponent{
+export default class Development extends Component{
     constructor(props) {
         super(props);
         this.state = {

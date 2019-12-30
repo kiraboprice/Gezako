@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react'
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import './navigation.css';
 
-export default class Navigation extends React.PureComponent {
+export default class Navigation extends Component {
     state = {
         display: 'none'
     }
