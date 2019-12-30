@@ -15,7 +15,7 @@ import CreateSpockReport from "./components/reports/create/CreateSpockReport";
 import Tasks from "./components/tasks/Tasks";
 import CreateTask from "./components/tasks/CreateTask";
 
-import firebase from './firebase'
+import firebase from './fbConfig'
 
 
 class App extends Component {
