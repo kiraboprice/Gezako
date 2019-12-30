@@ -1,24 +1,28 @@
 import React, { Component } from 'react'
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
+import { connect } from 'react-redux'
+import TaskList from "./TaskList";
 
-import './tasks.css';
+class Tasks extends Component {
+  render() {
 
-import Report from "../reports/Reports";
+    const { tasks } = this.props;
 
-export default class Development extends Component{
-    constructor(props) {
-        super(props);
-    }
-
-    render(){
-        return(
-                <div id='tasks-section'>
-                    Tasks!
-                </div>
-
-        )
-    }
-
+    return (
+        <div  id='tasks-section'>
+          <div className="row">
+            <div className="col s12 m6">
+              <TaskList tasks={tasks} />
+            </div>
+          </div>
+        </div>
+    )
+  }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    tasks: state.task.tasks
+  }
+}
+
+export default connect(mapStateToProps)(Tasks)

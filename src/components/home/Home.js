@@ -8,7 +8,7 @@ import './home.css';
 import Report from "../reports/Reports";
 
 import {fetchTasks} from "../../store/actions/taskActions";
-import featureReportReducer from "../../store/reducers/featureReportReducer";
+import taskReducer from "../../store/reducers/taskReducer";
 
 class Home extends Component {
     constructor(props) {

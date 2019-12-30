@@ -1,10 +1,10 @@
 import authReducer from './authReducer'
-import featureReportReducer from './featureReportReducer'
+import taskReducer from './taskReducer'
 import { combineReducers } from 'redux'
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  featureReport: featureReportReducer
+  task: taskReducer
 });
 
 export default rootReducer
