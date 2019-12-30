@@ -1,6 +1,9 @@
 export const createTask = (task) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     // make async call to database
+    console.log("---------TASSSKKKKKK");
+    console.log(task);
+
     const firestore = getFirestore();
     firestore.collection('tasks').add({
       ...task,

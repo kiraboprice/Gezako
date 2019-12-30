@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import TaskList from "./TaskList";
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 
 class Tasks extends Component {
   render() {
@@ -21,8 +23,13 @@ class Tasks extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    tasks: state.task.tasks
+    tasks: state.firestore.ordered.tasks
   }
 }
 
-export default connect(mapStateToProps)(Tasks)
+export default compose(
+    connect(mapStateToProps),
+    firestoreConnect([
+      { collection: 'tasks' }
+    ])
+)(Tasks)

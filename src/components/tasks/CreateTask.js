@@ -29,7 +29,7 @@ class CreateTask extends Component {
             <label htmlFor="title">Task Title</label>
           </div>
           <div >
-            <textarea onChange={this.handleChange}></textarea>
+            <input type="text" id='content' onChange={this.handleChange} />
             <label htmlFor="content">Task Content</label>
           </div>
           <div >
@@ -43,7 +43,7 @@ class CreateTask extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createTask: (project) => dispatch(createTask(project))
+    createTask: (task) => dispatch(createTask(task))
   }
 }
 
