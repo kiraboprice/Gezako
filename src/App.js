@@ -16,6 +16,7 @@ import Tasks from "./components/tasks/Tasks";
 import CreateTask from "./components/tasks/CreateTask";
 
 import firebase from './fbConfig'
+import TaskDetails from "./components/tasks/TaskDetails";
 
 
 class App extends Component {
@@ -42,6 +43,8 @@ class App extends Component {
               <Route path='/create-spock-report' exact component={CreateSpockReport}/>
               <Route path='/tasks' exact component={Tasks}/>
               <Route path='/create-task' exact component={CreateTask}/>
+              <Route path='/task/:id' component={TaskDetails} />
+
               {this.state.firebaseAuthLoaded
                   ? <React.Fragment>
                           {firebase.auth().currentUser
