@@ -8,12 +8,12 @@ const TaskDetails = (props) => {
   if (task) {
     return (
         <div id='tasks-section'>
-          <div className="card z-depth-0">
-            <div className="card-content">
-              <span className="card-title">{task.title}</span>
+          <div >
+            <div >
+              <span >{task.title}</span>
               <p>{task.content}</p>
             </div>
-            <div className="card-action grey lighten-4 grey-text">
+            <div >
               <div>Posted by {task.authorFirstName} {task.authorLastName}</div>
               <div>2nd September, 2am</div>
             </div>
