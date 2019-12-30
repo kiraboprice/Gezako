@@ -13,11 +13,12 @@ import {reactReduxFirebase, getFirebase} from "react-redux-firebase";
 import firebase from "firebase";
 
 
-const store = createStore(rootReducer,
+const store = createStore(
+    rootReducer,
     compose(
         applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore})),
-        reactReduxFirebase(firebase),
-        reduxFirestore(firebase)
+        // reactReduxFirebase(firebase),
+        // reduxFirestore(firebase)
     )
 );
 
