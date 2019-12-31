@@ -16,7 +16,7 @@ import CreateTask from "./components/tasks/CreateTask";
 
 import firebase from './fbConfig'
 import TaskDetails from "./components/tasks/TaskDetails";
-import connect from "react-redux/es/connect/connect";
+import { connect } from 'react-redux'
 
 class App extends Component {
   constructor(props) {
@@ -40,14 +40,21 @@ class App extends Component {
             <SidePanel/>
             <Switch>
 
-              {this.state.firebaseAuthLoaded
-                  ? <React.Fragment>
-                    {firebaseUser.uid
-                        ? <Route path='/' exact component={Home}/>
-                        : <Route path='/' exact component={Login}/>
-                    }
-                  </React.Fragment>
-                  : <Route path='/' exact component={null}/>
+              {/*TODO figure out why this causes the tasks not to load*/}
+
+              {/*{this.state.firebaseAuthLoaded*/}
+                  {/*? <React.Fragment>*/}
+                    {/*{firebaseUser.uid*/}
+                        {/*? <Route path='/' exact component={Home}/>*/}
+                        {/*: <Route path='/' exact component={Login}/>*/}
+                    {/*}*/}
+                  {/*</React.Fragment>*/}
+                  {/*: <Route path='/' exact component={null}/>*/}
+              }
+
+              {firebaseUser.uid
+                  ? <Route path='/' exact component={Home}/>
+                  : <Route path='/' exact component={Login}/>
               }
 
               <Route path='/development' exact component={Development}/>
