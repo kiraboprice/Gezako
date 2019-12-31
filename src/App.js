@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-// import firebase from 'firebase/app';
+import React, {Component} from 'react'
 import 'firebase/auth';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
@@ -17,7 +16,7 @@ import CreateTask from "./components/tasks/CreateTask";
 
 import firebase from './fbConfig'
 import TaskDetails from "./components/tasks/TaskDetails";
-
+import connect from "react-redux/es/connect/connect";
 
 class App extends Component {
   constructor(props) {
@@ -25,44 +24,48 @@ class App extends Component {
     this.state = {firebaseAuthLoaded: false}
   }
 
-  componentDidMount () {
+  componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
-        this.setState({firebaseAuthLoaded: true})
+      this.setState({firebaseAuthLoaded: true})
     })
   }
 
   render() {
+    const {firebaseUser} = this.props;
 
     return (
         <div className="container">
           <BrowserRouter>
-            <Navigation />
-            <SidePanel />
+            <Navigation/>
+            <SidePanel/>
             <Switch>
+
+              {this.state.firebaseAuthLoaded
+                  ? <React.Fragment>
+                    {firebaseUser.uid
+                        ? <Route path='/' exact component={Home}/>
+                        : <Route path='/' exact component={Login}/>
+                    }
+                  </React.Fragment>
+                  : <Route path='/' exact component={null}/>
+              }
+
               <Route path='/development' exact component={Development}/>
               <Route path='/create-spock-report' exact component={CreateSpockReport}/>
               <Route path='/tasks' exact component={Tasks}/>
               <Route path='/create-task' exact component={CreateTask}/>
-              <Route path='/task/:id' component={TaskDetails} />
-
-              {this.state.firebaseAuthLoaded
-                  ? <React.Fragment>
-                          {firebase.auth().currentUser
-                              ?
-                              <React.Fragment>
-                                  <Route path='/' exact component={Home}/>
-                              </React.Fragment>
-
-                              : <Route path='/' exact component={Login}/>
-                          }
-                      </React.Fragment>
-                  : <Route path='/' exact component={null}/>
-                }
-              </Switch>
-            </BrowserRouter>
+              <Route path='/task/:id' component={TaskDetails}/>
+            </Switch>
+          </BrowserRouter>
         </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    firebaseUser: state.firebase.auth
+  }
+}
+
+export default connect(mapStateToProps)(App);
