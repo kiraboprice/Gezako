@@ -7,8 +7,6 @@ import { connect } from 'react-redux';
 import './home.css';
 import Report from "../reports/Reports";
 
-import {fetchTasks} from "../../store/actions/taskActions";
-import taskReducer from "../../store/reducers/taskReducer";
 
 class Home extends Component {
     constructor(props) {
@@ -16,10 +14,8 @@ class Home extends Component {
         this.state = {
             dataLength: 0,
             endpointDataLength: 0,
-            featureReports: [], // Messages passed here
+            featureReports: [],
             endpointReports: [],
-            hasEndpointMessages: false,
-            hasMessages: false, // Checks if the user has messages
             display: 'block'
         }
     }
@@ -37,7 +33,6 @@ class Home extends Component {
                 // Getting feature reports (Also include time stamps when uploading reports so that we can order them by date)
                 firebase.firestore().collection('spock-reports').where('reportType', '==', 'feature').limit(15).onSnapshot(snapshot =>{
                     if(snapshot.size){
-                        this.setState({hasMessages: true})
                         this.setState({featureReports: snapshot.docs})
                         this.setState({dataLength: snapshot.size})
                         this.setState({last: snapshot.docs[snapshot.docs.length-1]})
@@ -59,7 +54,6 @@ class Home extends Component {
                 firebase.firestore().collection('spock-reports').where('reportType', '==', 'endpoint').limit(15).onSnapshot(snapshot =>{
                 //   firebase.firestore().collection('spock-reports').limit(15).onSnapshot(snapshot =>{
                     if(snapshot.size){
-                        this.setState({hasEndpointMessages: true})
                         this.setState({endpointReports: snapshot.docs})
                         this.setState({endpointDataLength: snapshot.size})
                         this.setState({endpointLast: snapshot.docs[snapshot.docs.length-1]})

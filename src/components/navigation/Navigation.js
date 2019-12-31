@@ -1,53 +1,41 @@
-import React, { Component } from 'react'
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import React from 'react'
 
 import './navigation.css';
 
-export default class Navigation extends Component {
-    state = {
-        display: 'none'
-    }
+import {connect} from 'react-redux'
+import {signOut} from '../../store/actions/authActions'
 
-    componentDidMount () {
-        firebase.auth().onAuthStateChanged(user => {
-            if(user){
-                this.setState({profileURL: firebase.auth().currentUser.photoURL, name: firebase.auth().currentUser.displayName})
-            }
-        })
-    }
-    
-    render() {
-        return (
-            <React.Fragment>
-              {
-                firebase.auth().currentUser
-                    ?
-                    <div id='navigation-top'>
-                      <div id='navigation-logo'>
-                        Gezako
-                      </div>
-                      <div id='signout' style={{display: this.state.display}} onClick={ () => {
-                        // Logs out the user
-                        firebase.auth().signOut().then(function() {
-                          console.log("Signed out succesfully!")
-                          window.location.replace('/')
-                        }).catch(function(error) {
-                          console.log("An error happened.")
-                        })
-                      }}>
-                        sign out
-                      </div>
-                      <div id='profile-picture'>
-                        <img src={this.state.profileURL} alt={this.state.name} onClick={
-                          () => this.state.display === 'none' ? this.setState({display: 'block'}) : this.setState({display: 'none'})
-                        }></img>
-                      </div>
-                    </div> : null
+const Navigation = (props) => {
 
-              }
-            </React.Fragment>
-        )
-    }
+  return (
+          <div id='navigation-top'>
+            <div id='navigation-logo'>
+              Gezako
+            </div>
+            <div id='signout' onClick={props.signOut}>
+              Sign out
+            </div>
+            <div id='profile-picture'>
+              <img src={props.firebaseUser.photoURL}
+                   alt={props.firebaseUser.displayName}></img>
+              {/*TODO onClick={showSignDropDown}></img>*/}
+
+            </div>
+          </div>
+  )
 }
+
+const mapStateToProps = (state) => {
+  return {
+    firebaseUser: state.firebase.auth
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signOut: () => dispatch(signOut())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation)
             

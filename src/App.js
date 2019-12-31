@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // import firebase from 'firebase/app';
 import 'firebase/auth';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
 import Login from './components/login/Login';
 import Home from './components/home/Home';
@@ -35,7 +35,7 @@ class App extends Component {
 
     return (
         <div className="container">
-          <Router>
+          <BrowserRouter>
             <Navigation />
             <SidePanel />
             <Switch>
@@ -59,7 +59,7 @@ class App extends Component {
                   : <Route path='/' exact component={null}/>
                 }
               </Switch>
-            </Router>
+            </BrowserRouter>
         </div>
     );
   }

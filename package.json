@@ -40,6 +40,5 @@
       "not op_mini all"
     ],
     "development": []
-  },
-  "proxy": "http://localhost:5000/gezako-staging/us-central1/api/v1"
+  }
 }

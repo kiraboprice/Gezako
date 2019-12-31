@@ -14,7 +14,6 @@ export default class Development extends Component{
             profileURL: null,
             dataLength: 0,
             developmentReports: [], // Messages passed here
-            hasMessages: false, // Checks if the user has messages
             display: 'block'
         }
     }
@@ -30,7 +29,6 @@ export default class Development extends Component{
             // Getting endpoint reports (Also include time stamps when uploading reports so that we can order them by date)
             firebase.firestore().collection('reports').limit(15).onSnapshot(snapshot =>{
                 if(snapshot.size){
-                    this.setState({hasEndpointMessages: true})
                     this.setState({developmentReports: snapshot.docs})
                     this.setState({endpointDataLength: snapshot.size})
                     this.setState({endpointLast: snapshot.docs[snapshot.docs.length-1]})
