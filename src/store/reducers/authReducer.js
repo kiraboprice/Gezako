@@ -1,5 +1,4 @@
 const initState = {
-  signOutDisplay: "none", //todo this is temporary until we can show a drop down when the user profile pic is clicked on
   authSuccess: null,
   authError: null
 }
