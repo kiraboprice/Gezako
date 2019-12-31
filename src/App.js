@@ -1,7 +1,7 @@
-import React from 'react';
-import firebase from 'firebase/app';
+import React, { Component } from 'react'
+// import firebase from 'firebase/app';
 import 'firebase/auth';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
 import Login from './components/login/Login';
 import Home from './components/home/Home';
@@ -11,33 +11,15 @@ import './App.css';
 import Development from './components/development/Development';
 import Navigation from "./components/navigation/Navigation";
 import SidePanel from "./components/sidepanel/Sidepanel";
+import CreateSpockReport from "./components/reports/create/CreateSpockReport";
+import Tasks from "./components/tasks/Tasks";
+import CreateTask from "./components/tasks/CreateTask";
 
-// use when deploying to prod
-//todo find a safe way to do this
+import firebase from './fbConfig'
+import TaskDetails from "./components/tasks/TaskDetails";
 
-var config = {
-  apiKey: "AIzaSyCkXI9xk9GcwQ9IlVC5_NUitcH4n5tiukM",
-  authDomain: "gezako-8a7aa.firebaseapp.com",
-  // databaseURL: "YOUR_DATABASE_URL",
-  projectId: "gezako-8a7aa",
-  storageBucket: "gezako-8a7aa.appspot.com"
-}
 
-//use when deploying to stage
-// var config = {
-//   apiKey: "AIzaSyDyx214BC8smASa57pqCQpkweAnZV83gBc",
-//   authDomain: "gezako-staging.firebaseapp.com",
-//   // databaseURL: "YOUR_DATABASE_URL",
-//   projectId: "gezako-staging",
-//   storageBucket: "gezako-staging.appspot.com"
-// }
-
-// const config =
-//     process.env.NODE_ENV === 'production' ? prodConfig : stageConfig;
-
-firebase.initializeApp(config); //todo update this on deploy
-
-class App extends React.PureComponent {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {firebaseAuthLoaded: false}
@@ -53,11 +35,16 @@ class App extends React.PureComponent {
 
     return (
         <div className="container">
-          <Router>
+          <BrowserRouter>
             <Navigation />
             <SidePanel />
             <Switch>
               <Route path='/development' exact component={Development}/>
+              <Route path='/create-spock-report' exact component={CreateSpockReport}/>
+              <Route path='/tasks' exact component={Tasks}/>
+              <Route path='/create-task' exact component={CreateTask}/>
+              <Route path='/task/:id' component={TaskDetails} />
+
               {this.state.firebaseAuthLoaded
                   ? <React.Fragment>
                           {firebase.auth().currentUser
@@ -72,7 +59,7 @@ class App extends React.PureComponent {
                   : <Route path='/' exact component={null}/>
                 }
               </Switch>
-            </Router>
+            </BrowserRouter>
         </div>
     );
   }

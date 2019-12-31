@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react'
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
@@ -7,14 +7,13 @@ import SidePanel from '../sidepanel/Sidepanel';
 import Navigation from '../navigation/Navigation';
 import Report from "../reports/Reports";
 
-export default class Development extends React.PureComponent{
+export default class Development extends Component{
     constructor(props) {
         super(props);
         this.state = {
             profileURL: null,
             dataLength: 0,
             developmentReports: [], // Messages passed here
-            hasMessages: false, // Checks if the user has messages
             display: 'block'
         }
     }
@@ -30,7 +29,6 @@ export default class Development extends React.PureComponent{
             // Getting endpoint reports (Also include time stamps when uploading reports so that we can order them by date)
             firebase.firestore().collection('reports').limit(15).onSnapshot(snapshot =>{
                 if(snapshot.size){
-                    this.setState({hasEndpointMessages: true})
                     this.setState({developmentReports: snapshot.docs})
                     this.setState({endpointDataLength: snapshot.size})
                     this.setState({endpointLast: snapshot.docs[snapshot.docs.length-1]})

@@ -1,21 +1,21 @@
-import React from 'react';
+import React, { Component } from 'react'
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import { connect } from 'react-redux';
 
 import './home.css';
 import Report from "../reports/Reports";
 
-export default class Home extends React.PureComponent {
+
+class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
             dataLength: 0,
             endpointDataLength: 0,
-            featureReports: [], // Messages passed here
+            featureReports: [],
             endpointReports: [],
-            hasEndpointMessages: false,
-            hasMessages: false, // Checks if the user has messages
             display: 'block'
         }
     }
@@ -33,7 +33,6 @@ export default class Home extends React.PureComponent {
                 // Getting feature reports (Also include time stamps when uploading reports so that we can order them by date)
                 firebase.firestore().collection('spock-reports').where('reportType', '==', 'feature').limit(15).onSnapshot(snapshot =>{
                     if(snapshot.size){
-                        this.setState({hasMessages: true})
                         this.setState({featureReports: snapshot.docs})
                         this.setState({dataLength: snapshot.size})
                         this.setState({last: snapshot.docs[snapshot.docs.length-1]})
@@ -53,8 +52,8 @@ export default class Home extends React.PureComponent {
 
                 // Getting endpoint reports (Also include time stamps when uploading reports so that we can order them by date)
                 firebase.firestore().collection('spock-reports').where('reportType', '==', 'endpoint').limit(15).onSnapshot(snapshot =>{
+                //   firebase.firestore().collection('spock-reports').limit(15).onSnapshot(snapshot =>{
                     if(snapshot.size){
-                        this.setState({hasEndpointMessages: true})
                         this.setState({endpointReports: snapshot.docs})
                         this.setState({endpointDataLength: snapshot.size})
                         this.setState({endpointLast: snapshot.docs[snapshot.docs.length-1]})
@@ -75,10 +74,10 @@ export default class Home extends React.PureComponent {
 
             else{
                 throw new Error("User Not logged in")
-            }      
-                
+            }
+
         }
-        
+
         catch(e){
             console.log(e)
             window.location.replace('/')
@@ -86,7 +85,6 @@ export default class Home extends React.PureComponent {
     }
 
     render() {
-
         return (
             <div id='home'>
 
@@ -100,19 +98,20 @@ export default class Home extends React.PureComponent {
                         <div id='head-end'>Report</div>
                       </div>
                         {
-                            this.state.featureReports ? this.state.featureReports.map((report, index) =>{
+                            this.state.featureReports.map((report, index) =>{
                                 return(
                                     <div key={index}>
-                                        <Report 
+                                        <Report
                                             title = {report.data().reportTitle}
                                             report = {report.data().fileDownLoadUrl}
                                         />
                                         <hr></hr>
                                     </div>
                                 )
-                            }) : 'No reports check back later'
+                            })
                         }
                     </div>
+
                     <div id='endpoints-reports'>
                         <h4>Endpoints</h4>
                       <div id='headers'>
@@ -121,17 +120,17 @@ export default class Home extends React.PureComponent {
                         <div id='head-end'>Report</div>
                       </div>
                         {
-                            this.state.endpointReports ? this.state.endpointReports.map((report, index) =>{
+                            this.state.endpointReports && this.state.endpointReports.map((report, index) =>{
                                 return(
                                     <div key={index}>
-                                        <Report 
+                                        <Report
                                             title = {report.data().reportTitle}
                                             report = {report.data().fileDownLoadUrl}
                                         />
                                         <hr></hr>
                                     </div>
                                 )
-                            }) : 'No reports check back later'
+                            })
                         }
                     </div>
                 </div>
@@ -140,3 +139,5 @@ export default class Home extends React.PureComponent {
 
     }
 }
+
+export default Home
