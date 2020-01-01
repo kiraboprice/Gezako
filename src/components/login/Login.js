@@ -26,12 +26,6 @@ class Login extends Component {
   render() {
     const { authSuccess, authError } = this.props;
     if (authSuccess!== null) return <Redirect to='/' />
-    //todo
-    //if auth Success, check to see if email is a tala email or test email
-    //if so, add user to db if they havent already been added
-    //after adding user to db, update the state to "userAuthenticated" and send to redux auth store
-    //the <Home/> component should use that prop to check whether it should be displayed
-    //if that prop is not set, do nothing I guess
 
     return (
         <div className="login">
