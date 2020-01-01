@@ -7,7 +7,7 @@ const testEmails = [
   "richkitibwa@gmail.com",
 ];
 
-var notTalaEmployeeOrTestUserDispatchSent = false
+var notTalaEmployeeOrTestUserDispatchSent = false;
 
 export const signIn = () => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
@@ -18,12 +18,12 @@ export const signIn = () => {
     firebase.auth().signInWithPopup(provider).then((resp) => {
 
      if(!checkUserEmailIsValid(resp.user.email)) {
-       notTalaEmployeeOrTestUserDispatchSent = true
+       notTalaEmployeeOrTestUserDispatchSent = true;
        return dispatch({ type: 'NOT_TALA_EMPLOYEE_OR_TEST_USER' });
      }
      else{
        // console.log(resp.user)
-       notTalaEmployeeOrTestUserDispatchSent = false
+       notTalaEmployeeOrTestUserDispatchSent = false;
        return firestore.collection(BASE_DOCUMENT+ 'users').doc(resp.user.uid).set({
          name: resp.user.displayName,
          email: resp.user.email,
