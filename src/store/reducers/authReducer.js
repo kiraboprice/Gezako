@@ -16,15 +16,14 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         authSuccess: null,
-        // authError: action.err
-        authError: "Log in failed, Please try again"
+        authError: "Log in failed. error:" + action.err.message
       };
 
     case 'NOT_TALA_EMPLOYEE_OR_TEST_USER':
       return {
         ...state,
         authSuccess: null,
-        authError: "Please log in with your Tala email to user Gezako."
+        authError: 'Email ' + action.userEmail + ' is not valid. Please log in with your Tala email to use Gezako.'
       };
 
     case 'LOGOUT_SUCCESS':

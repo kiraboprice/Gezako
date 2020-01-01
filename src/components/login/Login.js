@@ -51,7 +51,7 @@ class Login extends Component {
                 <div id='button' onClick={this.signIn}>
                   LOGIN IN WITH GOOGLE
                 </div>
-                <div id='small_text' className="errorText">
+                <div id='errorText' className="errorText">
                   {/*TODO dismiss loading icon once error is shown*/}
                   {authError ? <p>{authError}</p> : null}
                 </div>

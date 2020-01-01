@@ -1,7 +1,7 @@
 import {BASE_DOCUMENT} from "../../constants/Constants";
 
 const testEmails = [
-    "powermukisa@gmail.com",
+    // "powermukisa@gmail.com",
   "derekleiro@gmail.com",
   "leiro.derek@gmail.com",
   "richkitibwa@gmail.com",
@@ -18,8 +18,9 @@ export const signIn = () => {
     firebase.auth().signInWithPopup(provider).then((resp) => {
 
      if(!checkUserEmailIsValid(resp.user.email)) {
+       const userEmail = resp.user.email
        notTalaEmployeeOrTestUserDispatchSent = true;
-       return dispatch({ type: 'NOT_TALA_EMPLOYEE_OR_TEST_USER' });
+       return dispatch({ type: 'NOT_TALA_EMPLOYEE_OR_TEST_USER', userEmail });
      }
      else{
        // console.log(resp.user)

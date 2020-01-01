@@ -4,6 +4,10 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+.errorText{
+    color: #f51937;
+}
+
 #back_image{
     width: 100%;
     height: 90%;
