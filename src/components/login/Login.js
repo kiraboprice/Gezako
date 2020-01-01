@@ -5,8 +5,6 @@ import { Redirect } from 'react-router-dom'
 
 import {signIn} from '../../store/actions/authActions'
 
-import Home from '../home/Home';
-
 import backgroundImage from '../../assets/Imgs/bg.jpg';
 import twitterIcon from '../../assets/Icons/twitter.png';
 
@@ -89,12 +87,12 @@ const mapStateToProps = (state) => {
     authSuccess: state.auth.authSuccess, //if auth is successful, store user details in db
     authError: state.auth.authError //if auth not successful, show error
   }
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     signIn: () => dispatch(signIn())
   }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
