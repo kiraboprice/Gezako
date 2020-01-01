@@ -1,7 +1,7 @@
 import {BASE_DOCUMENT} from "../../constants/Constants";
 
 const testEmails = [
-    // "powermukisa@gmail.com",
+    "powermukisa@gmail.com",
   "derekleiro@gmail.com",
   "leiro.derek@gmail.com",
   "richkitibwa@gmail.com",
@@ -26,7 +26,7 @@ export const signIn = () => {
        // console.log(resp.user)
        notTalaEmployeeOrTestUserDispatchSent = false;
        return firestore.collection(BASE_DOCUMENT+ 'users').doc(resp.user.uid).set({
-         name: resp.user.displayName,
+         displayName: resp.user.displayName,
          email: resp.user.email,
          photoURL: resp.user.photoURL
        });

@@ -16,8 +16,8 @@ const Navigation = (props) => {
               Sign out
             </div>
             <div id='profile-picture'>
-              <img src={props.firebaseUser.photoURL}
-                   alt={props.firebaseUser.displayName}></img>
+              <img src={props.profile.photoURL}
+                   alt={props.profile.displayName}></img>
               {/*TODO onClick={showSignDropDown}></img>*/}
 
             </div>
@@ -27,7 +27,7 @@ const Navigation = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    firebaseUser: state.firebase.auth
+    profile: state.firebase.profile
   }
 }
 
