@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 
 import {connect} from 'react-redux'
+import { Redirect } from 'react-router-dom'
+
 import {signIn} from '../../store/actions/authActions'
 
 import Home from '../home/Home';
@@ -22,8 +24,8 @@ class Login extends Component {
   }
 
   render() {
-    const {authError} = this.props;
-    const {authSuccess} = this.props;
+    const { authSuccess, authError } = this.props;
+    if (authSuccess!== null) return <Redirect to='/' />
     //todo
     //if auth Success, check to see if email is a tala email or test email
     //if so, add user to db if they havent already been added

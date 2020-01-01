@@ -3,6 +3,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom'
 
 import './home.css';
 import Report from "../reports/Reports";
@@ -85,7 +86,10 @@ class Home extends Component {
     }
 
     render() {
-        return (
+      const { auth } = this.props;
+      if (!auth.uid) return <Redirect to='/login' />
+
+      return (
             <div id='home'>
 
                 {/* Reports  */}
@@ -140,4 +144,10 @@ class Home extends Component {
     }
 }
 
-export default Home
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+  }
+};
+
+export default connect(mapStateToProps)(Home)

@@ -14,24 +14,16 @@ import CreateSpockReport from "./components/reports/create/CreateSpockReport";
 import Tasks from "./components/tasks/Tasks";
 import CreateTask from "./components/tasks/CreateTask";
 
-import firebase from './fbConfig'
 import TaskDetails from "./components/tasks/TaskDetails";
 import { connect } from 'react-redux'
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {firebaseAuthLoaded: false}
-  }
-
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      this.setState({firebaseAuthLoaded: true})
-    })
   }
 
   render() {
-    const {firebaseUser} = this.props;
+    const {authSuccess} = this.props;
 
     return (
         <div className="container">
@@ -39,13 +31,12 @@ class App extends Component {
             <Navigation/>
             <SidePanel/>
             <Switch>
-              {firebaseUser.uid
-                  ? <Route path='/' exact component={Home}/>
-                  : <Route path='/' exact component={Login}/>}
-              <Route path='/development' exact component={Development}/>
-              <Route path='/create-spock-report' exact component={CreateSpockReport}/>
-              <Route path='/tasks' exact component={Tasks}/>
-              <Route path='/create-task' exact component={CreateTask}/>
+              <Route path='/login' component={Login}/>
+              <Route exact path='/' component={Home}/>
+              <Route path='/development' component={Development}/>
+              <Route path='/create-spock-report' component={CreateSpockReport}/>
+              <Route path='/tasks' component={Tasks}/>
+              <Route path='/create-task' component={CreateTask}/>
               <Route path='/task/:id' component={TaskDetails}/>
             </Switch>
           </BrowserRouter>
@@ -55,10 +46,10 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("state 1")
+  console.log("state in App.js")
   console.log(state)
   return {
-    firebaseUser: state.firebase.auth
+    authSuccess: state.auth.authSuccess,
   }
 }
 

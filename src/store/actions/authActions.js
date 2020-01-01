@@ -3,10 +3,16 @@ export const signIn = () => {
     const firebase = getFirebase();
 
     let provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithRedirect(provider).then((result) => {
+    firebase.auth().signInWithPopup(provider).then((result) => {
       // window.location.replace('/')
-      //store result in db here!
-      dispatch({ type: 'LOGIN_SUCCESS', result });
+
+      //if is tala user or test user
+      // ?
+      //store result in db here! then publish LOGIN_SUCCESS
+      //:
+      //dispatch "USER_NOT_TALA_EMPLOYEE"
+
+      dispatch({ type: 'LOGIN_SUCCESS' })
 
     }).catch((err) => {
       // console.log("An error occurred while logging in", err)
@@ -21,7 +27,10 @@ export const signOut = () => {
     const firebase = getFirebase();
 
     firebase.auth().signOut().then(() => {
-      dispatch({ type: 'SIGNOUT_SUCCESS' })
+      dispatch({ type: 'LOGOUT_SUCCESS' })
+
+    }).catch((err) => {
+      dispatch({ type: 'LOGOUT_ERROR', err });
     });
   }
 };
