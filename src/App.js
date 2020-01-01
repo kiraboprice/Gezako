@@ -39,24 +39,9 @@ class App extends Component {
             <Navigation/>
             <SidePanel/>
             <Switch>
-
-              {/*TODO figure out why this causes the tasks not to load*/}
-
-              {/*{this.state.firebaseAuthLoaded*/}
-                  {/*? <React.Fragment>*/}
-                    {/*{firebaseUser.uid*/}
-                        {/*? <Route path='/' exact component={Home}/>*/}
-                        {/*: <Route path='/' exact component={Login}/>*/}
-                    {/*}*/}
-                  {/*</React.Fragment>*/}
-                  {/*: <Route path='/' exact component={null}/>*/}
-              }
-
               {firebaseUser.uid
                   ? <Route path='/' exact component={Home}/>
-                  : <Route path='/' exact component={Login}/>
-              }
-
+                  : <Route path='/' exact component={Login}/>}
               <Route path='/development' exact component={Development}/>
               <Route path='/create-spock-report' exact component={CreateSpockReport}/>
               <Route path='/tasks' exact component={Tasks}/>
@@ -70,6 +55,8 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log("state 1")
+  console.log(state)
   return {
     firebaseUser: state.firebase.auth
   }
