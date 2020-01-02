@@ -4,7 +4,7 @@ import firebase from 'firebase';
 import {Link} from 'react-router-dom';
 // import axios from 'axios';
 
-class CreateSpockReport extends Component {
+class UploadReportInDevelopment extends Component {
 
   constructor() {
     super();
@@ -120,7 +120,7 @@ class CreateSpockReport extends Component {
               </h3>
             </div>
             <div class="panel-body">
-              <h4><Link to="/" class="btn btn-primary">Reports</Link></h4>
+              <h4><Link to="/" class="btn btn-primary">Upload Report for a test in Development</Link></h4>
               <div className="form-group">
                 <input type="file" name="file" onChange={this.onFileSelected}
                        accept="html/*"/>
@@ -155,4 +155,4 @@ class CreateSpockReport extends Component {
 
 }
 
-export default CreateSpockReport;
+export default UploadReportInDevelopment;

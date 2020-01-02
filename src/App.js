@@ -10,7 +10,7 @@ import './App.css';
 import SpockTestsInDevelopment from './components/spocktestsindevelopment/SpockTestsInDevelopment';
 import Navigation from "./components/navigation/Navigation";
 import SidePanel from "./components/sidepanel/Sidepanel";
-import CreateSpockReport from "./components/report/create/CreateSpockReport";
+import UploadReportInDevelopment from "./components/spocktestsindevelopment/UploadReportInDevelopment";
 import Tasks from "./components/tasks/Tasks";
 import CreateTask from "./components/tasks/CreateTask";
 
@@ -36,7 +36,7 @@ class App extends Component {
               {/*<Route path='/dev-report/:id' component={DevReportDetails}/>*/}
               <Route path='/development' component={SpockTestsInDevelopment}/>
               {/*<Route path='/dev-report/:id' component={DevReportDetails}/>*/}
-              <Route path='/create-spock-report' component={CreateSpockReport}/>
+              <Route path='/upload-dev-report' component={UploadReportInDevelopment}/>
               <Route path='/tasks' component={Tasks}/>
               <Route path='/create-task' component={CreateTask}/>
               <Route path='/task/:id' component={TaskDetails}/>
