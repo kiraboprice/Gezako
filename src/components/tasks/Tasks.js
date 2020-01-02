@@ -3,11 +3,13 @@ import { connect } from 'react-redux'
 import TaskList from "./TaskList";
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+import { Redirect } from 'react-router-dom'
 
 class Tasks extends Component {
   render() {
 
-    const { tasks } = this.props;
+    const { auth, tasks } = this.props;
+    if (!auth.uid) return <Redirect to='/login' />
 
     return (
         <div  id='tasks-section'>
@@ -23,9 +25,10 @@ class Tasks extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    auth: state.firebase.auth,
     tasks: state.firestore.ordered.tasks
   }
-}
+};
 
 export default compose(
     connect(mapStateToProps),
