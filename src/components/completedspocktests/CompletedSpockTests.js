@@ -5,11 +5,11 @@ import 'firebase/firestore';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom'
 
-import './home.css';
-import Report from "../reports/Reports";
+import './spockreports.css';
+import Report from "../report/Report";
 
 
-class Home extends Component {
+class CompletedSpockTests extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -149,4 +149,4 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps)(Home)
+export default connect(mapStateToProps)(CompletedSpockTests)

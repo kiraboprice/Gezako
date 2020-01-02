@@ -5,15 +5,16 @@ import 'firebase/firestore';
 
 import SidePanel from '../sidepanel/Sidepanel';
 import Navigation from '../navigation/Navigation';
-import Report from "../reports/Reports";
+import Report from "../report/Report";
+import {Link} from "react-router-dom";
 
-export default class Development extends Component{
+export default class SpockTestsInDevelopment extends Component{
     constructor(props) {
         super(props);
         this.state = {
             profileURL: null,
             dataLength: 0,
-            developmentReports: [], // Messages passed here
+            developmentReports: [],
             display: 'block'
         }
     }
@@ -57,7 +58,6 @@ export default class Development extends Component{
         return(
             <React.Fragment>
                 <div id='reports-section'>
-                    {/* Reports  */}
                     <div id='features-reports'>
                         <h4>Development</h4>
                         <div id='headers'>
@@ -67,18 +67,20 @@ export default class Development extends Component{
                             <div id='head-end'>Report</div>
                         </div>
                         {
-                            this.state.developmentReports ? this.state.developmentReports.map(report =>{
+                            this.state.developmentReports.map(report =>{
                                 return(
-                                    <React.Fragment>
-                                        <Report 
+                                    <div>
+                                      <Link to={'/report/' + report.id} key={report.id}>
+                                      <Report
                                             service = {report.data().service}
                                             title = {report.data().feature}
                                             report = {report.data().fileDownLoadUrl}
                                         />
+                                      </Link>
                                         <hr></hr>
-                                    </React.Fragment>
+                                    </div>
                                 )
-                            }) : 'No reports check back later'
+                            })
                         }
                     </div>
                 </div>

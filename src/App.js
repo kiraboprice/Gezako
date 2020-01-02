@@ -3,14 +3,14 @@ import 'firebase/auth';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
 import Login from './components/login/Login';
-import Home from './components/home/Home';
+import CompletedSpockTests from './components/completedspocktests/CompletedSpockTests';
 
 import './assets/fonts/fonts.css';
 import './App.css';
-import Development from './components/development/Development';
+import SpockTestsInDevelopment from './components/spocktestsindevelopment/SpockTestsInDevelopment';
 import Navigation from "./components/navigation/Navigation";
 import SidePanel from "./components/sidepanel/Sidepanel";
-import CreateSpockReport from "./components/reports/create/CreateSpockReport";
+import CreateSpockReport from "./components/report/create/CreateSpockReport";
 import Tasks from "./components/tasks/Tasks";
 import CreateTask from "./components/tasks/CreateTask";
 
@@ -32,8 +32,10 @@ class App extends Component {
             <SidePanel/>
             <Switch>
               <Route path='/login' component={Login}/>
-              <Route exact path='/' component={Home}/>
-              <Route path='/development' component={Development}/>
+              <Route exact path='/' component={CompletedSpockTests}/>
+              {/*<Route path='/dev-report/:id' component={DevReportDetails}/>*/}
+              <Route path='/development' component={SpockTestsInDevelopment}/>
+              {/*<Route path='/dev-report/:id' component={DevReportDetails}/>*/}
               <Route path='/create-spock-report' component={CreateSpockReport}/>
               <Route path='/tasks' component={Tasks}/>
               <Route path='/create-task' component={CreateTask}/>

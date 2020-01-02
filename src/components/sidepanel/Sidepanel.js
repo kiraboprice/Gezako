@@ -92,7 +92,7 @@ export default class SidePanel extends Component{
                         <div onClick={this.setSpockActive}>
                           <Link to='/'>
                             <Links
-                                title = {this.state.hovered ? 'Spock Reports' : ''}
+                                title = {this.state.hovered ? 'Completed Spock Tests' : ''}
                                 isHovered = {this.state.hovered}
                                 icon = {report}
                                 haslinks = {true}
@@ -106,7 +106,7 @@ export default class SidePanel extends Component{
                         <div onClick={this.setDevelopmentActive}>
                           <Link to='/development'>
                             <Links
-                                title = {this.state.hovered ? 'Development' : ''}
+                                title = {this.state.hovered ? 'Spock Tests In Development' : ''}
                                 isHovered = {this.state.hovered}
                                 haslinks = {true}
                                 icon = {dev}
