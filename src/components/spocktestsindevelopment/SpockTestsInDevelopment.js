@@ -1,92 +1,61 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
-import SidePanel from '../sidepanel/Sidepanel';
-import Navigation from '../navigation/Navigation';
 import Report from "../report/Report";
 import {Link} from "react-router-dom";
+import {compose} from "redux";
+import connect from "react-redux/es/connect/connect";
+import {firestoreConnect} from "react-redux-firebase";
 
-export default class SpockTestsInDevelopment extends Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            profileURL: null,
-            dataLength: 0,
-            developmentReports: [],
-            display: 'block'
-        }
-    }
-    componentDidMount () {
-        firebase.auth().onAuthStateChanged(user => {
-            if(user){
-                this.setState({user: true})
-            }
-        })
+import {BASE_DOCUMENT} from "../../constants/Constants";
 
-        try{
+const SpockTestsInDevelopment = (props) => {
+  const { reports } = props;
 
-            // Getting endpoint reports (Also include time stamps when uploading reports so that we can order them by date)
-            firebase.firestore().collection('reports').limit(15).onSnapshot(snapshot =>{
-                if(snapshot.size){
-                    this.setState({developmentReports: snapshot.docs})
-                    this.setState({endpointDataLength: snapshot.size})
-                    this.setState({endpointLast: snapshot.docs[snapshot.docs.length-1]})
-                    if(snapshot.size === 10){
-                        this.setState({showMore: true})
-                    }
-                    else{
-                        this.setState({showMore: false})
-                    }
-                }
-                else{
-                    this.setState({showMore: false})
-                }
-                }, err => {
-                    console.log(`Encountered error: ${err}`);
-                })
-            }    
-                
-        
-        catch(e){
-            console.log(e)
-        }
-    }
-
-    render(){
-        return(
-            <React.Fragment>
-                <div id='reports-section'>
-                    <div id='features-reports'>
-                        <h4>Development</h4>
-                        <div id='headers'>
-                            {/* TODO Upgrade Headers so that it is more scalable */}
-                            <div id='head-start' className='service'>Service</div>
-                            <div id='head'>Title</div>
-                            <div id='head-end'>Report</div>
-                        </div>
-                        {
-                            this.state.developmentReports.map(report =>{
-                                return(
-                                    <div>
-                                      <Link to={'/report/' + report.id} key={report.id}>
-                                      <Report
-                                            service = {report.data().service}
-                                            title = {report.data().feature}
-                                            report = {report.data().fileDownLoadUrl}
-                                        />
-                                      </Link>
-                                        <hr></hr>
-                                    </div>
-                                )
-                            })
-                        }
+  return (
+        <div id='reports-section'>
+          <div id='features-reports'>
+            <h4>Development</h4>
+            <div id='headers'>
+              {/* TODO Upgrade Headers so that it is more scalable */}
+              <div id='head-start' className='service'>Service</div>
+              <div id='head'>Title</div>
+              <div id='head-end'>Report</div>
+            </div>
+            { reports && reports.map(report => {
+                return (
+                    <div>
+                      <Link to={'/report/' + report.id} key={report.id}>
+                        <Report
+                            service={report.service}
+                            title={report.feature}
+                            report={report.fileDownLoadUrl}
+                        />
+                      </Link>
+                      <hr></hr>
                     </div>
-                </div>
-            </React.Fragment>
-            
-        )
-    }
+                )
+              }) }
+          </div>
+        </div>
 
-}
+  )
+};
+
+const mapStateToProps = (state) => {
+  console.log("------")
+  console.log(state)
+  return {
+    auth: state.firebase.auth,
+    reports: state.firestore.ordered.reports
+  }
+};
+
+export default compose(
+    connect(mapStateToProps),
+    firestoreConnect([
+      {collection: 'reports'} //todo add BASE_DOCUMENT here! (after adding the create dev report page!) Also change this to dev rports now!!
+    ])
+)(SpockTestsInDevelopment)
