@@ -8,28 +8,28 @@ class CreateTask extends Component {
   state = {
     title: '',
     content: ''
-  }
+  };
   handleChange = (e) => {
     this.setState({
-      [e.target.id]: e.target.value
+      [e.target.name]: e.target.value
     })
-  }
+  };
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.createTask(this.state);
     this.props.history.push('/tasks');
-  }
+  };
   render() {
     return (
       <div id='tasks-section'>
         <form onSubmit={this.handleSubmit}>
           <h5 >Create a New Task</h5>
           <div >
-            <input type="text" id='title' onChange={this.handleChange} />
+            <input type="text" name='title' onChange={this.handleChange} />
             <label htmlFor="title">Task Title</label>
           </div>
           <div >
-            <input type="text" id='content' onChange={this.handleChange} />
+            <input type="text" name='content' onChange={this.handleChange} />
             <label htmlFor="content">Task Content</label>
           </div>
           <div >
@@ -45,6 +45,6 @@ const mapDispatchToProps = dispatch => {
   return {
     createTask: (task) => dispatch(createTask(task))
   }
-}
+};
 
 export default connect(null, mapDispatchToProps)(CreateTask)
