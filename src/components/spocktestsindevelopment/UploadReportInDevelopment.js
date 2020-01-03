@@ -87,15 +87,14 @@ class UploadReportInDevelopment extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const {service, reportType, reportTitle, fileDownLoadUrl} = this.state;
-    var jsonObject = {
+    const report = {
       service,
       reportType,
       reportTitle,
       fileDownLoadUrl
     };
-    this.props.createDevelopmentReport(this.state);
+    this.props.createDevelopmentReport(report);
     this.props.history.push('/development');
-
   };
 
   render() {
