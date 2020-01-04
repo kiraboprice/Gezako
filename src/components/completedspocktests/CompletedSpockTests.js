@@ -78,7 +78,7 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-      {collection: 'spock-reports'} //todo add BASE_DOCUMENT here! (after adding the create dev report page!) Also change this to dev rports now!!
+      {collection: 'spock-reports'}
     ])
 )(CompletedSpockTests)
 
