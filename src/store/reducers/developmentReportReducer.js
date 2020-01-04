@@ -5,7 +5,6 @@ const initState = null;
 const devReportReducer = (state = initState, action) => {
   switch (action.type) {
     case 'UPLOAD_DEVELOPMENT_REPORT_SUCCESS':
-      // console.log('UPLOAD_DEVELOPMENT_REPORT_SUCCESS', action.report);
       return {
         ...state,
         devFileDownLoadUrl: action.fileDownLoadUrl
@@ -21,6 +20,14 @@ const devReportReducer = (state = initState, action) => {
 
     case 'CREATE_DEVELOPMENT_REPORT_ERROR':
       // console.log('CREATE_DEVELOPMENT_REPORT_SUCCESS', action.err);
+      return state;
+
+    case 'DOWNLOAD_REPORT_SUCCESS':
+      console.log('DOWNLOAD_REPORT_SUCCESS', action.report, action.reportDownload);
+      return state;
+
+    case 'DOWNLOAD_REPORT_ERROR':
+      console.log('DOWNLOAD_REPORT_ERROR', action.err);
       return state;
 
     default:

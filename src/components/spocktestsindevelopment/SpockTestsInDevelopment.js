@@ -31,7 +31,6 @@ const SpockTestsInDevelopment = (props) => {
                         <Report
                             service={report.service}
                             title={report.reportTitle}
-                            report={report.fileDownLoadUrl}
                         />
                       </Link>
                       <hr></hr>

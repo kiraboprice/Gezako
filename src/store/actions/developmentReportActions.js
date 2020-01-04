@@ -1,6 +1,8 @@
 import {BASE_DOCUMENT} from "../../constants/Constants";
 import firebase from 'firebase';
 
+const axios = require('axios');
+
 //this is not in use
 export const uploadDevelopmentReport = (file) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
@@ -76,6 +78,18 @@ export const createDevelopmentReport = (report) => {
       dispatch({type: 'CREATE_DEVELOPMENT_REPORT_SUCCESS'});
     }).catch(err => {
       dispatch({type: 'CREATE_DEVELOPMENT_REPORT_ERROR'}, err);
+    });
+  }
+};
+
+export const downloadDevReport = (report) => {
+  return (dispatch, getState) => {
+    axios.get(report.fileDownLoadUrl)
+    .then((reportDownload) =>  {
+      dispatch({type: 'DOWNLOAD_REPORT_SUCCESS', report: report, reportDownload: reportDownload});
+    })
+    .catch((err) =>  {
+      dispatch({type: 'DOWNLOAD_REPORT_ERROR'}, err);
     });
   }
 };
