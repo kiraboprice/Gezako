@@ -30,7 +30,7 @@ const SpockTestsInDevelopment = (props) => {
                       <Link to={'/report/' + report.id} key={report.id}>
                         <Report
                             service={report.service}
-                            title={report.feature}
+                            title={report.reportTitle}
                             report={report.fileDownLoadUrl}
                         />
                       </Link>
@@ -45,15 +45,22 @@ const SpockTestsInDevelopment = (props) => {
 };
 
 const mapStateToProps = (state) => {
+  console.log('state in SpockTestsInDevelopment');
+  console.log(state);
   return {
     auth: state.firebase.auth,
-    reports: state.firestore.ordered.reports
+    reports: state.firestore.ordered.developmentreports
   }
 };
 
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-      {collection: 'reports'} //todo add BASE_DOCUMENT here! (after adding the create dev report page!) Also change this to dev rports now!!
+      {
+        collection: 'company',
+        doc: 'tala',
+        subcollections: [{ collection: 'developmentreports' }],
+        storeAs: 'developmentreports'
+      }
     ])
 )(SpockTestsInDevelopment)

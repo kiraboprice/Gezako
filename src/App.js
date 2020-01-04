@@ -33,9 +33,9 @@ class App extends Component {
             <Switch>
               <Route path='/login' component={Login}/>
               <Route exact path='/' component={CompletedSpockTests}/>
-              {/*<Route path='/dev-report/:id' component={DevReportDetails}/>*/}
+              {/*<Route path='/complete-test-report/:id' component={DevReportDetails}/>*/}
               <Route path='/development' component={SpockTestsInDevelopment}/>
-              {/*<Route path='/dev-report/:id' component={DevReportDetails}/>*/}
+              {/*<Route path='/dev-test-report/:id' component={DevReportDetails}/>*/}
               <Route path='/upload-dev-report' component={UploadReportInDevelopment}/>
               <Route path='/tasks' component={Tasks}/>
               <Route path='/create-task' component={CreateTask}/>
@@ -48,8 +48,6 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("state in App.js")
-  console.log(state)
   return {
     authSuccess: state.auth.authSuccess,
   }

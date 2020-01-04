@@ -78,7 +78,7 @@ class UploadReportInDevelopment extends Component {
           });
         });
 
-  }
+  };
 
   updateContextState(context) {
     this.state = context.state
