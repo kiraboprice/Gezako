@@ -8,6 +8,9 @@ import CompletedSpockTests from './components/completedspocktests/CompletedSpock
 import './assets/fonts/fonts.css';
 import './App.css';
 import SpockTestsInDevelopment from './components/spocktestsindevelopment/SpockTestsInDevelopment';
+import DevReportDetails
+  from "./components/spocktestsindevelopment/DevReportDetails";
+
 import Navigation from "./components/navigation/Navigation";
 import SidePanel from "./components/sidepanel/Sidepanel";
 import UploadReportInDevelopment from "./components/spocktestsindevelopment/UploadReportInDevelopment";
@@ -16,6 +19,7 @@ import CreateTask from "./components/tasks/CreateTask";
 
 import TaskDetails from "./components/tasks/TaskDetails";
 import { connect } from 'react-redux'
+
 
 class App extends Component {
   constructor(props) {
@@ -33,9 +37,9 @@ class App extends Component {
             <Switch>
               <Route path='/login' component={Login}/>
               <Route exact path='/' component={CompletedSpockTests}/>
-              {/*<Route path='/complete-test-report/:id' component={DevReportDetails}/>*/}
+              {/*<Route path='/complete-test-report/:id' component={CompleteReportDetails}/>*/}
               <Route path='/development' component={SpockTestsInDevelopment}/>
-              {/*<Route path='/dev-test-report/:id' component={DevReportDetails}/>*/}
+              <Route path='/dev-test-report/:id' component={DevReportDetails}/>
               <Route path='/upload-dev-report' component={UploadReportInDevelopment}/>
               <Route path='/tasks' component={Tasks}/>
               <Route path='/create-task' component={CreateTask}/>

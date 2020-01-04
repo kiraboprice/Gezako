@@ -12,9 +12,7 @@ import {firestoreConnect} from "react-redux-firebase";
 
 const CompletedSpockTests = (props) => {
   const {auth} = this.props;
-  if (!auth.uid) {
-    return <Redirect to='/login'/>
-  }
+  if (!auth.uid) {return <Redirect to='/login'/>}
 
   return (
       <div id='home'>

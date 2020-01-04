@@ -4,7 +4,7 @@ import { createTask } from '../../store/actions/taskActions'
 
 import './tasks.css';
 
-class CreateTask extends Component {
+class CreateTask extends Component { //todo authenticate this page
   state = {
     title: '',
     content: ''
