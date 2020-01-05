@@ -8,6 +8,7 @@ import './completedspockreports.css';
 import Report from "../report/Report";
 import {compose} from "redux";
 import {firestoreConnect} from "react-redux-firebase";
+import moment from "moment";
 
 const CompletedSpockTests = (props) => {
   const {auth, reports} = props;
@@ -32,7 +33,10 @@ const CompletedSpockTests = (props) => {
                       {/*<div key={index}>*/}
                       <Link to={'/complete-test-report/' + report.id} key={report.id}>
                       <Report
+                          service={report.service}
                           title={report.title}
+                          createdAt={moment(report.createdAt.toDate()).calendar()}
+                          createdBy={report.createdBy}
                       />
                       </Link>
                       <hr></hr>
@@ -46,8 +50,11 @@ const CompletedSpockTests = (props) => {
             <h4>Endpoints</h4>
             <div id='headers'>
               {/* TODO Upgrade Headers so that it is more scalable */}
-              <div id='head-start'>Title</div>
-              <div id='head-end'>Report</div>
+              <div id='head-start' className='service'>Service</div>
+              <div id='head'>Title</div>
+              <div id='head'>Uploaded At</div>
+              <div id='head-end'>Uploaded At</div>
+              <div id='head-end'>Uploaded By</div>
             </div>
             { reports && reports.map(report => { //todo add the index back here!
               return (
@@ -55,7 +62,10 @@ const CompletedSpockTests = (props) => {
                     {/*<div key={index}>*/}
                     <Link to={'/complete-test-report/' + report.id} key={report.id}>
                       <Report
+                          service={report.service}
                           title={report.title}
+                          createdAt={moment(report.createdAt.toDate()).calendar()}
+                          createdBy={report.createdBy}
                       />
                     </Link>
                     <hr></hr>
