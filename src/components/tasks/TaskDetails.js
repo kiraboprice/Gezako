@@ -2,9 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+import moment from 'moment'
+import { Redirect } from 'react-router-dom'
 
 const TaskDetails = (props) => {
-  const { task } = props;
+  const { auth, task } = props;
+  if (!auth.uid) return <Redirect to='/login' />;
+
   if (task) {
     return (
         <div id='tasks-section'>
@@ -14,8 +18,8 @@ const TaskDetails = (props) => {
               <p>{task.content}</p>
             </div>
             <div >
-              <div>Posted by {task.authorFirstName} {task.authorLastName}</div>
-              <div>2nd September, 2am</div>
+              <div>Posted by {task.createdBy}</div>
+              <div>{moment(task.createdAt.toDate()).calendar()}</div>
             </div>
           </div>
         </div>
@@ -34,6 +38,7 @@ const mapStateToProps = (state, ownProps) => {
   const tasks = state.firestore.data.tasks;
   const task = tasks ? tasks[id] : null;
   return {
+    auth: state.firebase.auth,
     task: task
   }
 }

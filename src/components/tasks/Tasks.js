@@ -4,12 +4,11 @@ import TaskList from "./TaskList";
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { Redirect } from 'react-router-dom'
+import {BASE_DOCUMENT} from "../../constants/Constants";
 
-class Tasks extends Component {
-  render() {
-
-    const { auth, tasks } = this.props;
-    if (!auth.uid) return <Redirect to='/login' />
+const Tasks = (props) => {
+    const { auth, tasks } = props;
+    if (!auth.uid) return <Redirect to='/login' />;
 
     return (
         <div  id='tasks-section'>
@@ -20,8 +19,7 @@ class Tasks extends Component {
           </div>
         </div>
     )
-  }
-}
+  };
 
 const mapStateToProps = (state) => {
   return {
@@ -33,6 +31,6 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-      { collection: 'tasks' }
+      { collection: BASE_DOCUMENT + 'tasks' }
     ])
 )(Tasks)

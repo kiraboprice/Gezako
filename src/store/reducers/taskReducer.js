@@ -2,8 +2,7 @@
 const initState = {
   tasks: [
     {id: '1', title: 'Task  1', content: 'Task  1 stuff'},
-    {id: '2', title: 'Task  2', content: 'Task  2 stuff'},
-    {id: '3', title: 'Task  3', content: 'Task  3 stuff'}
+    {id: '2', title: 'Task  2', content: 'Task  2 stuff'}
   ]
 }
 

@@ -1,0 +1,14 @@
+#report-details-section{
+    width: 40%;
+    position: relative;
+    margin: 125px auto 0 auto;
+    transition: all ease-in-out 400ms;
+}
+
+@media  only screen and (max-width: 768px) {
+    #report-details-section{
+        width: 80%;
+        margin: 125px auto 0 auto;
+        transition: all ease-in-out 400ms;
+    }
+}

@@ -3,19 +3,24 @@ import 'firebase/auth';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
 import Login from './components/login/Login';
-import Home from './components/home/Home';
+import CompletedSpockTests from './components/completedspocktests/CompletedSpockTests';
 
 import './assets/fonts/fonts.css';
 import './App.css';
-import Development from './components/development/Development';
+import SpockTestsInDevelopment from './components/spocktestsindevelopment/SpockTestsInDevelopment';
+import DevReportDetails
+  from "./components/spocktestsindevelopment/DevReportDetails";
+
 import Navigation from "./components/navigation/Navigation";
 import SidePanel from "./components/sidepanel/Sidepanel";
-import CreateSpockReport from "./components/reports/create/CreateSpockReport";
+import UploadReportInDevelopment from "./components/spocktestsindevelopment/UploadReportInDevelopment";
+import UploadCompletedReport from "./components/completedspocktests/UploadCompletedReport";
 import Tasks from "./components/tasks/Tasks";
 import CreateTask from "./components/tasks/CreateTask";
 
 import TaskDetails from "./components/tasks/TaskDetails";
 import { connect } from 'react-redux'
+
 
 class App extends Component {
   constructor(props) {
@@ -32,11 +37,16 @@ class App extends Component {
             <SidePanel/>
             <Switch>
               <Route path='/login' component={Login}/>
-              <Route exact path='/' component={Home}/>
-              <Route path='/development' component={Development}/>
-              <Route path='/create-spock-report' component={CreateSpockReport}/>
-              <Route path='/tasks' component={Tasks}/>
+              <Route path='/upload-complete-report' component={UploadCompletedReport}/>
+              <Route exact path='/' component={CompletedSpockTests}/>
+              {/*<Route path='/complete-test-report/:id' component={CompleteReportDetails}/>*/}
+
+              <Route path='/upload-dev-report' component={UploadReportInDevelopment}/>
+              <Route path='/development' component={SpockTestsInDevelopment}/>
+              <Route path='/dev-test-report/:id' component={DevReportDetails}/>
+
               <Route path='/create-task' component={CreateTask}/>
+              <Route path='/tasks' component={Tasks}/>
               <Route path='/task/:id' component={TaskDetails}/>
             </Switch>
           </BrowserRouter>
@@ -46,8 +56,6 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("state in App.js")
-  console.log(state)
   return {
     authSuccess: state.auth.authSuccess,
   }

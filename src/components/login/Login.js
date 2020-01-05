@@ -42,10 +42,10 @@ class Login extends Component {
               </div>
               <div id='description'>
                 <h1 id='big_text'>
-                  Gezako Software <br></br> Quality Assurance
+                  Gezako
                 </h1>
                 <h2 id='small_text'>
-                  All your software QA needs in one place.
+                  Tala's Software QA Management System.
                 </h2>
 
                 <div id='button' onClick={this.signIn}>

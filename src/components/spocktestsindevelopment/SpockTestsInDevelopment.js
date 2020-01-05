@@ -1,0 +1,65 @@
+import React from 'react'
+import Report from "../report/Report";
+import {Link} from "react-router-dom";
+import {compose} from "redux";
+import moment from 'moment'
+import connect from "react-redux/es/connect/connect";
+import {Redirect} from 'react-router-dom'
+import {firestoreConnect} from "react-redux-firebase";
+
+const SpockTestsInDevelopment = (props) => {
+  const { auth, reports } = props;
+  if (!auth.uid) {return <Redirect to='/login'/>}
+
+  return (
+        <div id='reports-section'>
+          <div id='features-reports'>
+            <h4>Tests for reports in Development</h4>
+            <div id='headers'>
+              {/* TODO Upgrade Headers so that it is more scalable */}
+              <div id='head-start' className='service'>Service</div>
+              <div id='head'>Title</div>
+              <div id='head'>Uploaded At</div>
+              <div id='head-end'>Uploaded By</div>
+            </div>
+            { reports && reports.map(report => {
+                return (
+                    <div>
+                      <Link to={'/dev-test-report/' + report.id} key={report.id}>
+                        <Report
+                            service={report.service}
+                            title={report.title}
+                            createdAt={moment(report.createdAt.toDate()).calendar()}
+                            createdBy={report.createdBy}
+                        />
+                      </Link>
+                      <hr></hr>
+                    </div>
+                )
+              }) }
+          </div>
+        </div>
+
+  )
+};
+
+const mapStateToProps = (state) => {
+  // console.log('state in SpockTestsInDevelopment');
+  console.log(state);
+  return {
+    auth: state.firebase.auth,
+    reports: state.firestore.ordered.developmentreports
+  }
+};
+
+export default compose(
+    connect(mapStateToProps),
+    firestoreConnect([
+      {
+        collection: 'company',
+        doc: 'tala',
+        subcollections: [{ collection: 'developmentreports' }],
+        storeAs: 'developmentreports'
+      }
+    ])
+)(SpockTestsInDevelopment)

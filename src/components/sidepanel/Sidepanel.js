@@ -87,12 +87,12 @@ export default class SidePanel extends Component{
                             this.setState({showDesktopMenu: true, hovered: true})}
                       }> {this.state.showDesktopMenu ? 'x' : <img id='menu_bar' src={menu} alt='menu bar' ></img>}
                       </div>
-                      <div id='sidepanel' style={{width: this.state.hovered ? '21%' : '55px', transition: 'all ease-in-out 200ms'}}>
+                      <div id='sidepanel' style={{width: this.state.hovered ? '31%' : '55px', transition: 'all ease-in-out 200ms'}}>
 
                         <div onClick={this.setSpockActive}>
                           <Link to='/'>
                             <Links
-                                title = {this.state.hovered ? 'Spock Reports' : ''}
+                                title = {this.state.hovered ? 'Completed Spock Tests' : ''}
                                 isHovered = {this.state.hovered}
                                 icon = {report}
                                 haslinks = {true}
@@ -106,7 +106,7 @@ export default class SidePanel extends Component{
                         <div onClick={this.setDevelopmentActive}>
                           <Link to='/development'>
                             <Links
-                                title = {this.state.hovered ? 'Development' : ''}
+                                title = {this.state.hovered ? 'Spock Tests In Development' : ''}
                                 isHovered = {this.state.hovered}
                                 haslinks = {true}
                                 icon = {dev}
