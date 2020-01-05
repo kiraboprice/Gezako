@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import firebase from 'firebase';
 import {Link} from 'react-router-dom';
-import {createDevelopmentReport} from "../../store/actions/developmentReportActions";
+import {createCompletedReport} from "../../store/actions/completedReportActions";
 
-class UploadReportInDevelopment extends Component { //todo authenticate this page
+class UploadCompletedReport extends Component { //todo authenticate this page
   storageRef = firebase.storage().ref();
 
   state = {
@@ -35,7 +35,7 @@ class UploadReportInDevelopment extends Component { //todo authenticate this pag
       contentType: 'text/html'
     };
     var uploadTask = this.storageRef.child(
-        'development-spock-reports/' + state[e.target.file].name).put(
+        'completed-spock-reports/' + state[e.target.file].name).put(
         state[e.target.file], metadata);
 
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
@@ -90,8 +90,8 @@ class UploadReportInDevelopment extends Component { //todo authenticate this pag
       title,
       fileDownLoadUrl
     };
-    this.props.createDevelopmentReport(report);
-    this.props.history.push('/development');
+    this.props.createCompletedReport(report);
+    this.props.history.push('/');
   };
 
   render() {
@@ -105,8 +105,7 @@ class UploadReportInDevelopment extends Component { //todo authenticate this pag
               </h3>
             </div>
             <div class="panel-body">
-              <h4><Link to="/" class="btn btn-primary">Upload Report for a test
-                in Development</Link></h4>
+              <h4><Link to="/" class="btn btn-primary">Upload Complete Test Report</Link></h4>
               <div className="form-group">
                 <input type="file" name="file" onChange={this.handleFileSelected}
                        accept="html/*"/>
@@ -145,8 +144,8 @@ class UploadReportInDevelopment extends Component { //todo authenticate this pag
 
 const mapDispatchToProps = dispatch => {
   return {
-    createDevelopmentReport: (report) => dispatch(createDevelopmentReport(report))
+    createCompletedReport: (report) => dispatch(createCompletedReport(report))
   }
 };
 
-export default connect(null, mapDispatchToProps)(UploadReportInDevelopment);
+export default connect(null, mapDispatchToProps)(UploadCompletedReport);

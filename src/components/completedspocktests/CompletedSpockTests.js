@@ -1,38 +1,40 @@
-import React, {Component} from 'react'
-import firebase from 'firebase/app';
+import React from 'react'
 import 'firebase/auth';
 import 'firebase/firestore';
 import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 
-import './spockreports.css';
+import './completedspockreports.css';
 import Report from "../report/Report";
 import {compose} from "redux";
 import {firestoreConnect} from "react-redux-firebase";
 
 const CompletedSpockTests = (props) => {
-  const {auth} = this.props;
+  const {auth, reports} = props;
   if (!auth.uid) {return <Redirect to='/login'/>}
 
   return (
       <div id='home'>
-
         <div id='reports-section'>
           <div id='features-reports'>
             <h4>Features</h4>
             <div id='headers'>
               {/* TODO Upgrade Headers so that it is more scalable */}
-              <div id='head-start'>Title</div>
-              <div id='head-end'>Report</div>
+              <div id='head-start' className='service'>Service</div>
+              <div id='head'>Title</div>
+              <div id='head'>Uploaded At</div>
+              <div id='head-end'>Uploaded At</div>
+              <div id='head-end'>Uploaded By</div>
             </div>
-            {
-              this.state.featureReports.map((report, index) => {
+            { reports && reports.map(report => { //todo add the index back here!
                 return (
-                    <div key={index}>
+                    <div>
+                      {/*<div key={index}>*/}
+                      <Link to={'/complete-test-report/' + report.id} key={report.id}>
                       <Report
-                          title={report.data().reportTitle}
-                          report={report.data().fileDownLoadUrl}
+                          title={report.title}
                       />
+                      </Link>
                       <hr></hr>
                     </div>
                 )
@@ -47,20 +49,21 @@ const CompletedSpockTests = (props) => {
               <div id='head-start'>Title</div>
               <div id='head-end'>Report</div>
             </div>
-            {
-              this.state.endpointReports && this.state.endpointReports.map(
-                  (report, index) => {
-                    return (
-                        <div key={index}>
-                          <Report
-                              title={report.data().reportTitle}
-                              report={report.data().fileDownLoadUrl}
-                          />
-                          <hr></hr>
-                        </div>
-                    )
-                  })
+            { reports && reports.map(report => { //todo add the index back here!
+              return (
+                  <div>
+                    {/*<div key={index}>*/}
+                    <Link to={'/complete-test-report/' + report.id} key={report.id}>
+                      <Report
+                          title={report.title}
+                      />
+                    </Link>
+                    <hr></hr>
+                  </div>
+              )
+            })
             }
+
           </div>
         </div>
       </div>
@@ -69,16 +72,22 @@ const CompletedSpockTests = (props) => {
 };
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     auth: state.firebase.auth,
-    spockreports: state.firestore.ordered.spockreports
+    reports: state.firestore.ordered.completedreports
   }
 };
 
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-      {collection: 'spock-reports'}
+      {
+        collection: 'company',
+        doc: 'tala',
+        subcollections: [{ collection: 'completedreports' }],
+        storeAs: 'completedreports'
+      }
     ])
 )(CompletedSpockTests)
 

@@ -54,9 +54,8 @@ const mapStateToProps = (state, ownProps) => {
   const reports = state.firestore.data.developmentreports;
   const report = reports ? reports[id] : null;
 
-  const reportDownloads = state.firestore.data.developmentreports; //state.reportdownloads??
+  // const reportDownloads = state.firestore.data.developmentreports; //state.reportdownloads??
   // const reportDownload = reportDownloads ? reportDownloads[id] : null;
-  // const reportDownload = state.developmentReport.reportDownload;
   let reportDownload = null;
   if (state.developmentReport != null) {
     reportDownload = state.developmentReport.reportDownload;

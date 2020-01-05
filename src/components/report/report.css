@@ -4,12 +4,12 @@
     line-height: 2.2em;
 }
 
-#report-service{
+#service{
     flex: 1;
     transition: all ease-in-out 400ms;
 }
 
-#report-title{
+#title{
     flex: 2;
 }
 

@@ -14,6 +14,7 @@ import DevReportDetails
 import Navigation from "./components/navigation/Navigation";
 import SidePanel from "./components/sidepanel/Sidepanel";
 import UploadReportInDevelopment from "./components/spocktestsindevelopment/UploadReportInDevelopment";
+import UploadCompletedReport from "./components/completedspocktests/UploadCompletedReport";
 import Tasks from "./components/tasks/Tasks";
 import CreateTask from "./components/tasks/CreateTask";
 
@@ -36,13 +37,16 @@ class App extends Component {
             <SidePanel/>
             <Switch>
               <Route path='/login' component={Login}/>
+              <Route path='/upload-complete-report' component={UploadCompletedReport}/>
               <Route exact path='/' component={CompletedSpockTests}/>
               {/*<Route path='/complete-test-report/:id' component={CompleteReportDetails}/>*/}
+
+              <Route path='/upload-dev-report' component={UploadReportInDevelopment}/>
               <Route path='/development' component={SpockTestsInDevelopment}/>
               <Route path='/dev-test-report/:id' component={DevReportDetails}/>
-              <Route path='/upload-dev-report' component={UploadReportInDevelopment}/>
-              <Route path='/tasks' component={Tasks}/>
+
               <Route path='/create-task' component={CreateTask}/>
+              <Route path='/tasks' component={Tasks}/>
               <Route path='/task/:id' component={TaskDetails}/>
             </Switch>
           </BrowserRouter>

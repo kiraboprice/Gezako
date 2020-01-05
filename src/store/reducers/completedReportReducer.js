@@ -12,6 +12,17 @@ const completedReportReducer = (state = initState, action) => {
       // console.log('CREATE_COMPLETED_REPORT_ERROR', action.err);
       return state;
 
+    case 'DOWNLOAD_REPORT_SUCCESS':
+      console.log('DOWNLOAD_REPORT_SUCCESS', action.report, action.reportDownload);
+      return {
+        ...state,
+        reportDownload: action.reportDownload
+      };
+
+    case 'DOWNLOAD_REPORT_ERROR':
+      console.log('DOWNLOAD_REPORT_ERROR', action.err);
+      return state;
+
     default:
       return state;
 
