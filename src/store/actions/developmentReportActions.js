@@ -49,12 +49,10 @@ export const uploadDevelopmentReport = (file) => {
           // Upload completed successfully, now we can get the download URL
           uploadTask.snapshot.ref.getDownloadURL().then(
               function (fileDownLoadUrl) {
-                dispatch({
-                  type: 'UPLOAD_DEVELOPMENT_REPORT_SUCCESS',
-                  fileDownLoadUrl
+                dispatch({type: 'UPLOAD_DEVELOPMENT_REPORT_SUCCESS', fileDownLoadUrl
                 });
               }).catch(err => {
-            dispatch({type: 'UPLOAD_DEVELOPMENT_REPORT_ERROR'}, err);
+            dispatch({type: 'UPLOAD_DEVELOPMENT_REPORT_ERROR', err});
           });
         });
   }
@@ -66,8 +64,8 @@ export const createDevelopmentReport = (report) => {
     const profile = getState().firebase.profile;
     const userId = getState().firebase.auth.uid;
 
-    console.log("report")
-    console.log(report)
+    console.log("report");
+    console.log(report);
     firestore.collection(BASE_DOCUMENT + 'developmentreports').add({
       ...report,
       //just leaving this here to show possibility of using profile in an action. but this is not scalable. if the displayName ever gets updated, we'd need a cloud function which listens on the user collection for this user specifically, then updates everywhere.
@@ -77,19 +75,22 @@ export const createDevelopmentReport = (report) => {
     }).then(() => {
       dispatch({type: 'CREATE_DEVELOPMENT_REPORT_SUCCESS'});
     }).catch(err => {
-      dispatch({type: 'CREATE_DEVELOPMENT_REPORT_ERROR'}, err);
+      dispatch({type: 'CREATE_DEVELOPMENT_REPORT_ERROR', err});
     });
   }
 };
 
 export const downloadDevReport = (report) => {
+  console.log("REPORT 2");
+  console.log(report);
   return (dispatch, getState) => {
-    axios.get(report.fileDownLoadUrl)
+    // axios.get(report.fileDownLoadUrl) //todo PUT THIS BACK
+    axios.get("https://firebasestorage.googleapis.com/v0/b/gezako-8a7aa.appspot.com/o/reports%2Fco.tala.acceptance.features.ReversalsSpec.html?alt=media&token=3c149732-e81b-4288-9188-849a008300f8")
     .then((reportDownload) =>  {
-      dispatch({type: 'DOWNLOAD_REPORT_SUCCESS', report: report, reportDownload: reportDownload});
+      dispatch({type: 'DOWNLOAD_REPORT_SUCCESS', report: report, reportDownload: reportDownload.data});
     })
     .catch((err) =>  {
-      dispatch({type: 'DOWNLOAD_REPORT_ERROR'}, err);
+      dispatch({type: 'DOWNLOAD_REPORT_ERROR', err});
     });
   }
 };

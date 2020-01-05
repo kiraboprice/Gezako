@@ -14,7 +14,7 @@ export const createCompletedReport = (report) => {
     }).then(() => {
       dispatch({ type: 'CREATE_COMPLETED_REPORT_SUCCESS' });
     }).catch(err => {
-      dispatch({ type: 'CREATE_COMPLETED_REPORT_ERROR' }, err);
+      dispatch({ type: 'CREATE_COMPLETED_REPORT_ERROR', err });
     });
   }
 };

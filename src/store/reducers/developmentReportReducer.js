@@ -24,7 +24,10 @@ const devReportReducer = (state = initState, action) => {
 
     case 'DOWNLOAD_REPORT_SUCCESS':
       console.log('DOWNLOAD_REPORT_SUCCESS', action.report, action.reportDownload);
-      return state;
+      return {
+        ...state,
+        reportDownload: action.reportDownload
+      };
 
     case 'DOWNLOAD_REPORT_ERROR':
       console.log('DOWNLOAD_REPORT_ERROR', action.err);

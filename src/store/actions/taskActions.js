@@ -14,7 +14,7 @@ export const createTask = (task) => {
     }).then(() => {
       dispatch({ type: 'CREATE_TASK_SUCCESS' });
     }).catch(err => {
-      dispatch({ type: 'CREATE_TASK_ERROR' }, err);
+      dispatch({ type: 'CREATE_TASK_ERROR', err });
     });
   }
 };
