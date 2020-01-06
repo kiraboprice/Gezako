@@ -12,8 +12,9 @@ import moment from "moment";
 import Report from "../Report";
 
 const CompletedSpockTests = (props) => {
-  const {auth, reports} = props;
+  const {auth, featureReports, endpointReports} = props;
   if (!auth.uid) {return <Redirect to='/login'/>}
+
 
   return (
       <div id='home'>
@@ -28,7 +29,7 @@ const CompletedSpockTests = (props) => {
               <div id='head-end'>Uploaded At</div>
               <div id='head-end'>Uploaded By</div>
             </div>
-            { reports && reports.map(report => { //todo add the index back here!
+            { featureReports && featureReports.map(report => { //todo add the index back here!
                 return (
                     <div>
                       {/*<div key={index}>*/}
@@ -57,7 +58,7 @@ const CompletedSpockTests = (props) => {
               <div id='head-end'>Uploaded At</div>
               <div id='head-end'>Uploaded By</div>
             </div>
-            { reports && reports.map(report => { //todo add the index back here!
+            { endpointReports && endpointReports.map(report => { //todo add the index back here!
               return (
                   <div>
                     {/*<div key={index}>*/}
@@ -91,7 +92,8 @@ const mapStateToProps = (state) => {
   console.log(state);
   return {
     auth: state.firebase.auth,
-    reports: state.firestore.ordered.completedreports
+    featureReports: state.firestore.ordered.featureReports,
+    endpointReports: state.firestore.ordered.endpointReports,
   }
 };
 
@@ -102,10 +104,17 @@ export default compose(
         collection: 'company',
         doc: 'tala',
         subcollections: [{ collection: 'completedreports' }],
-        storeAs: 'completedreports'
+        where: ['type', '==', 'feature'],
+        storeAs: 'featureReports'
+      }
+    ]),
+    firestoreConnect([
+      {
+        collection: 'company',
+        doc: 'tala',
+        subcollections: [{ collection: 'completedreports' }],
+        where: ['type', '==', 'endpoint'],
+        storeAs: 'endpointReports'
       }
     ])
 )(CompletedSpockTests)
-
-//.collection('spock-reports').where('reportType', '==', 'feature')
-//.collection('spock-reports').where('reportType', '==', 'endpoint')
