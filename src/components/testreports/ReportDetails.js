@@ -53,14 +53,8 @@ const mapStateToProps = (state, ownProps) => {
   const id = ownProps.match.params.id;
   const reports =  getCollectionUrl() == 'completedreports'
       ?state.firestore.data.completedreports
-      :state.firestore.data.developmentreports
+      :state.firestore.data.developmentreports;
 
-  // let reports;
-  // if(getCollectionUrl() === 'completedreports'){
-  //   reports = firestore.data.completedreports
-  // } else if(getCollectionUrl() ==='developmentreports'){
-  //   reports = firestore.data.developmentreports
-  // }
   const report = reports ? reports[id] : null;
 
   let reportDownload = null;
