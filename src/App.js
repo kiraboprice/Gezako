@@ -37,8 +37,9 @@ class App extends Component {
               <Route path='/login' component={Login}/>
               <Route path='/upload-report' component={UploadReport}/>
               <Route exact path='/' component={CompletedSpockTests}/>
+              <Route exact path='/report/completed/:id' component={ReportDetails}/>
               <Route path='/development' component={SpockTestsInDevelopment}/>
-              <Route path='/report/:id' component={ReportDetails}/>
+              <Route exact path='/report/development/:id' component={ReportDetails}/>
 
               <Route path='/create-task' component={CreateTask}/>
               <Route path='/tasks' component={Tasks}/>

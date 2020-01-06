@@ -50,6 +50,7 @@ const mapStateToProps = (state, ownProps) => {
   console.log('state in report details');
   console.log(state);
   const id = ownProps.match.params.id;
+  const url = ownProps.location;
   //todo if caller was for complete reports, then read reports from complete. same for dev reports
   const reports = state.firestore.data.developmentreports;
   const report = reports ? reports[id] : null;
@@ -74,14 +75,22 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
+function getCollectionUrl() {
+  if((window.location.href).includes('completed') ){
+    return 'completedreports'
+  } else if((window.location.href).includes('development') ){
+    return 'developmentreports'
+  }
+}
+
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
       {
         collection: 'company',
         doc: 'tala',
-        subcollections: [{ collection: 'developmentreports' }],
-        storeAs: 'developmentreports'
+        subcollections: [{ collection: getCollectionUrl() }],
+        storeAs: getCollectionUrl()
       }
     ])
 )(ReportDetails)

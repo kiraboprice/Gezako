@@ -23,7 +23,6 @@ const reportReducer = (state = initState, action) => {
       return state;
 
     case 'DOWNLOAD_REPORT_SUCCESS':
-      console.log('DOWNLOAD_REPORT_SUCCESS', action.report, action.reportDownload);
       return {
         ...state,
         reportDownload: action.reportDownload
