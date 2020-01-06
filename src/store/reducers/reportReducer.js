@@ -2,24 +2,24 @@
 const initState = null;
 
 
-const devReportReducer = (state = initState, action) => {
+const reportReducer = (state = initState, action) => {
   switch (action.type) {
-    case 'UPLOAD_DEVELOPMENT_REPORT_SUCCESS':
+    case 'UPLOAD_REPORT_SUCCESS':
       return {
         ...state,
         devFileDownLoadUrl: action.fileDownLoadUrl
       };
 
-    case 'UPLOAD_DEVELOPMENT_REPORT_ERROR':
-      // console.log('UPLOAD_DEVELOPMENT_REPORT_ERROR', action.err);
+    case 'UPLOAD_REPORT_ERROR':
+      // console.log('UPLOAD_REPORT_ERROR', action.err);
       return state;
 
-    case 'CREATE_DEVELOPMENT_REPORT_SUCCESS':
-      // console.log('CREATE_DEVELOPMENT_REPORT_SUCCESS', action.report);
+    case 'CREATE_REPORT_SUCCESS':
+      // console.log('CREATE_REPORT_SUCCESS', action.report);
       return state;
 
-    case 'CREATE_DEVELOPMENT_REPORT_ERROR':
-      // console.log('CREATE_DEVELOPMENT_REPORT_SUCCESS', action.err);
+    case 'CREATE_REPORT_ERROR':
+      // console.log('CREATE_REPORT_ERROR', action.err);
       return state;
 
     case 'DOWNLOAD_REPORT_SUCCESS':
@@ -39,4 +39,4 @@ const devReportReducer = (state = initState, action) => {
   }
 };
 
-export default devReportReducer;
+export default reportReducer;

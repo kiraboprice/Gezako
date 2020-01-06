@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 // import firebase from '/firebase';
 import {Link} from 'react-router-dom';
-import {createDevelopmentReport} from "../../store/actions/developmentReportActions";
+import {createReport} from "../../store/actions/reportActions";
 import * as firebase from "firebase";
 
 class UploadReport extends Component { //todo authenticate this page
@@ -109,35 +109,34 @@ class UploadReport extends Component { //todo authenticate this page
               </h3>
             </div>
             <div class="panel-body">
-              <h4><Link to="/" class="btn btn-primary">Upload Report for a test
-                in Development</Link></h4>
-              <div className="form-group">
-                <input type="file" name="file" onChange={this.handleFileSelected}
+              <h4>Upload Report for a complete test or a test in
+                development</h4>
+              <div>
+                <input type="file" name="file"
+                       onChange={this.handleFileSelected}
                        accept="html/*"/>
                 <button onClick={this.handleUploadFile}>Upload File</button>
               </div>
               <form onSubmit={this.handleSubmit}>
-                <div class="form-group">
-                  <label for="title">Service:</label>
-                  <input type="text" class="form-control" name="service"
-                         value={service} onChange={this.handleChange}
-                         placeholder="service"/>
+                <div>
+                  <label>Service:</label>
+                  <input type="text" name="service"
+                         value={service} onChange={this.handleChange}/>
                 </div>
-                <div class="form-group">
-                  <label for="description">Report Type:</label>
-                  <textArea class="form-control" name="type"
-                            onChange={this.handleChange}
-                            placeholder="type"
-                            cols="80" rows="3">{type}</textArea>
+
+                <div>
+                  <label>Report Type:</label>
+                  <textArea name="type"
+                            onChange={this.handleChange}>{type}</textArea>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="description">Report Title:</label>
+
+                <div >
+                  <label>Report Title:</label>
                   <textArea class="form-control" name="title"
-                            onChange={this.handleChange}
-                            placeholder="title"
-                            cols="80" rows="3">{title}</textArea>
+                            onChange={this.handleChange}>{title}</textArea>
                 </div>
-                <button type="submit" class="btn btn-success">Submit</button>
+
+                <button type="submit">Submit</button>
               </form>
             </div>
           </div>
@@ -149,7 +148,8 @@ class UploadReport extends Component { //todo authenticate this page
 
 const mapDispatchToProps = dispatch => {
   return {
-    createDevelopmentReport: (report) => dispatch(createDevelopmentReport(report))
+    createDevelopmentReport: (report) => dispatch(
+        createReport(report))
   }
 };
 

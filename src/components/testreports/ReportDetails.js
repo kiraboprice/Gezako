@@ -4,11 +4,12 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import moment from 'moment'
 import { Redirect } from 'react-router-dom'
-import {downloadDevReport} from "../../store/actions/developmentReportActions";
+import {downloadReport} from "../../store/actions/reportActions";
+
 import './reportdetails.css';
 
 const ReportDetails = (props) => {
-  const { auth, downloadDevReport, reportDownload} = props;
+  const { auth, downloadReport, reportDownload} = props;
   if (!auth.uid) return <Redirect to='/login' />;
 
   const report = {url: 'url'};
@@ -16,7 +17,7 @@ const ReportDetails = (props) => {
     //download report
     console.log("REPORT 1");
     console.log(report);
-    downloadDevReport(report);
+    downloadReport(report);
 
     var htmlDoc = {__html: reportDownload};
 
@@ -46,17 +47,18 @@ const ReportDetails = (props) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('state in dev report details');
+  console.log('state in report details');
   console.log(state);
   const id = ownProps.match.params.id;
+  //todo if caller was for complete reports, then read reports from complete. same for dev reports
   const reports = state.firestore.data.developmentreports;
   const report = reports ? reports[id] : null;
 
   // const reportDownloads = state.firestore.data.developmentreports; //state.reportdownloads??
   // const reportDownload = reportDownloads ? reportDownloads[id] : null;
   let reportDownload = null;
-  if (state.developmentReport != null) {
-    reportDownload = state.developmentReport.reportDownload;
+  if (state.report != null) {
+    reportDownload = state.report.reportDownload;
   }
 
 
@@ -69,7 +71,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    downloadDevReport: () => dispatch(downloadDevReport())
+    downloadReport: () => dispatch(downloadReport())
   }
 };
 

@@ -1,7 +1,6 @@
 import authReducer from './authReducer'
 import taskReducer from './taskReducer'
-import completedReportReducer from "./completedReportReducer";
-import developmentReportReducer from "./developmentReportReducer";
+import reportReducer from "./reportReducer";
 
 import { combineReducers } from 'redux'
 import { firestoreReducer } from 'redux-firestore';
@@ -11,8 +10,7 @@ import { firebaseReducer } from 'react-redux-firebase'
 const rootReducer = combineReducers({
   auth: authReducer,
   task: taskReducer,
-  completedReport: completedReportReducer,
-  developmentReport: developmentReportReducer,
+  report: reportReducer,
   firestore: firestoreReducer,
   firebase: firebaseReducer
 });
