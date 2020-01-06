@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom';
 import {createReport} from "../../store/actions/reportActions";
 import * as firebase from "firebase";
 
@@ -98,7 +97,12 @@ class UploadReport extends Component { //todo authenticate this page
       fileDownLoadUrl
     };
     this.props.createDevelopmentReport(report);
-    this.props.history.push('/development');
+
+    if(phase == 'development') {
+      this.props.history.push('/development');
+    } else if(phase == 'completed') {
+      this.props.history.push('/');
+    }
   };
 
   render() {

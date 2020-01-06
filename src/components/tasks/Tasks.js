@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import TaskList from "./TaskList";
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-import { Redirect } from 'react-router-dom'
-import {BASE_DOCUMENT} from "../../constants/Constants";
+import {Link, Redirect} from 'react-router-dom'
 
 const Tasks = (props) => {
     const { auth, tasks } = props;
@@ -12,6 +11,11 @@ const Tasks = (props) => {
 
     return (
         <div  id='tasks-section'>
+
+          <Link to={'/create-task'} >
+            <button >Create New Task</button>
+          </Link>
+
           <div className="row">
             <div className="col s12 m6">
               <TaskList tasks={tasks} />
@@ -31,6 +35,11 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-      { collection: BASE_DOCUMENT + 'tasks' }
+      {
+        collection: 'company',
+        doc: 'tala',
+        subcollections: [{ collection: 'tasks' }],
+        storeAs: 'tasks'
+      }
     ])
 )(Tasks)

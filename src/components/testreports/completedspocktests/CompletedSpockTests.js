@@ -23,6 +23,10 @@ const CompletedSpockTests = (props) => {
 
           {featureReports ? null : <LoadingScreen />}
 
+          <Link to={'/upload-report'} >
+            <button >Create New Report</button>
+          </Link>
+
           <div id='features-reports'>
             <h4>Features</h4>
             <div id='headers'>
@@ -81,11 +85,6 @@ const CompletedSpockTests = (props) => {
             }
 
           </div>
-
-          <Link to={'/upload-report'} >
-            <button >Create New Report</button>
-          </Link>
-
         </div>
       </div>
   )
