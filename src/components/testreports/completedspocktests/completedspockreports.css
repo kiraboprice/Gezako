@@ -20,11 +20,13 @@ h4{
 
 #features-reports{
     padding: 0;
+    position: relative;
 }
 
 #endpoints-reports{
     margin-top: 50px;
     position: relative;
+    background: #fafafa;
 }
 
 @media  only screen and (max-width: 768px) {

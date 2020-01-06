@@ -26,8 +26,6 @@ class App extends Component {
   }
 
   render() {
-    const {authSuccess} = this.props;
-
     return (
         <div className="container">
           <BrowserRouter>

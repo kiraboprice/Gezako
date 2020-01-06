@@ -10,6 +10,7 @@ import {compose} from "redux";
 import {firestoreConnect} from "react-redux-firebase";
 import moment from "moment";
 import Report from "../Report";
+import LoadingScreen from "../../loading/LoadingScreen";
 
 const CompletedSpockTests = (props) => {
   const {auth, featureReports, endpointReports} = props;
@@ -19,6 +20,9 @@ const CompletedSpockTests = (props) => {
   return (
       <div id='home'>
         <div id='reports-section'>
+
+          {featureReports ? null : <LoadingScreen />}
+
           <div id='features-reports'>
             <h4>Features</h4>
             <div id='headers'>
