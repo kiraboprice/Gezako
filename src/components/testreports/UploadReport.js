@@ -14,7 +14,8 @@ class UploadReport extends Component { //todo authenticate this page
     type: 'endpoint',
     title: 'Test Report Title',
     file: '',
-    fileDownLoadUrl: ''
+    fileDownLoadUrl: '',
+    uploadProgress: 0
   };
 
   handleChange = (e) => {
@@ -48,7 +49,8 @@ class UploadReport extends Component { //todo authenticate this page
         function (snapshot) {
           var progress = (snapshot.bytesTransferred / snapshot.totalBytes)
               * 100;
-          console.log('Upload is ' + progress + '% done');
+          state.uploadProgress = progress;
+
           switch (snapshot.state) {
             case firebase.storage.TaskState.PAUSED:
               console.log('Upload is paused');
@@ -102,7 +104,7 @@ class UploadReport extends Component { //todo authenticate this page
   };
 
   render() {
-    const {phase, service, type, title} = this.state;
+    const {phase, service, type, title, uploadProgress} = this.state;
     return (
         <div style={{marginLeft: "400px"}}>
           <div class="panel panel-default">
@@ -120,6 +122,9 @@ class UploadReport extends Component { //todo authenticate this page
                        accept="html/*"/>
                 <button onClick={this.handleUploadFile}>Upload File</button>
               </div>
+
+              <span> Uploading report: % {uploadProgress} </span>
+
               <form onSubmit={this.handleSubmit}>
                 <div>
                   <label>
