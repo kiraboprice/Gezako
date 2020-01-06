@@ -13,13 +13,11 @@ const collectionUrl = getCollectionUrl();
 const ReportDetails = (props) => {
   const { auth, report, downloadReport, reportDownload} = props;
   if (!auth.uid) return <Redirect to='/login' />;
-  downloadReport({url: 'url'});
 
   if (report) {
-    //download report
-    console.log("REPORT 1");
+    console.log("Report Sent");
     console.log(report);
-    // downloadReport(report);
+    downloadReport(report);
     // downloadReport({url: 'url'});
 
     var htmlDoc = {__html: reportDownload};

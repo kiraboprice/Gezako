@@ -107,7 +107,8 @@ class UploadReport extends Component {
   };
 
   render() {
-    const {auth, phase, service, type, title, uploadProgress} = this.state;
+    const {phase, service, type, title, uploadProgress} = this.state;
+    const { auth } = this.props;
     if (!auth.uid) return <Redirect to='/login' />;
     return (
         <div style={{marginLeft: "400px"}}>
@@ -188,8 +189,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createDevelopmentReport: (report) => dispatch(
-        createReport(report))
+    createDevelopmentReport: (report) => dispatch(createReport(report))
   }
 };
 
