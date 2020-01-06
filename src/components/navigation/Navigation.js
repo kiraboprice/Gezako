@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import './navigation.css';
 
@@ -7,19 +7,21 @@ import {signOut} from '../../store/actions/authActions'
 
 const Navigation = (props) => {
   const { profile, signOut } = props;
+  const [displaySignOutButton, setDisplaySignOutButton] = useState('none');
 
   return (
       <div id='navigation-top'>
         <div id='navigation-logo'>
           Gezako
         </div>
-        <div id='signout' onClick={signOut}>
+        <div id='signout' style={{display: displaySignOutButton}} onClick={signOut}>
           Sign out
         </div>
         <div id='profile-picture'>
-          <img src={profile.photoURL}
-               alt={profile.displayName}></img>
-          {/*TODO onClick={showSignDropDown}></img>*/}
+
+        <img src={profile.photoURL} alt={profile.displayName} onClick={
+          () => displaySignOutButton === 'none' ? setDisplaySignOutButton('block') : setDisplaySignOutButton('none')
+        }></img>
 
         </div>
       </div>

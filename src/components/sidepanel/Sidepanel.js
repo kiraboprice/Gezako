@@ -87,7 +87,7 @@ export default class SidePanel extends Component{
                             this.setState({showDesktopMenu: true, hovered: true})}
                       }> {this.state.showDesktopMenu ? 'x' : <img id='menu_bar' src={menu} alt='menu bar' ></img>}
                       </div>
-                      <div id='sidepanel' style={{width: this.state.hovered ? '31%' : '55px', transition: 'all ease-in-out 200ms'}}>
+                      <div id='sidepanel' style={{width: this.state.hovered ? '21%' : '55px', transition: 'all ease-in-out 200ms'}}>
 
                         <div onClick={this.setSpockActive}>
                           <Link to='/'>

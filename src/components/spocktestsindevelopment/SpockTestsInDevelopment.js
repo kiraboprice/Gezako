@@ -7,6 +7,7 @@ import connect from "react-redux/es/connect/connect";
 import {Redirect} from 'react-router-dom'
 import {firestoreConnect} from "react-redux-firebase";
 
+
 const SpockTestsInDevelopment = (props) => {
   const { auth, reports } = props;
   if (!auth.uid) {return <Redirect to='/login'/>}

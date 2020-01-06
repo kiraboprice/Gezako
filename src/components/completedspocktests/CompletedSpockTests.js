@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {Link, Redirect} from 'react-router-dom'
 
 import './completedspockreports.css';
+
 import Report from "../report/Report";
 import {compose} from "redux";
 import {firestoreConnect} from "react-redux-firebase";

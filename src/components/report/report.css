@@ -13,6 +13,32 @@
     flex: 2;
 }
 
+#headers{
+    position: relative;
+    display: flex;
+    color: grey;
+    align-items: center;
+    margin-top: 15px;
+    padding: 0;
+    margin-bottom: 25px;
+}
+
+#head-start{
+    flex: 1;
+    transition: all ease-in-out 400ms;
+    margin-top: -2.5px;
+}
+
+#head{
+    flex: 2;
+}
+
+#head-end{
+    text-align: right;
+    right: 0;
+    flex: 1;
+}
+
 #report-link{
     text-align: right;
     right: 0;
