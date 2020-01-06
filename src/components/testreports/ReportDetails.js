@@ -4,21 +4,20 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import moment from 'moment'
 import { Redirect } from 'react-router-dom'
+import {downloadReport} from "../../store/actions/reportActions";
 
-import {downloadDevReport} from "../../store/actions/developmentReportActions";
+import './reportdetails.css';
 
-import './devreports.css';
-
-const DevReportDetails = (props) => {
-  const { auth, report2, downloadDevReport, reportDownload} = props;
+const ReportDetails = (props) => {
+  const { auth, downloadReport, reportDownload} = props;
   if (!auth.uid) return <Redirect to='/login' />;
 
-  const report = {url: 'url'}
+  const report = {url: 'url'};
   if (report) {
     //download report
     console.log("REPORT 1");
     console.log(report);
-    downloadDevReport(report);
+    downloadReport(report);
 
     var htmlDoc = {__html: reportDownload};
 
@@ -48,19 +47,18 @@ const DevReportDetails = (props) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('state in dev report details');
+  console.log('state in report details');
   console.log(state);
   const id = ownProps.match.params.id;
+  const url = ownProps.location;
+  //todo if caller was for complete reports, then read reports from complete. same for dev reports
   const reports = state.firestore.data.developmentreports;
   const report = reports ? reports[id] : null;
 
-  // const reportDownloads = state.firestore.data.developmentreports; //state.reportdownloads??
-  // const reportDownload = reportDownloads ? reportDownloads[id] : null;
   let reportDownload = null;
-  if (state.developmentReport != null) {
-    reportDownload = state.developmentReport.reportDownload;
+  if (state.report != null) {
+    reportDownload = state.report.reportDownload;
   }
-
 
   return {
     auth: state.firebase.auth,
@@ -71,9 +69,17 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    downloadDevReport: () => dispatch(downloadDevReport())
+    downloadReport: () => dispatch(downloadReport())
   }
 };
+
+function getCollectionUrl() {
+  if((window.location.href).includes('completed') ){
+    return 'completedreports'
+  } else if((window.location.href).includes('development') ){
+    return 'developmentreports'
+  }
+}
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
@@ -81,8 +87,8 @@ export default compose(
       {
         collection: 'company',
         doc: 'tala',
-        subcollections: [{ collection: 'developmentreports' }],
-        storeAs: 'developmentreports'
+        subcollections: [{ collection: getCollectionUrl() }],
+        storeAs: getCollectionUrl()
       }
     ])
-)(DevReportDetails)
+)(ReportDetails)

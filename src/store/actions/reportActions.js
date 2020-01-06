@@ -4,7 +4,7 @@ import firebase from 'firebase';
 const axios = require('axios');
 
 //this is not in use
-export const uploadDevelopmentReport = (file) => {
+export const uploadReport = (file) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     // const firebase = getFirebase;
     const storageRef = firebase.storage().ref();
@@ -49,16 +49,16 @@ export const uploadDevelopmentReport = (file) => {
           // Upload completed successfully, now we can get the download URL
           uploadTask.snapshot.ref.getDownloadURL().then(
               function (fileDownLoadUrl) {
-                dispatch({type: 'UPLOAD_DEVELOPMENT_REPORT_SUCCESS', fileDownLoadUrl
+                dispatch({type: 'UPLOAD_REPORT_SUCCESS', fileDownLoadUrl
                 });
               }).catch(err => {
-            dispatch({type: 'UPLOAD_DEVELOPMENT_REPORT_ERROR', err});
+            dispatch({type: 'UPLOAD_REPORT_ERROR', err});
           });
         });
   }
 };
 
-export const createDevelopmentReport = (report) => {
+export const createReport = (report) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     const profile = getState().firebase.profile;
@@ -66,21 +66,27 @@ export const createDevelopmentReport = (report) => {
 
     console.log("report");
     console.log(report);
-    firestore.collection(BASE_DOCUMENT + 'developmentreports').add({
+    let collectionUrl = '';
+    if(report.phase == 'development'){
+      collectionUrl = BASE_DOCUMENT + 'developmentreports'
+    } else if (report.phase == 'completed') {
+      collectionUrl = BASE_DOCUMENT + 'completedreports'
+    }
+    firestore.collection(collectionUrl).add({
       ...report,
       //just leaving this here to show possibility of using profile in an action. but this is not scalable. if the displayName ever gets updated, we'd need a cloud function which listens on the user collection for this user specifically, then updates everywhere.
       createdBy: profile.displayName,
       userId: userId,
       createdAt: new Date()
     }).then(() => {
-      dispatch({type: 'CREATE_DEVELOPMENT_REPORT_SUCCESS'});
+      dispatch({type: 'CREATE_REPORT_SUCCESS'});
     }).catch(err => {
-      dispatch({type: 'CREATE_DEVELOPMENT_REPORT_ERROR', err});
+      dispatch({type: 'CREATE_REPORT_ERROR', err});
     });
   }
 };
 
-export const downloadDevReport = (report) => {
+export const downloadReport = (report) => {
   console.log("REPORT 2");
   console.log(report);
   return (dispatch, getState) => {

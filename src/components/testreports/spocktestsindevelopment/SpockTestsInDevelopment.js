@@ -1,11 +1,12 @@
 import React from 'react'
-import Report from "../report/Report";
+import Report from "../Report";
 import {Link} from "react-router-dom";
 import {compose} from "redux";
 import moment from 'moment'
 import connect from "react-redux/es/connect/connect";
 import {Redirect} from 'react-router-dom'
 import {firestoreConnect} from "react-redux-firebase";
+
 
 const SpockTestsInDevelopment = (props) => {
   const { auth, reports } = props;
@@ -25,7 +26,7 @@ const SpockTestsInDevelopment = (props) => {
             { reports && reports.map(report => {
                 return (
                     <div>
-                      <Link to={'/dev-test-report/' + report.id} key={report.id}>
+                      <Link to={'/report/development/' + report.id} key={report.id}>
                         <Report
                             service={report.service}
                             title={report.title}
@@ -38,6 +39,11 @@ const SpockTestsInDevelopment = (props) => {
                 )
               }) }
           </div>
+
+          <Link to={'/upload-report'} >
+            <button >Create New Report</button>
+          </Link>
+
         </div>
 
   )

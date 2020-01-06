@@ -1,18 +1,20 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import firebase from 'firebase';
 import {Link} from 'react-router-dom';
-import {createDevelopmentReport} from "../../store/actions/developmentReportActions";
+import {createReport} from "../../store/actions/reportActions";
+import * as firebase from "firebase";
 
-class UploadReportInDevelopment extends Component { //todo authenticate this page
+class UploadReport extends Component { //todo authenticate this page
   storageRef = firebase.storage().ref();
 
   state = {
-    service: '',
-    type: '',
-    title: '',
+    phase : 'development',
+    service: 'loans',
+    type: 'endpoint',
+    title: 'Test Report Title',
     file: '',
-    fileDownLoadUrl: ''
+    fileDownLoadUrl: '',
+    uploadProgress: 0
   };
 
   handleChange = (e) => {
@@ -34,15 +36,19 @@ class UploadReportInDevelopment extends Component { //todo authenticate this pag
     var metadata = {
       contentType: 'text/html'
     };
+    //todo update the spock-reports child
+    //todo if uploading a dev report, upload to development-spock-reports child.
+    //todo if uploading a complete report, upload to completed-spock-reports
     var uploadTask = this.storageRef.child(
-        'development-spock-reports/' + state[e.target.file].name).put(
+        'spock-reports/' + state[e.target.file].name).put(
         state[e.target.file], metadata);
 
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
         function (snapshot) {
           var progress = (snapshot.bytesTransferred / snapshot.totalBytes)
               * 100;
-          console.log('Upload is ' + progress + '% done');
+          state.uploadProgress = progress;
+
           switch (snapshot.state) {
             case firebase.storage.TaskState.PAUSED:
               console.log('Upload is paused');
@@ -69,7 +75,7 @@ class UploadReportInDevelopment extends Component { //todo authenticate this pag
         }, function () {
           // Upload completed successfully, now we can get the download URL
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadUrl) {
-            state["fileDownLoadUrl"] = downloadUrl
+            state["fileDownLoadUrl"] = downloadUrl;
             context.setState(state);
             context.updateContextState(context)
           });
@@ -83,8 +89,9 @@ class UploadReportInDevelopment extends Component { //todo authenticate this pag
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {service, type, title, fileDownLoadUrl} = this.state;
+    const {phase, service, type, title, fileDownLoadUrl} = this.state;
     const report = {
+      phase,
       service,
       type,
       title,
@@ -95,7 +102,7 @@ class UploadReportInDevelopment extends Component { //todo authenticate this pag
   };
 
   render() {
-    const {service, type, title} = this.state;
+    const {phase, service, type, title, uploadProgress} = this.state;
     return (
         <div style={{marginLeft: "400px"}}>
           <div class="panel panel-default">
@@ -105,35 +112,58 @@ class UploadReportInDevelopment extends Component { //todo authenticate this pag
               </h3>
             </div>
             <div class="panel-body">
-              <h4><Link to="/" class="btn btn-primary">Upload Report for a test
-                in Development</Link></h4>
-              <div className="form-group">
-                <input type="file" name="file" onChange={this.handleFileSelected}
+              <h4>Upload Report for a complete test or a test in
+                development</h4>
+              <div>
+                <input type="file" name="file"
+                       onChange={this.handleFileSelected}
                        accept="html/*"/>
                 <button onClick={this.handleUploadFile}>Upload File</button>
               </div>
+
+              <span> Uploading report: % {uploadProgress} </span>
+
               <form onSubmit={this.handleSubmit}>
-                <div class="form-group">
-                  <label for="title">Service:</label>
-                  <input type="text" class="form-control" name="service"
-                         value={service} onChange={this.handleChange}
-                         placeholder="service"/>
+                <div>
+                  <label>
+                    Phase:
+                    <select name="phase" value={phase} onChange={this.handleChange}>
+                      <option value="development">Development</option>
+                      <option value="completed">Completed</option>
+                    </select>
+                  </label>
                 </div>
-                <div class="form-group">
-                  <label for="description">Report Type:</label>
-                  <textArea class="form-control" name="type"
-                            onChange={this.handleChange}
-                            placeholder="type"
-                            cols="80" rows="3">{type}</textArea>
+
+                <div>
+                  <label>
+                    Service:
+                    <select name="service" value={service} onChange={this.handleChange}>
+                      <option value="loans">Loans</option>
+                      <option value="rails">Rails</option>
+                      <option value="users">Users</option>
+                      <option value="auth">Auth</option>
+                      <option value="approval">Approval</option>
+                    </select>
+                  </label>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="description">Report Title:</label>
+
+                <div>
+                  <label>
+                    Report Type:
+                    <select name="type" value={type} onChange={this.handleChange}>
+                      <option value="feature">Feature</option>
+                      <option value="endpoint">Endpoint</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div >
+                  <label>Report Title:</label>
                   <textArea class="form-control" name="title"
-                            onChange={this.handleChange}
-                            placeholder="title"
-                            cols="80" rows="3">{title}</textArea>
+                            onChange={this.handleChange}>{title}</textArea>
                 </div>
-                <button type="submit" class="btn btn-success">Submit</button>
+
+                <button type="submit">Submit</button>
               </form>
             </div>
           </div>
@@ -145,8 +175,9 @@ class UploadReportInDevelopment extends Component { //todo authenticate this pag
 
 const mapDispatchToProps = dispatch => {
   return {
-    createDevelopmentReport: (report) => dispatch(createDevelopmentReport(report))
+    createDevelopmentReport: (report) => dispatch(
+        createReport(report))
   }
 };
 
-export default connect(null, mapDispatchToProps)(UploadReportInDevelopment);
+export default connect(null, mapDispatchToProps)(UploadReport);

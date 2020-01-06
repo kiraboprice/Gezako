@@ -3,23 +3,21 @@ import 'firebase/auth';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
 import Login from './components/login/Login';
-import CompletedSpockTests from './components/completedspocktests/CompletedSpockTests';
+import CompletedSpockTests from './components/testreports/completedspocktests/CompletedSpockTests';
 
 import './assets/fonts/fonts.css';
 import './App.css';
-import SpockTestsInDevelopment from './components/spocktestsindevelopment/SpockTestsInDevelopment';
-import DevReportDetails
-  from "./components/spocktestsindevelopment/DevReportDetails";
+import SpockTestsInDevelopment from './components/testreports/spocktestsindevelopment/SpockTestsInDevelopment';
 
 import Navigation from "./components/navigation/Navigation";
 import SidePanel from "./components/sidepanel/Sidepanel";
-import UploadReportInDevelopment from "./components/spocktestsindevelopment/UploadReportInDevelopment";
-import UploadCompletedReport from "./components/completedspocktests/UploadCompletedReport";
 import Tasks from "./components/tasks/Tasks";
 import CreateTask from "./components/tasks/CreateTask";
 
 import TaskDetails from "./components/tasks/TaskDetails";
 import { connect } from 'react-redux'
+import ReportDetails from "./components/testreports/ReportDetails";
+import UploadReport from "./components/testreports/UploadReport";
 
 
 class App extends Component {
@@ -37,13 +35,11 @@ class App extends Component {
             <SidePanel/>
             <Switch>
               <Route path='/login' component={Login}/>
-              <Route path='/upload-complete-report' component={UploadCompletedReport}/>
+              <Route path='/upload-report' component={UploadReport}/>
               <Route exact path='/' component={CompletedSpockTests}/>
-              {/*<Route path='/complete-test-report/:id' component={CompleteReportDetails}/>*/}
-
-              <Route path='/upload-dev-report' component={UploadReportInDevelopment}/>
+              <Route exact path='/report/completed/:id' component={ReportDetails}/>
               <Route path='/development' component={SpockTestsInDevelopment}/>
-              <Route path='/dev-test-report/:id' component={DevReportDetails}/>
+              <Route exact path='/report/development/:id' component={ReportDetails}/>
 
               <Route path='/create-task' component={CreateTask}/>
               <Route path='/tasks' component={Tasks}/>
