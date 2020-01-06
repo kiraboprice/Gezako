@@ -6,10 +6,10 @@ import {Link, Redirect} from 'react-router-dom'
 
 import './completedspockreports.css';
 
-import Report from "../report/Report";
 import {compose} from "redux";
 import {firestoreConnect} from "react-redux-firebase";
 import moment from "moment";
+import Report from "../Report";
 
 const CompletedSpockTests = (props) => {
   const {auth, reports} = props;
@@ -32,7 +32,7 @@ const CompletedSpockTests = (props) => {
                 return (
                     <div>
                       {/*<div key={index}>*/}
-                      <Link to={'/complete-test-report/' + report.id} key={report.id}>
+                      <Link to={'/report/' + report.id} key={report.id}>
                       <Report
                           service={report.service}
                           title={report.title}

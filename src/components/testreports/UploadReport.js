@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import firebase from 'firebase';
+// import firebase from '/firebase';
 import {Link} from 'react-router-dom';
 import {createDevelopmentReport} from "../../store/actions/developmentReportActions";
+import * as firebase from "firebase";
 
-class UploadReportInDevelopment extends Component { //todo authenticate this page
+class UploadReport extends Component { //todo authenticate this page
   storageRef = firebase.storage().ref();
 
   state = {
@@ -34,8 +35,11 @@ class UploadReportInDevelopment extends Component { //todo authenticate this pag
     var metadata = {
       contentType: 'text/html'
     };
+    //todo update the spock-reports child
+    //todo if uploading a dev report, upload to development-spock-reports child.
+    //todo if uploading a complete report, upload to completed-spock-reports
     var uploadTask = this.storageRef.child(
-        'development-spock-reports/' + state[e.target.file].name).put(
+        'spock-reports/' + state[e.target.file].name).put(
         state[e.target.file], metadata);
 
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
@@ -69,7 +73,7 @@ class UploadReportInDevelopment extends Component { //todo authenticate this pag
         }, function () {
           // Upload completed successfully, now we can get the download URL
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadUrl) {
-            state["fileDownLoadUrl"] = downloadUrl
+            state["fileDownLoadUrl"] = downloadUrl;
             context.setState(state);
             context.updateContextState(context)
           });
@@ -149,4 +153,4 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default connect(null, mapDispatchToProps)(UploadReportInDevelopment);
+export default connect(null, mapDispatchToProps)(UploadReport);

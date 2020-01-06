@@ -1,5 +1,5 @@
 import React from 'react'
-import Report from "../report/Report";
+import Report from "../Report";
 import {Link} from "react-router-dom";
 import {compose} from "redux";
 import moment from 'moment'
@@ -26,7 +26,7 @@ const SpockTestsInDevelopment = (props) => {
             { reports && reports.map(report => {
                 return (
                     <div>
-                      <Link to={'/dev-test-report/' + report.id} key={report.id}>
+                      <Link to={'/report/' + report.id} key={report.id}>
                         <Report
                             service={report.service}
                             title={report.title}

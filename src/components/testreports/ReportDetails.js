@@ -4,16 +4,14 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import moment from 'moment'
 import { Redirect } from 'react-router-dom'
-
 import {downloadDevReport} from "../../store/actions/developmentReportActions";
+import './reportdetails.css';
 
-import './devreports.css';
-
-const DevReportDetails = (props) => {
-  const { auth, report2, downloadDevReport, reportDownload} = props;
+const ReportDetails = (props) => {
+  const { auth, downloadDevReport, reportDownload} = props;
   if (!auth.uid) return <Redirect to='/login' />;
 
-  const report = {url: 'url'}
+  const report = {url: 'url'};
   if (report) {
     //download report
     console.log("REPORT 1");
@@ -85,4 +83,4 @@ export default compose(
         storeAs: 'developmentreports'
       }
     ])
-)(DevReportDetails)
+)(ReportDetails)
