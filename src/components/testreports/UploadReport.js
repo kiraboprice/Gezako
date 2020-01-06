@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-// import firebase from '/firebase';
 import {Link} from 'react-router-dom';
 import {createReport} from "../../store/actions/reportActions";
 import * as firebase from "firebase";
@@ -19,7 +18,6 @@ class UploadReport extends Component { //todo authenticate this page
   };
 
   handleChange = (e) => {
-    console.log([e.target.name] + e.target.value);
     this.setState({
       [e.target.name]: e.target.value
     });
