@@ -61,7 +61,6 @@ const mapStateToProps = (state, ownProps) => {
     reportDownload = state.report.reportDownload;
   }
 
-
   return {
     auth: state.firebase.auth,
     report: report,

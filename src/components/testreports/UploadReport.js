@@ -9,14 +9,16 @@ class UploadReport extends Component { //todo authenticate this page
   storageRef = firebase.storage().ref();
 
   state = {
-    service: '',
-    type: '',
-    title: '',
+    phase : 'development',
+    service: 'loans',
+    type: 'endpoint',
+    title: 'Test Report Title',
     file: '',
     fileDownLoadUrl: ''
   };
 
   handleChange = (e) => {
+    console.log([e.target.name] + e.target.value);
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -87,8 +89,9 @@ class UploadReport extends Component { //todo authenticate this page
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {service, type, title, fileDownLoadUrl} = this.state;
+    const {phase, service, type, title, fileDownLoadUrl} = this.state;
     const report = {
+      phase,
       service,
       type,
       title,
@@ -99,7 +102,7 @@ class UploadReport extends Component { //todo authenticate this page
   };
 
   render() {
-    const {service, type, title} = this.state;
+    const {phase, service, type, title} = this.state;
     return (
         <div style={{marginLeft: "400px"}}>
           <div class="panel panel-default">
@@ -119,15 +122,36 @@ class UploadReport extends Component { //todo authenticate this page
               </div>
               <form onSubmit={this.handleSubmit}>
                 <div>
-                  <label>Service:</label>
-                  <input type="text" name="service"
-                         value={service} onChange={this.handleChange}/>
+                  <label>
+                    Phase:
+                    <select name="phase" value={phase} onChange={this.handleChange}>
+                      <option value="development">Development</option>
+                      <option value="completed">Completed</option>
+                    </select>
+                  </label>
                 </div>
 
                 <div>
-                  <label>Report Type:</label>
-                  <textArea name="type"
-                            onChange={this.handleChange}>{type}</textArea>
+                  <label>
+                    Service:
+                    <select name="service" value={service} onChange={this.handleChange}>
+                      <option value="loans">Loans</option>
+                      <option value="rails">Rails</option>
+                      <option value="users">Users</option>
+                      <option value="auth">Auth</option>
+                      <option value="approval">Approval</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div>
+                  <label>
+                    Report Type:
+                    <select name="type" value={type} onChange={this.handleChange}>
+                      <option value="feature">Feature</option>
+                      <option value="endpoint">Endpoint</option>
+                    </select>
+                  </label>
                 </div>
 
                 <div >
