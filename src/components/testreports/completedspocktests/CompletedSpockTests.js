@@ -76,6 +76,11 @@ const CompletedSpockTests = (props) => {
             }
 
           </div>
+
+          <Link to={'/upload-report'} >
+            <button >Create New Report</button>
+          </Link>
+
         </div>
       </div>
   )
