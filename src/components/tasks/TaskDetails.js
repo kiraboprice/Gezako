@@ -45,7 +45,12 @@ const mapStateToProps = (state, ownProps) => {
 
 export default compose(
     connect(mapStateToProps),
-    firestoreConnect([{
-      collection: 'tasks'
-    }])
+    firestoreConnect([
+      {
+        collection: 'company',
+        doc: 'tala',
+        subcollections: [{ collection: 'tasks' }],
+        storeAs: 'tasks'
+      }
+    ])
 )(TaskDetails)

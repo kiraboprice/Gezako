@@ -4,20 +4,21 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import moment from 'moment'
 import { Redirect } from 'react-router-dom'
-import {downloadReport} from "../../store/actions/reportActions";
+import { downloadReport } from "../../store/actions/reportActions";
 
 import './reportdetails.css';
 
+const collectionUrl = getCollectionUrl();
+
 const ReportDetails = (props) => {
-  const { auth, downloadReport, reportDownload} = props;
+  const { auth, report, downloadReport, reportDownload} = props;
   if (!auth.uid) return <Redirect to='/login' />;
 
-  const report = {url: 'url'};
   if (report) {
-    //download report
-    console.log("REPORT 1");
+    console.log("Report Sent");
     console.log(report);
     downloadReport(report);
+    // downloadReport({url: 'url'});
 
     var htmlDoc = {__html: reportDownload};
 
@@ -50,9 +51,10 @@ const mapStateToProps = (state, ownProps) => {
   console.log('state in report details');
   console.log(state);
   const id = ownProps.match.params.id;
-  const url = ownProps.location;
-  //todo if caller was for complete reports, then read reports from complete. same for dev reports
-  const reports = state.firestore.data.developmentreports;
+  const reports =  getCollectionUrl() == 'completedreports'
+      ?state.firestore.data.completedreports
+      :state.firestore.data.developmentreports;
+
   const report = reports ? reports[id] : null;
 
   let reportDownload = null;
@@ -73,7 +75,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-function getCollectionUrl() {
+function getCollectionUrl(){
   if((window.location.href).includes('completed') ){
     return 'completedreports'
   } else if((window.location.href).includes('development') ){
@@ -87,8 +89,8 @@ export default compose(
       {
         collection: 'company',
         doc: 'tala',
-        subcollections: [{ collection: getCollectionUrl() }],
-        storeAs: getCollectionUrl()
+        subcollections: [{ collection: collectionUrl}],
+        storeAs: collectionUrl
       }
     ])
 )(ReportDetails)

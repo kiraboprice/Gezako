@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom';
+import { Redirect } from 'react-router-dom'
 import {createReport} from "../../store/actions/reportActions";
 import * as firebase from "firebase";
 
-class UploadReport extends Component { //todo authenticate this page
+class UploadReport extends Component {
   storageRef = firebase.storage().ref();
 
   state = {
@@ -98,11 +98,18 @@ class UploadReport extends Component { //todo authenticate this page
       fileDownLoadUrl
     };
     this.props.createDevelopmentReport(report);
-    this.props.history.push('/development');
+
+    if(phase == 'development') {
+      this.props.history.push('/development');
+    } else if(phase == 'completed') {
+      this.props.history.push('/');
+    }
   };
 
   render() {
     const {phase, service, type, title, uploadProgress} = this.state;
+    const { auth } = this.props;
+    if (!auth.uid) return <Redirect to='/login' />;
     return (
         <div style={{marginLeft: "400px"}}>
           <div class="panel panel-default">
@@ -173,11 +180,17 @@ class UploadReport extends Component { //todo authenticate this page
 
 }
 
-const mapDispatchToProps = dispatch => {
+
+const mapStateToProps = (state) => {
   return {
-    createDevelopmentReport: (report) => dispatch(
-        createReport(report))
+    auth: state.firebase.auth,
   }
 };
 
-export default connect(null, mapDispatchToProps)(UploadReport);
+const mapDispatchToProps = dispatch => {
+  return {
+    createDevelopmentReport: (report) => dispatch(createReport(report))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UploadReport);

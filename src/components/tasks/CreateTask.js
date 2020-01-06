@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createTask } from '../../store/actions/taskActions'
+import { Redirect } from 'react-router-dom'
 
 import './tasks.css';
 
-class CreateTask extends Component { //todo authenticate this page
+class CreateTask extends Component {
   state = {
     title: '',
     content: ''
@@ -20,6 +21,8 @@ class CreateTask extends Component { //todo authenticate this page
     this.props.history.push('/tasks');
   };
   render() {
+    const { auth } = this.props;
+    if (!auth.uid) return <Redirect to='/login' />;
     return (
       <div id='tasks-section'>
         <form onSubmit={this.handleSubmit}>
@@ -41,10 +44,16 @@ class CreateTask extends Component { //todo authenticate this page
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+  }
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     createTask: (task) => dispatch(createTask(task))
   }
 };
 
-export default connect(null, mapDispatchToProps)(CreateTask)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTask)

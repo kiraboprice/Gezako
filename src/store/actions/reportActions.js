@@ -87,9 +87,9 @@ export const createReport = (report) => {
 };
 
 export const downloadReport = (report) => {
-  console.log("REPORT 2");
-  console.log(report);
   return (dispatch, getState) => {
+    console.log("Report Received");
+    console.log(report);
     // axios.get(report.fileDownLoadUrl) //todo PUT THIS BACK
     axios.get("https://firebasestorage.googleapis.com/v0/b/gezako-8a7aa.appspot.com/o/reports%2Fco.tala.acceptance.features.ReversalsSpec.html?alt=media&token=3c149732-e81b-4288-9188-849a008300f8")
     .then((reportDownload) =>  {

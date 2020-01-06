@@ -18,6 +18,7 @@ import TaskDetails from "./components/tasks/TaskDetails";
 import { connect } from 'react-redux'
 import ReportDetails from "./components/testreports/ReportDetails";
 import UploadReport from "./components/testreports/UploadReport";
+import PerformanceTests from "./components/perfomance/PerformanceTests";
 
 
 class App extends Component {
@@ -38,6 +39,8 @@ class App extends Component {
               <Route exact path='/report/completed/:id' component={ReportDetails}/>
               <Route path='/development' component={SpockTestsInDevelopment}/>
               <Route exact path='/report/development/:id' component={ReportDetails}/>
+
+              <Route path='/performance' component={PerformanceTests}/>
 
               <Route path='/create-task' component={CreateTask}/>
               <Route path='/tasks' component={Tasks}/>
