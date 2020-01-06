@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import {createReport} from "../../store/actions/reportActions";
 import * as firebase from "firebase";
 
-class UploadReport extends Component { //todo authenticate this page
+class UploadReport extends Component {
   storageRef = firebase.storage().ref();
 
   state = {
@@ -106,7 +107,8 @@ class UploadReport extends Component { //todo authenticate this page
   };
 
   render() {
-    const {phase, service, type, title, uploadProgress} = this.state;
+    const {auth, phase, service, type, title, uploadProgress} = this.state;
+    if (!auth.uid) return <Redirect to='/login' />;
     return (
         <div style={{marginLeft: "400px"}}>
           <div class="panel panel-default">
@@ -177,6 +179,13 @@ class UploadReport extends Component { //todo authenticate this page
 
 }
 
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+  }
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     createDevelopmentReport: (report) => dispatch(
@@ -184,4 +193,4 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default connect(null, mapDispatchToProps)(UploadReport);
+export default connect(mapStateToProps, mapDispatchToProps)(UploadReport);
