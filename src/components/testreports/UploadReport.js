@@ -97,7 +97,7 @@ class UploadReport extends Component {
       title,
       fileDownLoadUrl
     };
-    this.props.createDevelopmentReport(report);
+    this.props.createReport(report);
 
     if(phase == 'development') {
       this.props.history.push('/development');
@@ -180,7 +180,6 @@ class UploadReport extends Component {
 
 }
 
-
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
@@ -189,7 +188,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createDevelopmentReport: (report) => dispatch(createReport(report))
+    createReport: (report) => dispatch(createReport(report))
   }
 };
 

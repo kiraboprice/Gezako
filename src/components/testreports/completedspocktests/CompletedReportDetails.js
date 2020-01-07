@@ -19,8 +19,8 @@ const CompleteReportDetails = (props) => {
   if (report) {
     console.log("Report Sent");
     console.log(report);
-    downloadReport(report);
-    // downloadReport({url: 'url'});
+    // downloadReport(report);
+    downloadReport({url: 'url'});
 
     var htmlDoc = {__html: reportDownload};
 
@@ -50,8 +50,8 @@ const CompleteReportDetails = (props) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('state in report details');
-  console.log(state);
+  // console.log('state in report details');
+  // console.log(state);
   const id = ownProps.match.params.id;
   const reports =  state.firestore.data.completedreports;
 
@@ -69,20 +69,22 @@ const mapStateToProps = (state, ownProps) => {
   }
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    downloadReport: () => dispatch(downloadReport())
+    downloadReport: (...report) => dispatch(downloadReport(report))
   }
 };
 
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect([
-      {
-        collection: 'company',
-        doc: 'tala',
-        subcollections: [{ collection: 'completedreports'}],
-        storeAs: 'completedreports'
-      }
-    ])
-)(CompleteReportDetails)
+// export default compose(
+//     connect(mapStateToProps, mapDispatchToProps),
+//     firestoreConnect([
+//       {
+//         collection: 'company',
+//         doc: 'tala',
+//         subcollections: [{ collection: 'completedreports'}],
+//         storeAs: 'completedreports'
+//       }
+//     ])
+// )(CompleteReportDetails)
+
+export default connect(mapStateToProps, mapDispatchToProps)(CompleteReportDetails)
