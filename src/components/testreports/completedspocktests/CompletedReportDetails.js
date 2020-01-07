@@ -17,10 +17,7 @@ const CompleteReportDetails = (props) => {
   if (!auth.uid) return <Redirect to='/login' />;
 
   if (report) {
-    console.log("Report Sent");
-    console.log(report);
-    // downloadReport(report);
-    downloadReport({url: 'url'});
+    downloadReport(report);
 
     var htmlDoc = {__html: reportDownload};
 
@@ -71,20 +68,18 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    downloadReport: (...report) => dispatch(downloadReport(report))
+    downloadReport: (report) => dispatch(downloadReport(report))
   }
 };
 
-// export default compose(
-//     connect(mapStateToProps, mapDispatchToProps),
-//     firestoreConnect([
-//       {
-//         collection: 'company',
-//         doc: 'tala',
-//         subcollections: [{ collection: 'completedreports'}],
-//         storeAs: 'completedreports'
-//       }
-//     ])
-// )(CompleteReportDetails)
-
-export default connect(mapStateToProps, mapDispatchToProps)(CompleteReportDetails)
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    firestoreConnect([
+      {
+        collection: 'company',
+        doc: 'tala',
+        subcollections: [{ collection: 'completedreports'}],
+        storeAs: 'completedreports'
+      }
+    ])
+)(CompleteReportDetails)
