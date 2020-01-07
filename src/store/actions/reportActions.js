@@ -63,9 +63,6 @@ export const createReport = (report) => {
     const firestore = getFirestore();
     const profile = getState().firebase.profile;
     const userId = getState().firebase.auth.uid;
-
-    console.log("report");
-    console.log(report);
     let collectionUrl = '';
     if(report.phase == 'development'){
       collectionUrl = BASE_DOCUMENT + 'developmentreports'
@@ -87,11 +84,8 @@ export const createReport = (report) => {
 };
 
 export const downloadReport = (report) => {
-  return (dispatch, getState) => {
-    console.log("Report Received");
-    console.log(report);
-    // axios.get(report.fileDownLoadUrl) //todo PUT THIS BACK
-    axios.get("https://firebasestorage.googleapis.com/v0/b/gezako-8a7aa.appspot.com/o/reports%2Fco.tala.acceptance.features.ReversalsSpec.html?alt=media&token=3c149732-e81b-4288-9188-849a008300f8")
+  return (dispatch) => {
+    axios.get(report.fileDownLoadUrl)
     .then((reportDownload) =>  {
       dispatch({type: 'DOWNLOAD_REPORT_SUCCESS', report: report, reportDownload: reportDownload.data});
     })

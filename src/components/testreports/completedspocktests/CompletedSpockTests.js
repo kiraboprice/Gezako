@@ -69,7 +69,7 @@ const CompletedSpockTests = (props) => {
               return (
                   <div>
                     {/*<div key={index}>*/}
-                    <Link to={'/report/complete/' + report.id} key={report.id}>
+                    <Link to={'/report/completed/' + report.id} key={report.id}>
                       <Report
                           service={report.service}
                           title={report.title}

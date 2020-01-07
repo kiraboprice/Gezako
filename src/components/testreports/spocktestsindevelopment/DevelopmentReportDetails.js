@@ -17,8 +17,6 @@ const DevelopmentReportDetails = (props) => {
   if (!auth.uid) return <Redirect to='/login' />;
 
   if (report) {
-    console.log("Report Sent");
-    console.log(report);
     downloadReport(report);
 
     var htmlDoc = {__html: reportDownload};
@@ -49,8 +47,6 @@ const DevelopmentReportDetails = (props) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('state in report details');
-  console.log(state);
   const id = ownProps.match.params.id;
   const reports =  state.firestore.data.developmentreports;
 
@@ -70,7 +66,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    downloadReport: () => dispatch(downloadReport())
+    downloadReport: (report) => dispatch(downloadReport(report))
   }
 };
 
