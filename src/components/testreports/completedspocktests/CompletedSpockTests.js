@@ -35,7 +35,6 @@ const CompletedSpockTests = (props) => {
               <div id='head'>Title</div>
               <div id='head'>Uploaded At</div>
               <div id='head-end'>Uploaded At</div>
-              <div id='head-end'>Uploaded By</div>
             </div>
             { featureReports && featureReports.map(report => { //todo add the index back here!
                 return (

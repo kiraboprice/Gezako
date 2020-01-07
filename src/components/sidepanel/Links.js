@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-export default class Links  extends React.PureComponent{
+export default class Links  extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -21,7 +21,9 @@ export default class Links  extends React.PureComponent{
                         this.state.expand === '+' ? 
                         this.setState({expand: '-', expanded: true}) : this.setState({expand: '+', expanded: false})
                     }
-                }>{this.props.haslinks && this.props.isHovered ? this.state.expand : null}</span>
+                }>
+                  {this.props.haslinks && this.props.isHovered ? this.state.expand : null}
+                  </span>
 
                 {
                     this.props.haslinks ?

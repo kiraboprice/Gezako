@@ -35,7 +35,9 @@ class App extends Component {
             <Switch>
               <Route path='/login' component={Login}/>
               <Route path='/upload-report' component={UploadReport}/>
+              {/*we'll have a proper home screen later on. for now, redirect to loans page*/}
               <Route exact path='/' component={CompletedSpockTests}/>
+              <Route exact path='/completed/loans' component={CompletedSpockTests}/>
               <Route exact path='/report/completed/:id' component={ReportDetails}/>
               <Route path='/development' component={SpockTestsInDevelopment}/>
               <Route exact path='/report/development/:id' component={ReportDetails}/>
