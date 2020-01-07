@@ -19,6 +19,8 @@ import { connect } from 'react-redux'
 import ReportDetails from "./components/testreports/ReportDetails";
 import UploadReport from "./components/testreports/UploadReport";
 import PerformanceTests from "./components/perfomance/PerformanceTests";
+import CompletedReportDetails from "./components/testreports/completedspocktests/CompletedReportDetails";
+import DevelopmentReportDetails from "./components/testreports/spocktestsindevelopment/DevelopmentReportDetails";
 
 
 class App extends Component {
@@ -38,9 +40,17 @@ class App extends Component {
               {/*we'll have a proper home screen later on. for now, redirect to loans page*/}
               <Route exact path='/' component={CompletedSpockTests}/>
               <Route exact path='/completed/loans' component={CompletedSpockTests}/>
-              <Route exact path='/report/completed/:id' component={ReportDetails}/>
+
+              {/*<Route*/}
+                  {/*exact path='/report/completed/:id'*/}
+                  {/*render={(props) => <ReportDetails {...props} collectionUrl='completedreports' />}/>*/}
+
+              <Route exact path='/report/completed/:id' component ={CompletedReportDetails}/>
+
               <Route path='/development' component={SpockTestsInDevelopment}/>
-              <Route exact path='/report/development/:id' component={ReportDetails}/>
+              {/*<Route exact path='/report/development/:id'*/}
+                     {/*render={(props) => <ReportDetails {...props} collectionUrl='developmentreports' />}/>*/}
+              <Route exact path='/report/development/:id' component ={DevelopmentReportDetails}/>
 
               <Route path='/performance' component={PerformanceTests}/>
 

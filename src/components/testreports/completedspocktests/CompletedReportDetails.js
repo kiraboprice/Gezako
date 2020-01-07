@@ -4,29 +4,17 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import moment from 'moment'
 import { Redirect } from 'react-router-dom'
-import { downloadReport } from "../../store/actions/reportActions";
+import {downloadReport} from "../../../store/actions/reportActions";
 
-import './reportdetails.css';
+import '../../testreports/reportdetails.css';
 
 /**
- * NOTE: Couldnt get the correct collectionUrl to use with firestoreConnect. Created two different classes instead:
- * CompleteReportDetails and DevelopmentReportDetails. Will revisit this later!
+ * NOTE: Refactor so we can only use one ReportDetails class
  */
 
-let collectionUrl = getCollectionUrl();
-const ReportDetails = (props) => {
-  // if((window.location.href).includes('completed') ){
-  //   collectionUrl = 'completedreports'
-  // } else if((window.location.href).includes('development') ){
-  //   collectionUrl = 'developmentreports'
-  // }
-  const { collectionUrlProp, auth, report, downloadReport, reportDownload} = props;
+const CompleteReportDetails = (props) => {
+  const {auth, report, downloadReport, reportDownload} = props;
   if (!auth.uid) return <Redirect to='/login' />;
-
-  collectionUrl = collectionUrlProp;
-
-  console.log('in ReportDetails');
-  console.log(collectionUrl);
 
   if (report) {
     console.log("Report Sent");
@@ -65,9 +53,7 @@ const mapStateToProps = (state, ownProps) => {
   console.log('state in report details');
   console.log(state);
   const id = ownProps.match.params.id;
-  const reports =  getCollectionUrl() == 'completedreports'
-      ?state.firestore.data.completedreports
-      :state.firestore.data.developmentreports;
+  const reports =  state.firestore.data.completedreports;
 
   const report = reports ? reports[id] : null;
 
@@ -89,22 +75,14 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-function getCollectionUrl(){
-  if((window.location.href).includes('completed') ){
-    return 'completedreports'
-  } else if((window.location.href).includes('development') ){
-    return 'developmentreports'
-  }
-}
-
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
       {
         collection: 'company',
         doc: 'tala',
-        subcollections: [{ collection: collectionUrl}],
-        storeAs: collectionUrl
+        subcollections: [{ collection: 'completedreports'}],
+        storeAs: 'completedreports'
       }
     ])
-)(ReportDetails)
+)(CompleteReportDetails)
