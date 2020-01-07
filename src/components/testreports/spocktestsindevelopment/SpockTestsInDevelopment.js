@@ -20,7 +20,6 @@ const SpockTestsInDevelopment = (props) => {
           </Link>
 
           <div id='features-reports'>
-            <h4>Tests for reports in Development</h4>
             <div id='headers'>
               {/* TODO Upgrade Headers so that it is more scalable */}
               <div id='head-start' className='service'>Service</div>
