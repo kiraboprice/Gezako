@@ -85,9 +85,6 @@ export const createReport = (report) => {
 
 export const getReport = (id, phase) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
-    console.log('report DETAILS')
-    console.log(id)
-    console.log(phase)
     const firestore = getFirestore();
     let collectionUrl = '';
     if(phase == 'development'){
@@ -95,7 +92,7 @@ export const getReport = (id, phase) => {
     } else if (phase == 'completed') {
       collectionUrl = BASE_DOCUMENT + 'completedreports'
     }
-    firestore.collection(collectionUrl).doc(id).get() //todo update this to onSnapshot so that we have data in sync with the db
+    firestore.collection(collectionUrl).doc(id).get()
     .then((doc) => {
       if (!doc.exists) {
         dispatch({type: 'GET_REPORT_ERROR_NOT_EXISTS'});
@@ -108,16 +105,20 @@ export const getReport = (id, phase) => {
   }
 };
 
-export const updateReport = (report) => {
+export const updateReport = (id, phase, report) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     let collectionUrl = '';
-    if(report.phase == 'development'){
+    if(phase == 'development'){
       collectionUrl = BASE_DOCUMENT + 'developmentreports'
-    } else if (report.phase == 'completed') {
+    } else if (phase == 'completed') {
       collectionUrl = BASE_DOCUMENT + 'completedreports'
     }
-    firestore.collection(collectionUrl).doc(report.id).set({
+
+    console.log('updateReport action ');
+    console.log(report.fileDownLoadUrl);
+
+    firestore.collection(collectionUrl).doc(id).update({
       fileDownLoadUrl: report.fileDownLoadUrl,
       updatedAt: new Date()
     }).then(() => {
@@ -125,6 +126,12 @@ export const updateReport = (report) => {
     }).catch(err => {
       dispatch({type: 'UPDATE_REPORT_ERROR', err});
     });
+  }
+};
+
+export const resetState = () => {
+  return (dispatch, getState) => {
+    dispatch({type: 'RESET_STATE_SUCCESS'});
   }
 };
 

@@ -23,7 +23,7 @@ const reportReducer = (state = initState, action) => {
       return state;
 
     case 'GET_REPORT_SUCCESS':
-      console.log('GET_REPORT_SUCCESS', action.report);
+      // console.log('GET_REPORT_SUCCESS', action.report);
       return {
         ...state,
         report: action.report
@@ -54,6 +54,14 @@ const reportReducer = (state = initState, action) => {
     case 'DOWNLOAD_REPORT_ERROR':
       console.log('DOWNLOAD_REPORT_ERROR', action.err);
       return state;
+
+
+    case 'RESET_STATE_SUCCESS':
+      // console.log('RESET_STATE_SUCCESS');
+      return {
+        ...state,
+        report: null
+      };
 
     default:
       return state;

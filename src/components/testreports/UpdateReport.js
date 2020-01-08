@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import {createReport, getReport} from "../../store/actions/reportActions";
+import {getReport, updateReport, resetState} from "../../store/actions/reportActions";
 import * as firebase from "firebase";
 import {BASE_DOCUMENT} from "../../constants/Constants";
 
@@ -17,6 +17,23 @@ class UpdateReport extends Component {
     fileDownLoadUrl: '',
     uploadProgress: 0
   };
+
+  componentWillMount() {
+    const id = this.props.match.params.id;
+    const pathName = this.props.location.pathname;
+    let phase;
+    if(pathName.includes('development')){
+      phase = 'development'
+    } else if (pathName.includes('completed')) {
+      phase = 'completed'
+    }
+
+    this.setState({id: id, phase: phase});
+  }
+
+  componentWillUnmount() {
+    resetState(); //todo I dont think this is working hahaha
+  }
 
   handleChange = (e) => {
     this.setState({
@@ -84,17 +101,22 @@ class UpdateReport extends Component {
     this.state = context.state
   }
 
-  handleSubmit = (e) => {
+  handleUpdate = (e) => {
     e.preventDefault();
-    const {phase, service, type, title, fileDownLoadUrl} = this.state;
+    const {id, phase, service, type, title, fileDownLoadUrl} = this.state;
     const report = {
-      phase,
-      service,
-      type,
-      title,
+      // phase,
+      // service,
+      // type,
+      // title,
       fileDownLoadUrl
     };
-    // this.props.updateReport(report);
+
+    console.log('updateReport');
+    console.log(report);
+    this.props.updateReport(id, phase, report);
+
+    //todo add a cloud function which deletes the previous report from cloud storage
 
     if(phase == 'development') {
       this.props.history.push('/development');
@@ -104,19 +126,10 @@ class UpdateReport extends Component {
   };
 
   render() {
-    const { uploadProgress} = this.state;
+    const { id, phase, uploadProgress} = this.state;
     const { auth, getReport, report } = this.props;
     if (!auth.uid) return <Redirect to='/login' />;
-
-    const id = this.props.match.params.id;
-    const pathName = this.props.location.pathname;
-    let phase;
-    if(pathName.includes('development')){
-      phase = 'development'
-    } else if (pathName.includes('completed')) {
-      phase = 'completed'
-    }
-
+    
     getReport(id, phase);
     let { service, type, title } = '';
     if (report!= null) {
@@ -144,7 +157,7 @@ class UpdateReport extends Component {
 
               <span> Uploading report: % {uploadProgress} </span>
 
-              <form onSubmit={this.handleSubmit}>
+              <form onSubmit={this.handleUpdate}>
                 <div>
                   <label>Phase: {phase}</label>
                 </div>
@@ -157,7 +170,7 @@ class UpdateReport extends Component {
                 <div>
                   <label>Title: {title}</label>
                 </div>
-                <button type="submit">Submit</button>
+                <button type="submit">Update</button>
               </form>
             </div>
           </div>
@@ -168,8 +181,8 @@ class UpdateReport extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log('state in update report');
-  console.log(state);
+  // console.log('state in update report');
+  // console.log(state);
   let report = null;
   if (state.report != null) {
     report = state.report.report;
@@ -182,7 +195,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getReport: (id, phase) => dispatch(getReport(id, phase))
+    getReport: (id, phase) => dispatch(getReport(id, phase)),
+    updateReport: (id, phase, report) => dispatch(updateReport(id, phase, report)),
+    resetState: () => dispatch(resetState())
   }
 };
 

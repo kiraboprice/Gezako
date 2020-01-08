@@ -4,6 +4,9 @@
     line-height: 2.2em;
 }
 
+#createdAt{
+    margin-right: 60px;
+}
 #service{
     flex: 1;
     transition: all ease-in-out 400ms;

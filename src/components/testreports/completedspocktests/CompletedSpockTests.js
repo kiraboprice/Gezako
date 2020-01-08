@@ -34,7 +34,7 @@ const CompletedSpockTests = (props) => {
               <div id='head-start' className='service'>Service</div>
               <div id='head'>Title</div>
               <div id='head'>Uploaded At</div>
-              <div id='head-end'>Uploaded At</div>
+              <div id='head-end'>Uploaded By</div>
             </div>
             { featureReports && featureReports.map(report => { //todo add the index back here!
                 return (
@@ -45,7 +45,7 @@ const CompletedSpockTests = (props) => {
                           service={report.service}
                           title={report.title}
                           createdAt={moment(report.createdAt.toDate()).calendar()}
-                          createdBy={report.createdBy}
+                          createdBy={report.createdBy.split(' ').slice(0, -1).join(' ')}
                       />
                       </Link>
                       <hr></hr>
@@ -62,7 +62,6 @@ const CompletedSpockTests = (props) => {
               <div id='head-start' className='service'>Service</div>
               <div id='head'>Title</div>
               <div id='head'>Uploaded At</div>
-              <div id='head-end'>Uploaded At</div>
               <div id='head-end'>Uploaded By</div>
             </div>
             { endpointReports && endpointReports.map(report => { //todo add the index back here!
@@ -74,7 +73,7 @@ const CompletedSpockTests = (props) => {
                           service={report.service}
                           title={report.title}
                           createdAt={moment(report.createdAt.toDate()).calendar()}
-                          createdBy={report.createdBy}
+                          createdBy={report.createdBy.split(' ').slice(0, -1).join(' ')}
                       />
                     </Link>
                     <hr></hr>
