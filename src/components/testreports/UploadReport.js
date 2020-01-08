@@ -111,12 +111,9 @@ class UploadReport extends Component {
     const { auth } = this.props;
     if (!auth.uid) return <Redirect to='/login' />;
     return (
-        <div style={{marginLeft: "400px"}}>
+        <div style={{marginLeft: "500px", marginTop: "100px"}}>
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">
-                Upload Spock Report
-              </h3>
             </div>
             <div class="panel-body">
               <h4>Upload Report for a complete test or a test in

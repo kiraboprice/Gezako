@@ -140,7 +140,7 @@ class UpdateReport extends Component {
 
 
     return (
-        <div style={{marginLeft: "400px", marginTop: "100px"}}>
+        <div style={{marginLeft: "500px", marginTop: "100px"}}>
           <div >
             <div >
               <h3 >

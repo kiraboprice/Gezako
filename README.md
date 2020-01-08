@@ -28,7 +28,7 @@ to prod, branch off master and create a new release branch with format release-1
 - update the firebase config in fbConfig.js to point to prod config
 
 - build the project 
-`npm run build`
+`sudo npm run build`
 - deploy the project 
 `firebase deploy -P gezako-8a7aa`
 

@@ -27,9 +27,9 @@ const CompleteReportDetails = (props) => {
         <div id='report-details-section'>
           <div >
             <div >
-              <span >{report.reportTitle}</span>
-              <p>{report.reportType}</p>
-              <p>{report.service}</p>
+              <span >{report.title}</span>
+              <p>Type: {report.type}</p>
+              <p>Service: {report.service}</p>
             </div>
             <div >
               <div>Uploaded by {report.createdBy}</div>
