@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import moment from 'moment'
-import { Redirect } from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import {downloadReport} from "../../../store/actions/reportActions";
 
 import '../../testreports/reportdetails.css';
@@ -15,6 +15,8 @@ import '../../testreports/reportdetails.css';
 const CompleteReportDetails = (props) => {
   const {auth, report, downloadReport, reportDownload} = props;
   if (!auth.uid) return <Redirect to='/login' />;
+
+  const id = props.match.params.id;
 
   if (report) {
     downloadReport(report);
@@ -32,6 +34,11 @@ const CompleteReportDetails = (props) => {
             <div >
               <div>Uploaded by {report.createdBy}</div>
               <div>{moment(report.createdAt.toDate()).calendar()}</div>
+
+              <Link to={'/completed/update-report/' + id} >
+                <button >Update Report</button>
+              </Link>
+
               <div dangerouslySetInnerHTML= {htmlDoc} />
             </div>
           </div>

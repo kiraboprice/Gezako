@@ -35,7 +35,7 @@ const SpockTestsInDevelopment = (props) => {
                             service={report.service}
                             title={report.title}
                             createdAt={moment(report.createdAt.toDate()).calendar()}
-                            createdBy={report.createdBy}
+                            createdBy={report.createdBy.split(' ').slice(0, -1).join(' ')}
                         />
                       </Link>
                       <hr></hr>

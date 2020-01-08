@@ -83,6 +83,58 @@ export const createReport = (report) => {
   }
 };
 
+export const getReport = (id, phase) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    let collectionUrl = '';
+    if(phase == 'development'){
+      collectionUrl = BASE_DOCUMENT + 'developmentreports'
+    } else if (phase == 'completed') {
+      collectionUrl = BASE_DOCUMENT + 'completedreports'
+    }
+    firestore.collection(collectionUrl).doc(id).get()
+    .then((doc) => {
+      if (!doc.exists) {
+        dispatch({type: 'GET_REPORT_ERROR_NOT_EXISTS'});
+      } else {
+        dispatch({type: 'GET_REPORT_SUCCESS', report: doc.data()});
+      }
+    }).catch(err => {
+      dispatch({type: 'GET_REPORT_ERROR', err});
+    });
+  }
+};
+
+export const updateReport = (id, phase, report) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    let collectionUrl = '';
+    if(phase == 'development'){
+      collectionUrl = BASE_DOCUMENT + 'developmentreports'
+    } else if (phase == 'completed') {
+      collectionUrl = BASE_DOCUMENT + 'completedreports'
+    }
+
+    console.log('updateReport action ');
+    console.log(report.fileDownLoadUrl);
+
+    firestore.collection(collectionUrl).doc(id).update({
+      fileDownLoadUrl: report.fileDownLoadUrl,
+      updatedAt: new Date()
+    }).then(() => {
+      dispatch({type: 'UPDATE_REPORT_SUCCESS'});
+    }).catch(err => {
+      dispatch({type: 'UPDATE_REPORT_ERROR', err});
+    });
+  }
+};
+
+export const resetState = () => {
+  return (dispatch, getState) => {
+    dispatch({type: 'RESET_STATE_SUCCESS'});
+  }
+};
+
 export const downloadReport = (report) => {
   return (dispatch) => {
     axios.get(report.fileDownLoadUrl)
