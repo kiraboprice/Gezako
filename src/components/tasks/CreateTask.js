@@ -26,14 +26,14 @@ class CreateTask extends Component {
     return (
       <div id='tasks-section'>
         <form onSubmit={this.handleSubmit}>
-          <h5 >Create a New Task</h5>
-          <div >
-            <input type="text" name='title' onChange={this.handleChange} />
+          <h3 >Create a New Task</h3>
+          <div id="display-content" style={{marginTop: "25px"}}>
             <label htmlFor="title">Task Title</label>
+            <input type="text" name='title' onChange={this.handleChange} />
           </div>
-          <div >
-            <input type="text" name='content' onChange={this.handleChange} />
+          <div id="display-content">
             <label htmlFor="content">Task Content</label>
+            <input type="text" name='content' onChange={this.handleChange} />
           </div>
           <div >
             <button >Create</button>

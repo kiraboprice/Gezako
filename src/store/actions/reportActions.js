@@ -1,7 +1,7 @@
 import {BASE_DOCUMENT} from "../../constants/Constants";
 import firebase from 'firebase';
 
-const axios = require('axios');
+import axios from 'axios';
 
 //this is not in use
 export const uploadReport = (file) => {

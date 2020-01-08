@@ -9,6 +9,16 @@
     transition: all ease-in-out 400ms;
 }
 
+#reports-section button{
+    outline: 0;
+    cursor: pointer;
+    border: 0;
+    padding: 10px;
+    border-radius: 2.5px;
+    margin-bottom: 15px;
+    background: #f0f0f0;
+}
+
 h4{
     font-size: 18px;
     font-family: 'Roboto', sans-serif;

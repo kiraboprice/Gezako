@@ -1,12 +1,12 @@
 {
   "name": "gezako",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Gezako Software Quality Assurance All your Software QA needs in one place.",
   "private": true,
   "main": "index.js",
   "dependencies": {
     "@babel/core": "^7.7.5",
-    "axios": "^0.19.0",
+    "axios": "^0.19.1",
     "firebase": "^6.6.2",
     "http2": "^3.3.7",
     "materialize-css": "^1.0.0-rc.2",

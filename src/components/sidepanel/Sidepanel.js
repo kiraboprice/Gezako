@@ -8,6 +8,7 @@ import menu from '../../assets/Icons/menu.png';
 import report from '../../assets/Icons/report.png';
 import dev from '../../assets/Icons/dev.png';
 import perf from '../../assets/Icons/perf.png';
+import tasks from '../../assets/Icons/tasks.png';
 
 export default class SidePanel extends Component {
   constructor(props) {
@@ -132,7 +133,7 @@ export default class SidePanel extends Component {
                         title={this.state.hovered ? 'Tasks' : ''}
                         isHovered={this.state.hovered}
                         haslinks={false}
-                        icon={perf}
+                        icon={tasks}
                         active={this.state.thirdActive}
                         links={[]}
                         whereto={'/tasks'}
@@ -188,7 +189,7 @@ export default class SidePanel extends Component {
                       title='Tasks'
                       isHovered={this.state.isHoveredMobile}
                       haslinks={false}
-                      icon={perf}
+                      icon={tasks}
                       active={this.state.fourthActive}
                       links={[]}
                       whereto={'/tasks'}

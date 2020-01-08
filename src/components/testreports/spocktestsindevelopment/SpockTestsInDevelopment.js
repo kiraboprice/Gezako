@@ -16,7 +16,7 @@ const SpockTestsInDevelopment = (props) => {
         <div id='reports-section'>
 
           <Link to={'/upload-report'} >
-            <button >Create New Report</button>
+            <button id='new-report'>Create New Report</button>
           </Link>
 
           <div id='features-reports'>
