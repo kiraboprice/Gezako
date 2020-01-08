@@ -1,17 +1,18 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import {createReport} from "../../store/actions/reportActions";
+import {createReport, getReport} from "../../store/actions/reportActions";
 import * as firebase from "firebase";
+import {BASE_DOCUMENT} from "../../constants/Constants";
 
-class UploadReport extends Component {
+class UpdateReport extends Component {
   storageRef = firebase.storage().ref();
 
   state = {
-    phase : 'development',
-    service: 'loans',
-    type: 'endpoint',
-    title: 'Test Report Title',
+    phase : '',
+    service: '',
+    type: '',
+    title: '',
     file: '',
     fileDownLoadUrl: '',
     uploadProgress: 0
@@ -29,16 +30,12 @@ class UploadReport extends Component {
     });
   };
 
-  //todo extract this to using actions so that this can be reused by other component like UpdateReport
   handleUploadFile = (e) => {
     const state = this.state;
-    var context = this; //maybe this can be avoided by biding this function in the constructor? check commented code
+    var context = this;
     var metadata = {
       contentType: 'text/html'
     };
-    //todo update the spock-reports child
-    //todo if uploading a dev report, upload to development-spock-reports child.
-    //todo if uploading a complete report, upload to completed-spock-reports
     var uploadTask = this.storageRef.child(
         'spock-reports/' + state[e.target.file].name).put(
         state[e.target.file], metadata);
@@ -97,7 +94,7 @@ class UploadReport extends Component {
       title,
       fileDownLoadUrl
     };
-    this.props.createReport(report);
+    // this.props.updateReport(report);
 
     if(phase == 'development') {
       this.props.history.push('/development');
@@ -107,20 +104,37 @@ class UploadReport extends Component {
   };
 
   render() {
-    const {phase, service, type, title, uploadProgress} = this.state;
-    const { auth } = this.props;
+    const { uploadProgress} = this.state;
+    const { auth, getReport, report } = this.props;
     if (!auth.uid) return <Redirect to='/login' />;
+
+    const id = this.props.match.params.id;
+    const pathName = this.props.location.pathname;
+    let phase;
+    if(pathName.includes('development')){
+      phase = 'development'
+    } else if (pathName.includes('completed')) {
+      phase = 'completed'
+    }
+
+    getReport(id, phase);
+    let { service, type, title } = '';
+    if (report!= null) {
+      service = report.service;
+      type = report.type;
+      title = report.title;
+    }
+
+
     return (
-        <div style={{marginLeft: "400px"}}>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">
-                Upload Spock Report
+        <div style={{marginLeft: "400px", marginTop: "100px"}}>
+          <div >
+            <div >
+              <h3 >
+                Update Spock Report
               </h3>
             </div>
             <div class="panel-body">
-              <h4>Upload Report for a complete test or a test in
-                development</h4>
               <div>
                 <input type="file" name="file"
                        onChange={this.handleFileSelected}
@@ -132,44 +146,17 @@ class UploadReport extends Component {
 
               <form onSubmit={this.handleSubmit}>
                 <div>
-                  <label>
-                    Phase:
-                    <select name="phase" value={phase} onChange={this.handleChange}>
-                      <option value="development">Development</option>
-                      <option value="completed">Completed</option>
-                    </select>
-                  </label>
+                  <label>Phase: {phase}</label>
                 </div>
-
                 <div>
-                  <label>
-                    Service:
-                    <select name="service" value={service} onChange={this.handleChange}>
-                      <option value="loans">Loans</option>
-                      <option value="rails">Rails</option>
-                      <option value="users">Users</option>
-                      <option value="auth">Auth</option>
-                      <option value="approval">Approval</option>
-                    </select>
-                  </label>
+                  <label>Service: {service}</label>
                 </div>
-
                 <div>
-                  <label>
-                    Report Type:
-                    <select name="type" value={type} onChange={this.handleChange}>
-                      <option value="feature">Feature</option>
-                      <option value="endpoint">Endpoint</option>
-                    </select>
-                  </label>
+                  <label>Type: {type}</label>
                 </div>
-
-                <div >
-                  <label>Report Title:</label>
-                  <textArea class="form-control" name="title"
-                            onChange={this.handleChange}>{title}</textArea>
+                <div>
+                  <label>Title: {title}</label>
                 </div>
-
                 <button type="submit">Submit</button>
               </form>
             </div>
@@ -181,15 +168,22 @@ class UploadReport extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log('state in update report');
+  console.log(state);
+  let report = null;
+  if (state.report != null) {
+    report = state.report.report;
+  }
   return {
     auth: state.firebase.auth,
+    report: report
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    createReport: (report) => dispatch(createReport(report))
+    getReport: (id, phase) => dispatch(getReport(id, phase))
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UploadReport);
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateReport);

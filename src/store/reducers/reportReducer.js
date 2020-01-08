@@ -22,6 +22,29 @@ const reportReducer = (state = initState, action) => {
       // console.log('CREATE_REPORT_ERROR', action.err);
       return state;
 
+    case 'GET_REPORT_SUCCESS':
+      console.log('GET_REPORT_SUCCESS', action.report);
+      return {
+        ...state,
+        report: action.report
+      };
+
+    case 'GET_REPORT_ERROR_NOT_EXISTS':
+      // console.log('GET_REPORT_ERROR_NOT_EXISTS', action.err);
+      return state;
+
+    case 'GET_REPORT_ERROR':
+      // console.log('GET_REPORT_ERROR', action.err);
+      return state;
+
+    case 'UPDATE_REPORT_SUCCESS':
+      // console.log('UPDATE_REPORT_SUCCESS', action.report);
+      return state;
+
+    case 'UPDATE_REPORT_ERROR':
+      // console.log('UPDATE_REPORT_ERROR', action.err);
+      return state;
+
     case 'DOWNLOAD_REPORT_SUCCESS':
       return {
         ...state,

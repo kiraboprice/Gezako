@@ -83,6 +83,51 @@ export const createReport = (report) => {
   }
 };
 
+export const getReport = (id, phase) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    console.log('report DETAILS')
+    console.log(id)
+    console.log(phase)
+    const firestore = getFirestore();
+    let collectionUrl = '';
+    if(phase == 'development'){
+      collectionUrl = BASE_DOCUMENT + 'developmentreports'
+    } else if (phase == 'completed') {
+      collectionUrl = BASE_DOCUMENT + 'completedreports'
+    }
+    firestore.collection(collectionUrl).doc(id).get() //todo update this to onSnapshot so that we have data in sync with the db
+    .then((doc) => {
+      if (!doc.exists) {
+        dispatch({type: 'GET_REPORT_ERROR_NOT_EXISTS'});
+      } else {
+        dispatch({type: 'GET_REPORT_SUCCESS', report: doc.data()});
+      }
+    }).catch(err => {
+      dispatch({type: 'GET_REPORT_ERROR', err});
+    });
+  }
+};
+
+export const updateReport = (report) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    let collectionUrl = '';
+    if(report.phase == 'development'){
+      collectionUrl = BASE_DOCUMENT + 'developmentreports'
+    } else if (report.phase == 'completed') {
+      collectionUrl = BASE_DOCUMENT + 'completedreports'
+    }
+    firestore.collection(collectionUrl).doc(report.id).set({
+      fileDownLoadUrl: report.fileDownLoadUrl,
+      updatedAt: new Date()
+    }).then(() => {
+      dispatch({type: 'UPDATE_REPORT_SUCCESS'});
+    }).catch(err => {
+      dispatch({type: 'UPDATE_REPORT_ERROR', err});
+    });
+  }
+};
+
 export const downloadReport = (report) => {
   return (dispatch) => {
     axios.get(report.fileDownLoadUrl)
