@@ -11,7 +11,8 @@ const Tasks = (props) => {
 
     return (
         <div  id='tasks-section'>
-
+          COMING SOON!
+          <br/>
           <Link to={'/create-task'} >
             <button >Create New Task</button>
           </Link>
