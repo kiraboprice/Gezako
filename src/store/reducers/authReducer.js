@@ -26,6 +26,12 @@ const authReducer = (state = initState, action) => {
         authError: 'Email ' + action.userEmail + ' is not valid. Please log in with your Tala email to use Gezako.'
       };
 
+    case 'SET_PREV_URL_SUCCESS':
+      return {
+        ...state,
+        prevUrl: action.url
+      };
+
     case 'LOGOUT_SUCCESS':
       return state;
     default:

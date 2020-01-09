@@ -56,6 +56,12 @@ export const signOut = () => {
   }
 };
 
+export const setPrevUrl = (url) => {
+  return (dispatch) => {
+    dispatch({ type: 'SET_PREV_URL_SUCCESS', url })
+  }
+};
+
 const checkUserEmailIsValid = (email) => {
   if(testEmails.includes(email)){
     return true

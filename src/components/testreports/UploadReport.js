@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import {createReport} from "../../store/actions/reportActions";
 import * as firebase from "firebase";
+import {setPrevUrl} from "../../store/actions/authActions";
 
 class UploadReport extends Component {
   storageRef = firebase.storage().ref();
@@ -108,8 +109,11 @@ class UploadReport extends Component {
 
   render() {
     const {phase, service, type, title, uploadProgress} = this.state;
-    const { auth } = this.props;
-    if (!auth.uid) return <Redirect to='/login' />;
+    const { auth, setPrevUrl } = this.props;
+    if (!auth.uid) {
+      setPrevUrl(this.props.location.pathname);
+      return <Redirect to='/login' />;
+    }
     return (
         <div style={{marginLeft: "500px", marginTop: "100px"}}>
           <div class="panel panel-default">
@@ -179,13 +183,14 @@ class UploadReport extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth,
+    auth: state.firebase.auth
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    createReport: (report) => dispatch(createReport(report))
+    createReport: (report) => dispatch(createReport(report)),
+    setPrevUrl: (url) => dispatch(setPrevUrl(url))
   }
 };
 
