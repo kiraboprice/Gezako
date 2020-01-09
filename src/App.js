@@ -70,7 +70,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    authSuccess: state.auth.authSuccess,
+    //authSuccess: state.auth.authSuccess,
   }
 }
 
