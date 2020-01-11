@@ -20,44 +20,6 @@
     background: #f0f0f0;
 }
 
-#display-content{
-    display: flex;
-}
-
-#display-content div{
-    margin-right: 10px;
-}
-
-#display-content label{
-    flex: 1;
-    margin-right: 15px;
-}
-
-#display-content select{
-    outline: 0;
-    flex: 4;
-    cursor: pointer;
-    border: 0;
-    padding: 10px;
-    background: yellowgreen;
-    border-radius: 2.5px;
-    margin-bottom: 15px;
-    background: #f0f0f0;
-}
-
-#display-content textarea{
-    outline: 0;
-    vertical-align: middle;
-    border: 0;
-    padding: 10px;
-    border-radius: 2.5px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    flex: 4;
-    margin-bottom: 15px;
-    background: #f0f0f0;
-}
-
 #uploading{
     font-size: 14px;
     color: gray;
@@ -73,10 +35,5 @@
 @media  only screen and (max-width: 768px) {
     #upload{
         width: 80%;
-    }
-
-    #display-content textarea{
-        margin-bottom: 0;
-        vertical-align: middle;
     }
 }

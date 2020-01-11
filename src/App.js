@@ -6,7 +6,7 @@ import Login from './components/login/Login';
 import CompletedSpockTests from './components/testreports/completedspocktests/CompletedSpockTests';
 
 import './assets/fonts/fonts.css';
-import './App.css';
+import './app.css';
 import SpockTestsInDevelopment from './components/testreports/spocktestsindevelopment/SpockTestsInDevelopment';
 
 import Navigation from "./components/navigation/Navigation";
