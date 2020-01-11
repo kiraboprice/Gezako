@@ -1,0 +1,39 @@
+#upload{
+    width: 40%;
+    position: relative;
+    margin: 125px auto 0 auto;
+    line-height: 1.8em;
+    transition: all ease-in-out 400ms;
+}
+
+#upload input{
+    margin-bottom: 15px;
+}
+
+#upload button{
+    outline: 0;
+    cursor: pointer;
+    border: 0;
+    padding: 10px;
+    border-radius: 2.5px;
+    margin-bottom: 15px;
+    background: #f0f0f0;
+}
+
+#uploading{
+    font-size: 14px;
+    color: gray;
+    margin-bottom: 30px;
+}
+
+#submit-report{
+    height: 40px;
+    width: 75px;
+    margin-top: 30px;
+}
+
+@media  only screen and (max-width: 768px) {
+    #upload{
+        width: 80%;
+    }
+}

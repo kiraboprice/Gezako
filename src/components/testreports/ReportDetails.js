@@ -38,18 +38,17 @@ const ReportDetails = (props) => {
 
     return (
         <div id='report-details-section'>
-          <div >
             <div >
               <span >{report.reportTitle}</span>
               <p>{report.reportType}</p>
               <p>{report.service}</p>
             </div>
+            
             <div >
               <div>Uploaded by {report.createdBy}</div>
               <div>{moment(report.createdAt.toDate()).calendar()}</div>
               <div dangerouslySetInnerHTML= {htmlDoc} />
             </div>
-          </div>
         </div>
     )
   } else {

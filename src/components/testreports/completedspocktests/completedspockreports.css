@@ -2,13 +2,6 @@
     background: #fafafa;
 }
 
-#reports-section{
-    width: 40%;
-    position: relative;
-    margin: 125px auto 0 auto;
-    transition: all ease-in-out 400ms;
-}
-
 h4{
     font-size: 18px;
     font-family: 'Roboto', sans-serif;
@@ -27,12 +20,4 @@ h4{
     margin-top: 50px;
     position: relative;
     background: #fafafa;
-}
-
-@media  only screen and (max-width: 768px) {
-    #reports-section{
-        width: 80%;
-        margin: 125px auto 0 auto;
-        transition: all ease-in-out 400ms;
-    }
 }

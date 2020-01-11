@@ -189,7 +189,7 @@ export default class SidePanel extends Component {
                       title='Tasks'
                       isHovered={this.state.isHoveredMobile}
                       haslinks={false}
-                      icon={perf}
+                      icon={task}
                       active={this.state.fourthActive}
                       links={[]}
                       whereto={'/tasks'}

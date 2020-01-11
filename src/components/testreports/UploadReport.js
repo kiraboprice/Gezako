@@ -1,15 +1,17 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux'
-import { Redirect } from 'react-router-dom'
-import {createReport} from "../../store/actions/reportActions";
-import * as firebase from "firebase";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { createReport } from '../../store/actions/reportActions';
+import * as firebase from 'firebase';
 import {setPrevUrl} from "../../store/actions/authActions";
+
+import './upload.css';
 
 class UploadReport extends Component {
   storageRef = firebase.storage().ref();
 
   state = {
-    phase : 'development',
+    phase: 'development',
     service: 'loans',
     type: 'endpoint',
     title: 'Test Report Title',
@@ -30,7 +32,7 @@ class UploadReport extends Component {
     });
   };
 
-  //todo extract this to using actions so that this can be reused by other component like UpdateReport
+  //todo extract this to using actions and leave this component clean
   handleUploadFile = (e) => {
     const state = this.state;
     var context = this; //maybe this can be avoided by biding this function in the constructor? check commented code
@@ -40,14 +42,13 @@ class UploadReport extends Component {
     //todo update the spock-reports child
     //todo if uploading a dev report, upload to development-spock-reports child.
     //todo if uploading a complete report, upload to completed-spock-reports
-    var uploadTask = this.storageRef.child(
-        'spock-reports/' + state[e.target.file].name).put(
-        state[e.target.file], metadata);
+    var uploadTask = this.storageRef
+    .child('spock-reports/' + state[e.target.file].name)
+    .put(state[e.target.file], metadata);
 
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
         function (snapshot) {
-          var progress = (snapshot.bytesTransferred / snapshot.totalBytes)
-              * 100;
+          var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           state.uploadProgress = progress;
 
           switch (snapshot.state) {
@@ -58,8 +59,8 @@ class UploadReport extends Component {
               console.log('Upload is running');
               break;
           }
-        }, function (error) {
-
+        },
+        function (error) {
           switch (error.code) {
             case 'storage/unauthorized':
               // User doesn't have permission to access the object
@@ -73,19 +74,20 @@ class UploadReport extends Component {
               // Unknown error occurred, inspect error.serverResponse
               break;
           }
-        }, function () {
+        },
+        function () {
           // Upload completed successfully, now we can get the download URL
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadUrl) {
-            state["fileDownLoadUrl"] = downloadUrl;
+            state['fileDownLoadUrl'] = downloadUrl;
             context.setState(state);
-            context.updateContextState(context)
+            context.updateContextState(context);
           });
-        });
-
+        }
+    );
   };
 
   updateContextState(context) {
-    this.state = context.state
+    this.state = context.state;
   }
 
   handleSubmit = (e) => {
@@ -100,9 +102,9 @@ class UploadReport extends Component {
     };
     this.props.createReport(report);
 
-    if(phase == 'development') {
+    if (phase == 'development') {
       this.props.history.push('/development');
-    } else if(phase == 'completed') {
+    } else if (phase == 'completed') {
       this.props.history.push('/');
     }
   };
@@ -114,84 +116,79 @@ class UploadReport extends Component {
       setPrevUrl(this.props.location.pathname);
       return <Redirect to='/login' />;
     }
+
     return (
-        <div style={{marginLeft: "500px", marginTop: "100px"}}>
-          <div class="panel panel-default">
-            <div class="panel-heading">
+        <div id='upload'>
+          <h3 >Upload Spock Report</h3>
+          Upload Report for a complete test or a test in  development
+            <div>
+              <input type='file' name='file' onChange={this.handleFileSelected} accept='html/*'/>
             </div>
-            <div class="panel-body">
-              <h4>Upload Report for a complete test or a test in
-                development</h4>
+
+            {/* ! Just a suggestion, maybe display this onSubmit? */}
+            <span id='uploading'>
+						Uploading report: {uploadProgress}%
+					  </span>
+
+            <form onSubmit={this.handleSubmit} style={{marginTop: '25px'}}>
               <div>
-                <input type="file" name="file"
-                       onChange={this.handleFileSelected}
-                       accept="html/*"/>
-                <button onClick={this.handleUploadFile}>Upload File</button>
-              </div>
-
-              <span> Uploading report: % {uploadProgress} </span>
-
-              <form onSubmit={this.handleSubmit}>
-                <div>
-                  <label>
-                    Phase:
-                    <select name="phase" value={phase} onChange={this.handleChange}>
-                      <option value="development">Development</option>
-                      <option value="completed">Completed</option>
-                    </select>
-                  </label>
+                <div id='display-content'>
+                  <label>Phase: </label>
+                  <select name='phase' value={phase} onChange={this.handleChange}>
+                    <option value='development'>Development</option>
+                    <option value='completed'>Completed</option>
+                  </select>
                 </div>
 
-                <div>
-                  <label>
-                    Service:
-                    <select name="service" value={service} onChange={this.handleChange}>
-                      <option value="loans">Loans</option>
-                      <option value="rails">Rails</option>
-                      <option value="users">Users</option>
-                      <option value="auth">Auth</option>
-                      <option value="approval">Approval</option>
-                    </select>
-                  </label>
+                <div id='display-content'>
+                  <label>Service: </label>
+                  <select name='service' value={service} onChange={this.handleChange}>
+                    <option value='loans'>Loans</option>
+                    <option value='rails'>Rails</option>
+                    <option value='users'>Users</option>
+                    <option value='auth'>Auth</option>
+                    <option value='approval'>Approval</option>
+                  </select>
                 </div>
 
-                <div>
-                  <label>
-                    Report Type:
-                    <select name="type" value={type} onChange={this.handleChange}>
-                      <option value="feature">Feature</option>
-                      <option value="endpoint">Endpoint</option>
-                    </select>
-                  </label>
+                <div id='display-content'>
+                  <label>Report Type: </label>
+                  <select name='type' value={type} onChange={this.handleChange}>
+                    <option value='feature'>Feature</option>
+                    <option value='endpoint'>Endpoint</option>
+                  </select>
                 </div>
 
-                <div >
+                <div id='display-content'>
                   <label>Report Title:</label>
-                  <textArea class="form-control" name="title"
-                            onChange={this.handleChange}>{title}</textArea>
+                  <textarea class='form-control' name='title' onChange={this.handleChange}>
+									{title}
+								  </textarea>
                 </div>
 
-                <button type="submit">Submit</button>
-              </form>
-            </div>
-          </div>
+                {/* ! Make sure someone has actually uploaded and filled out the required spaces because
+                  I was able to submit (by accident) without uploading or filling out the spaces */}
+                <button id='submit-report' type='submit'>
+                  Submit
+                </button>
+              </div>
+            </form>
         </div>
     );
   }
-
 }
 
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth
-  }
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     createReport: (report) => dispatch(createReport(report)),
     setPrevUrl: (url) => dispatch(setPrevUrl(url))
-  }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UploadReport);

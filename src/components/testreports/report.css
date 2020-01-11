@@ -2,6 +2,7 @@
     display: flex;
     position: relative;
     line-height: 2.2em;
+    text-align: left;
 }
 
 #createdAt{
@@ -9,11 +10,26 @@
 }
 #service{
     flex: 1;
+    padding-right: 25px;
+    text-align: left;
     transition: all ease-in-out 400ms;
 }
 
 #title{
     flex: 2;
+    text-align: left;
+    padding-right: 25px;
+}
+
+#end-column{
+    text-align: right;
+    right: 0;
+    flex: 1;
+}
+
+#end-column a{
+    color: #01ACC1;
+    text-decoration: none;
 }
 
 #headers{
@@ -30,27 +46,18 @@
     flex: 1;
     transition: all ease-in-out 400ms;
     margin-top: -2.5px;
+    padding-right: 25px;
 }
 
 #head{
     flex: 2;
+    padding-right: 25px;
 }
 
 #head-end{
     text-align: right;
     right: 0;
     flex: 1;
-}
-
-#report-link{
-    text-align: right;
-    right: 0;
-    flex: 1;
-}
-
-#report-link a{
-    color: #01ACC1;
-    text-decoration: none;
 }
 
 hr{

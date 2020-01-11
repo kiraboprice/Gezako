@@ -60,7 +60,7 @@ const CompletedSpockTests = (props) => {
             <div id='headers'>
               {/* TODO Upgrade Headers so that it is more scalable */}
               <div id='head-start' className='service'>Service</div>
-              <div id='head'>Title</div>
+               <div id='head'>Title</div>
               <div id='head'>Uploaded At</div>
               <div id='head-end'>Uploaded By</div>
             </div>
