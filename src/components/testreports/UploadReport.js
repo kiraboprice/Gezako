@@ -123,6 +123,7 @@ class UploadReport extends Component {
           Upload Report for a complete test or a test in  development
             <div>
               <input type='file' name='file' onChange={this.handleFileSelected} accept='html/*'/>
+              <button onClick={this.handleUploadFile}>Upload File</button>
             </div>
 
             {/* ! Just a suggestion, maybe display this onSubmit? */}
