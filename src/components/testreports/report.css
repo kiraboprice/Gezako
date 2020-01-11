@@ -21,6 +21,17 @@
     padding-right: 25px;
 }
 
+#end-column{
+    text-align: right;
+    right: 0;
+    flex: 1;
+}
+
+#end-column a{
+    color: #01ACC1;
+    text-decoration: none;
+}
+
 #headers{
     position: relative;
     display: flex;
@@ -47,17 +58,6 @@
     text-align: right;
     right: 0;
     flex: 1;
-}
-
-#report-link{
-    text-align: right;
-    right: 0;
-    flex: 1;
-}
-
-#report-link a{
-    color: #01ACC1;
-    text-decoration: none;
 }
 
 hr{

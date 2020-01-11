@@ -77,9 +77,7 @@ class UploadReport extends Component {
         },
         function () {
           // Upload completed successfully, now we can get the download URL
-          uploadTask.snapshot.ref
-          .getDownloadURL()
-          .then(function (downloadUrl) {
+          uploadTask.snapshot.ref.getDownloadURL().then(function (downloadUrl) {
             state['fileDownLoadUrl'] = downloadUrl;
             context.setState(state);
             context.updateContextState(context);
@@ -121,15 +119,15 @@ class UploadReport extends Component {
 
     return (
         <div id='upload'>
-          <h3 class='panel-title'>Upload Spock Report</h3>
-          <div class='panel-body'>
+          <h3 >Upload Spock Report</h3>
+          Upload Report for a complete test or a test in  development
             <div>
               <input type='file' name='file' onChange={this.handleFileSelected} accept='html/*'/>
             </div>
 
             {/* ! Just a suggestion, maybe display this onSubmit? */}
             <span id='uploading'>
-						{' '}Uploading report: % {uploadProgress}{' '}
+						Uploading report: {uploadProgress}%
 					  </span>
 
             <form onSubmit={this.handleSubmit} style={{marginTop: '25px'}}>
@@ -175,7 +173,6 @@ class UploadReport extends Component {
                 </button>
               </div>
             </form>
-          </div>
         </div>
     );
   }
