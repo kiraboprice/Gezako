@@ -46,6 +46,25 @@ body{
     background: #f0f0f0;
 }
 
+
+/*reports*/
+#reports-section{
+    width: 40%;
+    position: relative;
+    margin: 125px auto 0 auto;
+    transition: all ease-in-out 400ms;
+}
+
+#reports-section button{
+    outline: 0;
+    cursor: pointer;
+    border: 0;
+    padding: 10px;
+    border-radius: 2.5px;
+    margin-bottom: 15px;
+    background: #f0f0f0;
+}
+
 @media  only screen and (max-width: 768px) {
     body{
         /*font-family: 'Quicksand', sans-serif;*/
@@ -66,5 +85,11 @@ body{
     #display-content textarea{
         margin-bottom: 0;
         vertical-align: middle;
+    }
+
+    #reports-section{
+        width: 80%;
+        margin: 125px auto 0 auto;
+        transition: all ease-in-out 400ms;
     }
 }
