@@ -19,20 +19,20 @@ class UploadReport extends Component {
     uploadProgress: 0
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
     });
   };
 
-  handleFileSelected = e => {
+  handleFileSelected = (e) => {
     this.setState({
       [e.target.file]: e.target.files[0]
     });
   };
 
   //todo extract this to using actions and leave this component clean
-  handleUploadFile = e => {
+  handleUploadFile = (e) => {
     const state = this.state;
     var context = this; //maybe this can be avoided by biding this function in the constructor? check commented code
     var metadata = {
@@ -45,11 +45,9 @@ class UploadReport extends Component {
     .child('spock-reports/' + state[e.target.file].name)
     .put(state[e.target.file], metadata);
 
-    uploadTask.on(
-        firebase.storage.TaskEvent.STATE_CHANGED,
+    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
         function (snapshot) {
-          var progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           state.uploadProgress = progress;
 
           switch (snapshot.state) {
@@ -113,8 +111,8 @@ class UploadReport extends Component {
   };
 
   render() {
-    const {phase, service, type, title, uploadProgress} = this.state;
-    const {auth} = this.props;
+    const { phase, service, type, title, uploadProgress } = this.state;
+    const { auth } = this.props;
     if (!auth.uid) return <Redirect to='/login'/>;
 
     return (
@@ -122,28 +120,20 @@ class UploadReport extends Component {
           <h3 class='panel-title'>Upload Spock Report</h3>
           <div class='panel-body'>
             <div>
-              <input
-                  type='file'
-                  name='file'
-                  onChange={this.handleFileSelected}
-                  accept='html/*'
-              />
+              <input type='file' name='file' onChange={this.handleFileSelected} accept='html/*'/>
             </div>
 
             {/* ! Just a suggestion, maybe display this onSubmit? */}
             <span id='uploading'>
-						{' '}
-              Uploading report: % {uploadProgress}{' '}
-					</span>
+						{' '}Uploading report: % {uploadProgress}{' '}
+					  </span>
 
             <form onSubmit={this.handleSubmit} style={{marginTop: '25px'}}>
               <div>
                 <div id='display-content'>
                   <label>Phase: </label>
                   <select name='phase' value={phase} onChange={this.handleChange}>
-                    <option value='development'>
-                      Development
-                    </option>
+                    <option value='development'>Development</option>
                     <option value='completed'>Completed</option>
                   </select>
                 </div>
@@ -171,7 +161,7 @@ class UploadReport extends Component {
                   <label>Report Title:</label>
                   <textarea class='form-control' name='title' onChange={this.handleChange}>
 									{title}
-								</textarea>
+								  </textarea>
                 </div>
 
                 {/* ! Make sure someone has actually uploaded and filled out the required spaces because
