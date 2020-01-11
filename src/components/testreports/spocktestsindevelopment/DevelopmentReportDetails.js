@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import moment from 'moment'
-import { Redirect } from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
+import {setPrevUrl} from "../../../store/actions/authActions";
 import {downloadReport} from "../../../store/actions/reportActions";
 
 import '../../testreports/reportdetails.css';
@@ -13,8 +14,13 @@ import '../../testreports/reportdetails.css';
  */
 
 const DevelopmentReportDetails = (props) => {
-  const {auth, report, downloadReport, reportDownload} = props;
-  if (!auth.uid) return <Redirect to='/login' />;
+  const {auth, setPrevUrl, report, downloadReport, reportDownload} = props;
+  if (!auth.uid) {
+    setPrevUrl(props.location.pathname);
+    return <Redirect to='/login' />;
+  }
+
+  const id = props.match.params.id;
 
   if (report) {
     downloadReport(report);
@@ -25,13 +31,18 @@ const DevelopmentReportDetails = (props) => {
         <div id='report-details-section'>
           <div >
             <div >
-              <span >{report.reportTitle}</span>
-              <p>{report.reportType}</p>
-              <p>{report.service}</p>
+              <span >{report.title}</span>
+              <p>Type: {report.type}</p>
+              <p>Service: {report.service}</p>
             </div>
             <div >
               <div>Uploaded by {report.createdBy}</div>
               <div>{moment(report.createdAt.toDate()).calendar()}</div>
+
+              <Link to={'/development/update-report/' + id} >
+                <button >Update Report</button>
+              </Link>
+
               <div dangerouslySetInnerHTML= {htmlDoc} />
             </div>
           </div>
@@ -66,7 +77,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    downloadReport: (report) => dispatch(downloadReport(report))
+    downloadReport: (report) => dispatch(downloadReport(report)),
+    setPrevUrl: (url) => dispatch(setPrevUrl(url))
   }
 };
 

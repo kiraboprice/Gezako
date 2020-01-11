@@ -21,6 +21,7 @@ import UploadReport from "./components/testreports/UploadReport";
 import PerformanceTests from "./components/perfomance/PerformanceTests";
 import CompletedReportDetails from "./components/testreports/completedspocktests/CompletedReportDetails";
 import DevelopmentReportDetails from "./components/testreports/spocktestsindevelopment/DevelopmentReportDetails";
+import UpdateReport from "./components/testreports/UpdateReport";
 
 
 class App extends Component {
@@ -35,11 +36,13 @@ class App extends Component {
             <Navigation/>
             <SidePanel/>
             <Switch>
-              <Route path='/login' component={Login}/>
-              <Route path='/upload-report' component={UploadReport}/>
+              <Route exact path='/login' component={Login}/>
+              <Route exact path='/upload-report' component={UploadReport}/>
+
               {/*we'll have a proper home screen later on. for now, redirect to loans page*/}
               <Route exact path='/' component={CompletedSpockTests}/>
               <Route exact path='/completed/loans' component={CompletedSpockTests}/>
+              <Route exact path='/completed/update-report/:id' component={UpdateReport}/>
 
               {/*<Route*/}
                   {/*exact path='/report/completed/:id'*/}
@@ -47,16 +50,17 @@ class App extends Component {
 
               <Route exact path='/report/completed/:id' component ={CompletedReportDetails}/>
 
-              <Route path='/development' component={SpockTestsInDevelopment}/>
+              <Route exact path='/development' component={SpockTestsInDevelopment}/>
               {/*<Route exact path='/report/development/:id'*/}
                      {/*render={(props) => <ReportDetails {...props} collectionUrl='developmentreports' />}/>*/}
               <Route exact path='/report/development/:id' component ={DevelopmentReportDetails}/>
+              <Route exact path='/development/update-report/:id' component={UpdateReport}/>
 
-              <Route path='/performance' component={PerformanceTests}/>
+              <Route exact path='/performance' component={PerformanceTests}/>
 
-              <Route path='/create-task' component={CreateTask}/>
-              <Route path='/tasks' component={Tasks}/>
-              <Route path='/task/:id' component={TaskDetails}/>
+              <Route exact path='/create-task' component={CreateTask}/>
+              <Route exact path='/tasks' component={Tasks}/>
+              <Route exact path='/task/:id' component={TaskDetails}/>
             </Switch>
           </BrowserRouter>
         </div>
@@ -66,7 +70,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    authSuccess: state.auth.authSuccess,
+    //authSuccess: state.auth.authSuccess,
   }
 }
 

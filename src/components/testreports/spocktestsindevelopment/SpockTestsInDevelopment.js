@@ -6,11 +6,16 @@ import moment from 'moment'
 import connect from "react-redux/es/connect/connect";
 import {Redirect} from 'react-router-dom'
 import {firestoreConnect} from "react-redux-firebase";
+import {downloadReport} from "../../../store/actions/reportActions";
+import {setPrevUrl} from "../../../store/actions/authActions";
 
 
 const SpockTestsInDevelopment = (props) => {
-  const { auth, reports } = props;
-  if (!auth.uid) {return <Redirect to='/login'/>}
+  const { auth, setPrevUrl, reports } = props;
+  if (!auth.uid) {
+    setPrevUrl(props.location.pathname);
+    return <Redirect to='/login' />;
+  }
 
   return (
         <div id='reports-section'>
@@ -35,7 +40,7 @@ const SpockTestsInDevelopment = (props) => {
                             service={report.service}
                             title={report.title}
                             createdAt={moment(report.createdAt.toDate()).calendar()}
-                            createdBy={report.createdBy}
+                            createdBy={report.createdBy.split(' ').slice(0, -1).join(' ')}
                         />
                       </Link>
                       <hr></hr>
@@ -57,8 +62,14 @@ const mapStateToProps = (state) => {
   }
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setPrevUrl: (url) => dispatch(setPrevUrl(url))
+  }
+};
+
 export default compose(
-    connect(mapStateToProps),
+    connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
       {
         collection: 'company',

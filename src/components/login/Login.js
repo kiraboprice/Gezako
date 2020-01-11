@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
-import {signIn} from '../../store/actions/authActions'
+import {signIn, setPrevUrl} from '../../store/actions/authActions'
 
 import backgroundImage from '../../assets/Imgs/bg.jpg';
 import twitterIcon from '../../assets/Icons/twitter.png';
@@ -22,8 +22,16 @@ class Login extends Component {
   }
 
   render() {
-    const { authSuccess, authError } = this.props;
-    if (authSuccess!== null) return <Redirect to='/' />
+    const { authSuccess, authError, prevUrl, setPrevUrl } = this.props;
+
+    if(authSuccess!== null) {
+      if(prevUrl!== null) {
+        setPrevUrl(null);
+        return <Redirect to= {prevUrl} />
+      } else {
+        return <Redirect to='/' />
+      }
+    }
 
     return (
         <div className="login">
@@ -85,13 +93,15 @@ class Login extends Component {
 const mapStateToProps = (state) => {
   return {
     authSuccess: state.auth.authSuccess, //if auth is successful, store user details in db
-    authError: state.auth.authError //if auth not successful, show error
+    authError: state.auth.authError, //if auth not successful, show error
+    prevUrl: state.auth.prevUrl
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signIn: () => dispatch(signIn())
+    signIn: () => dispatch(signIn()),
+    setPrevUrl: (url) => dispatch(setPrevUrl(url))
   }
 };
 

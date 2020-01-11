@@ -23,17 +23,13 @@ Since this is a shared testing and staging environment, do not make deletions fr
 ## Deploying to prod
 
 When new changes are added to master, they need to be deployed to prod. This is currently a manual process. To deploy
-to prod, checkout master branch, 
-- update the firebase config in App.js (this is being moved to the api project)
+to prod, branch off master and create a new release branch with format release-1.2 
 
-- update the functions api url in package.json proxy entry
-"proxy": "http://localhost:5000/gezako-staging/us-central1/api/v1" //local
-"proxy": "https://us-central1-gezako-staging.cloudfunctions.net/api/v1" //staging
-"proxy": "https://us-central1-gezako-ae23.cloudfunctions.net/api/v1" //prod
+- update the firebase config in fbConfig.js to point to prod config
 
 - build the project 
-`npm run build`
-- deploy with 
+`sudo npm run build`
+- deploy the project 
 `firebase deploy -P gezako-8a7aa`
 
 Note: only the admin user has access to
