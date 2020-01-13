@@ -14,8 +14,8 @@ export default class SidePanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstActive: window.location.pathname === '/' ? true : false,
-      secondActive: window.location.pathname === '/development' ? true : false,
+      firstActive: window.location.pathname === '/development' ? true : false,
+      secondActive: window.location.pathname === '/' ? true : false,
       thirdActive: window.location.pathname === '/performance' ? true : false,
       fourthActive: window.location.pathname === '/tasks' ? true : false,
       showMenu: false,
@@ -80,9 +80,9 @@ export default class SidePanel extends Component {
               }}>
 
                 <div onClick={this.setFirstActive}>
-                  <Link to='/'>
+                  <Link to='/development'>
                     <Links
-                        title={this.state.hovered ? 'Completed Spock Tests'
+                        title={this.state.hovered ? 'Spock Tests In Development'
                             : ''}
                         isHovered={this.state.hovered}
                         icon={report}
@@ -91,15 +91,15 @@ export default class SidePanel extends Component {
                           ['Rails', null], ['Users', null], ['Auth', null],
                           ['Surveys', null]]}
                         active={this.state.firstActive}
-                        whereto={'/'}
+                        whereto={'/development'}
                     />
                   </Link>
                 </div>
 
                 <div onClick={this.setSecondActive}>
-                  <Link to='/development'>
+                  <Link to='/completed'>
                     <Links
-                        title={this.state.hovered ? 'Spock Tests In Development'
+                        title={this.state.hovered ? 'Completed Spock Tests'
                             : ''}
                         isHovered={this.state.hovered}
                         haslinks={true}
@@ -108,7 +108,7 @@ export default class SidePanel extends Component {
                         links={[['Loans', this.state.secondActive],
                           ['Rails', null], ['Users', null], ['Auth', null],
                           ['Surveys', null]]}
-                        whereto={'/development'}
+                        whereto={'/completed'}
                     />
                   </Link>
                 </div>
