@@ -5,15 +5,12 @@ import { compose } from 'redux'
 import moment from 'moment'
 import {Link, Redirect} from 'react-router-dom'
 import {setPrevUrl} from "../../../store/actions/authActions";
-import {downloadReport} from "../../../store/actions/reportActions";
+import {downloadReport, getReport} from "../../../store/actions/reportActions";
 
-import '../../testreports/reportdetails.css';
+import '../reportdetails/reportdetails.css';
 
-/**
- * NOTE: Refactor so we can only use one ReportDetails class
- */
 
-const DevelopmentReportDetails = (props) => {
+const ReportDetails = (props) => {
   const {auth, setPrevUrl, report, downloadReport, reportDownload} = props;
   if (!auth.uid) {
     setPrevUrl(props.location.pathname);
@@ -21,6 +18,15 @@ const DevelopmentReportDetails = (props) => {
   }
 
   const id = props.match.params.id;
+  const pathName = props.location.pathname;
+  let phase;
+  if(pathName.includes('development')){
+    phase = 'development'
+  } else if (pathName.includes('completed')) {
+    phase = 'completed'
+  }
+
+  getReport(id, phase);
 
   if (report) {
     downloadReport(report);
@@ -57,14 +63,11 @@ const DevelopmentReportDetails = (props) => {
   }
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const id = ownProps.match.params.id;
-  const reports =  state.firestore.data.developmentreports;
-
-  const report = reports ? reports[id] : null;
-
+const mapStateToProps = (state) => {
+  let report = null;
   let reportDownload = null;
   if (state.report != null) {
+    report= state.report.getReport;
     reportDownload = state.report.reportDownload;
   }
 
@@ -78,18 +81,11 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     downloadReport: (report) => dispatch(downloadReport(report)),
-    setPrevUrl: (url) => dispatch(setPrevUrl(url))
+    setPrevUrl: (url) => dispatch(setPrevUrl(url)),
+    getReport: (id, phase) => dispatch(getReport(id, phase))
   }
 };
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect([
-      {
-        collection: 'company',
-        doc: 'tala',
-        subcollections: [{ collection: 'developmentreports'}],
-        storeAs: 'developmentreports'
-      }
-    ])
-)(DevelopmentReportDetails)
+    connect(mapStateToProps, mapDispatchToProps)
+)(ReportDetails)

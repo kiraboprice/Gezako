@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { createReport } from '../../store/actions/reportActions';
+import { createReport } from '../../../store/actions/reportActions';
 import * as firebase from 'firebase';
-import {setPrevUrl} from "../../store/actions/authActions";
+import {setPrevUrl} from "../../../store/actions/authActions";
 
 import './upload.css';
 

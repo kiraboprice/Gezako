@@ -4,16 +4,16 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import moment from 'moment'
 import {Link, Redirect} from 'react-router-dom'
-import {downloadReport} from "../../../store/actions/reportActions";
 import {setPrevUrl} from "../../../store/actions/authActions";
+import {downloadReport} from "../../../store/actions/reportActions";
 
-import '../../testreports/reportdetails.css';
+import '../reportdetails/reportdetails.css';
 
 /**
  * NOTE: Refactor so we can only use one ReportDetails class
  */
 
-const CompleteReportDetails = (props) => {
+const DevelopmentReportDetails = (props) => {
   const {auth, setPrevUrl, report, downloadReport, reportDownload} = props;
   if (!auth.uid) {
     setPrevUrl(props.location.pathname);
@@ -39,7 +39,7 @@ const CompleteReportDetails = (props) => {
               <div>Uploaded by {report.createdBy}</div>
               <div>{moment(report.createdAt.toDate()).calendar()}</div>
 
-              <Link to={'/completed/update-report/' + id} >
+              <Link to={'/development/update-report/' + id} >
                 <button >Update Report</button>
               </Link>
 
@@ -58,10 +58,8 @@ const CompleteReportDetails = (props) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log('state in report details');
-  // console.log(state);
   const id = ownProps.match.params.id;
-  const reports =  state.firestore.data.completedreports;
+  const reports =  state.firestore.data.developmentreports;
 
   const report = reports ? reports[id] : null;
 
@@ -77,7 +75,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     downloadReport: (report) => dispatch(downloadReport(report)),
     setPrevUrl: (url) => dispatch(setPrevUrl(url))
@@ -90,8 +88,8 @@ export default compose(
       {
         collection: 'company',
         doc: 'tala',
-        subcollections: [{ collection: 'completedreports'}],
-        storeAs: 'completedreports'
+        subcollections: [{ collection: 'developmentreports'}],
+        storeAs: 'developmentreports'
       }
     ])
-)(CompleteReportDetails)
+)(DevelopmentReportDetails)

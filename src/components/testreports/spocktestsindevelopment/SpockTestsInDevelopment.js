@@ -35,7 +35,7 @@ const SpockTestsInDevelopment = (props) => {
             { reports && reports.map(report => {
                 return (
                     <div>
-                      <Link to={'/report/development/' + report.id} key={report.id}>
+                      <Link to={'/development/report/' + report.id} key={report.id}>
                         <Report
                             service={report.service}
                             title={report.title}
