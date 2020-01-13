@@ -113,7 +113,10 @@ export default compose(
           collection: 'company',
           doc: 'tala',
           subcollections: [{collection: props.collection}],
-          where: ['type', '==', 'feature'],
+          where: [
+            ['type', '==', 'feature'],
+            ['service', '==', props.service]
+          ],
           storeAs: 'featureReports'
         }
       ]
@@ -123,8 +126,11 @@ export default compose(
         {
           collection: 'company',
           doc: 'tala',
-          subcollections: [{collection: 'completedreports'}],
-          where: ['type', '==', 'endpoint'],
+          subcollections: [{collection: props.collection}],
+          where: [
+            ['type', '==', 'endpoint'],
+            ['service', '==', props.service]
+          ],
           storeAs: 'endpointReports'
         }
       ]
