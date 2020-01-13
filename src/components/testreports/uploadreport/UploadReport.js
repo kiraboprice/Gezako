@@ -101,12 +101,7 @@ class UploadReport extends Component {
       fileDownLoadUrl
     };
     this.props.createReport(report);
-
-    if (phase == 'development') {
-      this.props.history.push('/development');
-    } else if (phase == 'completed') {
-      this.props.history.push('/');
-    }
+    this.props.history.push(`/${phase}/${service}`);
   };
 
   render() {

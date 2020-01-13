@@ -89,33 +89,52 @@ const CompletedSpockTests = (props) => {
 
 };
 
-const mapStateToProps = (state) => {
+//todo extract this to StringUtils
+function getServiceNameFromPathName(pathname) {
+  const service = pathname.split('/completed/')[1];
+
+  return service
+}
+
+const mapStateToProps = (state, ownProps) => {
   console.log(state);
   return {
     auth: state.firebase.auth,
     featureReports: state.firestore.ordered.featureReports,
     endpointReports: state.firestore.ordered.endpointReports,
+    collection: 'completedreports',
+    service: getServiceNameFromPathName(ownProps.location.pathname)
   }
 };
 
 export default compose(
     connect(mapStateToProps),
-    firestoreConnect([
-      {
-        collection: 'company',
-        doc: 'tala',
-        subcollections: [{ collection: 'completedreports' }],
-        where: ['type', '==', 'feature'],
-        storeAs: 'featureReports'
-      }
-    ]),
-    firestoreConnect([
-      {
-        collection: 'company',
-        doc: 'tala',
-        subcollections: [{ collection: 'completedreports' }],
-        where: ['type', '==', 'endpoint'],
-        storeAs: 'endpointReports'
-      }
-    ])
+    firestoreConnect(props => {
+      return [
+        {
+          collection: 'company',
+          doc: 'tala',
+          subcollections: [{collection: props.collection}],
+          where: [
+            ['type', '==', 'feature'],
+            ['service', '==', props.service]
+          ],
+          storeAs: 'featureReports'
+        }
+      ]
+    }),
+    firestoreConnect(props => {
+      return [
+        {
+          collection: 'company',
+          doc: 'tala',
+          subcollections: [{collection: props.collection}],
+          where: [
+            ['type', '==', 'endpoint'],
+            ['service', '==', props.service]
+          ],
+          storeAs: 'endpointReports'
+        }
+      ]
+    })
 )(CompletedSpockTests)

@@ -20,6 +20,7 @@ import ReportDetails from "./components/testreports/reportdetails/ReportDetails"
 import UploadReport from "./components/testreports/uploadreport/UploadReport";
 import PerformanceTests from "./components/perfomance/PerformanceTests";
 import UpdateReport from "./components/testreports/updatereport/UpdateReport";
+import Home from "./components/testreports/home/Home";
 
 
 class App extends Component {
@@ -35,15 +36,15 @@ class App extends Component {
             <SidePanel/>
             <Switch>
               <Route exact path='/login' component={Login}/>
+              <Route exact path='/' component={Home}/>
+
               <Route exact path='/upload-report' component={UploadReport}/>
 
-              {/*we'll have a proper home screen later on. for now, redirect to loans page*/}
-              <Route exact path='/' component={CompletedSpockTests}/>
-              <Route exact path='/completed/loans' component={CompletedSpockTests}/>
+              <Route exact path='/completed/:service' component={CompletedSpockTests}/>
               <Route exact path='/completed/update-report/:id' component={UpdateReport}/>
               <Route exact path='/completed/report/:id' component ={ReportDetails}/>
 
-              <Route exact path='/development' component={SpockTestsInDevelopment}/>
+              <Route exact path='/development/:service' component={SpockTestsInDevelopment}/>
               {/*<Route exact path='/report/development/:id'*/}
                      {/*render={(props) => <ReportDetails {...props} collectionUrl='developmentreports' />}/>*/}
               <Route exact path='/development/report/:id' component ={ReportDetails}/>

@@ -116,12 +116,7 @@ class UpdateReport extends Component {
     this.props.updateReport(id, phase, report);
 
     //todo add a cloud function which deletes the previous report from cloud storage
-
-    if(phase == 'development') {
-      this.props.history.push('/development');
-    } else if(phase == 'completed') {
-      this.props.history.push('/');
-    }
+    this.props.history.push(`/${phase}/${service}`);
   };
 
   render() {

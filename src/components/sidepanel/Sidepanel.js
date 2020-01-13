@@ -14,14 +14,15 @@ export default class SidePanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstActive: window.location.pathname === '/' ? true : false,
-      secondActive: window.location.pathname === '/development' ? true : false,
-      thirdActive: window.location.pathname === '/performance' ? true : false,
-      fourthActive: window.location.pathname === '/tasks' ? true : false,
-      showMenu: false,
-      showDesktopMenu: true,
-      isHoveredMobile: true,
-      hovered: true
+      firstActive: window.location.pathname.includes('development') || window.location.pathname ===('/'),
+      secondActive: window.location.pathname.includes('completed'),
+      thirdActive: window.location.pathname === '/performance',
+      fourthActive: window.location.pathname === '/tasks',
+      showCollapsedMenu: true,
+      expanded: true,
+
+      showMenuMobile: false,
+      isExpandedMobile: true
     };
 
     this.setFirstActive = this.setFirstActive.bind(this);
@@ -35,7 +36,7 @@ export default class SidePanel extends Component {
     this.setState({secondActive: false});
     this.setState({thirdActive: false});
     this.setState({fourthActive: false});
-    this.setState({showMenu: false});
+    this.setState({showMenuMobile: false});
   };
 
   setSecondActive = () => {
@@ -43,7 +44,7 @@ export default class SidePanel extends Component {
     this.setState({secondActive: true});
     this.setState({thirdActive: false});
     this.setState({fourthActive: false});
-    this.setState({showMenu: false});
+    this.setState({showMenuMobile: false});
   };
 
   setThirdActive = () => {
@@ -51,7 +52,7 @@ export default class SidePanel extends Component {
     this.setState({secondActive: false});
     this.setState({thirdActive: true});
     this.setState({fourthActive: false});
-    this.setState({showMenu: false});
+    this.setState({showMenuMobile: false});
   };
 
   setFourthActive = () => {
@@ -59,7 +60,7 @@ export default class SidePanel extends Component {
     this.setState({secondActive: false});
     this.setState({thirdActive: false});
     this.setState({fourthActive: true});
-    this.setState({showMenu: false});
+    this.setState({showMenuMobile: false});
   };
 
   render() {
@@ -68,47 +69,77 @@ export default class SidePanel extends Component {
           {
             <React.Fragment>
               <div id='expand-icon' onClick={() => {
-                this.state.showDesktopMenu ?
-                    this.setState({showDesktopMenu: false, hovered: false}) :
-                    this.setState({showDesktopMenu: true, hovered: true})
+                this.state.showCollapsedMenu ?
+                    this.setState({showCollapsedMenu: false, expanded: false}) :
+                    this.setState({showCollapsedMenu: true, expanded: true})
               }
-              }> {this.state.showDesktopMenu ? 'x' : <img id='menu_bar' src={menu} alt='menu bar'></img>}
+              }> {this.state.showCollapsedMenu ? 'x' : <img id='menu_bar' src={menu} alt='menu bar'></img>}
               </div>
               <div id='sidepanel' style={{
-                width: this.state.hovered ? '21%' : '55px',
+                width: this.state.expanded ? '21%' : '55px',
                 transition: 'all ease-in-out 200ms'
               }}>
 
                 <div onClick={this.setFirstActive}>
                   <Link to='/'>
                     <Links
-                        title={this.state.hovered ? 'Completed Spock Tests'
+                        title={this.state.expanded ? 'Spock Tests In Development'
                             : ''}
-                        isHovered={this.state.hovered}
+                        isExpanded={this.state.expanded}
                         icon={report}
                         haslinks={true}
-                        links={[['Loans', this.state.firstActive],
-                          ['Rails', null], ['Users', null], ['Auth', null],
-                          ['Surveys', null]]}
+                        links={[
+                          ["Loans", '/development/loans'],
+                          [ "Users", '/development/users'],
+                          [ "Surveys", '/development/surveys'],
+                          [ "Auth", '/development/auth'],
+                          [ "Rails", '/development/rails'],
+                          [ "Comms", '/development/comms'],
+                          [ "Approval", '/development/approval'],
+                          [ "Scheduler", '/development/scheduler'],
+                          [ "DsRouter", '/development/dsrouter'],
+                          [ "Rules", '/development/rules'],
+                          [ "Assignment", '/development/assignment'],
+                          [ "Dss", '/development/dss'],
+                          [ "Kyc", '/development/kyc'],
+                          [ "Attribution", '/development/attribution'],
+                          [ "Settlement", '/development/settlement'],
+                          [ "Verification", '/development/verification']
+                        ]}
                         active={this.state.firstActive}
-                        whereto={'/'}
+                        titleLink={'/'}
                     />
                   </Link>
                 </div>
 
                 <div onClick={this.setSecondActive}>
-                  <Link to='/development'>
+                  <Link to='/completed/loans'>
                     <Links
-                        title={this.state.hovered ? 'Spock Tests In Development'
+                        title={this.state.expanded ? 'Completed Spock Tests'
                             : ''}
-                        isHovered={this.state.hovered}
+                        isExpanded={this.state.expanded}
                         haslinks={true}
                         icon={dev}
                         active={this.state.secondActive}
-                        links={[['Loans', this.state.secondActive],
-                          ['Rails', null], ['Users', null], ['Auth', null],
-                          ['Surveys', null]]}
-                        whereto={'/development'}
+                        links={[
+                          ["Loans", '/completed/loans'],
+                          [ "Users", '/completed/users'],
+                          [ "Surveys", '/completed/surveys'],
+                          [ "Auth", '/completed/auth'],
+                          [ "Rails", '/completed/rails'],
+                          [ "Comms", '/completed/comms'],
+                          [ "Approval", '/completed/approval'],
+                          [ "Scheduler", '/completed/scheduler'],
+                          [ "DsRouter", '/completed/dsrouter'],
+                          [ "Rules", '/completed/rules'],
+                          [ "Assignment", '/completed/assignment'],
+                          [ "Dss", '/completed/dss'],
+                          [ "Kyc", '/completed/kyc'],
+                          [ "Attribution", '/completed/attribution'],
+                          [ "Settlement", '/completed/settlement'],
+                          [ "Verification", '/completed/verification']
+                          ]}
+                        titleLink={'/completed/loans'}
                     />
                   </Link>
                 </div>
@@ -116,13 +147,13 @@ export default class SidePanel extends Component {
                 <div onClick={this.setThirdActive}>
                   <Link to='/performance'>
                     <Links
-                        title={this.state.hovered ? 'Performance Tests' : ''}
-                        isHovered={this.state.hovered}
+                        title={this.state.expanded ? 'Performance Tests' : ''}
+                        isExpanded={this.state.expanded}
                         haslinks={false}
                         icon={perf}
                         active={this.state.thirdActive}
                         links={[]}
-                        whereto={'/performance'}
+                        titleLink={'/performance'}
                     />
                   </Link>
                 </div>
@@ -130,80 +161,80 @@ export default class SidePanel extends Component {
                 <div onClick={this.setFourthActive}>
                   <Link to='/tasks'>
                     <Links
-                        title={this.state.hovered ? 'Tasks' : ''}
-                        isHovered={this.state.hovered}
+                        title={this.state.expanded ? 'Tasks' : ''}
+                        isExpanded={this.state.expanded}
                         haslinks={false}
                         icon={task}
-                        active={this.state.thirdActive}
+                        active={this.state.fourthActive}
                         links={[]}
-                        whereto={'/tasks'}
+                        titleLink={'/tasks'}
                     />
                   </Link>
                 </div>
               </div>
 
               <div id='sidepanel-mobile'
-                   style={{display: this.state.showMenu ? 'block' : 'none'}}>
+                   style={{display: this.state.showMenuMobile ? 'block' : 'none'}}>
                 <div onClick={this.setFirstActive}>
                   <Links
                       title='Spock Reports'
-                      isHovered={this.state.isHoveredMobile}
+                      isExpanded={this.state.isExpandedMobile}
                       haslinks={true}
                       icon={report}
                       links={[['Loans', this.state.firstActive],
                         ['Rails', null], ['Users', null], ['Auth', null],
                         ['Surveys', null]]}
                       active={this.state.firstActive}
-                      whereto={'/'}
+                      titleLink={'/'}
                   />
                 </div>
 
                 <div onClick={this.setSecondActive}>
                   <Links
                       title='Development'
-                      isHovered={this.state.isHoveredMobile}
+                      isExpanded={this.state.isExpandedMobile}
                       haslinks={true}
                       icon={dev}
                       active={this.state.secondActive}
                       links={[['Loans', this.state.secondActive],
                         ['Rails', null], ['Users', null], ['Auth', null],
                         ['Surveys', null]]}
-                      whereto={'/development'}
+                      titleLink={'/development'}
                   />
                 </div>
 
                 <div onClick={this.setThirdActive}>
                   <Links
                       title='Performance Tests'
-                      isHovered={this.state.isHoveredMobile}
+                      isExpanded={this.state.isExpandedMobile}
                       haslinks={false}
                       icon={perf}
                       active={this.state.thirdActive}
                       links={[]}
-                      whereto={'/performance'}
+                      titleLink={'/performance'}
                   />
                 </div>
 
                 <div onClick={this.setFourthActive}>
                   <Links
                       title='Tasks'
-                      isHovered={this.state.isHoveredMobile}
+                      isExpanded={this.state.isExpandedMobile}
                       haslinks={false}
                       icon={task}
                       active={this.state.fourthActive}
                       links={[]}
-                      whereto={'/tasks'}
+                      titleLink={'/tasks'}
                   />
                 </div>
 
               </div>
 
               <div id='mobile-expand-icon' onClick={() => {
-                this.state.showMenu ?
-                    this.setState({showMenu: false}) :
-                    this.setState({showMenu: true})
+                this.state.showMenuMobile ?
+                    this.setState({showMenuMobile: false}) :
+                    this.setState({showMenuMobile: true})
               }
-              }> {this.state.showMenu ? 'x' : <img id='menu_bar' src={menu} alt='menu bar'></img>}
+              }> {this.state.showMenuMobile ? 'x' : <img id='menu_bar' src={menu} alt='menu bar'></img>}
               </div>
             </React.Fragment>
 
