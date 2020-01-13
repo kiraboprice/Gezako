@@ -85,7 +85,7 @@ export default class SidePanel extends Component {
                     <Links
                         title={this.state.expanded ? 'Spock Tests In Development'
                             : ''}
-                        isHovered={this.state.expanded}
+                        isExpanded={this.state.expanded}
                         icon={report}
                         haslinks={true}
                         links={['Loans','Rails','Users','Auth','Surveys']}
@@ -100,11 +100,14 @@ export default class SidePanel extends Component {
                     <Links
                         title={this.state.expanded ? 'Completed Spock Tests'
                             : ''}
-                        isHovered={this.state.expanded}
+                        isExpanded={this.state.expanded}
                         haslinks={true}
                         icon={dev}
                         active={this.state.secondActive}
-                        links={['Loans','Rails','Users','Auth','Surveys']}
+                        links={[
+                            ["Loans", '/completed/loans'],
+                          [ "Rails", '/completed/rails']
+                          ]}
                         titleLink={'/completed'}
                     />
                   </Link>
@@ -114,7 +117,7 @@ export default class SidePanel extends Component {
                   <Link to='/performance'>
                     <Links
                         title={this.state.expanded ? 'Performance Tests' : ''}
-                        isHovered={this.state.expanded}
+                        isExpanded={this.state.expanded}
                         haslinks={false}
                         icon={perf}
                         active={this.state.thirdActive}
@@ -128,7 +131,7 @@ export default class SidePanel extends Component {
                   <Link to='/tasks'>
                     <Links
                         title={this.state.expanded ? 'Tasks' : ''}
-                        isHovered={this.state.expanded}
+                        isExpanded={this.state.expanded}
                         haslinks={false}
                         icon={task}
                         active={this.state.thirdActive}
@@ -144,7 +147,7 @@ export default class SidePanel extends Component {
                 <div onClick={this.setFirstActive}>
                   <Links
                       title='Spock Reports'
-                      isHovered={this.state.isExpandedMobile}
+                      isExpanded={this.state.isExpandedMobile}
                       haslinks={true}
                       icon={report}
                       links={[['Loans', this.state.firstActive],
@@ -158,7 +161,7 @@ export default class SidePanel extends Component {
                 <div onClick={this.setSecondActive}>
                   <Links
                       title='Development'
-                      isHovered={this.state.isExpandedMobile}
+                      isExpanded={this.state.isExpandedMobile}
                       haslinks={true}
                       icon={dev}
                       active={this.state.secondActive}
@@ -172,7 +175,7 @@ export default class SidePanel extends Component {
                 <div onClick={this.setThirdActive}>
                   <Links
                       title='Performance Tests'
-                      isHovered={this.state.isExpandedMobile}
+                      isExpanded={this.state.isExpandedMobile}
                       haslinks={false}
                       icon={perf}
                       active={this.state.thirdActive}
@@ -184,7 +187,7 @@ export default class SidePanel extends Component {
                 <div onClick={this.setFourthActive}>
                   <Links
                       title='Tasks'
-                      isHovered={this.state.isExpandedMobile}
+                      isExpanded={this.state.isExpandedMobile}
                       haslinks={false}
                       icon={task}
                       active={this.state.fourthActive}
