@@ -14,8 +14,8 @@ export default class SidePanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstActive: window.location.pathname === '/' || '/development/:service' ? true : false,
-      secondActive: window.location.pathname === '/completed/:service' ? true : false,
+      firstActive: window.location.pathname === '/' || '/development/' ? true : false,
+      secondActive: window.location.pathname.includes('completed') ? true : false,
       thirdActive: window.location.pathname === '/performance' ? true : false,
       fourthActive: window.location.pathname === '/tasks' ? true : false,
       showCollapsedMenu: true,

@@ -91,7 +91,9 @@ const CompletedSpockTests = (props) => {
 
 //todo extract this to StringUtils
 function getServiceNameFromPathName(pathname) {
-  return pathname.split('/completed/')[1]
+  const service = pathname.split('/completed/')[1];
+
+  return service
 }
 
 const mapStateToProps = (state, ownProps) => {
