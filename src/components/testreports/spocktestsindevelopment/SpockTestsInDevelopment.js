@@ -60,8 +60,8 @@ function getServiceNameFromPathName(pathname) {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('---------------state');
-  console.log(state);
+  // console.log('---------------state');
+  // console.log(state);
   return {
     auth: state.firebase.auth,
     reports: state.firestore.ordered.reports,
@@ -79,14 +79,11 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect(props => {
-      console.log('---------------props');
-      console.log(props);
       return [
         {
           collection: 'company',
           doc: 'tala',
-          subcollections: [{ collection: props.collection }],
-          // subcollections: [{ collection: 'developmentreports' }],
+          subcollections: [{collection: props.collection}],
           where: ['service', '==', props.service],
           storeAs: 'reports'
         }
