@@ -31,7 +31,7 @@ class UpdateReport extends Component {
   }
 
   componentWillUnmount() {
-    resetState(); //todo I dont think this is working hahaha
+    this.props.resetState()
   }
 
   handleChange = (e) => {
