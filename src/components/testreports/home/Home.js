@@ -10,8 +10,15 @@ import {downloadReport} from "../../../store/actions/reportActions";
 import {setPrevUrl} from "../../../store/actions/authActions";
 
 
-const SpockTestsInDevelopment = (props) => {
+const Home = (props) => {
   const { auth, setPrevUrl, reports } = props;
+
+  useEffect(() => {
+    //
+    return function cleanup() {
+      //clean shit up
+    };
+  },[]);
 
   if (!auth.uid) {
     setPrevUrl(props.location.pathname);
@@ -54,19 +61,11 @@ const SpockTestsInDevelopment = (props) => {
   )
 };
 
-//todo extract this to StringUtils
-function getServiceNameFromPathName(pathname) {
-  return pathname.split('/development/')[1]
-}
-
 const mapStateToProps = (state, ownProps) => {
-  console.log('---------------state');
-  console.log(state);
   return {
     auth: state.firebase.auth,
     reports: state.firestore.ordered.reports,
-    collection: 'developmentreports',
-    service: getServiceNameFromPathName(ownProps.location.pathname)
+    collection: 'developmentreports'
   }
 };
 
@@ -79,17 +78,13 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect(props => {
-      console.log('---------------props');
-      console.log(props);
       return [
         {
           collection: 'company',
           doc: 'tala',
           subcollections: [{ collection: props.collection }],
-          // subcollections: [{ collection: 'developmentreports' }],
-          where: ['service', '==', props.service],
           storeAs: 'reports'
         }
       ]
     })
-)(SpockTestsInDevelopment)
+)(Home)

@@ -51,7 +51,7 @@ body{
 #reports-section{
     width: 40%;
     position: relative;
-    margin: 125px auto 0 auto;
+    margin: 0 auto 0 auto;
     transition: all ease-in-out 400ms;
 }
 

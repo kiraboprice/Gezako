@@ -1,7 +1,7 @@
 #upload{
     width: 40%;
     position: relative;
-    margin: 125px auto 0 auto;
+    margin: 0 auto 0 auto;
     line-height: 1.8em;
     transition: all ease-in-out 400ms;
 }

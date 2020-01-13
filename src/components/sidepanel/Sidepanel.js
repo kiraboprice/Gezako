@@ -14,8 +14,8 @@ export default class SidePanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstActive: window.location.pathname === '/development' ? true : false,
-      secondActive: window.location.pathname === '/' ? true : false,
+      firstActive: window.location.pathname === '/' || '/development/:service' ? true : false,
+      secondActive: window.location.pathname === '/completed/:service' ? true : false,
       thirdActive: window.location.pathname === '/performance' ? true : false,
       fourthActive: window.location.pathname === '/tasks' ? true : false,
       showCollapsedMenu: true,
@@ -81,7 +81,7 @@ export default class SidePanel extends Component {
               }}>
 
                 <div onClick={this.setFirstActive}>
-                  <Link to='/development'>
+                  <Link to='/'>
                     <Links
                         title={this.state.expanded ? 'Spock Tests In Development'
                             : ''}
@@ -93,13 +93,13 @@ export default class SidePanel extends Component {
                           [ "Rails", '/development/rails']
                         ]}
                         active={this.state.firstActive}
-                        titleLink={'/development'}
+                        titleLink={'/'}
                     />
                   </Link>
                 </div>
 
                 <div onClick={this.setSecondActive}>
-                  <Link to='/completed'>
+                  <Link to='/completed/loans'>
                     <Links
                         title={this.state.expanded ? 'Completed Spock Tests'
                             : ''}
@@ -111,7 +111,7 @@ export default class SidePanel extends Component {
                             ["Loans", '/completed/loans'],
                           [ "Rails", '/completed/rails']
                           ]}
-                        titleLink={'/completed'}
+                        titleLink={'/completed/loans'}
                     />
                   </Link>
                 </div>
