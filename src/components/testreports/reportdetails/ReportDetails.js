@@ -51,12 +51,13 @@ const ReportDetails = (props) => {
               <span >{report.title}</span>
               <p>Type: {report.type}</p>
               <p>Service: {report.service}</p>
+              <p>Service: {report.phase}</p>
             </div>
             <div >
               <div>Uploaded by {report.createdBy}</div>
               <div>{moment(report.createdAt.toDate()).calendar()}</div>
 
-              <Link to={'/development/update-report/' + id} >
+              <Link to={`/${report.phase}/update-report/${id}`} >
                 <button >Update Report</button>
               </Link>
 

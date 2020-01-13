@@ -8,10 +8,10 @@ class UpdateReport extends Component {
   storageRef = firebase.storage().ref();
 
   state = {
+    title: '',
     phase : '',
     service: '',
     type: '',
-    title: '',
     file: '',
     fileDownLoadUrl: '',
     uploadProgress: 0
@@ -102,17 +102,17 @@ class UpdateReport extends Component {
 
   handleUpdate = (e) => {
     e.preventDefault();
-    const {id, phase, service, type, title, fileDownLoadUrl} = this.state;
+    const {id, phase, title, service, type, fileDownLoadUrl} = this.state;
     const report = {
-      // phase,
-      // service,
-      // type,
-      // title,
+      title,
+      phase,
+      service,
+      type,
       fileDownLoadUrl
     };
 
-    console.log('updateReport');
-    console.log(report);
+    // console.log('updateReport');
+    // console.log(report);
     this.props.updateReport(id, phase, report);
 
     //todo add a cloud function which deletes the previous report from cloud storage
@@ -125,48 +125,80 @@ class UpdateReport extends Component {
     if (!auth.uid) return <Redirect to='/login' />;
     
     getReport(id, phase);
-    let { service, type, title } = '';
-    if (report!= null) {
+    let {title, service, type}  = '';
+    if(report!= null) {
+      title = report.title;
       service = report.service;
       type = report.type;
-      title = report.title;
     }
 
-
     return (
-        <div style={{marginLeft: "500px", marginTop: "100px"}}>
+        <div id='upload' style={{marginLeft: "400px", marginTop: "50px"}}>
           <div >
-            <div >
-              <h3 >
-                Update Spock Report
-              </h3>
+            <h3 >
+              Update Spock Report
+            </h3>
+          </div>
+          <div>
+            <div>
+              <input type="file" name="file"
+                     onChange={this.handleFileSelected}
+                     accept="html/*"/>
+              <button onClick={this.handleUploadFile}>Upload File</button>
             </div>
-            <div class="panel-body">
-              <div>
-                <input type="file" name="file"
-                       onChange={this.handleFileSelected}
-                       accept="html/*"/>
-                <button onClick={this.handleUploadFile}>Upload File</button>
+
+            <span> Uploading report: {uploadProgress}% </span>
+
+            <form onSubmit={this.handleUpdate}>
+
+              <div id='display-content'>
+                <label>Report Title:</label>
+                <textarea name='title'
+                          onChange={this.handleChange}
+                          value = {title}
+                />
               </div>
 
-              <span> Uploading report: % {uploadProgress} </span>
+              <div id='display-content'>
+                <label>Phase: </label>
+                <select name='phase' value={phase} onChange={this.handleChange}>
+                  <option value='development'>Development</option>
+                  <option value='completed'>Completed</option>
+                </select>
+              </div>
 
-              <form onSubmit={this.handleUpdate}>
-                <div>
-                  <label>Phase: {phase}</label>
-                </div>
-                <div>
-                  <label>Service: {service}</label>
-                </div>
-                <div>
-                  <label>Type: {type}</label>
-                </div>
-                <div>
-                  <label>Title: {title}</label>
-                </div>
-                <button type="submit">Update</button>
-              </form>
-            </div>
+              <div id='display-content'>
+                <label>Service: </label>
+                <select name='service' value={service} onChange={this.handleChange}>
+                  <option value='loans'>Loans</option>
+                  <option value='Users'>Users</option>
+                  <option value='Surveys'>Surveys</option>
+                  <option value='Auth'>Auth</option>
+                  <option value='Rails'>Rails</option>
+                  <option value='approval'>Comms</option>
+                  <option value='Approval'>Approval</option>
+                  <option value='Scheduler'>Scheduler</option>
+                  <option value='DsRouter'>DsRouter</option>
+                  <option value='Rules'>Rules</option>
+                  <option value='Assignment'>Assignment</option>
+                  <option value='Dss'>Dss</option>
+                  <option value='Kyc'>Kyc</option>
+                  <option value='Attribution'>Attribution</option>
+                  <option value='Settlement'>Settlement</option>
+                  <option value='Verification'>Verification</option>
+                </select>
+              </div>
+
+              <div id='display-content'>
+                <label>Report Type: </label>
+                <select name='type' value={type} onChange={this.handleChange}>
+                  <option value='feature'>Feature</option>
+                  <option value='endpoint'>Endpoint</option>
+                </select>
+              </div>
+
+              <button type="submit">Update</button>
+            </form>
           </div>
         </div>
     );
@@ -177,13 +209,13 @@ class UpdateReport extends Component {
 const mapStateToProps = (state) => {
   // console.log('state in update report');
   // console.log(state);
-  let report = null;
-  if (state.report != null) {
-    report = state.report.getReport;
-  }
+  // let report = null;
+  // if (state.report != null) {
+  //   report = state.report.getReport;
+  // }
   return {
     auth: state.firebase.auth,
-    report: report
+    report: state.report.getReport
   }
 };
 
