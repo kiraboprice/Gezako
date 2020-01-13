@@ -88,7 +88,10 @@ export default class SidePanel extends Component {
                         isExpanded={this.state.expanded}
                         icon={report}
                         haslinks={true}
-                        links={['Loans','Rails','Users','Auth','Surveys']}
+                        links={[
+                          ["Loans", '/development/loans'],
+                          [ "Rails", '/development/rails']
+                        ]}
                         active={this.state.firstActive}
                         titleLink={'/development'}
                     />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Report from "../Report";
 import {Link} from "react-router-dom";
 import {compose} from "redux";
@@ -12,6 +12,15 @@ import {setPrevUrl} from "../../../store/actions/authActions";
 
 const SpockTestsInDevelopment = (props) => {
   const { auth, setPrevUrl, reports } = props;
+  const [service, setService] = useState('loans');
+
+  useEffect(() => {
+    // props.service = `loans`;
+    return function cleanup() {
+      //clean shit up
+    };
+  },[]);
+
   if (!auth.uid) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login' />;
@@ -53,12 +62,19 @@ const SpockTestsInDevelopment = (props) => {
   )
 };
 
-const mapStateToProps = (state) => {
-  // console.log('state in SpockTestsInDevelopment');
-  // console.log(state);
+//todo extract this to StringUtils
+function getServiceNameFromPathName(pathname) {
+  return pathname.split('/development/')[1]
+}
+
+const mapStateToProps = (state, ownProps) => {
+  console.log('---------------state');
+  console.log(state);
   return {
     auth: state.firebase.auth,
-    reports: state.firestore.ordered.developmentreports
+    reports: state.firestore.ordered.reports,
+    collection: 'developmentreports',
+    service: getServiceNameFromPathName(ownProps.location.pathname)
   }
 };
 
@@ -70,12 +86,18 @@ const mapDispatchToProps = (dispatch) => {
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect([
-      {
-        collection: 'company',
-        doc: 'tala',
-        subcollections: [{ collection: 'developmentreports' }],
-        storeAs: 'developmentreports'
-      }
-    ])
+    firestoreConnect(props => {
+      console.log('---------------props');
+      console.log(props);
+      return [
+        {
+          collection: 'company',
+          doc: 'tala',
+          subcollections: [{ collection: props.collection }],
+          // subcollections: [{ collection: 'developmentreports' }],
+          where: ['service', '==', props.service],
+          storeAs: 'reports'
+        }
+      ]
+    })
 )(SpockTestsInDevelopment)

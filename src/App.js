@@ -38,13 +38,12 @@ class App extends Component {
               <Route exact path='/upload-report' component={UploadReport}/>
 
               {/*we'll have a proper home screen later on. for now, redirect to loans page*/}
-              <Route exact path='/completed' component={CompletedSpockTests}/>
-              <Route exact path='/completed/loans' component={CompletedSpockTests}/>
+              <Route exact path='/completed/:service' component={CompletedSpockTests}/>
               <Route exact path='/completed/update-report/:id' component={UpdateReport}/>
               <Route exact path='/completed/report/:id' component ={ReportDetails}/>
 
               <Route exact path='/' component={SpockTestsInDevelopment}/>
-              <Route exact path='/development' component={SpockTestsInDevelopment}/>
+              <Route exact path='/development/:service' component={SpockTestsInDevelopment}/>
               {/*<Route exact path='/report/development/:id'*/}
                      {/*render={(props) => <ReportDetails {...props} collectionUrl='developmentreports' />}/>*/}
               <Route exact path='/development/report/:id' component ={ReportDetails}/>
