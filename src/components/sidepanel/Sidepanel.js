@@ -90,7 +90,21 @@ export default class SidePanel extends Component {
                         haslinks={true}
                         links={[
                           ["Loans", '/development/loans'],
-                          [ "Rails", '/development/rails']
+                          [ "Users", '/development/users'],
+                          [ "Surveys", '/development/surveys'],
+                          [ "Auth", '/development/auth'],
+                          [ "Rails", '/development/rails'],
+                          [ "Comms", '/development/comms'],
+                          [ "Approval", '/development/approval'],
+                          [ "Scheduler", '/development/scheduler'],
+                          [ "DsRouter", '/development/dsrouter'],
+                          [ "Rules", '/development/rules'],
+                          [ "Assignment", '/development/assignment'],
+                          [ "Dss", '/development/dss'],
+                          [ "Kyc", '/development/kyc'],
+                          [ "Attribution", '/development/attribution'],
+                          [ "Settlement", '/development/settlement'],
+                          [ "Verification", '/development/verification']
                         ]}
                         active={this.state.firstActive}
                         titleLink={'/'}
@@ -108,8 +122,22 @@ export default class SidePanel extends Component {
                         icon={dev}
                         active={this.state.secondActive}
                         links={[
-                            ["Loans", '/completed/loans'],
-                          [ "Rails", '/completed/rails']
+                          ["Loans", '/completed/loans'],
+                          [ "Users", '/completed/users'],
+                          [ "Surveys", '/completed/surveys'],
+                          [ "Auth", '/completed/auth'],
+                          [ "Rails", '/completed/rails'],
+                          [ "Comms", '/completed/comms'],
+                          [ "Approval", '/completed/approval'],
+                          [ "Scheduler", '/completed/scheduler'],
+                          [ "DsRouter", '/completed/dsrouter'],
+                          [ "Rules", '/completed/rules'],
+                          [ "Assignment", '/completed/assignment'],
+                          [ "Dss", '/completed/dss'],
+                          [ "Kyc", '/completed/kyc'],
+                          [ "Attribution", '/completed/attribution'],
+                          [ "Settlement", '/completed/settlement'],
+                          [ "Verification", '/completed/verification']
                           ]}
                         titleLink={'/completed/loans'}
                     />
