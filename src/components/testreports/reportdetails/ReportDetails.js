@@ -1,26 +1,43 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import moment from 'moment'
 import {Link, Redirect} from 'react-router-dom'
 import {setPrevUrl} from "../../../store/actions/authActions";
-import {downloadReport} from "../../../store/actions/reportActions";
+import {
+  downloadReport,
+  getReport,
+  resetState
+} from "../../../store/actions/reportActions";
 
-import '../../testreports/reportdetails.css';
+import '../reportdetails/reportdetails.css';
 
-/**
- * NOTE: Refactor so we can only use one ReportDetails class
- */
 
-const DevelopmentReportDetails = (props) => {
-  const {auth, setPrevUrl, report, downloadReport, reportDownload} = props;
+const ReportDetails = (props) => {
+  const {auth, report} = props;
+  const {setPrevUrl, getReport, downloadReport, reportDownload, resetState} = props;
+  const id = props.match.params.id;
+  const pathName = props.location.pathname;
+
+  let phase;
+  if(pathName.includes('development')){
+    phase = 'development'
+  } else if (pathName.includes('completed')) {
+    phase = 'completed'
+  }
+
+  useEffect(() => {
+    getReport(id, phase);
+
+    return function cleanup() {
+      resetState()
+    };
+  },[id]);
+
   if (!auth.uid) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login' />;
   }
-
-  const id = props.match.params.id;
 
   if (report) {
     downloadReport(report);
@@ -55,41 +72,26 @@ const DevelopmentReportDetails = (props) => {
         </div>
     )
   }
+
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const id = ownProps.match.params.id;
-  const reports =  state.firestore.data.developmentreports;
-
-  const report = reports ? reports[id] : null;
-
-  let reportDownload = null;
-  if (state.report != null) {
-    reportDownload = state.report.reportDownload;
-  }
-
+const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
-    report: report,
-    reportDownload: reportDownload
+    report: state.report.getReport,
+    reportDownload: state.report.reportDownload
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     downloadReport: (report) => dispatch(downloadReport(report)),
-    setPrevUrl: (url) => dispatch(setPrevUrl(url))
+    setPrevUrl: (url) => dispatch(setPrevUrl(url)),
+    getReport: (id, phase) => dispatch(getReport(id, phase)),
+    resetState: () => dispatch(resetState())
   }
 };
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect([
-      {
-        collection: 'company',
-        doc: 'tala',
-        subcollections: [{ collection: 'developmentreports'}],
-        storeAs: 'developmentreports'
-      }
-    ])
-)(DevelopmentReportDetails)
+    connect(mapStateToProps, mapDispatchToProps)
+)(ReportDetails)

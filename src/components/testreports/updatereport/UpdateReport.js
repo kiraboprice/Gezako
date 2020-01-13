@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import {getReport, updateReport, resetState} from "../../store/actions/reportActions";
+import {getReport, updateReport, resetState} from "../../../store/actions/reportActions";
 import * as firebase from "firebase";
-import {BASE_DOCUMENT} from "../../constants/Constants";
 
 class UpdateReport extends Component {
   storageRef = firebase.storage().ref();
@@ -32,7 +31,7 @@ class UpdateReport extends Component {
   }
 
   componentWillUnmount() {
-    resetState(); //todo I dont think this is working hahaha
+    this.props.resetState()
   }
 
   handleChange = (e) => {
@@ -185,7 +184,7 @@ const mapStateToProps = (state) => {
   // console.log(state);
   let report = null;
   if (state.report != null) {
-    report = state.report.report;
+    report = state.report.getReport;
   }
   return {
     auth: state.firebase.auth,

@@ -16,12 +16,10 @@ import CreateTask from "./components/tasks/CreateTask";
 
 import TaskDetails from "./components/tasks/TaskDetails";
 import { connect } from 'react-redux'
-import ReportDetails from "./components/testreports/ReportDetails";
-import UploadReport from "./components/testreports/UploadReport";
+import ReportDetails from "./components/testreports/reportdetails/ReportDetails";
+import UploadReport from "./components/testreports/uploadreport/UploadReport";
 import PerformanceTests from "./components/perfomance/PerformanceTests";
-import CompletedReportDetails from "./components/testreports/completedspocktests/CompletedReportDetails";
-import DevelopmentReportDetails from "./components/testreports/spocktestsindevelopment/DevelopmentReportDetails";
-import UpdateReport from "./components/testreports/UpdateReport";
+import UpdateReport from "./components/testreports/updatereport/UpdateReport";
 
 
 class App extends Component {
@@ -43,17 +41,12 @@ class App extends Component {
               <Route exact path='/' component={CompletedSpockTests}/>
               <Route exact path='/completed/loans' component={CompletedSpockTests}/>
               <Route exact path='/completed/update-report/:id' component={UpdateReport}/>
-
-              {/*<Route*/}
-                  {/*exact path='/report/completed/:id'*/}
-                  {/*render={(props) => <ReportDetails {...props} collectionUrl='completedreports' />}/>*/}
-
-              <Route exact path='/report/completed/:id' component ={CompletedReportDetails}/>
+              <Route exact path='/completed/report/:id' component ={ReportDetails}/>
 
               <Route exact path='/development' component={SpockTestsInDevelopment}/>
               {/*<Route exact path='/report/development/:id'*/}
                      {/*render={(props) => <ReportDetails {...props} collectionUrl='developmentreports' />}/>*/}
-              <Route exact path='/report/development/:id' component ={DevelopmentReportDetails}/>
+              <Route exact path='/development/report/:id' component ={ReportDetails}/>
               <Route exact path='/development/update-report/:id' component={UpdateReport}/>
 
               <Route exact path='/performance' component={PerformanceTests}/>

@@ -1,5 +1,8 @@
 
-const initState = null;
+const initState = {
+  getReport: null,
+  reportDownload: null
+};
 
 
 const reportReducer = (state = initState, action) => {
@@ -26,7 +29,7 @@ const reportReducer = (state = initState, action) => {
       // console.log('GET_REPORT_SUCCESS', action.report);
       return {
         ...state,
-        report: action.report
+        getReport: action.report
       };
 
     case 'GET_REPORT_ERROR_NOT_EXISTS':
@@ -60,7 +63,8 @@ const reportReducer = (state = initState, action) => {
       // console.log('RESET_STATE_SUCCESS');
       return {
         ...state,
-        report: null
+        getReport: null,
+        reportDownload: null
       };
 
     default:

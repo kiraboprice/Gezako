@@ -130,7 +130,7 @@ export const updateReport = (id, phase, report) => {
 };
 
 export const resetState = () => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({type: 'RESET_STATE_SUCCESS'});
   }
 };
