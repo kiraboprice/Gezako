@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 export default class Links extends Component {
     state = {
-      expandIcon: '+',
+      expandIcon: ' +',
       isExpanded: false
     };
 
@@ -25,9 +25,9 @@ export default class Links extends Component {
 
           <span id='expandIcon' onClick={
             () => {
-              this.state.expandIcon === '+' ?
-                  this.setState({expandIcon: '-', isExpanded: true}) : this.setState(
-                  {expandIcon: '+', isExpanded: false})
+              this.state.expandIcon === ' +' ?
+                  this.setState({expandIcon: ' -', isExpanded: true}) : this.setState(
+                  {expandIcon: ' +', isExpanded: false})
             }
           }>
                   {this.props.haslinks && this.props.isExpanded
