@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import moment from 'moment'
 import {Link, Redirect} from 'react-router-dom'
@@ -11,7 +10,7 @@ import '../reportdetails/reportdetails.css';
 
 
 const ReportDetails = (props) => {
-  const {auth, setPrevUrl, report, downloadReport, reportDownload} = props;
+  const {auth, setPrevUrl, report, getReport, downloadReport, reportDownload} = props;
   if (!auth.uid) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login' />;
@@ -64,6 +63,8 @@ const ReportDetails = (props) => {
 };
 
 const mapStateToProps = (state) => {
+  console.log('state in Report Details');
+  console.log(state);
   let report = null;
   let reportDownload = null;
   if (state.report != null) {
@@ -73,8 +74,9 @@ const mapStateToProps = (state) => {
 
   return {
     auth: state.firebase.auth,
-    report: report,
-    reportDownload: reportDownload
+    // report: report,
+    report: state.report.getReport,
+  reportDownload: reportDownload
   }
 };
 

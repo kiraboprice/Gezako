@@ -55,7 +55,7 @@ const SpockTestsInDevelopment = (props) => {
 
 const mapStateToProps = (state) => {
   // console.log('state in SpockTestsInDevelopment');
-  console.log(state);
+  // console.log(state);
   return {
     auth: state.firebase.auth,
     reports: state.firestore.ordered.developmentreports

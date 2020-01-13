@@ -1,5 +1,8 @@
 
-const initState = null;
+const initState = {
+  getReport: null,
+  reportDownload: null
+};
 
 
 const reportReducer = (state = initState, action) => {
