@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 
 import {compose} from "redux";
 import connect from "react-redux/es/connect/connect";
+import {updateReport} from "../../store/actions/reportActions";
 
 const useStyles = makeStyles({
   card: {
@@ -19,17 +20,26 @@ const useStyles = makeStyles({
 
 const StatusCard = (props) => {
   const classes = useStyles();
-  const { status, statusImage, description } = props;
+
+  const { updateReport } = props;
   const [statusValue, setStatusValue] = useState('');
 
-  //todo set the initial status as the current status in the status list
+  const [state, setLocalState] = useState(props);
+  useEffect(() => {
+    setLocalState(props);
+  }, [props]);
 
-  // useEffect(() => {
-  //   setStatusValue(status); //this doesnt work
-  // });
+  console.log('state');
+  console.log(state);
 
-  function handleChange(e) {
+
+  function handleStatusChange(e) {
     setStatusValue(e.target.value)
+  }
+
+  function updateStatus(e) {
+    state.report.status = statusValue;
+    updateReport(state.id, state.report)
   }
 
   return (
@@ -39,24 +49,24 @@ const StatusCard = (props) => {
               component="img"
               alt="Image"
               height="20"
-              image={statusImage}
-              title={status}
+              image={state.statusImage}
+              title={state.report.status}
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-              {status}
+              {state.report.status}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              {description}
+              {state.description}
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <select value={statusValue} onChange={handleChange}>
+          <select value={statusValue} onChange={handleStatusChange}>
             <option value='new'>New</option>
             <option value='inReview'>In Review</option>
           </select>
-          <Button size="small" color="primary">
+          <Button size="small" color="primary" onClick={updateStatus}>
             Update Status
           </Button>
         </CardActions>
@@ -67,17 +77,12 @@ const StatusCard = (props) => {
 const mapStateToProps = (state) => {
   return {
     // auth: state.firebase.auth,
-    // report: state.report.getReport,
-    // reportDownload: state.report.reportDownload
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // downloadReport: (report) => dispatch(downloadReport(report)),
-    // setPrevUrl: (url) => dispatch(setPrevUrl(url)),
-    // getReport: (id, phase) => dispatch(getReport(id, phase)),
-    // resetState: () => dispatch(resetState())
+    updateReport: (id, report) => dispatch(updateReport(id, report)),
   }
 };
 

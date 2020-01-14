@@ -94,7 +94,8 @@ const ReportDetails = (props) => {
               </Link>
 
               <StatusCard
-                  status = {report.status}
+                  id = {id}
+                  report = {report}
                   statusImage = {getStatusImage(report)}
                   description = {generateDescText(report)}
               />
