@@ -11,7 +11,12 @@ import {
 } from "../../../store/actions/reportActions";
 
 import '../reportdetails/reportdetails.css';
+import Box from '@material-ui/core/Box';
+import { palette } from '@material-ui/system';
+import StatusCard from "../../status/StatusCard";
+import * as ReportStatus from "../../../constants/ReportStatus";
 
+import newStatusImage  from "../../../assets/Imgs/status/yellow.jpg";
 
 const ReportDetails = (props) => {
   const {auth, report} = props;
@@ -39,6 +44,34 @@ const ReportDetails = (props) => {
     return <Redirect to='/login' />;
   }
 
+  function generateDescText(report) {
+    let description;
+    switch(report.status) {
+      case ReportStatus.NEW:
+        return 'New Report has been uploaded by Seetal and she\'s waiting for Fred to review';
+
+        case ReportStatus.IN_REVIEW:
+        // code block
+        break;
+      default:
+        return "Invalid Status"
+    }
+  }
+
+  function getStatusImage(report) {
+    let description;
+    switch(report.status) {
+      case ReportStatus.NEW:
+        return newStatusImage;
+
+      case ReportStatus.IN_REVIEW:
+        // code block
+        break;
+      default:
+        return "Invalid Status"
+    }
+  }
+
   if (report) {
     downloadReport(report);
 
@@ -56,10 +89,15 @@ const ReportDetails = (props) => {
             <div >
               <div>Uploaded by {report.createdBy}</div>
               <div>{moment(report.createdAt.toDate()).calendar()}</div>
-
               <Link to={`/${report.phase}/update-report/${id}`} >
                 <button >Update Report</button>
               </Link>
+
+              <StatusCard
+                  status = {report.status}
+                  statusImage = {getStatusImage(report)}
+                  description = {generateDescText(report)}
+              />
 
               <div dangerouslySetInnerHTML= {htmlDoc} />
             </div>

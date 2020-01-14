@@ -10,7 +10,7 @@ import dev from '../../assets/Icons/dev.png';
 import perf from '../../assets/Icons/perf.png';
 import task from '../../assets/Icons/task.png';
 
-export default class SidePanel extends Component {
+export default class SideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {

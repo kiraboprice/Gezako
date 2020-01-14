@@ -2,6 +2,7 @@ import {BASE_DOCUMENT} from "../../constants/Constants";
 import firebase from 'firebase';
 
 import axios from 'axios';
+import * as ReportStatus from "../../constants/ReportStatus";
 
 //this is not in use
 export const uploadReport = (file) => {
@@ -74,7 +75,8 @@ export const createReport = (report) => {
       //just leaving this here to show possibility of using profile in an action. but this is not scalable. if the displayName ever gets updated, we'd need a cloud function which listens on the user collection for this user specifically, then updates everywhere.
       createdBy: profile.displayName,
       userId: userId,
-      createdAt: new Date()
+      createdAt: new Date(),
+      status: ReportStatus.NEW
     }).then(() => {
       dispatch({type: 'CREATE_REPORT_SUCCESS'});
     }).catch(err => {

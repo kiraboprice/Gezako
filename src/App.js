@@ -10,7 +10,7 @@ import './app.css';
 import SpockTestsInDevelopment from './components/testreports/spocktestsindevelopment/SpockTestsInDevelopment';
 
 import Navigation from "./components/navigation/Navigation";
-import SidePanel from "./components/sidepanel/Sidepanel";
+import SideBar from "./components/sidepanel/SideBar";
 import Tasks from "./components/tasks/Tasks";
 import CreateTask from "./components/tasks/CreateTask";
 
@@ -33,7 +33,7 @@ class App extends Component {
         <div>
           <BrowserRouter>
             <Navigation/>
-            <SidePanel/>
+            <SideBar/>
             <Switch>
               <Route exact path='/login' component={Login}/>
               <Route exact path='/' component={Home}/>
