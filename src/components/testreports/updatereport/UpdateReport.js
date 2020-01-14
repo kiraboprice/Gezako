@@ -146,8 +146,8 @@ class UpdateReport extends Component {
     const { auth } = this.props;
     if (!auth.uid) return <Redirect to='/login' />;
 
-    console.log("STATEEEEEE");
-    console.log(this.state);
+    // console.log("STATEEEEEE");
+    // console.log(this.state);
     if (report) {
       return (
           <div id='upload' style={{marginLeft: "400px", marginTop: "50px"}}>
