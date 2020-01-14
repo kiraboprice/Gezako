@@ -5,19 +5,23 @@ import {getReport, updateReport, resetState} from "../../../store/actions/report
 import * as firebase from "firebase";
 
 class UpdateReport extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: '',
+      phase : '',
+      service: '',
+      type: '',
+      file: '',
+      fileDownLoadUrl: '',
+      uploadProgress: 0
+    };
+  }
+
   storageRef = firebase.storage().ref();
 
-  state = {
-    title: '',
-    phase : '',
-    service: '',
-    type: '',
-    file: '',
-    fileDownLoadUrl: '',
-    uploadProgress: 0
-  };
-
   componentWillMount() {
+
     const id = this.props.match.params.id;
     const pathName = this.props.location.pathname;
     let phase;
@@ -27,7 +31,24 @@ class UpdateReport extends Component {
       phase = 'completed'
     }
 
+    const { getReport } = this.props;
+    getReport(id, phase);
+
     this.setState({id: id, phase: phase});
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log("componentWillReceiveProps");
+    console.log(nextProps);
+    if (nextProps.report) {
+      this.setState({
+        report: nextProps.report,
+        title: nextProps.report.title,
+        phase: nextProps.report.phase,
+        service: nextProps.report.service,
+        type: nextProps.report.type,
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -120,88 +141,92 @@ class UpdateReport extends Component {
   };
 
   render() {
-    const { id, phase, uploadProgress} = this.state;
-    const { auth, getReport, report } = this.props;
+    const { phase, title, service, type, uploadProgress, report} = this.state;
+    const { auth } = this.props;
     if (!auth.uid) return <Redirect to='/login' />;
-    
-    getReport(id, phase);
-    let {title, service, type}  = '';
-    if(report!= null) {
-      title = report.title;
-      service = report.service;
-      type = report.type;
+
+    console.log("STATEEEEEE");
+    console.log(this.state);
+    if (report) {
+      return (
+          <div id='upload' style={{marginLeft: "400px", marginTop: "50px"}}>
+            <div >
+              <h3 >
+                Update Spock Report
+              </h3>
+            </div>
+            <div>
+              <div>
+                <input type="file" name="file"
+                       onChange={this.handleFileSelected}
+                       accept="html/*"/>
+                <button onClick={this.handleUploadFile}>Upload File</button>
+              </div>
+
+              <span> Uploading report: {uploadProgress}% </span>
+
+              <form onSubmit={this.handleUpdate}>
+
+                <div id='display-content'>
+                  <label>Report Title:</label>
+                  <textarea name='title'
+                            onChange={this.handleChange}
+                            value = {title}
+                  />
+                </div>
+
+                <div id='display-content'>
+                  <label>Phase: </label>
+                  <select name='phase' value={phase} onChange={this.handleChange}>
+                    <option value='development'>Development</option>
+                    <option value='completed'>Completed</option>
+                  </select>
+                </div>
+
+                <div id='display-content'>
+                  <label>Service: </label>
+                  <select name='service' value={service} onChange={this.handleChange}>
+                    <option value='loans'>Loans</option>
+                    <option value='Users'>Users</option>
+                    <option value='Surveys'>Surveys</option>
+                    <option value='Auth'>Auth</option>
+                    <option value='Rails'>Rails</option>
+                    <option value='approval'>Comms</option>
+                    <option value='Approval'>Approval</option>
+                    <option value='Scheduler'>Scheduler</option>
+                    <option value='DsRouter'>DsRouter</option>
+                    <option value='Rules'>Rules</option>
+                    <option value='Assignment'>Assignment</option>
+                    <option value='Dss'>Dss</option>
+                    <option value='Kyc'>Kyc</option>
+                    <option value='Attribution'>Attribution</option>
+                    <option value='Settlement'>Settlement</option>
+                    <option value='Verification'>Verification</option>
+                  </select>
+                </div>
+
+                <div id='display-content'>
+                  <label>Report Type: </label>
+                  <select name='type' value={type} onChange={this.handleChange}>
+                    <option value='feature'>Feature</option>
+                    <option value='endpoint'>Endpoint</option>
+                  </select>
+                </div>
+
+                <button type="submit">Update</button>
+              </form>
+            </div>
+          </div>
+      );
+
+    } else {
+      return (
+          <div id='report-details-section'>
+            <p>Loading report...</p>
+          </div>
+      )
     }
 
-    return (
-        <div id='upload' style={{marginLeft: "400px", marginTop: "50px"}}>
-          <div >
-            <h3 >
-              Update Spock Report
-            </h3>
-          </div>
-          <div>
-            <div>
-              <input type="file" name="file"
-                     onChange={this.handleFileSelected}
-                     accept="html/*"/>
-              <button onClick={this.handleUploadFile}>Upload File</button>
-            </div>
-
-            <span> Uploading report: {uploadProgress}% </span>
-
-            <form onSubmit={this.handleUpdate}>
-
-              <div id='display-content'>
-                <label>Report Title:</label>
-                <textarea name='title'
-                          onChange={this.handleChange}
-                          value = {title}
-                />
-              </div>
-
-              <div id='display-content'>
-                <label>Phase: </label>
-                <select name='phase' value={phase} onChange={this.handleChange}>
-                  <option value='development'>Development</option>
-                  <option value='completed'>Completed</option>
-                </select>
-              </div>
-
-              <div id='display-content'>
-                <label>Service: </label>
-                <select name='service' value={service} onChange={this.handleChange}>
-                  <option value='loans'>Loans</option>
-                  <option value='Users'>Users</option>
-                  <option value='Surveys'>Surveys</option>
-                  <option value='Auth'>Auth</option>
-                  <option value='Rails'>Rails</option>
-                  <option value='approval'>Comms</option>
-                  <option value='Approval'>Approval</option>
-                  <option value='Scheduler'>Scheduler</option>
-                  <option value='DsRouter'>DsRouter</option>
-                  <option value='Rules'>Rules</option>
-                  <option value='Assignment'>Assignment</option>
-                  <option value='Dss'>Dss</option>
-                  <option value='Kyc'>Kyc</option>
-                  <option value='Attribution'>Attribution</option>
-                  <option value='Settlement'>Settlement</option>
-                  <option value='Verification'>Verification</option>
-                </select>
-              </div>
-
-              <div id='display-content'>
-                <label>Report Type: </label>
-                <select name='type' value={type} onChange={this.handleChange}>
-                  <option value='feature'>Feature</option>
-                  <option value='endpoint'>Endpoint</option>
-                </select>
-              </div>
-
-              <button type="submit">Update</button>
-            </form>
-          </div>
-        </div>
-    );
   }
 
 }
