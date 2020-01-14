@@ -119,6 +119,10 @@ export const updateReport = (id, phase, report) => {
     console.log(report.fileDownLoadUrl);
 
     firestore.collection(collectionUrl).doc(id).update({
+      title: report.title,
+      phase: report.phase,
+      service: report.service,
+      type: report.type,
       fileDownLoadUrl: report.fileDownLoadUrl,
       updatedAt: new Date()
     }).then(() => {

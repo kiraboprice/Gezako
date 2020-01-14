@@ -11,10 +11,10 @@ class UploadReport extends Component {
   storageRef = firebase.storage().ref();
 
   state = {
+    title: 'Test Report Title',
     phase: 'development',
     service: 'loans',
     type: 'endpoint',
-    title: 'Test Report Title',
     file: '',
     fileDownLoadUrl: '',
     uploadProgress: 0
@@ -92,12 +92,12 @@ class UploadReport extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {phase, service, type, title, fileDownLoadUrl} = this.state;
+    const {title, phase, service, type, fileDownLoadUrl} = this.state;
     const report = {
+      title,
       phase,
       service,
       type,
-      title,
       fileDownLoadUrl
     };
     this.props.createReport(report);
@@ -105,7 +105,7 @@ class UploadReport extends Component {
   };
 
   render() {
-    const {phase, service, type, title, uploadProgress} = this.state;
+    const {title, phase, service, type, uploadProgress} = this.state;
     const { auth, setPrevUrl } = this.props;
     if (!auth.uid) {
       setPrevUrl(this.props.location.pathname);
@@ -128,6 +128,15 @@ class UploadReport extends Component {
 
             <form onSubmit={this.handleSubmit} style={{marginTop: '25px'}}>
               <div>
+
+                <div id='display-content'>
+                  <label>Report Title:</label>
+                  <textarea name='title'
+                            onChange={this.handleChange}
+                            value = {title}
+                  />
+                </div>
+
                 <div id='display-content'>
                   <label>Phase: </label>
                   <select name='phase' value={phase} onChange={this.handleChange}>
@@ -140,10 +149,21 @@ class UploadReport extends Component {
                   <label>Service: </label>
                   <select name='service' value={service} onChange={this.handleChange}>
                     <option value='loans'>Loans</option>
-                    <option value='rails'>Rails</option>
                     <option value='users'>Users</option>
+                    <option value='surveys'>Surveys</option>
                     <option value='auth'>Auth</option>
+                    <option value='rails'>Rails</option>
+                    <option value='approval'>Comms</option>
                     <option value='approval'>Approval</option>
+                    <option value='scheduler'>Scheduler</option>
+                    <option value='dsrouter'>DsRouter</option>
+                    <option value='rules'>Rules</option>
+                    <option value='assignment'>Assignment</option>
+                    <option value='dss'>Dss</option>
+                    <option value='kyc'>Kyc</option>
+                    <option value='attribution'>Attribution</option>
+                    <option value='settlement'>Settlement</option>
+                    <option value='verification'>Verification</option>
                   </select>
                 </div>
 
@@ -153,13 +173,6 @@ class UploadReport extends Component {
                     <option value='feature'>Feature</option>
                     <option value='endpoint'>Endpoint</option>
                   </select>
-                </div>
-
-                <div id='display-content'>
-                  <label>Report Title:</label>
-                  <textarea class='form-control' name='title' onChange={this.handleChange}>
-									{title}
-								  </textarea>
                 </div>
 
                 {/* ! Make sure someone has actually uploaded and filled out the required spaces because

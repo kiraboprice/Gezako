@@ -5,19 +5,23 @@ import {getReport, updateReport, resetState} from "../../../store/actions/report
 import * as firebase from "firebase";
 
 class UpdateReport extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: '',
+      phase : '',
+      service: '',
+      type: '',
+      file: '',
+      fileDownLoadUrl: '',
+      uploadProgress: 0
+    };
+  }
+
   storageRef = firebase.storage().ref();
 
-  state = {
-    phase : '',
-    service: '',
-    type: '',
-    title: '',
-    file: '',
-    fileDownLoadUrl: '',
-    uploadProgress: 0
-  };
-
   componentWillMount() {
+
     const id = this.props.match.params.id;
     const pathName = this.props.location.pathname;
     let phase;
@@ -27,7 +31,25 @@ class UpdateReport extends Component {
       phase = 'completed'
     }
 
+    const { getReport } = this.props;
+    getReport(id, phase);
+
     this.setState({id: id, phase: phase});
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log("componentWillReceiveProps");
+    console.log(nextProps);
+    if (nextProps.report) {
+      this.setState({
+        report: nextProps.report,
+        title: nextProps.report.title,
+        phase: nextProps.report.phase,
+        service: nextProps.report.service,
+        type: nextProps.report.type,
+        fileDownLoadUrl: nextProps.report.fileDownLoadUrl,
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -102,17 +124,17 @@ class UpdateReport extends Component {
 
   handleUpdate = (e) => {
     e.preventDefault();
-    const {id, phase, service, type, title, fileDownLoadUrl} = this.state;
+    const {id, phase, title, service, type, fileDownLoadUrl} = this.state;
     const report = {
-      // phase,
-      // service,
-      // type,
-      // title,
+      title,
+      phase,
+      service,
+      type,
       fileDownLoadUrl
     };
 
-    console.log('updateReport');
-    console.log(report);
+    // console.log('updateReport');
+    // console.log(report);
     this.props.updateReport(id, phase, report);
 
     //todo add a cloud function which deletes the previous report from cloud storage
@@ -120,28 +142,21 @@ class UpdateReport extends Component {
   };
 
   render() {
-    const { id, phase, uploadProgress} = this.state;
-    const { auth, getReport, report } = this.props;
+    const { phase, title, service, type, uploadProgress, report} = this.state;
+    const { auth } = this.props;
     if (!auth.uid) return <Redirect to='/login' />;
-    
-    getReport(id, phase);
-    let { service, type, title } = '';
-    if (report!= null) {
-      service = report.service;
-      type = report.type;
-      title = report.title;
-    }
 
-
-    return (
-        <div style={{marginLeft: "500px", marginTop: "100px"}}>
-          <div >
+    // console.log("STATEEEEEE");
+    // console.log(this.state);
+    if (report) {
+      return (
+          <div id='upload' style={{marginLeft: "400px", marginTop: "50px"}}>
             <div >
               <h3 >
                 Update Spock Report
               </h3>
             </div>
-            <div class="panel-body">
+            <div>
               <div>
                 <input type="file" name="file"
                        onChange={this.handleFileSelected}
@@ -149,27 +164,70 @@ class UpdateReport extends Component {
                 <button onClick={this.handleUploadFile}>Upload File</button>
               </div>
 
-              <span> Uploading report: % {uploadProgress} </span>
+              <span> Uploading report: {uploadProgress}% </span>
 
               <form onSubmit={this.handleUpdate}>
-                <div>
-                  <label>Phase: {phase}</label>
+
+                <div id='display-content'>
+                  <label>Report Title:</label>
+                  <textarea name='title'
+                            onChange={this.handleChange}
+                            value = {title}
+                  />
                 </div>
-                <div>
-                  <label>Service: {service}</label>
+
+                <div id='display-content'>
+                  <label>Phase: </label>
+                  <select name='phase' value={phase} onChange={this.handleChange}>
+                    <option value='development'>Development</option>
+                    <option value='completed'>Completed</option>
+                  </select>
                 </div>
-                <div>
-                  <label>Type: {type}</label>
+
+                <div id='display-content'>
+                  <label>Service: </label>
+                  <select name='service' value={service} onChange={this.handleChange}>
+                    <option value='loans'>Loans</option>
+                    <option value='users'>Users</option>
+                    <option value='surveys'>Surveys</option>
+                    <option value='auth'>Auth</option>
+                    <option value='rails'>Rails</option>
+                    <option value='approval'>Comms</option>
+                    <option value='approval'>Approval</option>
+                    <option value='scheduler'>Scheduler</option>
+                    <option value='dsrouter'>DsRouter</option>
+                    <option value='rules'>Rules</option>
+                    <option value='assignment'>Assignment</option>
+                    <option value='dss'>Dss</option>
+                    <option value='kyc'>Kyc</option>
+                    <option value='attribution'>Attribution</option>
+                    <option value='settlement'>Settlement</option>
+                    <option value='verification'>Verification</option>
+                  </select>
                 </div>
-                <div>
-                  <label>Title: {title}</label>
+
+                <div id='display-content'>
+                  <label>Report Type: </label>
+                  <select name='type' value={type} onChange={this.handleChange}>
+                    <option value='feature'>Feature</option>
+                    <option value='endpoint'>Endpoint</option>
+                  </select>
                 </div>
+
                 <button type="submit">Update</button>
               </form>
             </div>
           </div>
-        </div>
-    );
+      );
+
+    } else {
+      return (
+          <div id='report-details-section'>
+            <p>Loading report...</p>
+          </div>
+      )
+    }
+
   }
 
 }
@@ -177,13 +235,13 @@ class UpdateReport extends Component {
 const mapStateToProps = (state) => {
   // console.log('state in update report');
   // console.log(state);
-  let report = null;
-  if (state.report != null) {
-    report = state.report.getReport;
-  }
+  // let report = null;
+  // if (state.report != null) {
+  //   report = state.report.getReport;
+  // }
   return {
     auth: state.firebase.auth,
-    report: report
+    report: state.report.getReport
   }
 };
 
