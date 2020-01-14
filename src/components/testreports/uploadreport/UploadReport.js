@@ -149,21 +149,21 @@ class UploadReport extends Component {
                   <label>Service: </label>
                   <select name='service' value={service} onChange={this.handleChange}>
                     <option value='loans'>Loans</option>
-                    <option value='Users'>Users</option>
-                    <option value='Surveys'>Surveys</option>
-                    <option value='Auth'>Auth</option>
-                    <option value='Rails'>Rails</option>
+                    <option value='users'>Users</option>
+                    <option value='surveys'>Surveys</option>
+                    <option value='auth'>Auth</option>
+                    <option value='rails'>Rails</option>
                     <option value='approval'>Comms</option>
-                    <option value='Approval'>Approval</option>
-                    <option value='Scheduler'>Scheduler</option>
-                    <option value='DsRouter'>DsRouter</option>
-                    <option value='Rules'>Rules</option>
-                    <option value='Assignment'>Assignment</option>
-                    <option value='Dss'>Dss</option>
-                    <option value='Kyc'>Kyc</option>
-                    <option value='Attribution'>Attribution</option>
-                    <option value='Settlement'>Settlement</option>
-                    <option value='Verification'>Verification</option>
+                    <option value='approval'>Approval</option>
+                    <option value='scheduler'>Scheduler</option>
+                    <option value='dsrouter'>DsRouter</option>
+                    <option value='rules'>Rules</option>
+                    <option value='assignment'>Assignment</option>
+                    <option value='dss'>Dss</option>
+                    <option value='kyc'>Kyc</option>
+                    <option value='attribution'>Attribution</option>
+                    <option value='settlement'>Settlement</option>
+                    <option value='verification'>Verification</option>
                   </select>
                 </div>
 
