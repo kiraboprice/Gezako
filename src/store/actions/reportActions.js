@@ -88,6 +88,7 @@ export const createReport = (report) => {
 export const getReport = (id, phase) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
+
     let collectionUrl = '';
     if(phase == 'development'){
       collectionUrl = BASE_DOCUMENT + 'developmentreports'

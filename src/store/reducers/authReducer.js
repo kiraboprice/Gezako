@@ -33,7 +33,22 @@ const authReducer = (state = initState, action) => {
       };
 
     case 'LOGOUT_SUCCESS':
+
+      /**
+       * Get User
+       */
+    case 'GET_USERS_NO_USERS':
       return state;
+
+    case 'GET_USERS_SUCCESS':
+      return {
+        ...state,
+        users: action.users
+      };
+
+    case 'GET_USERS_ERROR':
+      return state;
+
     default:
       return state
   }

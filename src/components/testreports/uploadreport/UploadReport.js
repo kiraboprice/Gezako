@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { createReport } from '../../../store/actions/reportActions';
+import {createReport} from '../../../store/actions/reportActions';
 import * as firebase from 'firebase';
-import {setPrevUrl} from "../../../store/actions/authActions";
+import {
+  getUsersApartFromCurrentUser,
+  setPrevUrl
+} from "../../../store/actions/authActions";
 
 import './upload.css';
 
@@ -19,6 +22,10 @@ class UploadReport extends Component {
     fileDownLoadUrl: '',
     uploadProgress: 0
   };
+
+  componentDidMount() {
+    this.props.getUsersApartFromCurrentUser()
+  }
 
   handleChange = (e) => {
     this.setState({
@@ -106,12 +113,13 @@ class UploadReport extends Component {
 
   render() {
     const {title, phase, service, type, uploadProgress} = this.state;
-    const { auth, setPrevUrl } = this.props;
+    const { auth, setPrevUrl, users } = this.props;
     if (!auth.uid) {
       setPrevUrl(this.props.location.pathname);
       return <Redirect to='/login' />;
     }
 
+    console.log('users', '------', users);
     return (
         <div id='upload'>
           <h3 >Upload Spock Report</h3>
@@ -175,6 +183,13 @@ class UploadReport extends Component {
                   </select>
                 </div>
 
+                {/*<div id='display-content'>*/}
+                  {/*<label>Assign To: </label>*/}
+                  {/*<select name='assignedTo' value={assignedTo} onChange={this.handleChange}>*/}
+                    {/*<option value='feature'>Feature</option>*/}
+                  {/*</select>*/}
+                {/*</div>*/}
+
                 {/* ! Make sure someone has actually uploaded and filled out the required spaces because
                   I was able to submit (by accident) without uploading or filling out the spaces */}
                 <button id='submit-report' type='submit'>
@@ -189,14 +204,16 @@ class UploadReport extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    users: state.auth.users
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     createReport: (report) => dispatch(createReport(report)),
-    setPrevUrl: (url) => dispatch(setPrevUrl(url))
+    setPrevUrl: (url) => dispatch(setPrevUrl(url)),
+    getUsersApartFromCurrentUser: () => dispatch(getUsersApartFromCurrentUser()),
   };
 };
 

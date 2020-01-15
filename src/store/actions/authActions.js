@@ -1,11 +1,5 @@
 import {BASE_DOCUMENT} from "../../constants/Constants";
-
-const testEmails = [
-    "powermukisa@gmail.com",
-  "derekleiro@gmail.com",
-  "leiro.derek@gmail.com",
-  "richkitibwa@gmail.com",
-];
+import * as StringUtils from "../../util/StringUtil";
 
 var notTalaEmployeeOrTestUserDispatchSent = false;
 
@@ -17,7 +11,7 @@ export const signIn = () => {
     let provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider).then((resp) => {
 
-     if(!checkUserEmailIsValid(resp.user.email)) {
+     if(!StringUtils.checkUserEmailIsValid(resp.user.email)) {
        const userEmail = resp.user.email
        notTalaEmployeeOrTestUserDispatchSent = true;
        return dispatch({ type: 'NOT_TALA_EMPLOYEE_OR_TEST_USER', userEmail });
@@ -62,9 +56,27 @@ export const setPrevUrl = (url) => {
   }
 };
 
-const checkUserEmailIsValid = (email) => {
-  if(testEmails.includes(email)){
-    return true
+export const getUsersApartFromCurrentUser = () => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    let users = [];
+    const firestore = getFirestore();
+    const profile = getState().firebase.auth;
+    firestore.collection(`${BASE_DOCUMENT}users`).get()
+    .then((snapshot) => {
+      if (snapshot.empty) {
+        dispatch({type: 'GET_USERS_NO_USERS'});
+      } else {
+        snapshot.forEach(doc => {
+          if(doc.data().email !== profile.email){
+            const id = doc.id;
+            let user = {...doc.data(), id};
+            users.push(user)
+          }
+        });
+        dispatch({type: 'GET_USERS_SUCCESS', users: users});
+      }
+    }).catch(err => {
+      dispatch({type: 'GET_USERS_ERROR', err});
+    });
   }
-  else return !!email.includes("@tala.co");
 };
