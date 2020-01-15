@@ -17,7 +17,6 @@ import { palette } from '@material-ui/system';
 import StatusCard from "../../status/StatusCard";
 import * as ReportStatus from "../../../constants/ReportStatus";
 
-import newStatusImage  from "../../../assets/Imgs/status/yellow.jpg";
 import * as StringUtils from "../../../util/StringUtil";
 
 const ReportDetails = (props) => {
@@ -45,34 +44,8 @@ const ReportDetails = (props) => {
     return <Redirect to='/login' />;
   }
 
-  function generateDescText(report) {
-    switch(report.status) {
-      case ReportStatus.NEW:
-        return 'New Report has been uploaded by Seetal and she\'s waiting for Fred to review';
-
-        case ReportStatus.IN_REVIEW:
-        // code block
-        break;
-      default:
-        return "Invalid Status"
-    }
-  }
-
-  function getStatusImage(report) {
-    switch(report.status) {
-      case ReportStatus.NEW:
-        return newStatusImage;
-
-      case ReportStatus.IN_REVIEW:
-        // code block
-        break;
-      default:
-        return "Invalid Status"
-    }
-  }
-
-  console.log('report');
-  console.log(report);
+  // console.log('report');
+  // console.log(report);
   if (report) {
     downloadReport(report);
 
@@ -97,8 +70,6 @@ const ReportDetails = (props) => {
               <StatusCard
                   id = {id}
                   report = {report}
-                  statusImage = {getStatusImage(report)}
-                  description = {generateDescText(report)}
               />
 
               <div dangerouslySetInnerHTML= {htmlDoc} />
