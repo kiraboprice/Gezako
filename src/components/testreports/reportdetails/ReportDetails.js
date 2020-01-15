@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import {firestoreConnect} from "react-redux-firebase";
 import moment from 'moment'
 import {Link, Redirect} from 'react-router-dom'
 import {setPrevUrl} from "../../../store/actions/authActions";
@@ -17,10 +18,11 @@ import StatusCard from "../../status/StatusCard";
 import * as ReportStatus from "../../../constants/ReportStatus";
 
 import newStatusImage  from "../../../assets/Imgs/status/yellow.jpg";
+import * as StringUtils from "../../../util/StringUtil";
 
 const ReportDetails = (props) => {
   const {auth, report} = props;
-  const {setPrevUrl, getReport, downloadReport, reportDownload, resetState} = props;
+  const {setPrevUrl, downloadReport, reportDownload, resetState} = props;
   const id = props.match.params.id;
   const pathName = props.location.pathname;
 
@@ -31,9 +33,8 @@ const ReportDetails = (props) => {
     phase = 'completed'
   }
 
+  //clean up after this component is unmounted
   useEffect(() => {
-    getReport(id, phase);
-
     return function cleanup() {
       resetState()
     };
@@ -45,7 +46,6 @@ const ReportDetails = (props) => {
   }
 
   function generateDescText(report) {
-    let description;
     switch(report.status) {
       case ReportStatus.NEW:
         return 'New Report has been uploaded by Seetal and she\'s waiting for Fred to review';
@@ -59,7 +59,6 @@ const ReportDetails = (props) => {
   }
 
   function getStatusImage(report) {
-    let description;
     switch(report.status) {
       case ReportStatus.NEW:
         return newStatusImage;
@@ -72,6 +71,8 @@ const ReportDetails = (props) => {
     }
   }
 
+  console.log('report');
+  console.log(report);
   if (report) {
     downloadReport(report);
 
@@ -115,11 +116,21 @@ const ReportDetails = (props) => {
 
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const id = ownProps.match.params.id;
+  const phase = StringUtils.getReportPhaseFromPathName(ownProps.location.pathname);
+  const reports = state.firestore.data.reports;
+  const report = reports ? reports[id] : null;
+
+  // console.log('state');
+  // console.log(state);
+
   return {
     auth: state.firebase.auth,
-    report: state.report.getReport,
-    reportDownload: state.report.reportDownload
+    // reports: state.firestore.ordered.reports,
+    report: report,
+    reportDownload: state.report.reportDownload,
+    collection: `${phase}reports`
   }
 };
 
@@ -127,11 +138,21 @@ const mapDispatchToProps = (dispatch) => {
   return {
     downloadReport: (report) => dispatch(downloadReport(report)),
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
-    getReport: (id, phase) => dispatch(getReport(id, phase)),
+    // getReport: (id, phase) => dispatch(getReport(id, phase)),
     resetState: () => dispatch(resetState())
   }
 };
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(mapStateToProps, mapDispatchToProps),
+    firestoreConnect(props => {
+      return [
+        {
+          collection: 'company',
+          doc: 'tala',
+          subcollections: [{collection: props.collection}],
+          storeAs: 'reports'
+        }
+      ]
+    })
 )(ReportDetails)
