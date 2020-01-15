@@ -2,6 +2,7 @@ import {BASE_DOCUMENT} from "../../constants/Constants";
 import firebase from 'firebase';
 
 import axios from 'axios';
+import * as ReportStatus from "../../constants/ReportStatus";
 
 //this is not in use
 export const uploadReport = (file) => {
@@ -74,7 +75,8 @@ export const createReport = (report) => {
       //just leaving this here to show possibility of using profile in an action. but this is not scalable. if the displayName ever gets updated, we'd need a cloud function which listens on the user collection for this user specifically, then updates everywhere.
       createdBy: profile.displayName,
       userId: userId,
-      createdAt: new Date()
+      createdAt: new Date(),
+      status: ReportStatus.NEW
     }).then(() => {
       dispatch({type: 'CREATE_REPORT_SUCCESS'});
     }).catch(err => {
@@ -105,18 +107,17 @@ export const getReport = (id, phase) => {
   }
 };
 
-export const updateReport = (id, phase, report) => {
+export const updateReport = (id, report) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     let collectionUrl = '';
-    if(phase == 'development'){
+    if(report.phase === 'development'){
       collectionUrl = BASE_DOCUMENT + 'developmentreports'
-    } else if (phase == 'completed') {
+    } else if (report.phase === 'completed') {
       collectionUrl = BASE_DOCUMENT + 'completedreports'
     }
 
     console.log('updateReport action ');
-    console.log(report.fileDownLoadUrl);
 
     firestore.collection(collectionUrl).doc(id).update({
       title: report.title,
@@ -124,7 +125,8 @@ export const updateReport = (id, phase, report) => {
       service: report.service,
       type: report.type,
       fileDownLoadUrl: report.fileDownLoadUrl,
-      updatedAt: new Date()
+      status: report.status,
+      updatedAt: new Date(),
     }).then(() => {
       dispatch({type: 'UPDATE_REPORT_SUCCESS'});
     }).catch(err => {

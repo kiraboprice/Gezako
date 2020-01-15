@@ -38,8 +38,6 @@ class UpdateReport extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("componentWillReceiveProps");
-    console.log(nextProps);
     if (nextProps.report) {
       this.setState({
         report: nextProps.report,
@@ -135,7 +133,7 @@ class UpdateReport extends Component {
 
     // console.log('updateReport');
     // console.log(report);
-    this.props.updateReport(id, phase, report);
+    this.props.updateReport(id, report);
 
     //todo add a cloud function which deletes the previous report from cloud storage
     this.props.history.push(`/${phase}/${service}`);
@@ -248,7 +246,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     getReport: (id, phase) => dispatch(getReport(id, phase)),
-    updateReport: (id, phase, report) => dispatch(updateReport(id, phase, report)),
+    updateReport: (id, report) => dispatch(updateReport(id, report)),
     resetState: () => dispatch(resetState())
   }
 };

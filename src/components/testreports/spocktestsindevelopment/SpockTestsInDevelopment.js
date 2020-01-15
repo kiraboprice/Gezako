@@ -18,6 +18,8 @@ const SpockTestsInDevelopment = (props) => {
     return <Redirect to='/login' />;
   }
 
+  console.log('report');
+  console.log(reports);
   return (
         <div id='reports-section'>
 
@@ -54,14 +56,13 @@ const SpockTestsInDevelopment = (props) => {
   )
 };
 
-//todo extract this to StringUtils
-function getServiceNameFromPathName(pathname) {
-  return pathname.split('/development/')[1]
-}
-
 const mapStateToProps = (state, ownProps) => {
-  // console.log('---------------state');
-  // console.log(state);
+  //todo extract this to StringUtils
+  function getServiceNameFromPathName(pathname) {
+    return pathname.split('/development/')[1]
+  }
+  console.log('---------------state');
+  console.log(state);
   return {
     auth: state.firebase.auth,
     reports: state.firestore.ordered.reports,

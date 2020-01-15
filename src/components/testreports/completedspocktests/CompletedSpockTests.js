@@ -89,14 +89,13 @@ const CompletedSpockTests = (props) => {
 
 };
 
-//todo extract this to StringUtils
-function getServiceNameFromPathName(pathname) {
-  const service = pathname.split('/completed/')[1];
-
-  return service
-}
-
 const mapStateToProps = (state, ownProps) => {
+  //todo extract this to StringUtils
+  function getServiceNameFromPathName(pathname) {
+    const service = pathname.split('/completed/')[1];
+
+    return service
+  }
   console.log(state);
   return {
     auth: state.firebase.auth,
