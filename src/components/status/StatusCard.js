@@ -13,7 +13,7 @@ import connect from "react-redux/es/connect/connect";
 import {updateReport} from "../../store/actions/reportActions";
 import * as ReportStatus from "../../constants/ReportStatus";
 
-import newImage from "../../assets/Imgs/status/yellow-new.jpg";
+import newImage from "../../assets/Imgs/status/yellow-new.jpeg";
 import inReviewImage from "../../assets/Imgs/status/orange-inreview.png";
 import requestedChangesImage from "../../assets/Imgs/status/red-requestedchanges.png";
 import reuploadedImage from "../../assets/Imgs/status/purple-reuploaded.png";
@@ -21,7 +21,7 @@ import approvedImage from "../../assets/Imgs/status/pink-approved.png";
 import doneImage from "../../assets/Imgs/status/green-done.png";
 import completedImage from "../../assets/Imgs/status/blue-completed.png";
 import archivedImage from "../../assets/Imgs/status/grey-archived.png";
-import deletedImage from "../../assets/Imgs/status/light-grey-deleted.jpeg";
+import deletedImage from "../../assets/Imgs/status/light-grey-deleted.png";
 
 const useStyles = makeStyles({
   card: {
