@@ -109,7 +109,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     downloadReport: (report) => dispatch(downloadReport(report)),
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
-    // getReport: (id, phase) => dispatch(getReport(id, phase)),
     resetState: () => dispatch(resetState())
   }
 };
