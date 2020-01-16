@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { createReport } from '../../../store/actions/reportActions';
+import {Link, Redirect} from 'react-router-dom';
+import {createReport} from '../../../store/actions/reportActions';
 import * as firebase from 'firebase';
-import {setPrevUrl} from "../../../store/actions/authActions";
+import {
+  getUsersApartFromCurrentUser,
+  setPrevUrl
+} from "../../../store/actions/authActions";
 
 import './upload.css';
+import Report from "../Report";
+import moment from "moment";
 
 class UploadReport extends Component {
   storageRef = firebase.storage().ref();
@@ -20,9 +25,26 @@ class UploadReport extends Component {
     uploadProgress: 0
   };
 
+  componentDidMount() {
+    this.props.getUsersApartFromCurrentUser()
+  }
+
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
+    });
+  };
+
+  //store assignedTo as array of userId and DisplayName
+  //because it's difficult to retrieve displayName using the userId when displaying
+  //on a page with multiple assignees, like the allReportsInDevelopment Page
+  handleAssignedToChange = (e) => {
+    const sel = document.getElementsByName('assignedTo')[0];
+    const opt = sel.options[sel.selectedIndex];
+    console.log('opt', opt.text)
+
+    this.setState({
+      [e.target.name]: {'id': e.target.value, 'displayName': opt.text}
     });
   };
 
@@ -92,13 +114,14 @@ class UploadReport extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {title, phase, service, type, fileDownLoadUrl} = this.state;
+    const {title, phase, service, type, fileDownLoadUrl, assignedTo} = this.state;
     const report = {
       title,
       phase,
       service,
       type,
-      fileDownLoadUrl
+      fileDownLoadUrl,
+      assignedTo
     };
     this.props.createReport(report);
     this.props.history.push(`/${phase}/${service}`);
@@ -106,11 +129,12 @@ class UploadReport extends Component {
 
   render() {
     const {title, phase, service, type, uploadProgress} = this.state;
-    const { auth, setPrevUrl } = this.props;
+    const { auth, setPrevUrl, users } = this.props;
     if (!auth.uid) {
       setPrevUrl(this.props.location.pathname);
       return <Redirect to='/login' />;
     }
+    // console.log("STATE---", this.state)
 
     return (
         <div id='upload'>
@@ -175,6 +199,14 @@ class UploadReport extends Component {
                   </select>
                 </div>
 
+                <div id='display-content'>
+                  <label>Assign To: </label>
+                  <select name='assignedTo' onChange={this.handleAssignedToChange}>
+                    <option value=''></option>
+                    {users && users.map(user => <option value={user.id}>{user.displayName}</option>)}
+                  </select>
+                </div>
+
                 {/* ! Make sure someone has actually uploaded and filled out the required spaces because
                   I was able to submit (by accident) without uploading or filling out the spaces */}
                 <button id='submit-report' type='submit'>
@@ -189,14 +221,16 @@ class UploadReport extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    users: state.auth.users
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     createReport: (report) => dispatch(createReport(report)),
-    setPrevUrl: (url) => dispatch(setPrevUrl(url))
+    setPrevUrl: (url) => dispatch(setPrevUrl(url)),
+    getUsersApartFromCurrentUser: () => dispatch(getUsersApartFromCurrentUser()),
   };
 };
 

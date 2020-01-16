@@ -1,6 +1,7 @@
 const initState = {
   authSuccess: null,
-  authError: null
+  authError: null,
+  getUserByIdThenStoreInMap: []
 }
 
 const authReducer = (state = initState, action) => {
@@ -33,7 +34,38 @@ const authReducer = (state = initState, action) => {
       };
 
     case 'LOGOUT_SUCCESS':
+
+      /**
+       * Get Users
+       */
+    case 'GET_USERS_NO_USERS':
       return state;
+
+    case 'GET_USERS_SUCCESS':
+      return {
+        ...state,
+        users: action.users
+      };
+
+    case 'GET_USERS_ERROR':
+      return state;
+
+      /**
+       * Get User By Id
+       */
+    case 'GET_USER_BY_ID_THEN_MAP_NO_USER':
+      return state;
+
+    case 'GET_USER_BY_ID_THEN_MAP_SUCCESS':
+      const id = action.user.id;
+      const user = action.user;
+      state.getUserByIdThenStoreInMap.push({id: id, user: user});
+
+      return state;
+
+    case 'GET_USER_BY_ID_THEN_MAP_ERROR':
+      return state;
+
     default:
       return state
   }
