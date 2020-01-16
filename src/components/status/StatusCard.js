@@ -156,6 +156,9 @@ const StatusCard = (props) => {
             <Typography variant="body2" color="textSecondary" component="p">
               {description}
             </Typography>
+            {/*<Typography variant="body2" color="textSecondary" component="p">*/}
+              {/*{updatedAt}*/}
+            {/*</Typography>*/}
           </CardContent>
         </CardActionArea>
         <CardActions>
