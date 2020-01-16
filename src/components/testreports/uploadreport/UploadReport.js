@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import {createReport} from '../../../store/actions/reportActions';
 import * as firebase from 'firebase';
 import {
@@ -9,6 +9,8 @@ import {
 } from "../../../store/actions/authActions";
 
 import './upload.css';
+import Report from "../Report";
+import moment from "moment";
 
 class UploadReport extends Component {
   storageRef = firebase.storage().ref();
@@ -183,12 +185,12 @@ class UploadReport extends Component {
                   </select>
                 </div>
 
-                {/*<div id='display-content'>*/}
-                  {/*<label>Assign To: </label>*/}
-                  {/*<select name='assignedTo' value={assignedTo} onChange={this.handleChange}>*/}
-                    {/*<option value='feature'>Feature</option>*/}
-                  {/*</select>*/}
-                {/*</div>*/}
+                <div id='display-content'>
+                  <label>Assign To: </label>
+                  <select name='assignedTo' onChange={this.handleChange}>
+                    {users && users.map(user => <option value={user.id}>{user.displayName}</option>)}
+                  </select>
+                </div>
 
                 {/* ! Make sure someone has actually uploaded and filled out the required spaces because
                   I was able to submit (by accident) without uploading or filling out the spaces */}

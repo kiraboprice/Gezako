@@ -49,7 +49,8 @@ const SpockTestsInDevelopment = (props) => {
                       <hr></hr>
                     </div>
                 )
-              }) }
+              })
+            }
           </div>
         </div>
 
