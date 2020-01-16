@@ -7,11 +7,15 @@ import connect from "react-redux/es/connect/connect";
 import {Redirect} from 'react-router-dom'
 import {firestoreConnect} from "react-redux-firebase";
 import {downloadReport} from "../../../store/actions/reportActions";
-import {setPrevUrl} from "../../../store/actions/authActions";
+import {
+  setPrevUrl
+} from "../../../store/actions/authActions";
+import * as StringUtils from "../../../util/StringUtil";
 
 
 const SpockTestsInDevelopment = (props) => {
-  const { auth, setPrevUrl, reports } = props;
+  const { auth, reports } = props;
+  const { setPrevUrl } = props;
 
   if (!auth.uid) {
     setPrevUrl(props.location.pathname);
@@ -20,6 +24,13 @@ const SpockTestsInDevelopment = (props) => {
 
   console.log('report');
   console.log(reports);
+
+  function getAssigneeName(report) {
+    return report.assignedTo ?
+        StringUtils.getFirstNameFromFullName(report.assignedTo.displayName) :
+        null
+  }
+
   return (
         <div id='reports-section'>
 
@@ -32,18 +43,23 @@ const SpockTestsInDevelopment = (props) => {
               {/* TODO Upgrade Headers so that it is more scalable */}
               <div id='head-start' className='service'>Service</div>
               <div id='head'>Title</div>
-              <div id='head'>Uploaded At</div>
-              <div id='head-end'>Uploaded By</div>
+              <div id='head'>Status</div>
+              <div id='head'>Assigned To</div>
+              <div id='head'>Created By</div>
+              <div id='head-end'>Created At</div>
             </div>
             { reports && reports.map(report => {
                 return (
                     <div>
                       <Link to={'/development/report/' + report.id} key={report.id}>
+                        {console.log("assignedTo", report.assignedTo)}
                         <Report
                             service={report.service}
                             title={report.title}
+                            status={report.status}
+                            assignedTo={getAssigneeName(report)}
+                            createdBy={StringUtils.getFirstNameFromFullName(report.createdBy)}
                             createdAt={moment(report.createdAt.toDate()).calendar()}
-                            createdBy={report.createdBy.split(' ').slice(0, -1).join(' ')}
                         />
                       </Link>
                       <hr></hr>
@@ -68,13 +84,13 @@ const mapStateToProps = (state, ownProps) => {
     auth: state.firebase.auth,
     reports: state.firestore.ordered.reports,
     collection: 'developmentreports',
-    service: getServiceNameFromPathName(ownProps.location.pathname)
+    service: getServiceNameFromPathName(ownProps.location.pathname),
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setPrevUrl: (url) => dispatch(setPrevUrl(url))
+    setPrevUrl: (url) => dispatch(setPrevUrl(url)),
   }
 };
 

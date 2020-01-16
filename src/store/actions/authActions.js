@@ -80,3 +80,26 @@ export const getUsersApartFromCurrentUser = () => {
     });
   }
 };
+
+/**
+ * Get user by ID then store them in a map of id to userObject
+ * @param id
+ * @returns {Function}
+ */
+export const getUserByIdThenStoreInMap = (id) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    firestore.collection(`${BASE_DOCUMENT}users`).doc(id).get()
+    .then(doc => {
+      if (!doc.exists) {
+        dispatch({type: 'GET_USER_BY_ID_THEN_MAP_NO_USER'});
+      } else {
+        let user = {...doc.data(), id};
+        dispatch({type: 'GET_USER_BY_ID_THEN_MAP_SUCCESS', user: doc.data()});
+      }
+    })
+    .catch(err => {
+      dispatch({type: 'GET_USER_BY_ID_THEN_MAP_ERROR', err});
+    });
+  }
+};

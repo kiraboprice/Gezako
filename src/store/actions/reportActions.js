@@ -60,6 +60,7 @@ export const uploadReport = (file) => {
 };
 
 export const createReport = (report) => {
+  console.log("REPORTTTTT", report);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     const profile = getState().firebase.profile;
@@ -75,8 +76,8 @@ export const createReport = (report) => {
       //just leaving this here to show possibility of using profile in an action. but this is not scalable. if the displayName ever gets updated, we'd need a cloud function which listens on the user collection for this user specifically, then updates everywhere.
       createdBy: profile.displayName,
       userId: userId,
-      createdAt: new Date(),
-      status: ReportStatus.NEW
+      status: ReportStatus.NEW,
+      createdAt: new Date()
     }).then(() => {
       dispatch({type: 'CREATE_REPORT_SUCCESS'});
     }).catch(err => {

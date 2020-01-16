@@ -35,6 +35,19 @@ class UploadReport extends Component {
     });
   };
 
+  //store assignedTo as array of userId and DisplayName
+  //because it's difficult to retrieve displayName using the userId when displaying
+  //on a page with multiple assignees, like the allReportsInDevelopment Page
+  handleAssignedToChange = (e) => {
+    const sel = document.getElementsByName('assignedTo')[0];
+    const opt = sel.options[sel.selectedIndex];
+    console.log('opt', opt.text)
+
+    this.setState({
+      [e.target.name]: {'id': e.target.value, 'displayName': opt.text}
+    });
+  };
+
   handleFileSelected = (e) => {
     this.setState({
       [e.target.file]: e.target.files[0]
@@ -101,13 +114,14 @@ class UploadReport extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {title, phase, service, type, fileDownLoadUrl} = this.state;
+    const {title, phase, service, type, fileDownLoadUrl, assignedTo} = this.state;
     const report = {
       title,
       phase,
       service,
       type,
-      fileDownLoadUrl
+      fileDownLoadUrl,
+      assignedTo
     };
     this.props.createReport(report);
     this.props.history.push(`/${phase}/${service}`);
@@ -120,8 +134,8 @@ class UploadReport extends Component {
       setPrevUrl(this.props.location.pathname);
       return <Redirect to='/login' />;
     }
+    // console.log("STATE---", this.state)
 
-    console.log('users', '------', users);
     return (
         <div id='upload'>
           <h3 >Upload Spock Report</h3>
@@ -187,7 +201,8 @@ class UploadReport extends Component {
 
                 <div id='display-content'>
                   <label>Assign To: </label>
-                  <select name='assignedTo' onChange={this.handleChange}>
+                  <select name='assignedTo' onChange={this.handleAssignedToChange}>
+                    <option value=''></option>
                     {users && users.map(user => <option value={user.id}>{user.displayName}</option>)}
                   </select>
                 </div>

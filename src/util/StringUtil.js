@@ -18,3 +18,7 @@ export const getReportPhaseFromPathName = (pathname) => {
     return 'completed'
   }
 };
+
+export const getFirstNameFromFullName = (fullName) => {
+  return fullName ? fullName.split(' ').slice(0, -1).join(' ') : null
+};

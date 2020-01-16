@@ -6,8 +6,10 @@ export default function Report (report){
         <div id='report'>
             {report.service ?  <div id='service'>{report.service}</div> : null}
             <div id='title'>{report.title}</div>
-          <div id='title'>{report.createdAt}</div>
-          <div id='end-column'>{report.createdBy}</div>
+          <div id='title'>{report.status}</div>
+          <div id='title'>{report.assignedTo}</div>
+          <div id='title'>{report.createdBy}</div>
+          <div id='end-column'>{report.createdAt}</div>
         </div>
     )
 }
