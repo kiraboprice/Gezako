@@ -22,6 +22,7 @@ import doneImage from "../../assets/Imgs/status/green-done.png";
 import completedImage from "../../assets/Imgs/status/blue-completed.png";
 import archivedImage from "../../assets/Imgs/status/grey-archived.png";
 import deletedImage from "../../assets/Imgs/status/light-grey-deleted.png";
+import {getFirstNameFromFullName} from "../../util/StringUtil";
 
 const useStyles = makeStyles({
   card: {
@@ -42,7 +43,11 @@ const StatusCard = (props) => {
     setLocalState(props);
     const status = stateFromProps.report.status;
     setStatusValue(status);
-    setDescription(generateDescription(status));
+    setDescription(generateDescription(
+        status,
+        getFirstNameFromFullName(stateFromProps.report.createdBy),
+        getFirstNameFromFullName(stateFromProps.report.assignedTo.displayName))
+    );
     setImage(getImage(status));
   }, [props]);
 
@@ -52,7 +57,11 @@ const StatusCard = (props) => {
   function handleStatusChange(e) {
     const status = e.target.value;
     setStatusValue(status);
-    setDescription(generateDescription(status));
+    setDescription(generateDescription(
+        status,
+        getFirstNameFromFullName(stateFromProps.report.createdBy),
+        getFirstNameFromFullName(stateFromProps.report.assignedTo.displayName))
+    );
     setImage(getImage(status));
   }
 
@@ -61,36 +70,36 @@ const StatusCard = (props) => {
     updateReport(stateFromProps.id, stateFromProps.report)
   }
 
-  function generateDescription(status) {
+  function generateDescription(status, createdBy, assignedTo) {
     console.log('status');
     console.log(status);
     switch(status) {
       case ReportStatus.NEW:
-        return "Seetal uploaded a new report at TIME and is waiting for Fred to review";
+        return `${createdBy} uploaded a new report at TIME and is waiting for ${assignedTo} to review`;
 
       case ReportStatus.IN_REVIEW:
-        return 'Fred started reviewing the report at TIME';
+        return `${assignedTo} started reviewing the report at TIME`;
 
       case ReportStatus.REQUESTED_CHANGES:
-        return 'Fred finished the review and gave some feedback to Seetal to fix a few things';
+        return `${assignedTo} finished the review and gave some feedback to ${createdBy} to fix a few things`;
 
       case ReportStatus.RE_UPLOADED:
-        return 'Seetal addressed comments from Fred and uploaded an updated report';
+        return `${createdBy} addressed comments from ${assignedTo} and uploaded an updated report`;
 
       case ReportStatus.APPROVED:
-        return 'Fred approved the report form Seetal';
+        return `${assignedTo} approved the report form ${createdBy}`;
 
       case ReportStatus.DONE:
-        return 'Seetal moved the report to done';
+        return `${createdBy} moved the report to done`;
 
       case ReportStatus.COMPLETED:
-        return 'Seetal moved the report to the Completed section';
+        return `${createdBy} moved the report to the Completed section`;
 
       case ReportStatus.ARCHIVED:
-        return 'Seetal archived the report';
+        return `${createdBy} archived the report`;
 
       case ReportStatus.DELETED:
-        return 'Seetal deleted the report';
+        return `${createdBy} deleted the report`;
       default:
         return "Invalid Status"
     }

@@ -10,7 +10,7 @@ import {downloadReport} from "../../../store/actions/reportActions";
 import {
   setPrevUrl
 } from "../../../store/actions/authActions";
-import * as StringUtils from "../../../util/StringUtil";
+import {getFirstNameFromFullName} from "../../../util/StringUtil";
 
 
 const SpockTestsInDevelopment = (props) => {
@@ -27,7 +27,7 @@ const SpockTestsInDevelopment = (props) => {
 
   function getAssigneeName(report) {
     return report.assignedTo ?
-        StringUtils.getFirstNameFromFullName(report.assignedTo.displayName) :
+        getFirstNameFromFullName(report.assignedTo.displayName) :
         null
   }
 
@@ -58,7 +58,7 @@ const SpockTestsInDevelopment = (props) => {
                             title={report.title}
                             status={report.status}
                             assignedTo={getAssigneeName(report)}
-                            createdBy={StringUtils.getFirstNameFromFullName(report.createdBy)}
+                            createdBy={getFirstNameFromFullName(report.createdBy)}
                             createdAt={moment(report.createdAt.toDate()).calendar()}
                         />
                       </Link>
