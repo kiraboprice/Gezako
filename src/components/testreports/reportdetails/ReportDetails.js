@@ -54,15 +54,17 @@ const ReportDetails = (props) => {
     return (
         <div id='report-details-section'>
           <div >
-            <div >
               <span >{report.title}</span>
-              <p>Type: {report.type}</p>
-              <p>Service: {report.service}</p>
-              <p>Service: {report.phase}</p>
-            </div>
             <div >
-              <div>Uploaded by {report.createdBy}</div>
-              <div>{moment(report.createdAt.toDate()).calendar()}</div>
+              <div>Uploaded by {report.createdBy}, {moment(report.createdAt.toDate()).calendar()}</div>
+
+              <Link to={`${report.requirementsSpec}`} >
+                <button >Product Requirements Spec</button>
+              </Link>
+              <Link to={`${report.designDoc}`} >
+                <button >Technical Design Doc</button>
+              </Link>
+              <br/>
               <Link to={`/${report.phase}/update-report/${id}`} >
                 <button >Update Report</button>
               </Link>

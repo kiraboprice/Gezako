@@ -60,7 +60,7 @@ export const uploadReport = (file) => {
 };
 
 export const createReport = (report) => {
-  console.log("REPORTTTTT", report);
+  // console.log("REPORTTTTT", report);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     const profile = getState().firebase.profile;
@@ -77,7 +77,8 @@ export const createReport = (report) => {
       createdBy: profile.displayName,
       userId: userId,
       status: ReportStatus.NEW,
-      createdAt: new Date()
+      createdAt: new Date(),
+      updatedAt: new Date()
     }).then(() => {
       dispatch({type: 'CREATE_REPORT_SUCCESS'});
     }).catch(err => {

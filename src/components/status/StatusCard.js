@@ -23,6 +23,7 @@ import completedImage from "../../assets/Imgs/status/blue-completed.png";
 import archivedImage from "../../assets/Imgs/status/grey-archived.png";
 import deletedImage from "../../assets/Imgs/status/light-grey-deleted.png";
 import {getFirstNameFromFullName} from "../../util/StringUtil";
+import moment from "moment";
 
 const useStyles = makeStyles({
   card: {
@@ -46,7 +47,7 @@ const StatusCard = (props) => {
     setDescription(generateDescription(
         status,
         getFirstNameFromFullName(stateFromProps.report.createdBy),
-        getFirstNameFromFullName(stateFromProps.report.assignedTo.displayName))
+        getFirstNameFromFullName(stateFromProps.report.assignedTo ? stateFromProps.report.assignedTo.displayName: null))
     );
     setImage(getImage(status));
   }, [props]);
@@ -156,9 +157,9 @@ const StatusCard = (props) => {
             <Typography variant="body2" color="textSecondary" component="p">
               {description}
             </Typography>
-            {/*<Typography variant="body2" color="textSecondary" component="p">*/}
-              {/*{updatedAt}*/}
-            {/*</Typography>*/}
+            <Typography variant="body2" color="textSecondary" component="p">
+              Update at: {stateFromProps.report.updatedAt ? moment(stateFromProps.report.updatedAt.toDate()).calendar(): null}
+            </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>

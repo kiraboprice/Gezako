@@ -8,11 +8,11 @@ import {
   setPrevUrl
 } from "../../../store/actions/authActions";
 
-import './upload.css';
+import './createReport.css';
 import Report from "../Report";
 import moment from "moment";
 
-class UploadReport extends Component {
+class CreateReport extends Component {
   storageRef = firebase.storage().ref();
 
   state = {
@@ -234,4 +234,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UploadReport);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateReport);
