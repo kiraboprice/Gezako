@@ -39,6 +39,8 @@ const CompletedSpockTests = (props) => {
             Line, %:
           </div>
 
+          <button >Update Coverage</button>
+
           <div id='features-reports'>
             <h4>Features</h4>
             <div id='headers'>
