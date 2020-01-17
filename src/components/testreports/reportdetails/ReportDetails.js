@@ -12,10 +12,7 @@ import {
 } from "../../../store/actions/reportActions";
 
 import '../reportdetails/reportdetails.css';
-import Box from '@material-ui/core/Box';
-import { palette } from '@material-ui/system';
 import StatusCard from "../../status/StatusCard";
-import * as ReportStatus from "../../../constants/ReportStatus";
 
 import * as StringUtils from "../../../util/StringUtil";
 

@@ -1,4 +1,4 @@
-import {BASE_DOCUMENT} from "../../constants/Constants";
+import {BASE_DOCUMENT} from "../../constants/FireStore";
 import * as StringUtils from "../../util/StringUtil";
 
 var notTalaEmployeeOrTestUserDispatchSent = false;

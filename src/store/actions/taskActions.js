@@ -1,4 +1,4 @@
-import {BASE_DOCUMENT} from "../../constants/Constants";
+import {BASE_DOCUMENT} from "../../constants/FireStore";
 
 export const createTask = (task) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
