@@ -1,7 +1,7 @@
 #navigation-top{
     padding: 20px;
     height: 30px;
-    /*position: fixed;*/
+    position: fixed;
     background: #01ACC1;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     width: 100%;

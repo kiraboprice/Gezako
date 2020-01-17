@@ -148,7 +148,7 @@ class UpdateReport extends Component {
     // console.log(this.state);
     if (report) {
       return (
-          <div id='upload' style={{marginLeft: "400px", marginTop: "50px"}}>
+          <div id='upload' style={{marginLeft: "400px", marginTop: "100px"}}>
             <div >
               <h3 >
                 Update Spock Report
