@@ -13,7 +13,7 @@ import Report from "../Report";
 import LoadingScreen from "../../loading/LoadingScreen";
 
 const CompletedSpockTests = (props) => {
-  const {auth, featureReports, endpointReports} = props;
+  const {auth, featureReports, endpointReports, service} = props;
   if (!auth.uid) {return <Redirect to='/login'/>}
 
 
@@ -28,7 +28,7 @@ const CompletedSpockTests = (props) => {
           </Link>
 
           <div>
-            Total number of SERVICE tests:
+            Total number of {service} tests: 200 - this is hardcoded for now
           </div>
 
           <div>

@@ -76,10 +76,10 @@ const StatusCard = (props) => {
     console.log(status);
     switch(status) {
       case ReportStatus.NEW:
-        return `${createdBy} uploaded a new report at TIME and is waiting for ${assignedTo} to review`;
+        return `${createdBy} uploaded a new report and is waiting for ${assignedTo} to review`;
 
       case ReportStatus.IN_REVIEW:
-        return `${assignedTo} started reviewing the report at TIME`;
+        return `${assignedTo} started reviewing the report`;
 
       case ReportStatus.REQUESTED_CHANGES:
         return `${assignedTo} finished the review and gave some feedback to ${createdBy} to fix a few things`;
