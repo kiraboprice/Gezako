@@ -23,9 +23,21 @@ const CompletedSpockTests = (props) => {
 
           {featureReports ? null : <LoadingScreen />}
 
-          <Link to={'/upload-report'} >
+          <Link to={'/completed/upload-report'} >
             <button >Create New Report</button>
           </Link>
+
+          <div>
+            Total number of SERVICE tests:
+          </div>
+
+          <div>
+            Code Coverage
+            <br/>
+            Class, %:
+            Method, %:
+            Line, %:
+          </div>
 
           <div id='features-reports'>
             <h4>Features</h4>
@@ -33,8 +45,9 @@ const CompletedSpockTests = (props) => {
               {/* TODO Upgrade Headers so that it is more scalable */}
               <div id='head-start' className='service'>Service</div>
               <div id='head'>Title</div>
-              <div id='head'>Uploaded At</div>
-              <div id='head-end'>Uploaded By</div>
+              <div id='head'># of tests</div>
+              <div id='head'>Created By</div>
+              <div id='head-end'>Created At</div>
             </div>
             { featureReports && featureReports.map(report => { //todo add the index back here!
                 return (
@@ -44,6 +57,7 @@ const CompletedSpockTests = (props) => {
                       <Report
                           service={report.service}
                           title={report.title}
+                          numberOfTests={report.numberOfTests}
                           createdAt={moment(report.createdAt.toDate()).calendar()}
                           createdBy={report.createdBy.split(' ').slice(0, -1).join(' ')}
                       />
@@ -60,9 +74,10 @@ const CompletedSpockTests = (props) => {
             <div id='headers'>
               {/* TODO Upgrade Headers so that it is more scalable */}
               <div id='head-start' className='service'>Service</div>
-               <div id='head'>Title</div>
-              <div id='head'>Uploaded At</div>
-              <div id='head-end'>Uploaded By</div>
+              <div id='head'>Title</div>
+              <div id='head'># of tests</div>
+              <div id='head'>Created By</div>
+              <div id='head-end'>Created At</div>
             </div>
             { endpointReports && endpointReports.map(report => { //todo add the index back here!
               return (

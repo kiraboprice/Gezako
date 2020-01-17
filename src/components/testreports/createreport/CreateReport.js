@@ -11,22 +11,31 @@ import {
 import './createReport.css';
 import Report from "../Report";
 import moment from "moment";
+import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 
 class CreateReport extends Component {
   storageRef = firebase.storage().ref();
 
   state = {
     title: 'Test Report Title',
-    phase: 'development',
     service: 'loans',
     type: 'endpoint',
     file: '',
     fileDownLoadUrl: '',
-    uploadProgress: 0
+    uploadProgress: 0,
+    displayAssignedTo: ''
   };
 
   componentDidMount() {
-    this.props.getUsersApartFromCurrentUser()
+    const phase = getReportPhaseFromPathName(this.props.location.pathname);
+    this.setState({phase: phase});
+    this.props.getUsersApartFromCurrentUser();
+    if(phase === 'development') {
+      this.setState({displayAssignedTo: 'block'})
+    } else if (phase === 'completed') {
+      this.setState({displayAssignedTo: 'none'})
+    }
+
   }
 
   handleChange = (e) => {
@@ -128,7 +137,7 @@ class CreateReport extends Component {
   };
 
   render() {
-    const {title, phase, service, type, uploadProgress} = this.state;
+    const {title, phase, service, type, uploadProgress, displayAssignedTo} = this.state;
     const { auth, setPrevUrl, users } = this.props;
     if (!auth.uid) {
       setPrevUrl(this.props.location.pathname);
@@ -139,7 +148,7 @@ class CreateReport extends Component {
     return (
         <div id='upload'>
           <h3 >Upload Spock Report</h3>
-          Upload Report for a complete test or a test in  development
+          {phase === 'completed' ? 'Upload Report for a complete test' : 'Upload Report for a test in development' }
             <div>
               <input type='file' name='file' onChange={this.handleFileSelected} accept='html/*'/>
               <button onClick={this.handleUploadFile}>Upload File</button>
@@ -159,14 +168,6 @@ class CreateReport extends Component {
                             onChange={this.handleChange}
                             value = {title}
                   />
-                </div>
-
-                <div id='display-content'>
-                  <label>Phase: </label>
-                  <select name='phase' value={phase} onChange={this.handleChange}>
-                    <option value='development'>Development</option>
-                    <option value='completed'>Completed</option>
-                  </select>
                 </div>
 
                 <div id='display-content'>
@@ -199,7 +200,7 @@ class CreateReport extends Component {
                   </select>
                 </div>
 
-                <div id='display-content'>
+                <div id='display-content' style={{display: displayAssignedTo}}>
                   <label>Assign To: </label>
                   <select name='assignedTo' onChange={this.handleAssignedToChange}>
                     <option value=''></option>
