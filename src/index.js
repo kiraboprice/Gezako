@@ -12,7 +12,7 @@ import {reactReduxFirebase, getFirebase} from "react-redux-firebase";
 import {reduxFirestore, getFirestore} from "redux-firestore";
 
 import fbConfig from "fbConfig";
-import {BASE_DOCUMENT} from "./constants/Constants";
+import {BASE_DOCUMENT} from "./constants/FireStore";
 
 const store = createStore(
     rootReducer,

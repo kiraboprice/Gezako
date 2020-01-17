@@ -22,3 +22,9 @@ export const getReportPhaseFromPathName = (pathname) => {
 export const getFirstNameFromFullName = (fullName) => {
   return fullName ? fullName.split(' ').slice(0, -1).join(' ') : null
 };
+
+export const getAssigneeName = (report) => {
+  return report.assignedTo ?
+      getFirstNameFromFullName(report.assignedTo.displayName) :
+      null
+};

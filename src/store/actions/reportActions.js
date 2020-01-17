@@ -1,4 +1,4 @@
-import {BASE_DOCUMENT} from "../../constants/Constants";
+import {BASE_DOCUMENT} from "../../constants/FireStore";
 import firebase from 'firebase';
 
 import axios from 'axios';
@@ -77,7 +77,8 @@ export const createReport = (report) => {
       createdBy: profile.displayName,
       userId: userId,
       status: ReportStatus.NEW,
-      createdAt: new Date()
+      createdAt: new Date(),
+      updatedAt: new Date()
     }).then(() => {
       dispatch({type: 'CREATE_REPORT_SUCCESS'});
     }).catch(err => {

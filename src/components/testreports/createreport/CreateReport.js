@@ -8,25 +8,36 @@ import {
   setPrevUrl
 } from "../../../store/actions/authActions";
 
-import './upload.css';
-import Report from "../Report";
-import moment from "moment";
+import './createReport.css';
+import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 
-class UploadReport extends Component {
+class CreateReport extends Component {
   storageRef = firebase.storage().ref();
 
   state = {
     title: 'Test Report Title',
-    phase: 'development',
     service: 'loans',
     type: 'endpoint',
+    numberOfTests: '',
     file: '',
     fileDownLoadUrl: '',
-    uploadProgress: 0
+    uploadProgress: 0,
+    displayDevelopmentFields: '',
+    displayCompletedFields: ''
   };
 
   componentDidMount() {
-    this.props.getUsersApartFromCurrentUser()
+    const phase = getReportPhaseFromPathName(this.props.location.pathname);
+    this.setState({phase: phase});
+    this.props.getUsersApartFromCurrentUser();
+    if(phase === 'development') {
+      this.setState({displayDevelopmentFields: 'block'});
+      this.setState({displayCompletedFields: 'none'})
+    } else if (phase === 'completed') {
+      this.setState({displayDevelopmentFields: 'none'});
+      this.setState({displayCompletedFields: 'block'})
+    }
+
   }
 
   handleChange = (e) => {
@@ -114,21 +125,24 @@ class UploadReport extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {title, phase, service, type, fileDownLoadUrl, assignedTo} = this.state;
+    let {title, phase, service, type, fileDownLoadUrl, assignedTo, numberOfTests} = this.state;
+    assignedTo = assignedTo ? assignedTo : null;
+    // numberOfTests = numberOfTests ? numberOfTests : null;
     const report = {
       title,
       phase,
       service,
       type,
       fileDownLoadUrl,
-      assignedTo
+      assignedTo,
+      numberOfTests
     };
     this.props.createReport(report);
     this.props.history.push(`/${phase}/${service}`);
   };
 
   render() {
-    const {title, phase, service, type, uploadProgress} = this.state;
+    const {title, phase, service, type, numberOfTests, uploadProgress, displayDevelopmentFields, displayCompletedFields} = this.state;
     const { auth, setPrevUrl, users } = this.props;
     if (!auth.uid) {
       setPrevUrl(this.props.location.pathname);
@@ -139,7 +153,7 @@ class UploadReport extends Component {
     return (
         <div id='upload'>
           <h3 >Upload Spock Report</h3>
-          Upload Report for a complete test or a test in  development
+          {phase === 'completed' ? 'Upload Report for a complete test' : 'Upload Report for a test in development' }
             <div>
               <input type='file' name='file' onChange={this.handleFileSelected} accept='html/*'/>
               <button onClick={this.handleUploadFile}>Upload File</button>
@@ -159,14 +173,6 @@ class UploadReport extends Component {
                             onChange={this.handleChange}
                             value = {title}
                   />
-                </div>
-
-                <div id='display-content'>
-                  <label>Phase: </label>
-                  <select name='phase' value={phase} onChange={this.handleChange}>
-                    <option value='development'>Development</option>
-                    <option value='completed'>Completed</option>
-                  </select>
                 </div>
 
                 <div id='display-content'>
@@ -199,12 +205,20 @@ class UploadReport extends Component {
                   </select>
                 </div>
 
-                <div id='display-content'>
+                <div id='display-content' style={{display: displayDevelopmentFields}}>
                   <label>Assign To: </label>
                   <select name='assignedTo' onChange={this.handleAssignedToChange}>
                     <option value=''></option>
                     {users && users.map(user => <option value={user.id}>{user.displayName}</option>)}
                   </select>
+                </div>
+
+                <div id='display-content' style={{display: displayCompletedFields}}>
+                  <label>No. of Tests in Report: </label>
+                  <textarea name='numberOfTests'
+                            onChange={this.handleChange}
+                            value = {numberOfTests}
+                  />
                 </div>
 
                 {/* ! Make sure someone has actually uploaded and filled out the required spaces because
@@ -234,4 +248,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UploadReport);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateReport);

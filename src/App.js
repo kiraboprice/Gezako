@@ -17,7 +17,7 @@ import CreateTask from "./components/tasks/CreateTask";
 import TaskDetails from "./components/tasks/TaskDetails";
 import { connect } from 'react-redux'
 import ReportDetails from "./components/testreports/reportdetails/ReportDetails";
-import UploadReport from "./components/testreports/uploadreport/UploadReport";
+import UploadReport from "./components/testreports/createreport/CreateReport";
 import PerformanceTests from "./components/perfomance/PerformanceTests";
 import UpdateReport from "./components/testreports/updatereport/UpdateReport";
 import Home from "./components/testreports/home/Home";
@@ -38,12 +38,12 @@ class App extends Component {
               <Route exact path='/login' component={Login}/>
               <Route exact path='/' component={Home}/>
 
-              <Route exact path='/upload-report' component={UploadReport}/>
-
+              <Route exact path='/completed/upload-report' component={UploadReport}/>
               <Route exact path='/completed/:service' component={CompletedSpockTests}/>
               <Route exact path='/completed/update-report/:id' component={UpdateReport}/>
               <Route exact path='/completed/report/:id' component ={ReportDetails}/>
 
+              <Route exact path='/development/upload-report' component={UploadReport}/>
               <Route exact path='/development/:service' component={SpockTestsInDevelopment}/>
               {/*<Route exact path='/report/development/:id'*/}
                      {/*render={(props) => <ReportDetails {...props} collectionUrl='developmentreports' />}/>*/}

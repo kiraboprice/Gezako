@@ -10,7 +10,10 @@ import {downloadReport} from "../../../store/actions/reportActions";
 import {
   setPrevUrl
 } from "../../../store/actions/authActions";
-import {getFirstNameFromFullName} from "../../../util/StringUtil";
+import {
+  getAssigneeName,
+  getFirstNameFromFullName
+} from "../../../util/StringUtil";
 
 
 const SpockTestsInDevelopment = (props) => {
@@ -25,16 +28,10 @@ const SpockTestsInDevelopment = (props) => {
   console.log('report');
   console.log(reports);
 
-  function getAssigneeName(report) {
-    return report.assignedTo ?
-        getFirstNameFromFullName(report.assignedTo.displayName) :
-        null
-  }
-
   return (
         <div id='reports-section'>
 
-          <Link to={'/upload-report'} >
+          <Link to={'/development/upload-report'} >
             <button >Create New Report</button>
           </Link>
 
@@ -54,12 +51,7 @@ const SpockTestsInDevelopment = (props) => {
                       <Link to={'/development/report/' + report.id} key={report.id}>
                         {console.log("assignedTo", report.assignedTo)}
                         <Report
-                            service={report.service}
-                            title={report.title}
-                            status={report.status}
-                            assignedTo={getAssigneeName(report)}
-                            createdBy={getFirstNameFromFullName(report.createdBy)}
-                            createdAt={moment(report.createdAt.toDate()).calendar()}
+                            report = {report}
                         />
                       </Link>
                       <hr></hr>

@@ -81,7 +81,6 @@ export default class SideBar extends Component {
               }}>
 
                 <div onClick={this.setFirstActive}>
-                  <Link to='/'>
                     <Links
                         title={this.state.expanded ? 'Spock Tests In Development'
                             : ''}
@@ -107,13 +106,11 @@ export default class SideBar extends Component {
                           [ "Verification", '/development/verification']
                         ]}
                         active={this.state.firstActive}
-                        titleLink={'/'}
+                        titleLink={'/development/loans'}
                     />
-                  </Link>
                 </div>
 
                 <div onClick={this.setSecondActive}>
-                  <Link to='/completed/loans'>
                     <Links
                         title={this.state.expanded ? 'Completed Spock Tests'
                             : ''}
@@ -141,7 +138,6 @@ export default class SideBar extends Component {
                           ]}
                         titleLink={'/completed/loans'}
                     />
-                  </Link>
                 </div>
 
                 <div onClick={this.setThirdActive}>
