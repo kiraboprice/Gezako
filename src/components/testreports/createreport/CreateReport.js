@@ -9,8 +9,6 @@ import {
 } from "../../../store/actions/authActions";
 
 import './createReport.css';
-import Report from "../Report";
-import moment from "moment";
 import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 
 class CreateReport extends Component {
@@ -20,10 +18,12 @@ class CreateReport extends Component {
     title: 'Test Report Title',
     service: 'loans',
     type: 'endpoint',
+    numberOfTests: '',
     file: '',
     fileDownLoadUrl: '',
     uploadProgress: 0,
-    displayAssignedTo: ''
+    displayDevelopmentFields: '',
+    displayCompletedFields: ''
   };
 
   componentDidMount() {
@@ -31,9 +31,11 @@ class CreateReport extends Component {
     this.setState({phase: phase});
     this.props.getUsersApartFromCurrentUser();
     if(phase === 'development') {
-      this.setState({displayAssignedTo: 'block'})
+      this.setState({displayDevelopmentFields: 'block'});
+      this.setState({displayCompletedFields: 'none'})
     } else if (phase === 'completed') {
-      this.setState({displayAssignedTo: 'none'})
+      this.setState({displayDevelopmentFields: 'none'});
+      this.setState({displayCompletedFields: 'block'})
     }
 
   }
@@ -123,21 +125,24 @@ class CreateReport extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {title, phase, service, type, fileDownLoadUrl, assignedTo} = this.state;
+    let {title, phase, service, type, fileDownLoadUrl, assignedTo, numberOfTests} = this.state;
+    assignedTo = assignedTo ? assignedTo : null;
+    // numberOfTests = numberOfTests ? numberOfTests : null;
     const report = {
       title,
       phase,
       service,
       type,
       fileDownLoadUrl,
-      assignedTo
+      assignedTo,
+      numberOfTests
     };
     this.props.createReport(report);
     this.props.history.push(`/${phase}/${service}`);
   };
 
   render() {
-    const {title, phase, service, type, uploadProgress, displayAssignedTo} = this.state;
+    const {title, phase, service, type, numberOfTests, uploadProgress, displayDevelopmentFields, displayCompletedFields} = this.state;
     const { auth, setPrevUrl, users } = this.props;
     if (!auth.uid) {
       setPrevUrl(this.props.location.pathname);
@@ -200,12 +205,20 @@ class CreateReport extends Component {
                   </select>
                 </div>
 
-                <div id='display-content' style={{display: displayAssignedTo}}>
+                <div id='display-content' style={{display: displayDevelopmentFields}}>
                   <label>Assign To: </label>
                   <select name='assignedTo' onChange={this.handleAssignedToChange}>
                     <option value=''></option>
                     {users && users.map(user => <option value={user.id}>{user.displayName}</option>)}
                   </select>
+                </div>
+
+                <div id='display-content' style={{display: displayCompletedFields}}>
+                  <label>No. of Tests in Report: </label>
+                  <textarea name='numberOfTests'
+                            onChange={this.handleChange}
+                            value = {numberOfTests}
+                  />
                 </div>
 
                 {/* ! Make sure someone has actually uploaded and filled out the required spaces because

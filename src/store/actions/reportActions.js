@@ -60,7 +60,7 @@ export const uploadReport = (file) => {
 };
 
 export const createReport = (report) => {
-  // console.log("REPORTTTTT", report);
+  console.log("REPORTTTTT", report);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     const profile = getState().firebase.profile;

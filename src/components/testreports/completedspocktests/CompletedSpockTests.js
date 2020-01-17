@@ -54,13 +54,9 @@ const CompletedSpockTests = (props) => {
                     <div>
                       {/*<div key={index}>*/}
                       <Link to={'/completed/report/' + report.id} key={report.id}>
-                      <Report
-                          service={report.service}
-                          title={report.title}
-                          numberOfTests={report.numberOfTests}
-                          createdAt={moment(report.createdAt.toDate()).calendar()}
-                          createdBy={report.createdBy.split(' ').slice(0, -1).join(' ')}
-                      />
+                        <Report
+                            report={report}
+                        />
                       </Link>
                       <hr></hr>
                     </div>
@@ -85,10 +81,7 @@ const CompletedSpockTests = (props) => {
                     {/*<div key={index}>*/}
                     <Link to={'/completed/report/' + report.id} key={report.id}>
                       <Report
-                          service={report.service}
-                          title={report.title}
-                          createdAt={moment(report.createdAt.toDate()).calendar()}
-                          createdBy={report.createdBy.split(' ').slice(0, -1).join(' ')}
+                          report={report}
                       />
                     </Link>
                     <hr></hr>

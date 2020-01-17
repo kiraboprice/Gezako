@@ -1,16 +1,20 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import './report.css';
+import {getFirstNameFromFullName} from "../../util/StringUtil";
+import moment from "moment";
 
-export default function Report (report){
-    return(
+const Report = (props) => {
+  return(
         <div id='report'>
-            {report.service ?  <div id='service'>{report.service}</div> : null}
-            <div id='title'>{report.title}</div>
-          <div id='title'>{report.status}</div>
-          <div id='title'>{report.numberOfTests}</div>
-          <div id='title'>{report.assignedTo}</div>
-          <div id='title'>{report.createdBy}</div>
-          <div id='end-column'>{report.createdAt}</div>
+          <div id='service'>{props.report.service}</div>
+          <div id='title'>{props.report.title}</div>
+          <div id='title'>{props.report.status}</div>
+          <div id='title'>{props.report.numberOfTests}</div>
+          <div id='title'>{props.report.assignedTo}</div>
+          <div id='title'>{props.report.createdBy}</div>
+          <div id='title'>{moment(props.report.createdAt.toDate()).calendar()}</div>
         </div>
     )
-}
+};
+
+export default Report
