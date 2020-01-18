@@ -128,6 +128,9 @@ export const updateReport = (id, report) => {
       service: report.service,
       type: report.type,
       fileDownLoadUrl: report.fileDownLoadUrl,
+      assignedTo: report.assignedTo,
+      numberOfTests: report.numberOfTests,
+
       status: report.status,
       updatedAt: new Date(),
     }).then(() => {

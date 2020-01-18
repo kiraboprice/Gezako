@@ -15,6 +15,7 @@ import '../reportdetails/reportdetails.css';
 import StatusCard from "../../status/StatusCard";
 
 import * as StringUtils from "../../../util/StringUtil";
+import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 
 const ReportDetails = (props) => {
   const {auth, report} = props;
@@ -88,7 +89,7 @@ const ReportDetails = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
   const id = ownProps.match.params.id;
-  const phase = StringUtils.getReportPhaseFromPathName(ownProps.location.pathname);
+  const phase = getReportPhaseFromPathName(ownProps.location.pathname);
   const reports = state.firestore.data.reports;
   const report = reports ? reports[id] : null;
 
@@ -97,7 +98,6 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     auth: state.firebase.auth,
-    // reports: state.firestore.ordered.reports,
     report: report,
     reportDownload: state.report.reportDownload,
     collection: `${phase}reports`

@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import {getReport, updateReport, resetState} from "../../../store/actions/reportActions";
+import { updateReport, resetState} from "../../../store/actions/reportActions";
 import * as firebase from "firebase";
+import CustomSnackbar from "../../snackbar/CustomSnackbar";
+import * as StringUtils from "../../../util/StringUtil";
+import {getReportPhaseFromPathName} from "../../../util/StringUtil";
+import {firestoreConnect} from "react-redux-firebase";
+import {compose} from "redux";
 
 class UpdateReport extends Component {
   constructor(props) {
@@ -30,9 +35,6 @@ class UpdateReport extends Component {
     } else if (pathName.includes('completed')) {
       phase = 'completed'
     }
-
-    const { getReport } = this.props;
-    getReport(id, phase);
 
     this.setState({id: id, phase: phase});
   }
@@ -122,21 +124,26 @@ class UpdateReport extends Component {
 
   handleUpdate = (e) => {
     e.preventDefault();
-    const {id, phase, title, service, type, fileDownLoadUrl} = this.state;
-    const report = {
-      title,
-      phase,
-      service,
-      type,
-      fileDownLoadUrl
-    };
-
-    // console.log('updateReport');
-    // console.log(report);
-    this.props.updateReport(id, report);
-
+    const {report, id, phase, title, service, type, fileDownLoadUrl} = this.state;
+    const reportForUpdate = //todo continue here to update correct details in report then check if notification is shown after update
+    this.props.updateReport(
+        id,
+        {
+          ...report,
+          title,
+          phase,
+          service,
+          type,
+          fileDownLoadUrl
+        }
+    );
     //todo add a cloud function which deletes the previous report from cloud storage
     this.props.history.push(`/${phase}/${service}`);
+
+    return <CustomSnackbar
+        showSuccessAlert = {true}
+        successAlertMessage = 'Updated Report!'
+    />;
   };
 
   render() {
@@ -230,25 +237,36 @@ class UpdateReport extends Component {
 
 }
 
-const mapStateToProps = (state) => {
-  // console.log('state in update report');
-  // console.log(state);
-  // let report = null;
-  // if (state.report != null) {
-  //   report = state.report.getReport;
-  // }
+const mapStateToProps = (state, ownProps) => {
+  const id = ownProps.match.params.id;
+  const phase = getReportPhaseFromPathName(ownProps.location.pathname);
+  const reports = state.firestore.data.reports;
+  const report = reports ? reports[id] : null;
+
   return {
     auth: state.firebase.auth,
-    report: state.report.getReport
+    report: report,
+    collection: `${phase}reports`
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getReport: (id, phase) => dispatch(getReport(id, phase)),
     updateReport: (id, report) => dispatch(updateReport(id, report)),
     resetState: () => dispatch(resetState())
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateReport);
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    firestoreConnect(props => {
+      return [
+        {
+          collection: 'company',
+          doc: 'tala',
+          subcollections: [{collection: props.collection}],
+          storeAs: 'reports'
+        }
+      ]
+    })
+)(UpdateReport);
