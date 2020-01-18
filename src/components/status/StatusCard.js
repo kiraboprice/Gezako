@@ -24,6 +24,7 @@ import archivedImage from "../../assets/Imgs/status/grey-archived.png";
 import deletedImage from "../../assets/Imgs/status/light-grey-deleted.png";
 import {getFirstNameFromFullName} from "../../util/StringUtil";
 import moment from "moment";
+import CustomSnackbar from "../snackbar/CustomSnackbar";
 
 const useStyles = makeStyles({
   card: {
@@ -141,8 +142,9 @@ const StatusCard = (props) => {
   }
 
   return (
-      <Card className={classes.card}>
-        <CardActionArea>
+      <div>
+        <Card className={classes.card}>
+          <CardActionArea>
           <CardMedia
               component="img"
               alt="Image"
@@ -179,6 +181,12 @@ const StatusCard = (props) => {
           </Button>
         </CardActions>
       </Card>
+
+        <CustomSnackbar
+            showSuccessAlert = {true}
+            successAlertMessage = 'blaaaaa'
+        />
+     </div>
   );
 };
 
