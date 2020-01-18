@@ -3,9 +3,10 @@
     height: 30px;
     position: fixed;
     background: #01ACC1;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 100%;
     color: white;
+    font-weight: 100;
     z-index: 1;
     top: 0;
     margin-bottom: 20px;

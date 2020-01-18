@@ -38,7 +38,7 @@ const Report = (props) => {
             </div>
 
           <div id='title'>{getFirstNameFromFullName(props.report.createdBy)}</div>
-          <div id='title'>{moment(props.report.createdAt.toDate()).calendar()}</div>
+          <div id='end-column'>{moment(props.report.createdAt.toDate()).calendar()}</div>
         </div>
     )
 };

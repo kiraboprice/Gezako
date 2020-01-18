@@ -8,9 +8,11 @@ import './completedspockreports.css';
 
 import {compose} from "redux";
 import {firestoreConnect} from "react-redux-firebase";
-import moment from "moment";
+import penIcon from "../../../assets/Icons/pen.png";
 import Report from "../Report";
 import LoadingScreen from "../../loading/LoadingScreen";
+
+import createReportIcon from "../../../assets/Icons/create.png";
 
 const CompletedSpockTests = (props) => {
   const {auth, featureReports, endpointReports, service} = props;
@@ -24,32 +26,34 @@ const CompletedSpockTests = (props) => {
           {featureReports ? null : <LoadingScreen />}
 
           <Link to={'/completed/upload-report'} >
-            <button >Create New Report</button>
+            <div id="create-new-report" > <img src={createReportIcon} alt="Create a report" /> </div>
           </Link>
 
-          <div>
-            Total number of {service} tests: 200 - this is hardcoded for now
+          <div id="status-card">
+            <div id="status-description" style={{paddingTop: "25px"}}>
+              Total number of {service} tests: 200 - this is hardcoded for now
+            </div>
+            <div id="status-updated">
+              Code Coverage
+              <br/>
+              Class, %:
+              Method, %:
+              Line, %:
+            </div>
+            <div id="update-status-options">
+              <button >Update Coverage <img src={penIcon} alt="Update Coverage" /> </button>
+            </div>
           </div>
-
-          <div>
-            Code Coverage
-            <br/>
-            Class, %:
-            Method, %:
-            Line, %:
-          </div>
-
-          <button >Update Coverage</button>
 
           <div id='features-reports'>
             <h4>Features</h4>
             <div id='headers'>
               {/* TODO Upgrade Headers so that it is more scalable */}
-              <div id='head-start' className='service'>Service</div>
-              <div id='head'>Title</div>
-              <div id='head'># of tests</div>
-              <div id='head'>Created By</div>
-              <div id='head-end'>Created At</div>
+              <div id='service'>Service</div>
+              <div id='title'>Title</div>
+              <div id='title'># of tests</div>
+              <div id='title'>Created By</div>
+              <div id='end-column'>Created At</div>
             </div>
             { featureReports && featureReports.map(report => { //todo add the index back here!
                 return (
@@ -71,11 +75,11 @@ const CompletedSpockTests = (props) => {
             <h4>Endpoints</h4>
             <div id='headers'>
               {/* TODO Upgrade Headers so that it is more scalable */}
-              <div id='head-start' className='service'>Service</div>
-              <div id='head'>Title</div>
-              <div id='head'># of tests</div>
-              <div id='head'>Created By</div>
-              <div id='head-end'>Created At</div>
+              <div id='service'>Service</div>
+              <div id='title'>Title</div>
+              <div id='title'># of tests</div>
+              <div id='title'>Created By</div>
+              <div id='end-column'>Created At</div>
             </div>
             { endpointReports && endpointReports.map(report => { //todo add the index back here!
               return (
