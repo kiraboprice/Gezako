@@ -28,6 +28,7 @@ import deletedImage from "../../assets/Imgs/status/light-grey-deleted.png";
 import {getFirstNameFromFullName} from "../../util/StringUtil";
 import moment from "moment";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
+import {resetSuccessAlertShown} from "../../store/actions/snackbarActions";
 
 const useStyles = makeStyles({
   card: {
@@ -76,15 +77,19 @@ const StatusCard = (props) => {
   const [successAlertMessage, setSuccessAlertMessage] = useState('');
 
   useEffect(() => {
+    console.log('PROPSSSSSS', props);
+    console.log('showSuccessAlert', showSuccessAlert);
+    console.log('successAlertMessage', successAlertMessage);
     if(props.updateReportResult === 'success'){
       setShowSuccessAlert(true);
       setSuccessAlertMessage('Updated Status!');
-      // props.resetUpdateReportState()
-    } else {
-      setShowSuccessAlert(false);
-      setSuccessAlertMessage('');
     }
 
+    // if (props.successAlertShown) {
+    //   setShowSuccessAlert(false);
+    //   setSuccessAlertMessage('');
+    //   props.resetSuccessAlertShown()
+    // }
     return function cleanup() {
       // props.resetUpdateReportState()
     };
@@ -198,10 +203,10 @@ const StatusCard = (props) => {
         </CardActions>
       </Card>
 
-        <CustomSnackbar
-            showSuccessAlert = {showSuccessAlert}
-            successAlertMessage = {successAlertMessage}
-        />
+        {/*<CustomSnackbar*/}
+            {/*showSuccessAlert = {showSuccessAlert}*/}
+            {/*successAlertMessage = {successAlertMessage}*/}
+        {/*/>*/}
      </div>
   );
 };
@@ -209,13 +214,15 @@ const StatusCard = (props) => {
 const mapStateToProps = (state) => {
   return {
     updateReportResult: state.report.updateReportResult,
+    successAlertShown: state.snackbar.successAlertShown,
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     updateReport: (id, report) => dispatch(updateReport(id, report)),
-    resetUpdateReportState: () => dispatch(resetUpdateReportState())
+    resetUpdateReportState: () => dispatch(resetUpdateReportState()),
+    resetSuccessAlertShown: () => dispatch(resetSuccessAlertShown())
   }
 };
 

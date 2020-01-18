@@ -4,6 +4,13 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import {getFirstNameFromFullName} from "../../util/StringUtil";
+import {compose} from "redux";
+import connect from "react-redux/es/connect/connect";
+import {
+  resetUpdateReportState,
+  updateReport
+} from "../../store/actions/reportActions";
+import {successAlertShown} from "../../store/actions/snackbarActions";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -56,6 +63,8 @@ const CustomSnackbar = (props) => {
       return;
     }
 
+    // successAlertShown();
+
     setShowSuccessAlert(false);
     setShowInfoAlert(false);
     setShowWarningAlert(false);
@@ -81,6 +90,22 @@ const CustomSnackbar = (props) => {
         </Snackbar>
       </div>
   );
-}
+};
 
-export default CustomSnackbar
+const mapStateToProps = (state) => {
+  return {
+
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    successAlertShown: () => dispatch(successAlertShown())
+  }
+};
+
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps)
+)(CustomSnackbar)
+
+//showSuccessAlert : 'success'
