@@ -20,16 +20,31 @@ const useStyles = makeStyles(theme => ({
 
 const CustomSnackbar = (props) => {
   const classes = useStyles();
+
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [successAlertMessage, setSuccessAlertMessage] = useState(false);
+
   const [showInfoAlert, setShowInfoAlert] = useState(false);
+  const [infoAlertMessage, setInfoAlertMessage] = useState(false);
+
   const [showWarningAlert, setShowWarningAlert] = useState(false);
+  const [warningAlertMessage, setWarningAlertMessage] = useState(false);
+
   const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const [errorAlertMessage, setErrorAlertMessage] = useState(false);
 
   useEffect(() => {
     setShowSuccessAlert(props.showSuccessAlert);
+    setSuccessAlertMessage(props.successAlertMessage);
+
     setShowInfoAlert(props.showInfoAlert);
+    setInfoAlertMessage(props.infoAlertMessage);
+
     setShowWarningAlert(props.showWarningAlert);
+    setWarningAlertMessage(props.warningAlertMessage);
+
     setShowErrorAlert(props.showErrorAlert);
+    setErrorAlertMessage(props.errorAlertMessage);
   }, [props]);
 
   const handleClick = () => {
@@ -49,25 +64,20 @@ const CustomSnackbar = (props) => {
 
   return (
       <div className={classes.root}>
-        <Button variant="outlined" onClick={handleClick}>
-          Open success snackbar
-        </Button>
         <Snackbar open={showSuccessAlert} autoHideDuration={1000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="success">
-            This is a success message!
-          </Alert>
+          <Alert onClose={handleClose} severity="success">{successAlertMessage}</Alert>
         </Snackbar>
 
         <Snackbar open={showInfoAlert} autoHideDuration={1000} onClose={handleClose}>
-          <Alert severity="info">This is an information message!</Alert>
+          <Alert severity="info">{infoAlertMessage}</Alert>
         </Snackbar>
 
         <Snackbar open={showWarningAlert} autoHideDuration={1000} onClose={handleClose}>
-          <Alert severity="warning">This is a warning message!</Alert>
+          <Alert severity="warning">{warningAlertMessage}</Alert>Alert>
         </Snackbar>
 
         <Snackbar open={showErrorAlert} autoHideDuration={1000} onClose={handleClose}>
-          <Alert severity="error">This is an error message!</Alert>
+          <Alert severity="error">{errorAlertMessage}</Alert>
         </Snackbar>
       </div>
   );

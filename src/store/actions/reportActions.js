@@ -138,6 +138,12 @@ export const updateReport = (id, report) => {
   }
 };
 
+export const resetUpdateReportState = () => {
+  return (dispatch) => {
+    dispatch({type: 'RESET_UPDATE_REPORT_STATE'});
+  }
+};
+
 export const resetState = () => {
   return (dispatch) => {
     dispatch({type: 'RESET_STATE_SUCCESS'});

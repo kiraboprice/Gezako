@@ -40,13 +40,26 @@ const reportReducer = (state = initState, action) => {
       // console.log('GET_REPORT_ERROR', action.err);
       return state;
 
+      /**
+       * Update Report
+       */
     case 'UPDATE_REPORT_SUCCESS':
       // console.log('UPDATE_REPORT_SUCCESS', action.report);
-      return state;
+      return {
+        ...state,
+        updateReportResult: 'success'
+      };
 
     case 'UPDATE_REPORT_ERROR':
       // console.log('UPDATE_REPORT_ERROR', action.err);
       return state;
+
+    case 'RESET_UPDATE_REPORT_STATE':
+      console.log('RESET_UPDATE_REPORT_STATE');
+      return {
+        ...state,
+        updateReportResult: null
+      };
 
     case 'DOWNLOAD_REPORT_SUCCESS':
       return {

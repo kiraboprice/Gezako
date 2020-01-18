@@ -10,7 +10,10 @@ import Typography from '@material-ui/core/Typography';
 
 import {compose} from "redux";
 import connect from "react-redux/es/connect/connect";
-import {updateReport} from "../../store/actions/reportActions";
+import {
+  resetUpdateReportState,
+  updateReport
+} from "../../store/actions/reportActions";
 import * as ReportStatus from "../../constants/ReportStatus";
 
 import newImage from "../../assets/Imgs/status/yellow-new.jpeg";
@@ -53,9 +56,6 @@ const StatusCard = (props) => {
     setImage(getImage(status));
   }, [props]);
 
-  console.log('state');
-  console.log(stateFromProps);
-
   function handleStatusChange(e) {
     const status = e.target.value;
     setStatusValue(status);
@@ -72,9 +72,25 @@ const StatusCard = (props) => {
     updateReport(stateFromProps.id, stateFromProps.report)
   }
 
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [successAlertMessage, setSuccessAlertMessage] = useState('');
+
+  useEffect(() => {
+    if(props.updateReportResult === 'success'){
+      setShowSuccessAlert(true);
+      setSuccessAlertMessage('Updated Status!');
+      // props.resetUpdateReportState()
+    } else {
+      setShowSuccessAlert(false);
+      setSuccessAlertMessage('');
+    }
+
+    return function cleanup() {
+      // props.resetUpdateReportState()
+    };
+  }, [props]);
+
   function generateDescription(status, createdBy, assignedTo) {
-    console.log('status');
-    console.log(status);
     switch(status) {
       case ReportStatus.NEW:
         return `${createdBy} uploaded a new report and is waiting for ${assignedTo} to review`;
@@ -183,8 +199,8 @@ const StatusCard = (props) => {
       </Card>
 
         <CustomSnackbar
-            showSuccessAlert = {true}
-            successAlertMessage = 'blaaaaa'
+            showSuccessAlert = {showSuccessAlert}
+            successAlertMessage = {successAlertMessage}
         />
      </div>
   );
@@ -192,13 +208,14 @@ const StatusCard = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    // auth: state.firebase.auth,
+    updateReportResult: state.report.updateReportResult,
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     updateReport: (id, report) => dispatch(updateReport(id, report)),
+    resetUpdateReportState: () => dispatch(resetUpdateReportState())
   }
 };
 
