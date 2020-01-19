@@ -120,7 +120,7 @@ export const updateReport = (id, report) => {
       collectionUrl = BASE_DOCUMENT + 'completedreports'
     }
 
-    console.log('updateReport action ');
+    console.log('updateReport action', id, report);
 
     firestore.collection(collectionUrl).doc(id).update({
       title: report.title,

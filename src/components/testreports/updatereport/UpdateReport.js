@@ -4,10 +4,10 @@ import { Redirect } from 'react-router-dom'
 import { updateReport, resetState} from "../../../store/actions/reportActions";
 import * as firebase from "firebase";
 import CustomSnackbar from "../../snackbar/CustomSnackbar";
-import * as StringUtils from "../../../util/StringUtil";
 import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
+import {getUsersApartFromCurrentUser} from "../../../store/actions/authActions";
 
 class UpdateReport extends Component {
   constructor(props) {
@@ -24,12 +24,26 @@ class UpdateReport extends Component {
 
     const id = this.props.match.params.id;
     this.setState({id: id});
+  }
 
+  componentDidMount() {
     if (this.props.report) {
       this.setState({
         report: this.props.report
       });
     }
+
+    const phase = getReportPhaseFromPathName(this.props.location.pathname);
+    this.setState({phase: phase});
+    this.props.getUsersApartFromCurrentUser();
+    if(phase === 'development') {
+      this.setState({displayDevelopmentFields: 'block'});
+      this.setState({displayCompletedFields: 'none'})
+    } else if (phase === 'completed') {
+      this.setState({displayDevelopmentFields: 'none'});
+      this.setState({displayCompletedFields: 'block'})
+    }
+
   }
 
   // componentWillReceiveProps(props, nextContext) {
@@ -51,6 +65,7 @@ class UpdateReport extends Component {
 
   handleChange = (e) => {
     const value = e.target.value;
+    console.log('handleChange: ', value);
     // console.log("state in handle change", this.state);
     switch (e.target.name) {
       case 'title':
@@ -73,10 +88,24 @@ class UpdateReport extends Component {
         this.setState(state => (state.report.type = value, state));
         break;
 
+      case 'numberOfTests':
+        this.setState(state => (state.report.numberOfTests = value, state));
+        break;
+
       default:
         return this.state;
     }
 
+  };
+
+  //store assignedTo as array of userId and DisplayName
+  //because it's difficult to retrieve displayName using the userId when displaying
+  //on a page with multiple assignees, like the allReportsInDevelopment Page
+  handleAssignedToChange = (e) => {
+    const sel = document.getElementsByName('assignedTo')[0];
+    const opt = sel.options[sel.selectedIndex];
+    const value = e.target.value;
+    this.setState(state => (state.report.assignedTo = {'id': value, 'displayName': opt.text}, state));
   };
 
   handleFileSelected = (e) => {
@@ -156,8 +185,8 @@ class UpdateReport extends Component {
   };
 
   render() {
-    const { uploadProgress, report} = this.state;
-    const { auth } = this.props;
+    const { uploadProgress, report, displayDevelopmentFields, displayCompletedFields} = this.state;
+    const { auth, users } = this.props;
     if (!auth.uid) return <Redirect to='/login' />;
 
     // console.log("STATEEEEEE");
@@ -165,7 +194,7 @@ class UpdateReport extends Component {
     if (report) {
       return (
           <div id='upload'>
-            <h3 >Upload Spock Report</h3>
+            <h3 >Update Spock Report</h3>
             <div>
             <div>
               <input type='file' name='file' onChange={this.handleFileSelected} accept='html/*'/>
@@ -224,6 +253,22 @@ class UpdateReport extends Component {
                   </select>
                 </div>
 
+                <div id='display-content' style={{display: displayDevelopmentFields}}>
+                  <label>Assign To: </label>
+                  <select name='assignedTo' onChange={this.handleAssignedToChange}>
+                    <option value=''></option>
+                    {users && users.map(user => <option value={user.id}>{user.displayName}</option>)}
+                  </select>
+                </div>
+
+                <div id='display-content' style={{display: displayCompletedFields}}>
+                  <label>No. of Tests in Report: </label>
+                  <textarea name='numberOfTests'
+                            onChange={this.handleChange}
+                            value = {report.numberOfTests}
+                  />
+                </div>
+
                 <button type="submit">Update</button>
               </form>
             </div>
@@ -253,14 +298,16 @@ const mapStateToProps = (state, ownProps) => {
   return {
     auth: state.firebase.auth,
     report: report,
-    collection: `${phase}reports`
+    collection: `${phase}reports`,
+    users: state.auth.users
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     updateReport: (id, report) => dispatch(updateReport(id, report)),
-    resetState: () => dispatch(resetState())
+    resetState: () => dispatch(resetState()),
+    getUsersApartFromCurrentUser: () => dispatch(getUsersApartFromCurrentUser())
   }
 };
 

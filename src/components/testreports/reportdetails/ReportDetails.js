@@ -56,6 +56,7 @@ const ReportDetails = (props) => {
               <div id="section1">
                 <span id="report-title-section1">{report.title}</span>
                 <div id="uploaded-by">Uploaded by {report.createdBy}, {moment(report.createdAt.toDate()).calendar()}</div>
+                <div id="uploaded-by">Assigned to {report.assignedTo.displayName}</div>
 
                 <Link to={`${report.requirementsSpec}`} >
                   <button id="report-button-section1" style={{background: "#ff6f69", marginRight: "10px"}}>Product Requirements Spec</button>

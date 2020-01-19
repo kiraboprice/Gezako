@@ -52,7 +52,6 @@ class CreateReport extends Component {
   handleAssignedToChange = (e) => {
     const sel = document.getElementsByName('assignedTo')[0];
     const opt = sel.options[sel.selectedIndex];
-    console.log('opt', opt.text)
 
     this.setState({
       [e.target.name]: {'id': e.target.value, 'displayName': opt.text}
