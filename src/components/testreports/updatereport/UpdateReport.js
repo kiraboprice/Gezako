@@ -125,7 +125,7 @@ class UpdateReport extends Component {
   handleUpdate = (e) => {
     e.preventDefault();
     const {report, id, phase, title, service, type, fileDownLoadUrl} = this.state;
-    const reportForUpdate = //todo continue here to update correct details in report then check if notification is shown after update
+    const reportForUpdate = //todo continue here to update correct details in report then check if snackbar is shown after update
     this.props.updateReport(
         id,
         {
