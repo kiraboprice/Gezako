@@ -51,27 +51,34 @@ const ReportDetails = (props) => {
 
     return (
         <div id='report-details-section'>
-          <div >
-              <span >{report.title}</span>
-            <div >
-              <div>Uploaded by {report.createdBy}, {moment(report.createdAt.toDate()).calendar()}</div>
+          <div >  
+            <div id="report-details-positioning">
+              <div id="section1">
+                <span id="report-title-section1">{report.title}</span>
+                <div id="uploaded-by">Uploaded by {report.createdBy}, {moment(report.createdAt.toDate()).calendar()}</div>
 
-              <Link to={`${report.requirementsSpec}`} >
-                <button >Product Requirements Spec</button>
-              </Link>
-              <Link to={`${report.designDoc}`} >
-                <button >Technical Design Doc</button>
-              </Link>
-              <br/>
-              <Link to={`/${report.phase}/update-report/${id}`} >
-                <button >Update Report</button>
-              </Link>
+                <Link to={`${report.requirementsSpec}`} >
+                  <button id="report-button-section1" style={{background: "#ff6f69", marginRight: "10px"}}>Product Requirements Spec</button>
+                </Link>
+                <Link to={`${report.designDoc}`} >
+                  <button id="report-button-section1" style={{background: "#ffeead"}}>Technical Design Doc</button>
+                </Link>
+                <br/>
+                <Link to={`/${report.phase}/update-report/${id}`} >
+                  <button id="report-button-section1" style={{background: "#f0f0f0", marginTop: "25px"}}>Update Report</button>
+                </Link>
+              </div>
+              <div id="section2">
+                <StatusCard
+                    id = {id}
+                    report = {report}
+                />
+              </div>
 
-              <StatusCard
-                  id = {id}
-                  report = {report}
-              />
+             
+            </div>
 
+            <div id="document-container">
               <div dangerouslySetInnerHTML= {htmlDoc} />
             </div>
           </div>

@@ -161,7 +161,7 @@ class CreateReport extends Component {
 
             {/* ! Just a suggestion, maybe display this onSubmit? */}
             <span id='uploading'>
-						Uploading report: {uploadProgress}%
+						  Uploading report: {uploadProgress}%
 					  </span>
 
             <form onSubmit={this.handleSubmit} style={{marginTop: '25px'}}>

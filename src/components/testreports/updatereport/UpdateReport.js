@@ -155,21 +155,17 @@ class UpdateReport extends Component {
     // console.log(this.state);
     if (report) {
       return (
-          <div id='upload' style={{marginLeft: "400px", marginTop: "100px"}}>
-            <div >
-              <h3 >
-                Update Spock Report
-              </h3>
-            </div>
+          <div id='upload'>
+            <h3 >Upload Spock Report</h3>
             <div>
-              <div>
-                <input type="file" name="file"
-                       onChange={this.handleFileSelected}
-                       accept="html/*"/>
-                <button onClick={this.handleUploadFile}>Upload File</button>
-              </div>
+            <div>
+              <input type='file' name='file' onChange={this.handleFileSelected} accept='html/*'/>
+              <button onClick={this.handleUploadFile}>Upload File</button>
+            </div>
 
-              <span> Uploading report: {uploadProgress}% </span>
+              <span id='uploading'>
+                Uploading report: {uploadProgress}%
+              </span>
 
               <form onSubmit={this.handleUpdate}>
 
