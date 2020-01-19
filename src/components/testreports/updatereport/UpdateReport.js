@@ -13,12 +13,7 @@ class UpdateReport extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
-      phase : '',
-      service: '',
-      type: '',
       file: '',
-      fileDownLoadUrl: '',
       uploadProgress: 0
     };
   }
@@ -28,38 +23,60 @@ class UpdateReport extends Component {
   componentWillMount() {
 
     const id = this.props.match.params.id;
-    const pathName = this.props.location.pathname;
-    let phase;
-    if(pathName.includes('development')){
-      phase = 'development'
-    } else if (pathName.includes('completed')) {
-      phase = 'completed'
-    }
+    this.setState({id: id});
 
-    this.setState({id: id, phase: phase});
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.report) {
+    if (this.props.report) {
       this.setState({
-        report: nextProps.report,
-        title: nextProps.report.title,
-        phase: nextProps.report.phase,
-        service: nextProps.report.service,
-        type: nextProps.report.type,
-        fileDownLoadUrl: nextProps.report.fileDownLoadUrl,
+        report: this.props.report
       });
     }
   }
+
+  // componentWillReceiveProps(props, nextContext) {
+  //   if (this.props.report) {
+  //     this.setState({
+  //       report: this.props.report,
+  //       title: this.props.report.title,
+  //       phase: this.props.report.phase,
+  //       service: this.props.report.service,
+  //       type: this.props.report.type,
+  //       fileDownLoadUrl: this.props.report.fileDownLoadUrl
+  //     });
+  //   }
+  // }
 
   componentWillUnmount() {
     this.props.resetState()
   }
 
   handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
+    const value = e.target.value;
+    // console.log("state in handle change", this.state);
+    switch (e.target.name) {
+      case 'title':
+        this.setState(state => {
+          state.report.title = value;
+          return state
+        });
+        break;
+      case 'phase':
+        this.setState(state => {
+          state.report.phase = value;
+          return state
+        });
+        break;
+      case 'service': //short version of the above snippet
+        this.setState(state => (state.report.service = value, state));
+        break;
+
+      case 'type':
+        this.setState(state => (state.report.type = value, state));
+        break;
+
+      default:
+        return this.state;
+    }
+
   };
 
   handleFileSelected = (e) => {
@@ -110,7 +127,8 @@ class UpdateReport extends Component {
         }, function () {
           // Upload completed successfully, now we can get the download URL
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadUrl) {
-            state["fileDownLoadUrl"] = downloadUrl;
+            // state["fileDownLoadUrl"] = downloadUrl;
+            context.setState(state => (state.profile.fileDownLoadUrl = downloadUrl, state));
             context.setState(state);
             context.updateContextState(context)
           });
@@ -124,21 +142,12 @@ class UpdateReport extends Component {
 
   handleUpdate = (e) => {
     e.preventDefault();
-    const {report, id, phase, title, service, type, fileDownLoadUrl} = this.state;
-    const reportForUpdate = //todo continue here to update correct details in report then check if snackbar is shown after update
-    this.props.updateReport(
-        id,
-        {
-          ...report,
-          title,
-          phase,
-          service,
-          type,
-          fileDownLoadUrl
-        }
-    );
+    const {report, id} = this.state;
+
+    this.props.updateReport(id, report);
+
     //todo add a cloud function which deletes the previous report from cloud storage
-    this.props.history.push(`/${phase}/${service}`);
+    this.props.history.push(`/${report.phase}/${report.service}`);
 
     return <CustomSnackbar
         showSuccessAlert = {true}
@@ -147,7 +156,7 @@ class UpdateReport extends Component {
   };
 
   render() {
-    const { phase, title, service, type, uploadProgress, report} = this.state;
+    const { uploadProgress, report} = this.state;
     const { auth } = this.props;
     if (!auth.uid) return <Redirect to='/login' />;
 
@@ -173,13 +182,13 @@ class UpdateReport extends Component {
                   <label>Report Title:</label>
                   <textarea name='title'
                             onChange={this.handleChange}
-                            value = {title}
+                            value = {report.title}
                   />
                 </div>
 
                 <div id='display-content'>
                   <label>Phase: </label>
-                  <select name='phase' value={phase} onChange={this.handleChange}>
+                  <select name='phase' value={report.phase} onChange={this.handleChange}>
                     <option value='development'>Development</option>
                     <option value='completed'>Completed</option>
                   </select>
@@ -187,7 +196,7 @@ class UpdateReport extends Component {
 
                 <div id='display-content'>
                   <label>Service: </label>
-                  <select name='service' value={service} onChange={this.handleChange}>
+                  <select name='service' value={report.service} onChange={this.handleChange}>
                     <option value='loans'>Loans</option>
                     <option value='users'>Users</option>
                     <option value='surveys'>Surveys</option>
@@ -209,7 +218,7 @@ class UpdateReport extends Component {
 
                 <div id='display-content'>
                   <label>Report Type: </label>
-                  <select name='type' value={type} onChange={this.handleChange}>
+                  <select name='type' value={report.type} onChange={this.handleChange}>
                     <option value='feature'>Feature</option>
                     <option value='endpoint'>Endpoint</option>
                   </select>
@@ -239,6 +248,8 @@ const mapStateToProps = (state, ownProps) => {
   const reports = state.firestore.data.reports;
   const report = reports ? reports[id] : null;
 
+  console.log('reports in Update Report', reports)
+  console.log('report in Update Report', report)
   return {
     auth: state.firebase.auth,
     report: report,

@@ -129,7 +129,7 @@ export const updateReport = (id, report) => {
       type: report.type,
       fileDownLoadUrl: report.fileDownLoadUrl,
       assignedTo: report.assignedTo,
-      numberOfTests: report.numberOfTests,
+      numberOfTests: report.numberOfTests? report.numberOfTests : null,
 
       status: report.status,
       updatedAt: new Date(),
