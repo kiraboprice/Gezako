@@ -7,6 +7,7 @@ import connect from "react-redux/es/connect/connect";
 import {Redirect} from 'react-router-dom'
 import {firestoreConnect} from "react-redux-firebase";
 import {downloadReport} from "../../../store/actions/reportActions";
+import createReportIcon from "../../../assets/Icons/create.png";
 import {
   setPrevUrl
 } from "../../../store/actions/authActions";
@@ -32,18 +33,18 @@ const SpockTestsInDevelopment = (props) => {
         <div id='reports-section'>
 
           <Link to={'/development/upload-report'} >
-            <button >Create New Report</button>
+            <div id="create-new-report" > <img src={createReportIcon} alt="Create a report" /> </div>
           </Link>
 
           <div id='features-reports'>
             <div id='headers'>
               {/* TODO Upgrade Headers so that it is more scalable */}
-              <div id='head-start' className='service'>Service</div>
-              <div id='head'>Title</div>
-              <div id='head'>Status</div>
-              <div id='head'>Assigned To</div>
-              <div id='head'>Created By</div>
-              <div id='head-end'>Created At</div>
+              <div id='service'>Service</div>
+              <div id='title'>Title</div>
+              <div id='title'>Status</div>
+              <div id='title'>Assigned To</div>
+              <div id='title'>Created By</div>
+              <div id='end-column'>Created At</div>
             </div>
             { reports && reports.map(report => {
                 return (

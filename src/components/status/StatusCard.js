@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import "./statuscard.css"
 
 import {compose} from "redux";
 import connect from "react-redux/es/connect/connect";
@@ -25,15 +18,7 @@ import deletedImage from "../../assets/Imgs/status/light-grey-deleted.png";
 import {getFirstNameFromFullName} from "../../util/StringUtil";
 import moment from "moment";
 
-const useStyles = makeStyles({
-  card: {
-    maxWidth: 345
-  },
-});
-
 const StatusCard = (props) => {
-  const classes = useStyles();
-
   const { updateReport } = props;
   const [status, setStatusValue] = useState('');
   const [description, setDescription] = useState('');
@@ -141,44 +126,36 @@ const StatusCard = (props) => {
   }
 
   return (
-      <Card className={classes.card}>
-        <CardActionArea>
-          <CardMedia
-              component="img"
-              alt="Image"
-              height="20"
-              image={image}
-              title={stateFromProps.report.status}
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              {status}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {description}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Update at: {stateFromProps.report.updatedAt ? moment(stateFromProps.report.updatedAt.toDate()).calendar(): null}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <select value={status} onChange={handleStatusChange}>
-            <option value={ReportStatus.NEW}>{ReportStatus.NEW}</option>
-            <option value={ReportStatus.IN_REVIEW}>{ReportStatus.IN_REVIEW}</option>
-            <option value={ReportStatus.REQUESTED_CHANGES}>{ReportStatus.REQUESTED_CHANGES}</option>
-            <option value={ReportStatus.RE_UPLOADED}>{ReportStatus.RE_UPLOADED}</option>
-            <option value={ReportStatus.APPROVED}>{ReportStatus.APPROVED}</option>
-            <option value={ReportStatus.DONE}>{ReportStatus.DONE}</option>
-            <option value={ReportStatus.COMPLETED}>{ReportStatus.COMPLETED}</option>
-            <option value={ReportStatus.ARCHIVED}>{ReportStatus.ARCHIVED}</option>
-            <option value={ReportStatus.DELETED}>{ReportStatus.DELETED}</option>
-          </select>
-          <Button size="small" color="primary" onClick={updateStatus}>
-            Update Status
-          </Button>
-        </CardActions>
-      </Card>
+    <div id="status-card">
+      <div id="status-color">
+        <img src={image} alt={status}></img>
+      </div>
+      <div id="report-status">
+        Status: {status}
+      </div>
+      <div id="status-description">
+        {description}
+      </div>
+      <div id="status-updated">
+        Last updated: {stateFromProps.report.updatedAt ? moment(stateFromProps.report.updatedAt.toDate()).calendar(): null}
+      </div>
+      <div id="update-status-options">
+        <select value={status} onChange={handleStatusChange}>
+          <option value={ReportStatus.NEW}>{ReportStatus.NEW}</option>
+          <option value={ReportStatus.IN_REVIEW}>{ReportStatus.IN_REVIEW}</option>
+          <option value={ReportStatus.REQUESTED_CHANGES}>{ReportStatus.REQUESTED_CHANGES}</option>
+          <option value={ReportStatus.RE_UPLOADED}>{ReportStatus.RE_UPLOADED}</option>
+          <option value={ReportStatus.APPROVED}>{ReportStatus.APPROVED}</option>
+          <option value={ReportStatus.DONE}>{ReportStatus.DONE}</option>
+          <option value={ReportStatus.COMPLETED}>{ReportStatus.COMPLETED}</option>
+          <option value={ReportStatus.ARCHIVED}>{ReportStatus.ARCHIVED}</option>
+          <option value={ReportStatus.DELETED}>{ReportStatus.DELETED}</option>
+        </select>
+        <button id="status-update-button" onClick={updateStatus}>
+          Update Status
+        </button>
+      </div>
+    </div>
   );
 };
 
