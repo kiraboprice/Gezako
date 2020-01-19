@@ -56,7 +56,6 @@ const ReportDetails = (props) => {
                 <span id="report-title-section1">{report.title}</span>
                 <div id="uploaded-by">Uploaded by {report.createdBy}, {moment(report.createdAt.toDate()).calendar()}</div>
 
-                {/* I couldn't get nice colors, so you can edit them below*/}
                 <Link to={`${report.requirementsSpec}`} >
                   <button id="report-button-section1" style={{background: "#ff6f69", marginRight: "10px"}}>Product Requirements Spec</button>
                 </Link>
