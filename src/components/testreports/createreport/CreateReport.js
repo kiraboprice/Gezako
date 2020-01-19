@@ -27,9 +27,9 @@ class CreateReport extends Component {
   };
 
   componentDidMount() {
+    this.props.getUsersApartFromCurrentUser();
     const phase = getReportPhaseFromPathName(this.props.location.pathname);
     this.setState({phase: phase});
-    this.props.getUsersApartFromCurrentUser();
     if(phase === 'development') {
       this.setState({displayDevelopmentFields: 'block'});
       this.setState({displayCompletedFields: 'none'})

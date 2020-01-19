@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, {useEffect, useState} from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import {firestoreConnect} from "react-redux-firebase";
@@ -14,27 +14,32 @@ import {
 import '../reportdetails/reportdetails.css';
 import StatusCard from "../../status/StatusCard";
 
-import * as StringUtils from "../../../util/StringUtil";
 import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 
 const ReportDetails = (props) => {
   const {auth, report} = props;
   const {setPrevUrl, downloadReport, reportDownload, resetState} = props;
   const id = props.match.params.id;
-  const pathName = props.location.pathname;
 
-  let phase;
-  if(pathName.includes('development')){
-    phase = 'development'
-  } else if (pathName.includes('completed')) {
-    phase = 'completed'
-  }
 
   //clean up after this component is unmounted
   useEffect(() => {
     return function cleanup() {
       resetState()
     };
+  },[id]);
+
+  const [displayDevelopmentFields, setDisplayDevelopmentFields] = useState('');
+  const [displayCompletedFields, setDisplayCompletedFields] = useState('');
+  useEffect(() => {
+    const phase = getReportPhaseFromPathName(props.location.pathname);
+    if(phase === 'development') {
+      setDisplayDevelopmentFields('block');
+      setDisplayCompletedFields('none');
+    } else if (phase === 'completed') {
+      setDisplayDevelopmentFields('none');
+      setDisplayCompletedFields('block');
+    }
   },[id]);
 
   if (!auth.uid) {
@@ -56,7 +61,8 @@ const ReportDetails = (props) => {
               <div id="section1">
                 <span id="report-title-section1">{report.title}</span>
                 <div id="uploaded-by">Uploaded by {report.createdBy}, {moment(report.createdAt.toDate()).calendar()}</div>
-                <div id="uploaded-by">Assigned to {report.assignedTo.displayName}</div>
+
+                {report.assignedTo?<div id="uploaded-by" style={{display: displayDevelopmentFields}}>Assigned to {report.assignedTo.displayName}</div> : null }
 
                 <Link to={`${report.requirementsSpec}`} >
                   <button id="report-button-section1" style={{background: "#ff6f69", marginRight: "10px"}}>Product Requirements Spec</button>
