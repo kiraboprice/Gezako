@@ -58,14 +58,14 @@ const ReportDetails = (props) => {
 
                 {/* I couldn't get nice colors, so you can edit them below*/}
                 <Link to={`${report.requirementsSpec}`} >
-                  <button id="report-button-section1" style={{background: "#ff6f69"}}>Product Requirements Spec</button>
+                  <button id="report-button-section1" style={{background: "#ff6f69", marginRight: "10px"}}>Product Requirements Spec</button>
                 </Link>
                 <Link to={`${report.designDoc}`} >
                   <button id="report-button-section1" style={{background: "#ffeead"}}>Technical Design Doc</button>
                 </Link>
                 <br/>
                 <Link to={`/${report.phase}/update-report/${id}`} >
-                  <button id="report-button-section1" style={{background: "#96ceb4"}}>Update Report</button>
+                  <button id="report-button-section1" style={{background: "#f0f0f0", marginTop: "25px"}}>Update Report</button>
                 </Link>
               </div>
               <div id="section2">

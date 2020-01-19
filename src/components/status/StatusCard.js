@@ -131,7 +131,7 @@ const StatusCard = (props) => {
         <img src={image} alt={status}></img>
       </div>
       <div id="report-status">
-        {status}
+        Status: {status}
       </div>
       <div id="status-description">
         {description}

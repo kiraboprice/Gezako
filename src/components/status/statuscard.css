@@ -13,6 +13,7 @@
 
 #report-status{
     margin: 10px 15px;
+    font-weight: 700;
 }
 
 #status-description{
@@ -21,6 +22,7 @@
 
 #status-updated{
     margin: 10px 15px;
+    color: grey;
 }
 
 #update-status-options{

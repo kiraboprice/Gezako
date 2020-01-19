@@ -15,12 +15,13 @@
 #title{
     flex: 2;
     text-align: left;
+    padding-right: 5px;
 }
 
 #end-column{
     text-align: right;
     right: 0;
-    flex: 1;
+    flex: 2;
 }
 
 #end-column a{
