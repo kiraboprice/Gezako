@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 import {createReport} from '../../../store/actions/reportActions';
@@ -17,13 +17,14 @@ const CreateReport = (props) => {
   const [report, setReport] = useState();
   const [phase, setPhase] = useState();
   const [file, setFile] = useState();
-const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const [displayDevelopmentFields, setDisplayDevelopmentFields] = useState();
   const [displayCompletedFields, setDisplayCompletedFields] = useState();
 
   useEffect(() => {
     props.getUsersApartFromCurrentUser();
+
     setPhase(getReportPhaseFromPathName(props.location.pathname));
     if(phase === 'development') {
       setDisplayDevelopmentFields('block');
@@ -32,7 +33,21 @@ const [uploadProgress, setUploadProgress] = useState(0);
       setDisplayDevelopmentFields('none');
       setDisplayCompletedFields('block');
     }
+  }, [props]);
 
+  // setReport(
+  //     {
+  //       title: 'Test Report Title',
+  //       phase: phase,
+  //       service: 'loans',
+  //       type: 'endpoint',
+  //       fileDownLoadUrl: '',
+  //       assignedTo: '',
+  //       numberOfTests: '',
+  //     }
+  // );
+
+  useEffect(() => {
     setReport(
         {
           title: 'Test Report Title',
@@ -44,7 +59,7 @@ const [uploadProgress, setUploadProgress] = useState(0);
           numberOfTests: '',
         }
     )
-  }, [props]);
+  }, []);
 
   const { auth, setPrevUrl, users } = props;
   if (!auth.uid) {
@@ -62,14 +77,8 @@ const [uploadProgress, setUploadProgress] = useState(0);
           report.title = value;
           return report
         });
-        console.log('report handleChange: ', report);
+        // console.log('report handleChange: ', report);
 
-        break;
-      case 'phase':
-        setReport(report => {
-          report.phase = value;
-          return report
-        });
         break;
       case 'service': //short version of the above snippet
         setReport(report => (report.service = value, report));
@@ -168,7 +177,7 @@ const [uploadProgress, setUploadProgress] = useState(0);
   return (
       <div id='upload'>
         <h3 >Upload Spock Report</h3>
-        {phase === 'completed' ? 'Upload Report for a complete test' : 'Upload Report for a test in development' }
+        {phase === 'completed' ? 'Upload Report for a Complete test' : 'Upload Report for a test in Development' }
         <div>
           <input type='file' name='file' onChange={handleFileSelected} accept='html/*'/>
           <button onClick={handleUploadFile}>Upload File</button>
