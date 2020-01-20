@@ -14,8 +14,16 @@ import {COMPLETED_PHASE, DEVELOPMENT_PHASE} from "../../../constants/Report";
 
 const CreateReport = (props) => {
 
-  const [report, setReport] = useState();
-  const [phase, setPhase] = useState();
+  //report fields
+  const [title, setTitle] = useState('Test Report Title');
+  const [phase, setPhase] = useState('development');
+  const [service, setService] = useState('loans');
+  const [type, setType] = useState('endpoint');
+  const [fileDownLoadUrl, setFileDownLoadUrl] = useState('');
+  const [assignedTo, setAssignedTo] = useState(null);
+  const [numberOfTests, setNumberOfTests] = useState(0);
+
+
   const [file, setFile] = useState();
   const [uploadProgress, setUploadProgress] = useState(0);
 
@@ -26,7 +34,7 @@ const CreateReport = (props) => {
     props.getUsersApartFromCurrentUser();
 
     setPhase(getReportPhaseFromPathName(props.location.pathname));
-    if(phase === 'development') {
+    if (phase === 'development') {
       setDisplayDevelopmentFields('block');
       setDisplayCompletedFields('none');
     } else if (phase === 'completed') {
@@ -35,61 +43,41 @@ const CreateReport = (props) => {
     }
   }, [props]);
 
-  // setReport(
-  //     {
-  //       title: 'Test Report Title',
-  //       phase: phase,
-  //       service: 'loans',
-  //       type: 'endpoint',
-  //       fileDownLoadUrl: '',
-  //       assignedTo: '',
-  //       numberOfTests: '',
-  //     }
-  // );
-
-  useEffect(() => {
-    setReport(
-        {
-          title: 'Test Report Title',
-          phase: phase,
-          service: 'loans',
-          type: 'endpoint',
-          fileDownLoadUrl: '',
-          assignedTo: '',
-          numberOfTests: '',
-        }
-    )
-  }, []);
-
-  const { auth, setPrevUrl, users } = props;
+  const {auth, setPrevUrl, users} = props;
   if (!auth.uid) {
     setPrevUrl(this.props.location.pathname);
-    return <Redirect to='/login' />;
+    return <Redirect to='/login'/>;
   }
 
-  function handleChange (e) {
+  function handleChange(e) {
     const value = e.target.value;
     // console.log('handleChange: ', value);
     // console.log("state in handle change", this.state);
     switch (e.target.name) {
       case 'title':
-        setReport(report => {
-          report.title = value;
-          return report
-        });
-        // console.log('report handleChange: ', report);
-
+        setTitle(e.target.value);
         break;
+
       case 'service': //short version of the above snippet
-        setReport(report => (report.service = value, report));
+        setService(e.target.value);
         break;
 
       case 'type':
-        setReport(report => (report.type = value, report));
+        setType(e.target.value);
         break;
 
       case 'numberOfTests':
-        setReport(report => (report.numberOfTests = value, report));
+        setNumberOfTests(e.target.value);
+        break;
+
+      case 'assignedTo':
+        //store assignedTo as array of userId and DisplayName
+        //because it's difficult to retrieve displayName using the userId when displaying
+        //on a page with multiple assignees, like the allReportsInDevelopment Page
+        const sel = document.getElementsByName('assignedTo')[0];
+        const opt = sel.options[sel.selectedIndex];
+        const value = e.target.value;
+        setAssignedTo({'id': value, 'displayName': opt.text});
         break;
 
       default:
@@ -98,26 +86,16 @@ const CreateReport = (props) => {
 
   }
 
-  //store assignedTo as array of userId and DisplayName
-  //because it's difficult to retrieve displayName using the userId when displaying
-  //on a page with multiple assignees, like the allReportsInDevelopment Page
-  function handleAssignedToChange (e) {
-    const sel = document.getElementsByName('assignedTo')[0];
-    const opt = sel.options[sel.selectedIndex];
-    const value = e.target.value;
-    setReport(report => (report.assignedTo = {'id': value, 'displayName': opt.text}, report));
+  function handleFileUploaded(fileDownLoadUrl) {
+    setFileDownLoadUrl(fileDownLoadUrl);
   }
 
-  function handleFileUploaded (fileDownLoadUrl) {
-    setReport(report => (report.fileDownLoadUrl = fileDownLoadUrl, report));
-  }
-
-  function handleFileSelected(e){
+  function handleFileSelected(e) {
     setFile(e.target.files[0])
   }
 
   //todo extract this to using actions and leave this component clean
-  function handleUploadFile (e) {
+  function handleUploadFile(e) {
     var metadata = {
       contentType: 'text/html'
     };
@@ -131,7 +109,8 @@ const CreateReport = (props) => {
 
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
         function (snapshot) {
-          var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          var progress = (snapshot.bytesTransferred / snapshot.totalBytes)
+              * 100;
           setUploadProgress(progress);
 
           switch (snapshot.state) {
@@ -167,19 +146,31 @@ const CreateReport = (props) => {
     );
   }
 
-  function handleSubmit (e) {
+  function handleSubmit(e) {
     e.preventDefault();
+    const report = {
+      title,
+      phase,
+      service,
+      type,
+      fileDownLoadUrl,
+      assignedTo,
+      numberOfTests
+    };
     props.createReport(report);
     props.history.push(`/${report.phase}/${report.service}`);
   }
-    // console.log("STATE---", report);
+
+  // console.log("STATE---", report);
 
   return (
       <div id='upload'>
-        <h3 >Upload Spock Report</h3>
-        {phase === 'completed' ? 'Upload Report for a Complete test' : 'Upload Report for a test in Development' }
+        <h3>Upload Spock Report</h3>
+        {phase === 'completed' ? 'Upload Report for a Complete test'
+            : 'Upload Report for a test in Development'}
         <div>
-          <input type='file' name='file' onChange={handleFileSelected} accept='html/*'/>
+          <input type='file' name='file' onChange={handleFileSelected}
+                 accept='html/*'/>
           <button onClick={handleUploadFile}>Upload File</button>
         </div>
 
@@ -194,13 +185,14 @@ const CreateReport = (props) => {
               <label>Report Title:</label>
               <textarea name='title'
                         onChange={handleChange}
-                        value = {report? report.title : null}
+                        value={title}
               />
             </div>
 
             <div id='display-content'>
               <label>Service: </label>
-              <select name='service' value={report? report.service : null} onChange={handleChange}>
+              <select name='service' value={service}
+                      onChange={handleChange}>
                 <option value='loans'>Loans</option>
                 <option value='users'>Users</option>
                 <option value='surveys'>Surveys</option>
@@ -222,17 +214,20 @@ const CreateReport = (props) => {
 
             <div id='display-content'>
               <label>Report Type: </label>
-              <select name='type' value={report? report.type: null} onChange={handleChange}>
+              <select name='type' value={type}
+                      onChange={handleChange}>
                 <option value='feature'>Feature</option>
                 <option value='endpoint'>Endpoint</option>
               </select>
             </div>
 
-            <div id='display-content' style={{display: displayDevelopmentFields}}>
+            <div id='display-content'
+                 style={{display: displayDevelopmentFields}}>
               <label>Assign To: </label>
-              <select name='assignedTo' onChange={handleAssignedToChange}>
+              <select name='assignedTo' onChange={handleChange}>
                 <option value=''></option>
-                {users && users.map(user => <option value={user.id}>{user.displayName}</option>)}
+                {users && users.map(user => <option
+                    value={user.id}>{user.displayName}</option>)}
               </select>
             </div>
 
@@ -240,7 +235,7 @@ const CreateReport = (props) => {
               <label>No. of Tests in Report: </label>
               <textarea name='numberOfTests'
                         onChange={handleChange}
-                        value = {report? report.numberOfTests : null}
+                        value={numberOfTests}
               />
             </div>
 
@@ -253,7 +248,6 @@ const CreateReport = (props) => {
         </form>
       </div>
   );
-
 };
 
 const mapStateToProps = (state) => {
