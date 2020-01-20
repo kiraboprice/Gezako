@@ -17,14 +17,14 @@ const CreateReport = (props) => {
   const [report, setReport] = useState();
   const [phase, setPhase] = useState();
   const [file, setFile] = useState();
-  const [uploadProgress, setUploadProgress] = useState();
+const [uploadProgress, setUploadProgress] = useState(0);
 
   const [displayDevelopmentFields, setDisplayDevelopmentFields] = useState();
   const [displayCompletedFields, setDisplayCompletedFields] = useState();
 
   useEffect(() => {
     props.getUsersApartFromCurrentUser();
-    setPhase(getReportPhaseFromPathName(this.props.location.pathname));
+    setPhase(getReportPhaseFromPathName(props.location.pathname));
     if(phase === 'development') {
       setDisplayDevelopmentFields('block');
       setDisplayCompletedFields('none');
@@ -54,7 +54,7 @@ const CreateReport = (props) => {
 
   function handleChange (e) {
     const value = e.target.value;
-    console.log('handleChange: ', value);
+    // console.log('handleChange: ', value);
     // console.log("state in handle change", this.state);
     switch (e.target.name) {
       case 'title':
@@ -62,6 +62,8 @@ const CreateReport = (props) => {
           report.title = value;
           return report
         });
+        console.log('report handleChange: ', report);
+
         break;
       case 'phase':
         setReport(report => {
@@ -161,88 +163,88 @@ const CreateReport = (props) => {
     props.createReport(report);
     props.history.push(`/${report.phase}/${report.service}`);
   }
-    // console.log("STATE---", this.state)
+    // console.log("STATE---", report);
 
-    return (
-        <div id='upload'>
-          <h3 >Upload Spock Report</h3>
-          {phase === 'completed' ? 'Upload Report for a complete test' : 'Upload Report for a test in development' }
-            <div>
-              <input type='file' name='file' onChange={handleFileSelected} accept='html/*'/>
-              <button onClick={handleUploadFile}>Upload File</button>
+  return (
+      <div id='upload'>
+        <h3 >Upload Spock Report</h3>
+        {phase === 'completed' ? 'Upload Report for a complete test' : 'Upload Report for a test in development' }
+        <div>
+          <input type='file' name='file' onChange={handleFileSelected} accept='html/*'/>
+          <button onClick={handleUploadFile}>Upload File</button>
+        </div>
+
+        {/* ! Just a suggestion, maybe display this onSubmit? */}
+        <span id='uploading'>
+		  Uploading report: {uploadProgress}%
+	  </span>
+        <form onSubmit={handleSubmit} style={{marginTop: '25px'}}>
+          <div>
+
+            <div id='display-content'>
+              <label>Report Title:</label>
+              <textarea name='title'
+                        onChange={handleChange}
+                        value = {report? report.title : null}
+              />
             </div>
 
-            {/* ! Just a suggestion, maybe display this onSubmit? */}
-            <span id='uploading'>
-						  Uploading report: {uploadProgress}%
-					  </span>
+            <div id='display-content'>
+              <label>Service: </label>
+              <select name='service' value={report? report.service : null} onChange={handleChange}>
+                <option value='loans'>Loans</option>
+                <option value='users'>Users</option>
+                <option value='surveys'>Surveys</option>
+                <option value='auth'>Auth</option>
+                <option value='rails'>Rails</option>
+                <option value='approval'>Comms</option>
+                <option value='approval'>Approval</option>
+                <option value='scheduler'>Scheduler</option>
+                <option value='dsrouter'>DsRouter</option>
+                <option value='rules'>Rules</option>
+                <option value='assignment'>Assignment</option>
+                <option value='dss'>Dss</option>
+                <option value='kyc'>Kyc</option>
+                <option value='attribution'>Attribution</option>
+                <option value='settlement'>Settlement</option>
+                <option value='verification'>Verification</option>
+              </select>
+            </div>
 
-            <form onSubmit={handleSubmit} style={{marginTop: '25px'}}>
-              <div>
+            <div id='display-content'>
+              <label>Report Type: </label>
+              <select name='type' value={report? report.type: null} onChange={handleChange}>
+                <option value='feature'>Feature</option>
+                <option value='endpoint'>Endpoint</option>
+              </select>
+            </div>
 
-                <div id='display-content'>
-                  <label>Report Title:</label>
-                  <textarea name='title'
-                            onChange={handleChange}
-                            value = {report.title}
-                  />
-                </div>
+            <div id='display-content' style={{display: displayDevelopmentFields}}>
+              <label>Assign To: </label>
+              <select name='assignedTo' onChange={handleAssignedToChange}>
+                <option value=''></option>
+                {users && users.map(user => <option value={user.id}>{user.displayName}</option>)}
+              </select>
+            </div>
 
-                <div id='display-content'>
-                  <label>Service: </label>
-                  <select name='service' value={report.service} onChange={handleChange}>
-                    <option value='loans'>Loans</option>
-                    <option value='users'>Users</option>
-                    <option value='surveys'>Surveys</option>
-                    <option value='auth'>Auth</option>
-                    <option value='rails'>Rails</option>
-                    <option value='approval'>Comms</option>
-                    <option value='approval'>Approval</option>
-                    <option value='scheduler'>Scheduler</option>
-                    <option value='dsrouter'>DsRouter</option>
-                    <option value='rules'>Rules</option>
-                    <option value='assignment'>Assignment</option>
-                    <option value='dss'>Dss</option>
-                    <option value='kyc'>Kyc</option>
-                    <option value='attribution'>Attribution</option>
-                    <option value='settlement'>Settlement</option>
-                    <option value='verification'>Verification</option>
-                  </select>
-                </div>
+            <div id='display-content' style={{display: displayCompletedFields}}>
+              <label>No. of Tests in Report: </label>
+              <textarea name='numberOfTests'
+                        onChange={handleChange}
+                        value = {report? report.numberOfTests : null}
+              />
+            </div>
 
-                <div id='display-content'>
-                  <label>Report Type: </label>
-                  <select name='type' value={report.type} onChange={handleChange}>
-                    <option value='feature'>Feature</option>
-                    <option value='endpoint'>Endpoint</option>
-                  </select>
-                </div>
+            {/* ! Make sure someone has actually uploaded and filled out the required spaces because
+              I was able to submit (by accident) without uploading or filling out the spaces */}
+            <button id='submit-report' type='submit'>
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+  );
 
-                <div id='display-content' style={{display: displayDevelopmentFields}}>
-                  <label>Assign To: </label>
-                  <select name='assignedTo' onChange={handleAssignedToChange}>
-                    <option value=''></option>
-                    {users && users.map(user => <option value={user.id}>{user.displayName}</option>)}
-                  </select>
-                </div>
-
-                <div id='display-content' style={{display: displayCompletedFields}}>
-                  <label>No. of Tests in Report: </label>
-                  <textarea name='numberOfTests'
-                            onChange={handleChange}
-                            value = {report.numberOfTests}
-                  />
-                </div>
-
-                {/* ! Make sure someone has actually uploaded and filled out the required spaces because
-                  I was able to submit (by accident) without uploading or filling out the spaces */}
-                <button id='submit-report' type='submit'>
-                  Submit
-                </button>
-              </div>
-            </form>
-        </div>
-    );
 };
 
 const mapStateToProps = (state) => {
