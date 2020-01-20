@@ -11,6 +11,8 @@ import {
 import './createReport.css';
 import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 import {COMPLETED_PHASE, DEVELOPMENT_PHASE} from "../../../constants/Report";
+import CustomSnackbar from "../../snackbar/CustomSnackbar";
+import {showSuccessAlert} from "../../../store/actions/snackbarActions";
 
 const CreateReport = (props) => {
 
@@ -24,9 +26,11 @@ const CreateReport = (props) => {
   const [numberOfTests, setNumberOfTests] = useState(0);
 
 
+  //required to generate fileDownLoadUrl
   const [file, setFile] = useState();
   const [uploadProgress, setUploadProgress] = useState(0);
 
+  //set up UI
   const [displayDevelopmentFields, setDisplayDevelopmentFields] = useState();
   const [displayCompletedFields, setDisplayCompletedFields] = useState();
 
@@ -56,6 +60,7 @@ const CreateReport = (props) => {
     switch (e.target.name) {
       case 'title':
         setTitle(e.target.value);
+        props.showSuccessAlert();
         break;
 
       case 'service': //short version of the above snippet
@@ -262,6 +267,8 @@ const mapDispatchToProps = dispatch => {
     createReport: (report) => dispatch(createReport(report)),
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
     getUsersApartFromCurrentUser: () => dispatch(getUsersApartFromCurrentUser()),
+
+    showSuccessAlert: () => dispatch(showSuccessAlert()),
   };
 };
 

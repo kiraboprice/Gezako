@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, useState} from 'react'
 import 'firebase/auth';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
@@ -21,19 +21,25 @@ import UploadReport from "./components/testreports/createreport/CreateReport";
 import PerformanceTests from "./components/perfomance/PerformanceTests";
 import UpdateReport from "./components/testreports/updatereport/UpdateReport";
 import Home from "./components/testreports/home/Home";
+import CustomSnackbar from "./components/snackbar/CustomSnackbar";
 
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
+const App = (props) => {
+  // snackbar
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
-  render() {
-    return (
+  return (
         <div>
           <BrowserRouter>
+
             <Navigation/>
+
             <SideBar/>
+
+            <CustomSnackbar
+                showSuccessAlert = {true}
+            />
+
             <Switch>
               <Route exact path='/login' component={Login}/>
               <Route exact path='/' component={Home}/>
@@ -59,13 +65,12 @@ class App extends Component {
           </BrowserRouter>
         </div>
     );
-  }
 }
 
 const mapStateToProps = (state) => {
   return {
     //authSuccess: state.auth.authSuccess,
   }
-}
+};
 
 export default connect(mapStateToProps)(App);

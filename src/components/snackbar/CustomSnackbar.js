@@ -10,7 +10,11 @@ import {
   resetUpdateReportState,
   updateReport
 } from "../../store/actions/reportActions";
-import {successAlertShown} from "../../store/actions/snackbarActions";
+import {
+  hideSuccessAlert,
+  showSuccessAlert,
+  successAlertShown
+} from "../../store/actions/snackbarActions";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -41,18 +45,19 @@ const CustomSnackbar = (props) => {
   const [errorAlertMessage, setErrorAlertMessage] = useState(false);
 
   useEffect(() => {
+    console.log('useEffect:', showSuccessAlert)
     setShowSuccessAlert(props.showSuccessAlert);
-    setSuccessAlertMessage(props.successAlertMessage);
-
-    setShowInfoAlert(props.showInfoAlert);
-    setInfoAlertMessage(props.infoAlertMessage);
-
-    setShowWarningAlert(props.showWarningAlert);
-    setWarningAlertMessage(props.warningAlertMessage);
-
-    setShowErrorAlert(props.showErrorAlert);
-    setErrorAlertMessage(props.errorAlertMessage);
-  }, [props]);
+    // setSuccessAlertMessage(props.successAlertMessage);
+    //
+    // setShowInfoAlert(props.showInfoAlert);
+    // setInfoAlertMessage(props.infoAlertMessage);
+    //
+    // setShowWarningAlert(props.showWarningAlert);
+    // setWarningAlertMessage(props.warningAlertMessage);
+    //
+    // setShowErrorAlert(props.showErrorAlert);
+    // setErrorAlertMessage(props.errorAlertMessage);
+  }, [props.showSuccessAlert]);
 
   const handleClick = () => {
     // setOpen(true);
@@ -70,6 +75,8 @@ const CustomSnackbar = (props) => {
     setShowWarningAlert(false);
     setShowErrorAlert(false);
   };
+
+  console.log('showSuccessAlert:', showSuccessAlert)
 
   return (
       <div className={classes.root}>
@@ -94,13 +101,15 @@ const CustomSnackbar = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-
+    showSuccessAlert: state.snackbar.showSuccessAlert
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    successAlertShown: () => dispatch(successAlertShown())
+    // successAlertShown: () => dispatch(successAlertShown())
+    hideSuccessAlert: () => dispatch(hideSuccessAlert())
+
   }
 };
 
