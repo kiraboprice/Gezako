@@ -128,10 +128,10 @@ export const updateReport = (id, report) => {
       service: report.service,
       type: report.type,
       fileDownLoadUrl: report.fileDownLoadUrl,
-      assignedTo: report.assignedTo,
+      assignedTo: report.assignedTo || null,
       numberOfTests: report.numberOfTests || null,
 
-      status: report.status,
+      status: report.status || null,
       updatedAt: new Date(),
     }).then(() => {
       dispatch({type: 'UPDATE_REPORT_SUCCESS'});

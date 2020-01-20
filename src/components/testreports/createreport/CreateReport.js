@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 import {createReport} from '../../../store/actions/reportActions';
@@ -10,78 +10,118 @@ import {
 
 import './createReport.css';
 import {getReportPhaseFromPathName} from "../../../util/StringUtil";
+import {COMPLETED_PHASE, DEVELOPMENT_PHASE} from "../../../constants/Report";
 
-class CreateReport extends Component {
-  storageRef = firebase.storage().ref();
+const CreateReport = (props) => {
 
-  state = {
-    title: 'Test Report Title',
-    service: 'loans',
-    type: 'endpoint',
-    numberOfTests: '',
-    file: '',
-    fileDownLoadUrl: '',
-    uploadProgress: 0,
-    displayDevelopmentFields: '',
-    displayCompletedFields: ''
-  };
+  const [report, setReport] = useState();
+  const [phase, setPhase] = useState();
+  const [file, setFile] = useState();
+  const [uploadProgress, setUploadProgress] = useState();
 
-  componentDidMount() {
-    this.props.getUsersApartFromCurrentUser();
-    const phase = getReportPhaseFromPathName(this.props.location.pathname);
-    this.setState({phase: phase});
+  const [displayDevelopmentFields, setDisplayDevelopmentFields] = useState();
+  const [displayCompletedFields, setDisplayCompletedFields] = useState();
+
+  useEffect(() => {
+    props.getUsersApartFromCurrentUser();
+    setPhase(getReportPhaseFromPathName(this.props.location.pathname));
     if(phase === 'development') {
-      this.setState({displayDevelopmentFields: 'block'});
-      this.setState({displayCompletedFields: 'none'})
+      setDisplayDevelopmentFields('block');
+      setDisplayCompletedFields('none');
     } else if (phase === 'completed') {
-      this.setState({displayDevelopmentFields: 'none'});
-      this.setState({displayCompletedFields: 'block'})
+      setDisplayDevelopmentFields('none');
+      setDisplayCompletedFields('block');
+    }
+
+    setReport(
+        {
+          title: 'Test Report Title',
+          phase: phase,
+          service: 'loans',
+          type: 'endpoint',
+          fileDownLoadUrl: '',
+          assignedTo: '',
+          numberOfTests: '',
+        }
+    )
+  }, [props]);
+
+  const { auth, setPrevUrl, users } = props;
+  if (!auth.uid) {
+    setPrevUrl(this.props.location.pathname);
+    return <Redirect to='/login' />;
+  }
+
+  function handleChange (e) {
+    const value = e.target.value;
+    console.log('handleChange: ', value);
+    // console.log("state in handle change", this.state);
+    switch (e.target.name) {
+      case 'title':
+        setReport(report => {
+          report.title = value;
+          return report
+        });
+        break;
+      case 'phase':
+        setReport(report => {
+          report.phase = value;
+          return report
+        });
+        break;
+      case 'service': //short version of the above snippet
+        setReport(report => (report.service = value, report));
+        break;
+
+      case 'type':
+        setReport(report => (report.type = value, report));
+        break;
+
+      case 'numberOfTests':
+        setReport(report => (report.numberOfTests = value, report));
+        break;
+
+      default:
+        break;
     }
 
   }
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
-
   //store assignedTo as array of userId and DisplayName
   //because it's difficult to retrieve displayName using the userId when displaying
   //on a page with multiple assignees, like the allReportsInDevelopment Page
-  handleAssignedToChange = (e) => {
+  function handleAssignedToChange (e) {
     const sel = document.getElementsByName('assignedTo')[0];
     const opt = sel.options[sel.selectedIndex];
+    const value = e.target.value;
+    setReport(report => (report.assignedTo = {'id': value, 'displayName': opt.text}, report));
+  }
 
-    this.setState({
-      [e.target.name]: {'id': e.target.value, 'displayName': opt.text}
-    });
-  };
+  function handleFileUploaded (fileDownLoadUrl) {
+    setReport(report => (report.fileDownLoadUrl = fileDownLoadUrl, report));
+  }
 
-  handleFileSelected = (e) => {
-    this.setState({
-      [e.target.file]: e.target.files[0]
-    });
-  };
+  function handleFileSelected(e){
+    setFile(e.target.files[0])
+  }
 
   //todo extract this to using actions and leave this component clean
-  handleUploadFile = (e) => {
-    const state = this.state;
-    var context = this; //maybe this can be avoided by biding this function in the constructor? check commented code
+  function handleUploadFile (e) {
     var metadata = {
       contentType: 'text/html'
     };
     //todo update the spock-reports child
     //todo if uploading a dev report, upload to development-spock-reports child.
     //todo if uploading a complete report, upload to completed-spock-reports
-    var uploadTask = this.storageRef
-    .child('spock-reports/' + state[e.target.file].name)
-    .put(state[e.target.file], metadata);
+    var uploadTask = firebase.storage().ref()
+
+    .child('spock-reports/' + file.name)
+    .put(file, metadata);
 
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
         function (snapshot) {
           var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          state.uploadProgress = progress;
+          setUploadProgress(progress);
 
           switch (snapshot.state) {
             case firebase.storage.TaskState.PAUSED:
@@ -110,43 +150,17 @@ class CreateReport extends Component {
         function () {
           // Upload completed successfully, now we can get the download URL
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadUrl) {
-            state['fileDownLoadUrl'] = downloadUrl;
-            context.setState(state);
-            context.updateContextState(context);
+            handleFileUploaded(downloadUrl)
           });
         }
     );
-  };
-
-  updateContextState(context) {
-    this.state = context.state;
   }
 
-  handleSubmit = (e) => {
+  function handleSubmit (e) {
     e.preventDefault();
-    let {title, phase, service, type, fileDownLoadUrl, assignedTo, numberOfTests} = this.state;
-    assignedTo = assignedTo ? assignedTo : null;
-    // numberOfTests = numberOfTests ? numberOfTests : null;
-    const report = {
-      title,
-      phase,
-      service,
-      type,
-      fileDownLoadUrl,
-      assignedTo,
-      numberOfTests
-    };
-    this.props.createReport(report);
-    this.props.history.push(`/${phase}/${service}`);
-  };
-
-  render() {
-    const {title, phase, service, type, numberOfTests, uploadProgress, displayDevelopmentFields, displayCompletedFields} = this.state;
-    const { auth, setPrevUrl, users } = this.props;
-    if (!auth.uid) {
-      setPrevUrl(this.props.location.pathname);
-      return <Redirect to='/login' />;
-    }
+    props.createReport(report);
+    props.history.push(`/${report.phase}/${report.service}`);
+  }
     // console.log("STATE---", this.state)
 
     return (
@@ -154,8 +168,8 @@ class CreateReport extends Component {
           <h3 >Upload Spock Report</h3>
           {phase === 'completed' ? 'Upload Report for a complete test' : 'Upload Report for a test in development' }
             <div>
-              <input type='file' name='file' onChange={this.handleFileSelected} accept='html/*'/>
-              <button onClick={this.handleUploadFile}>Upload File</button>
+              <input type='file' name='file' onChange={handleFileSelected} accept='html/*'/>
+              <button onClick={handleUploadFile}>Upload File</button>
             </div>
 
             {/* ! Just a suggestion, maybe display this onSubmit? */}
@@ -163,20 +177,20 @@ class CreateReport extends Component {
 						  Uploading report: {uploadProgress}%
 					  </span>
 
-            <form onSubmit={this.handleSubmit} style={{marginTop: '25px'}}>
+            <form onSubmit={handleSubmit} style={{marginTop: '25px'}}>
               <div>
 
                 <div id='display-content'>
                   <label>Report Title:</label>
                   <textarea name='title'
-                            onChange={this.handleChange}
-                            value = {title}
+                            onChange={handleChange}
+                            value = {report.title}
                   />
                 </div>
 
                 <div id='display-content'>
                   <label>Service: </label>
-                  <select name='service' value={service} onChange={this.handleChange}>
+                  <select name='service' value={report.service} onChange={handleChange}>
                     <option value='loans'>Loans</option>
                     <option value='users'>Users</option>
                     <option value='surveys'>Surveys</option>
@@ -198,7 +212,7 @@ class CreateReport extends Component {
 
                 <div id='display-content'>
                   <label>Report Type: </label>
-                  <select name='type' value={type} onChange={this.handleChange}>
+                  <select name='type' value={report.type} onChange={handleChange}>
                     <option value='feature'>Feature</option>
                     <option value='endpoint'>Endpoint</option>
                   </select>
@@ -206,7 +220,7 @@ class CreateReport extends Component {
 
                 <div id='display-content' style={{display: displayDevelopmentFields}}>
                   <label>Assign To: </label>
-                  <select name='assignedTo' onChange={this.handleAssignedToChange}>
+                  <select name='assignedTo' onChange={handleAssignedToChange}>
                     <option value=''></option>
                     {users && users.map(user => <option value={user.id}>{user.displayName}</option>)}
                   </select>
@@ -215,8 +229,8 @@ class CreateReport extends Component {
                 <div id='display-content' style={{display: displayCompletedFields}}>
                   <label>No. of Tests in Report: </label>
                   <textarea name='numberOfTests'
-                            onChange={this.handleChange}
-                            value = {numberOfTests}
+                            onChange={handleChange}
+                            value = {report.numberOfTests}
                   />
                 </div>
 
@@ -229,8 +243,7 @@ class CreateReport extends Component {
             </form>
         </div>
     );
-  }
-}
+};
 
 const mapStateToProps = (state) => {
   return {
