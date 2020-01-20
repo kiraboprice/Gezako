@@ -120,7 +120,7 @@ export const updateReport = (id, report) => {
       collectionUrl = BASE_DOCUMENT + 'completedreports'
     }
 
-    console.log('updateReport action ');
+    console.log('updateReport action', id, report);
 
     firestore.collection(collectionUrl).doc(id).update({
       title: report.title,
@@ -128,13 +128,22 @@ export const updateReport = (id, report) => {
       service: report.service,
       type: report.type,
       fileDownLoadUrl: report.fileDownLoadUrl,
-      status: report.status,
+      assignedTo: report.assignedTo || null,
+      numberOfTests: report.numberOfTests || null,
+
+      status: report.status || null,
       updatedAt: new Date(),
     }).then(() => {
       dispatch({type: 'UPDATE_REPORT_SUCCESS'});
     }).catch(err => {
       dispatch({type: 'UPDATE_REPORT_ERROR', err});
     });
+  }
+};
+
+export const resetUpdateReportState = () => {
+  return (dispatch) => {
+    dispatch({type: 'RESET_UPDATE_REPORT_STATE'});
   }
 };
 
