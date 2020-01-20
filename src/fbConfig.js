@@ -14,12 +14,20 @@ import 'firebase/auth';
 // }
 
 //use when deploying to stage
+// var config = {
+//   apiKey: "AIzaSyDyx214BC8smASa57pqCQpkweAnZV83gBc",
+//   authDomain: "gezako-staging.firebaseapp.com",
+//   // databaseURL: "YOUR_DATABASE_URL",
+//   projectId: "gezako-staging",
+//   storageBucket: "gezako-staging.appspot.com"
+// };
+
+//use when deploying to staging2
 var config = {
-  apiKey: "AIzaSyDyx214BC8smASa57pqCQpkweAnZV83gBc",
-  authDomain: "gezako-staging.firebaseapp.com",
-  // databaseURL: "YOUR_DATABASE_URL",
-  projectId: "gezako-staging",
-  storageBucket: "gezako-staging.appspot.com"
+  apiKey: "AIzaSyASXsHeZv6EiTOS3x7X1uoTmkieyUE3sQo",
+  authDomain: "gezako-staging-2.firebaseapp.com",
+  projectId: "gezako-staging-2",
+  storageBucket: "gs://gezako-staging-2.appspot.com"
 };
 
 firebase.initializeApp(config);

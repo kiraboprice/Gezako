@@ -12,7 +12,7 @@ export const signIn = () => {
     firebase.auth().signInWithPopup(provider).then((resp) => {
 
      if(!StringUtils.checkUserEmailIsValid(resp.user.email)) {
-       const userEmail = resp.user.email
+       const userEmail = resp.user.email;
        notTalaEmployeeOrTestUserDispatchSent = true;
        return dispatch({ type: 'NOT_TALA_EMPLOYEE_OR_TEST_USER', userEmail });
      }

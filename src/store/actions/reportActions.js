@@ -87,6 +87,12 @@ export const createReport = (report) => {
   }
 };
 
+export const resetCreateReportSuccess = () => {
+  return (dispatch) => {
+    dispatch({type: 'RESET_CREATE_REPORT'});
+  }
+};
+
 export const getReport = (id, phase) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
