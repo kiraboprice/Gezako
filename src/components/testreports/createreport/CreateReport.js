@@ -60,7 +60,7 @@ const CreateReport = (props) => {
     switch (e.target.name) {
       case 'title':
         setTitle(e.target.value);
-        props.showSuccessAlert();
+        props.showSuccessAlert('DANNNGGGGG');
         break;
 
       case 'service': //short version of the above snippet
@@ -268,7 +268,7 @@ const mapDispatchToProps = dispatch => {
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
     getUsersApartFromCurrentUser: () => dispatch(getUsersApartFromCurrentUser()),
 
-    showSuccessAlert: () => dispatch(showSuccessAlert()),
+    showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
   };
 };
 

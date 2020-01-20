@@ -21,7 +21,6 @@ import deletedImage from "../../assets/Imgs/status/light-grey-deleted.png";
 import {getFirstNameFromFullName} from "../../util/StringUtil";
 import moment from "moment";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
-import {resetSuccessAlertShown} from "../../store/actions/snackbarActions";
 
 const StatusCard = (props) => {
   const { updateReport } = props;
@@ -70,13 +69,7 @@ const StatusCard = (props) => {
       setSuccessAlertMessage('Updated Status!');
     }
 
-    // if (props.successAlertShown) {
-    //   setShowSuccessAlert(false);
-    //   setSuccessAlertMessage('');
-    //   props.resetSuccessAlertShown()
-    // }
     return function cleanup() {
-      // props.resetUpdateReportState()
     };
   }, [props]);
 
@@ -184,7 +177,6 @@ const StatusCard = (props) => {
 const mapStateToProps = (state) => {
   return {
     updateReportResult: state.report.updateReportResult,
-    successAlertShown: state.snackbar.successAlertShown,
   }
 };
 
@@ -192,7 +184,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateReport: (id, report) => dispatch(updateReport(id, report)),
     resetUpdateReportState: () => dispatch(resetUpdateReportState()),
-    resetSuccessAlertShown: () => dispatch(resetSuccessAlertShown())
   }
 };
 

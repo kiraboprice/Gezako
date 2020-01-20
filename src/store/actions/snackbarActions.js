@@ -1,10 +1,9 @@
 
-export const showSuccessAlert = () => {
+export const showSuccessAlert = (message) => {
   return (dispatch) => {
-    dispatch({type: 'SHOW_SUCCESS_ALERT'});
+    dispatch({type: 'SHOW_SUCCESS_ALERT', message});
   }
 };
-
 
 export const hideSuccessAlert = () => {
   return (dispatch) => {
@@ -12,14 +11,38 @@ export const hideSuccessAlert = () => {
   }
 };
 
-export const successAlertShown = () => {
+export const showInfoAlert = (message) => {
   return (dispatch) => {
-    dispatch({type: 'SUCCESS_ALERT_SHOWN'});
+    dispatch({type: 'SHOW_INFO_ALERT', message});
   }
 };
 
-export const resetSuccessAlertShown = () => {
+export const hideInfoAlert = () => {
   return (dispatch) => {
-    dispatch({type: 'RESET_SUCCESS_ALERT_SHOWN'});
+    dispatch({type: 'HIDE_INFO_ALERT'});
+  }
+};
+
+export const showWarningAlert = (message) => {
+  return (dispatch) => {
+    dispatch({type: 'SHOW_WARNING_ALERT', message});
+  }
+};
+
+export const hideWarningAlert = () => {
+  return (dispatch) => {
+    dispatch({type: 'HIDE_WARNING_ALERT'});
+  }
+};
+
+export const showErrorAlert = (message) => {
+  return (dispatch) => {
+    dispatch({type: 'SHOW_SUCCESS_ALERT', message});
+  }
+};
+
+export const hideErrorAlert = () => {
+  return (dispatch) => {
+    dispatch({type: 'HIDE_ERROR_ALERT'});
   }
 };
