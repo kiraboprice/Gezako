@@ -40,7 +40,6 @@ const CustomSnackbar = (props) => {
   const [errorAlertMessage, setErrorAlertMessage] = useState(false);
 
   useEffect(() => {
-    console.log('useEffect:', showSuccessAlert)
     setShowSuccessAlert(props.showSuccessAlert);
     setSuccessAlertMessage(props.successAlertMessage);
 
@@ -53,10 +52,6 @@ const CustomSnackbar = (props) => {
     setShowErrorAlert(props.showErrorAlert);
     setErrorAlertMessage(props.errorAlertMessage);
   }, [props.showSuccessAlert]);
-
-  const handleClick = () => {
-    // setOpen(true);
-  };
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -76,7 +71,7 @@ const CustomSnackbar = (props) => {
     props.hideErrorAlert();
   };
 
-  console.log('showSuccessAlert:', showSuccessAlert)
+  // console.log('showSuccessAlert:', showSuccessAlert)
 
   return (
       <div className={classes.root}>

@@ -12,7 +12,10 @@ import './createReport.css';
 import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 import {COMPLETED_PHASE, DEVELOPMENT_PHASE} from "../../../constants/Report";
 import CustomSnackbar from "../../snackbar/CustomSnackbar";
-import {showSuccessAlert} from "../../../store/actions/snackbarActions";
+import {
+  showErrorAlert,
+  showSuccessAlert
+} from "../../../store/actions/snackbarActions";
 
 const CreateReport = (props) => {
 
@@ -47,9 +50,19 @@ const CreateReport = (props) => {
     }
   }, [props]);
 
+  useEffect(() => {
+    if(props.createReportSuccess) {
+      props.showSuccessAlert('Successfully created report');
+      // props.history.push(`/${report.phase}/${report.service}`);
+      //todo reset createReportSuccess to null
+    } else if (!props.createReportSuccess) {
+      props.showErrorAlert('Failed to create report');
+    }
+  }, [props]);
+
   const {auth, setPrevUrl, users} = props;
   if (!auth.uid) {
-    setPrevUrl(this.props.location.pathname);
+    setPrevUrl(props.location.pathname);
     return <Redirect to='/login'/>;
   }
 
@@ -60,7 +73,6 @@ const CreateReport = (props) => {
     switch (e.target.name) {
       case 'title':
         setTitle(e.target.value);
-        props.showSuccessAlert('DANNNGGGGG');
         break;
 
       case 'service': //short version of the above snippet
@@ -151,8 +163,14 @@ const CreateReport = (props) => {
     );
   }
 
+  function validateFields(report) {
+    return true
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
+    console.log("PROPS---", props);
+
     const report = {
       title,
       phase,
@@ -162,11 +180,13 @@ const CreateReport = (props) => {
       assignedTo,
       numberOfTests
     };
-    props.createReport(report);
-    props.history.push(`/${report.phase}/${report.service}`);
-  }
 
-  // console.log("STATE---", report);
+    if(!validateFields(report)){
+      return;
+    }
+
+    props.createReport(report);
+  }
 
   return (
       <div id='upload'>
@@ -258,7 +278,8 @@ const CreateReport = (props) => {
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
-    users: state.auth.users
+    users: state.auth.users,
+    createReportSuccess: state.report.createReportSuccess
   };
 };
 
@@ -269,6 +290,7 @@ const mapDispatchToProps = dispatch => {
     getUsersApartFromCurrentUser: () => dispatch(getUsersApartFromCurrentUser()),
 
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
+    showErrorAlert: (message) => dispatch(showErrorAlert(message)),
   };
 };
 
