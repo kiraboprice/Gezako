@@ -172,19 +172,19 @@ const CreateReport = (props) => {
 
   function validateFields(report) {
    if(!report.title.length > 0) {
-     return ("Title should be greater than 1 character")
+     return ("Fill in the Title")
    }
    else if (!report.phase.length > 0) {
-     return ("Please select phase")
+     return ("Select Phase")
    }
    else if (!report.service.length > 0) {
-     return ("Please select service")
+     return ("Select Service")
    }
    else if (!report.type.length > 0) {
-     return ("Please select type")
+     return ("Select Type")
    }
    else if (!report.fileDownLoadUrl.length > 0) {
-     return ("First upload a test report")
+     return ("First upload a Test Teport")
    }
    // else if (!report.assignedTo.length > 1) {
    //   return ("")

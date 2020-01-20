@@ -135,7 +135,7 @@ export const updateReport = (id, report) => {
       type: report.type,
       fileDownLoadUrl: report.fileDownLoadUrl,
       assignedTo: report.assignedTo || null,
-      numberOfTests: report.numberOfTests || null,
+      numberOfTests: report.numberOfTests || 0,
 
       status: report.status || null,
       updatedAt: new Date(),

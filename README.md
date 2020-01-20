@@ -20,6 +20,9 @@ if this file is updated)
 
 Since this is a shared testing and staging environment, do not make deletions from the Firebase database unless you have permission to do so.
 
+## Deploying and testing functions
+`firebase deploy --only functions`
+
 ## Deploying to prod
 
 When new changes are added to master, they need to be deployed to prod. This is currently a manual process. To deploy
