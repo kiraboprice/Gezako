@@ -37,7 +37,7 @@ export const hideWarningAlert = () => {
 
 export const showErrorAlert = (message) => {
   return (dispatch) => {
-    dispatch({type: 'SHOW_SUCCESS_ALERT', message});
+    dispatch({type: 'SHOW_ERROR_ALERT', message});
   }
 };
 
