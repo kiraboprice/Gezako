@@ -7,7 +7,7 @@ After installing the Firebase CLI, Clone the code and list all environments with
 `firebase projects:list`.
 
 To use the staging test environment, run 
-`firebase use gezako-staging`.
+`firebase use staging1`.
 
 If you can't see the test environment in your firebase project list, contact the admin to add your account.
 

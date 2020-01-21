@@ -186,6 +186,15 @@ const CreateReport = (props) => {
    else if (!report.fileDownLoadUrl.length > 0) {
      return ("First upload a Test Teport")
    }
+
+   // else if (report.numberOfTests.length > 0) {
+   //   console.log(`numberOfTests.length > 0`)
+   //   if(isNaN(report.numberOfTests)){
+   //     console.log(`isNaN(report.`)
+   //     return ("Number of tests should be a valid number")
+   //   }
+   // }
+
    // else if (!report.assignedTo.length > 1) {
    //   return ("")
    // }
