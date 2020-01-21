@@ -67,11 +67,20 @@ function incrementNumberOfTestsOnUpdate(id, newReport, oldReport) {
   });
 }
 
-function updateReportStatsOnUpdate(reportStats, oldReport, newReport) {
+//todo firestore bug! the data before and after are somehow switched - should be the line below
+// function updateReportStatsOnUpdate(reportStats, oldReport, newReport) {
+  function updateReportStatsOnUpdate(reportStats, newReport, oldReport) {
   const oldNumberOfTests = parseInt(oldReport.numberOfTests);
-  const newNumberOfTests = parseInt(newReport.numberOfTests);
+  console.log('oldNumberOfTests:', oldNumberOfTests);
+
+const newNumberOfTests = parseInt(newReport.numberOfTests);
+  console.log('newNumberOfTests:', newNumberOfTests);
+
   const numberOfTestsToIncrementBy = newNumberOfTests - oldNumberOfTests;
+  console.log('numberOfTestsToIncrementBy:', numberOfTestsToIncrementBy);
+
   const newReportStatsNumberOfTests = parseInt(reportStats.numberOfTests) + numberOfTestsToIncrementBy;
+  console.log('newReportStatsNumberOfTests:', newReportStatsNumberOfTests);
 
   //todo this assumes that the service has not been updated. Remove ability to update the service coz why would you do this anyway?
   return db.collection(`${BASE_DOCUMENT}/reportstats`).doc(newReport.service)
