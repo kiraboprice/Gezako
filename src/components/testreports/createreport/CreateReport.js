@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
-import {createReport} from '../../../store/actions/reportActions';
+import {
+  createReport,
+  resetCreateReportSuccess
+} from '../../../store/actions/reportActions';
 import * as firebase from 'firebase';
 import {
   getUsersApartFromCurrentUser,
@@ -50,14 +53,18 @@ const CreateReport = (props) => {
     }
   }, [props]);
 
+  //on submit report is clicked
   useEffect(() => {
-    if(props.createReportSuccess) {
+    if(props.createReportSuccess === 'success') {
       props.showSuccessAlert('Successfully created report');
-      // props.history.push(`/${report.phase}/${report.service}`);
+      props.history.push(`/${phase}/${service}`);
       //todo reset createReportSuccess to null
-    } else if (!props.createReportSuccess) {
+    } else if (props.createReportSuccess === 'error') {
       props.showErrorAlert('Failed to create report');
     }
+    return function cleanup() {
+      props.resetCreateReportSuccess()
+    };
   }, [props]);
 
   const {auth, setPrevUrl, users} = props;
@@ -164,12 +171,44 @@ const CreateReport = (props) => {
   }
 
   function validateFields(report) {
-    return true
+   if(!report.title.length > 0) {
+     return ("Fill in the Title")
+   }
+   else if (!report.phase.length > 0) {
+     return ("Select Phase")
+   }
+   else if (!report.service.length > 0) {
+     return ("Select Service")
+   }
+   else if (!report.type.length > 0) {
+     return ("Select Type")
+   }
+   else if (!report.fileDownLoadUrl.length > 0) {
+     return ("First upload a Test Teport")
+   }
+
+   // else if (report.numberOfTests.length > 0) {
+   //   console.log(`numberOfTests.length > 0`)
+   //   if(isNaN(report.numberOfTests)){
+   //     console.log(`isNaN(report.`)
+   //     return ("Number of tests should be a valid number")
+   //   }
+   // }
+
+   // else if (!report.assignedTo.length > 1) {
+   //   return ("")
+   // }
+   // else if (!report.numberOfTests.length > 1) {
+   //   return ("")
+   // }
+   else {
+     return ("valid");
+   }
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("PROPS---", props);
+    // console.log("PROPS---", props);
 
     const report = {
       title,
@@ -181,7 +220,9 @@ const CreateReport = (props) => {
       numberOfTests
     };
 
-    if(!validateFields(report)){
+    const validationText = validateFields(report);
+    if(validationText!== 'valid'){
+      props.showErrorAlert(validationText);
       return;
     }
 
@@ -291,6 +332,8 @@ const mapDispatchToProps = dispatch => {
 
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
     showErrorAlert: (message) => dispatch(showErrorAlert(message)),
+    resetCreateReportSuccess: (message) => dispatch(resetCreateReportSuccess(message)),
+
   };
 };
 

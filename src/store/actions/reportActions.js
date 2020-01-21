@@ -67,9 +67,9 @@ export const createReport = (report) => {
     const userId = getState().firebase.auth.uid;
     let collectionUrl = '';
     if(report.phase == 'development'){
-      collectionUrl = BASE_DOCUMENT + 'developmentreports'
+      collectionUrl = BASE_DOCUMENT + '/developmentreports'
     } else if (report.phase == 'completed') {
-      collectionUrl = BASE_DOCUMENT + 'completedreports'
+      collectionUrl = BASE_DOCUMENT + '/completedreports'
     }
     firestore.collection(collectionUrl).add({
       ...report,
@@ -87,15 +87,21 @@ export const createReport = (report) => {
   }
 };
 
+export const resetCreateReportSuccess = () => {
+  return (dispatch) => {
+    dispatch({type: 'RESET_CREATE_REPORT'});
+  }
+};
+
 export const getReport = (id, phase) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
 
     let collectionUrl = '';
     if(phase == 'development'){
-      collectionUrl = BASE_DOCUMENT + 'developmentreports'
+      collectionUrl = BASE_DOCUMENT + '/developmentreports'
     } else if (phase == 'completed') {
-      collectionUrl = BASE_DOCUMENT + 'completedreports'
+      collectionUrl = BASE_DOCUMENT + '/completedreports'
     }
     firestore.collection(collectionUrl).doc(id).get()
     .then((doc) => {
@@ -115,9 +121,9 @@ export const updateReport = (id, report) => {
     const firestore = getFirestore();
     let collectionUrl = '';
     if(report.phase === 'development'){
-      collectionUrl = BASE_DOCUMENT + 'developmentreports'
+      collectionUrl = BASE_DOCUMENT + '/developmentreports'
     } else if (report.phase === 'completed') {
-      collectionUrl = BASE_DOCUMENT + 'completedreports'
+      collectionUrl = BASE_DOCUMENT + '/completedreports'
     }
 
     console.log('updateReport action', id, report);
@@ -129,7 +135,7 @@ export const updateReport = (id, report) => {
       type: report.type,
       fileDownLoadUrl: report.fileDownLoadUrl,
       assignedTo: report.assignedTo || null,
-      numberOfTests: report.numberOfTests || null,
+      numberOfTests: report.numberOfTests || 0,
 
       status: report.status || null,
       updatedAt: new Date(),
@@ -161,6 +167,82 @@ export const downloadReport = (report) => {
     })
     .catch((err) =>  {
       dispatch({type: 'DOWNLOAD_REPORT_ERROR', err});
+    });
+  }
+};
+
+
+export const getReportStats = (service) => {
+  console.log(`getReportStats---- ${service}`);
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    firestore.collection(`${BASE_DOCUMENT}/reportstats/`).doc(service)
+    .onSnapshot(docSnapshot => {
+      console.log(`Received getReportStats: ${docSnapshot.data()}`);
+      dispatch({type: 'GET_REPORT_STATS_SUCCESS', reportStats: docSnapshot.data()});
+
+    }, err => {
+      console.log(`getReportStats error: ${err}`);
+      dispatch({type: 'GET_REPORT_STATS_ERROR', error: err});
+    });
+  }
+};
+
+export const unsubscribeGetReportStats = (service) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    firestore.collection(`${BASE_DOCUMENT}/reportstats/`).doc(service)
+    .onSnapshot(() => { });
+  }
+};
+
+export const resetGetReportStats = () => {
+  return (dispatch) => {
+    dispatch({type: 'RESET_GET_REPORT_STATS'});
+  }
+};
+
+// export const createReportStats = (reportStats) => {
+//   return (dispatch, getState, {getFirebase, getFirestore}) => {
+//     const firestore = getFirestore();
+//     const profile = getState().firebase.profile;
+//     const userId = getState().firebase.auth.uid;
+//     let collectionUrl = '';
+//     if(report.phase == 'development'){
+//       collectionUrl = BASE_DOCUMENT + '/developmentreports'
+//     } else if (report.phase == 'completed') {
+//       collectionUrl = BASE_DOCUMENT + '/completedreports'
+//     }
+//     firestore.collection(collectionUrl).add({
+//       ...report,
+//       //just leaving this here to show possibility of using profile in an action. but this is not scalable. if the displayName ever gets updated, we'd need a cloud function which listens on the user collection for this user specifically, then updates everywhere.
+//       reportStats: profile.displayName,
+//       userId: userId,
+//       status: ReportStatus.NEW,
+//       createdAt: new Date(),
+//       updatedAt: new Date()
+//     }).then(() => {
+//       dispatch({type: 'CREATE_REPORT_SUCCESS'});
+//     }).catch(err => {
+//       dispatch({type: 'CREATE_REPORT_ERROR', err});
+//     });
+//   }
+// };
+
+export const updateReportStatsCoverage = (service, coverage) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+
+    console.log('updateReportStats action', coverage);
+
+    firestore.collection(`${BASE_DOCUMENT}/reportstats/`).doc(`${service}/coverage`).update({
+      class: coverage.class,
+      method: coverage.method,
+      line: coverage.line,
+    }).then(() => {
+      dispatch({type: 'UPDATE_REPORT_STATS_SUCCESS'});
+    }).catch(err => {
+      dispatch({type: 'UPDATE_REPORT_STATS_ERROR', err});
     });
   }
 };

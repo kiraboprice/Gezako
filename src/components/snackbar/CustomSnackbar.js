@@ -40,6 +40,7 @@ const CustomSnackbar = (props) => {
   const [errorAlertMessage, setErrorAlertMessage] = useState(false);
 
   useEffect(() => {
+    // console.log('showErrorAlert:', showErrorAlert)
     setShowSuccessAlert(props.showSuccessAlert);
     setSuccessAlertMessage(props.successAlertMessage);
 
@@ -51,7 +52,7 @@ const CustomSnackbar = (props) => {
 
     setShowErrorAlert(props.showErrorAlert);
     setErrorAlertMessage(props.errorAlertMessage);
-  }, [props.showSuccessAlert]);
+  }, [props]);
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -71,7 +72,6 @@ const CustomSnackbar = (props) => {
     props.hideErrorAlert();
   };
 
-  // console.log('showSuccessAlert:', showSuccessAlert)
 
   return (
       <div className={classes.root}>
@@ -122,5 +122,3 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
     connect(mapStateToProps, mapDispatchToProps)
 )(CustomSnackbar)
-
-//showSuccessAlert : 'success'

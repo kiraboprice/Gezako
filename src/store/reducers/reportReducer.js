@@ -21,14 +21,14 @@ const reportReducer = (state = initState, action) => {
       console.log('CREATE_REPORT_SUCCESS', action.report);
       return {
         ...state,
-        createReportSuccess: true
+        createReportSuccess: 'success'
       };
 
     case 'CREATE_REPORT_ERROR':
       // console.log('CREATE_REPORT_ERROR', action.err);
       return {
         ...state,
-        createReportSuccess: false
+        createReportSuccess: 'error'
       };
 
     case 'RESET_CREATE_REPORT':
@@ -91,6 +91,27 @@ const reportReducer = (state = initState, action) => {
         ...state,
         getReport: null,
         reportDownload: null
+      };
+
+      /**
+       * reportStats
+       */
+    case 'GET_REPORT_STATS_SUCCESS':
+      console.log('GET_REPORT_STATS_SUCCESS', action.reportStats);
+      return {
+        ...state,
+        reportStats: action.reportStats
+      };
+
+    case 'GET_REPORT_STATS_ERROR':
+      console.log('GET_REPORT_STATS_ERROR', action.err);
+      return state;
+
+    case 'RESET_GET_REPORT_STATS':
+      console.log('RESET_GET_REPORT_STATS', action.err);
+      return {
+        ...state,
+        reportStats: null
       };
 
     default:

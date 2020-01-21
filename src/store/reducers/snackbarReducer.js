@@ -50,7 +50,7 @@ const snackbarReducer = (state = initState, action) => {
       };
 
     case 'SHOW_ERROR_ALERT':
-      // console.log('SHOW_SUCCESS_ALERT', state);
+      // console.log('SHOW_ERROR_ALERT', state);
       return {
         ...state,
         showErrorAlert : true,

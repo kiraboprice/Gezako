@@ -1,8 +1,8 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import 'firebase/auth';
 import 'firebase/firestore';
 import {connect} from 'react-redux';
-import {Link, Redirect} from 'react-router-dom'
+import {BrowserRouter, Link, Redirect} from 'react-router-dom'
 
 import './completedspockreports.css';
 
@@ -13,11 +13,47 @@ import Report from "../Report";
 import LoadingScreen from "../../loading/LoadingScreen";
 
 import createReportIcon from "../../../assets/Icons/create.png";
+import {
+  getReportStats,
+  resetCreateReportSuccess, resetGetReportStats, unsubscribeGetReportStats
+} from "../../../store/actions/reportActions";
+import {
+  showErrorAlert,
+  showSuccessAlert
+} from "../../../store/actions/snackbarActions";
+import CoverageDialog from "./coverage/CoverageDialog";
+import CustomSnackbar from "../../snackbar/CustomSnackbar";
 
 const CompletedSpockTests = (props) => {
-  const {auth, featureReports, endpointReports, service} = props;
+  //variables
+  const {auth, featureReports, endpointReports, service, reportStats} = props;
+
+  //actions
+  const {getReportStats, unsubscribeGetReportStats, resetGetReportStats} = props;
+
+  useEffect(() => {
+    getReportStats(service);
+    return function cleanup() {
+    };
+  }, []);
+
+  //remove listeners and reset stats in props
+  useEffect(() => {
+    console.log('PROPSSSS', props);
+    return function cleanup() {
+      // unsubscribeGetReportStats(service);
+      // resetGetReportStats();
+    };
+  }, [props]);
+
   if (!auth.uid) {return <Redirect to='/login'/>}
 
+  function openCoverageDialog() {
+    return
+    ;
+
+
+  }
 
   return (
       <div id='home'>
@@ -30,18 +66,27 @@ const CompletedSpockTests = (props) => {
           </Link>
 
           <div id="status-card">
-            <div id="status-description" style={{paddingTop: "25px"}}>
-              Total number of {service} tests: 200 - this is hardcoded for now
+            <div id="report-stats-titles">
+              Total number of {service} tests
             </div>
-            <div id="status-updated">
+            <div id="report-stats-number-of-tests">
+              {reportStats? reportStats.numberOfTests : null}
+            </div>
+            <div id="report-stats-titles">
               Code Coverage
-              <br/>
-              Class, %:
-              Method, %:
-              Line, %:
             </div>
+            <div id="report-stats-code-coverage">
+              Class:
+            </div>
+            <div id="report-stats-code-coverage">
+              Method:
+            </div>
+            <div id="report-stats-code-coverage">
+              Line:
+            </div>
+
             <div id="update-status-options">
-              <button >Update Coverage <img src={penIcon} alt="Update Coverage" /> </button>
+              <button >Update Coverage <img src={penIcon} alt="Update Coverage" onClick={openCoverageDialog}/> </button>
             </div>
           </div>
 
@@ -98,6 +143,11 @@ const CompletedSpockTests = (props) => {
 
           </div>
         </div>
+
+        {/*<CoverageDialog*/}
+            {/*service = {service}*/}
+            {/*coverage = {reportStats? reportStats.coverage : null}*/}
+        {/*/>*/}
       </div>
   )
 
@@ -116,12 +166,29 @@ const mapStateToProps = (state, ownProps) => {
     featureReports: state.firestore.ordered.featureReports,
     endpointReports: state.firestore.ordered.endpointReports,
     collection: 'completedreports',
-    service: getServiceNameFromPathName(ownProps.location.pathname)
+    service: getServiceNameFromPathName(ownProps.location.pathname),
+
+    //report stats
+    reportStats: state.report.reportStats
   }
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    // setPrevUrl: (url) => dispatch(setPrevUrl(url)),
+    getReportStats: (service) => dispatch(getReportStats(service)),
+    unsubscribeGetReportStats: (service) => dispatch(unsubscribeGetReportStats(service)),
+    resetGetReportStats: () => dispatch(resetGetReportStats()),
+
+    //alerts
+    showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
+    showErrorAlert: (message) => dispatch(showErrorAlert(message)),
+    resetCreateReportSuccess: (message) => dispatch(resetCreateReportSuccess(message)),
+  };
+};
+
 export default compose(
-    connect(mapStateToProps),
+    connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect(props => {
       return [
         {

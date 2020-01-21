@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "gezako-8a7aa"
+    "staging1": "gezako-staging",
+    "prod": "gezako-8a7aa",
+    "staging2": "gezako-staging-2"
   }
 }
