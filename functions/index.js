@@ -1,5 +1,3 @@
-import {FieldValue} from "firebase";
-
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
@@ -29,7 +27,7 @@ function incrementNumberOfTestsForService(id, newReport, oldReport) {
       db.collection(`${BASE_DOCUMENT}/reportstats`).doc(newReport.service).set(
           {
             numberOfTests: newReport.numberOfTests,
-            updatedAt: FieldValue.serverTimestamp()
+            updatedAt: admin.firestore.FieldValue.serverTimestamp()
           }
       ).then(
           console.log(`Created entry for ${newReport.service}`)
@@ -54,7 +52,7 @@ function updateReportStats(reportStats, oldReport, newReport) {
   return db.collection(`${BASE_DOCUMENT}/reportstats`).doc(newReport.service)
   .update({
     numberOfTests: reportStats.numberOfTests + numberOfTestsToIncrementBy,
-    updatedAt: FieldValue.serverTimestamp()
+    updatedAt: admin.firestore.FieldValue.serverTimestamp()
   })
   .then(doc => {
     console.log('successfully updated Number Of Tests For Service', doc)})
