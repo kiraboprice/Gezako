@@ -25,7 +25,7 @@ function incrementNumberOfTestsOnCreate(id, report) {
       console.log(`Service entry doesnt exist. Creating entry for ${report.service}`);
       db.collection(`${BASE_DOCUMENT}/reportstats`).doc(report.service).set(
           {
-            numberOfTests: newReport.numberOfTests,
+            numberOfTests: report.numberOfTests,
             updatedAt: admin.firestore.FieldValue.serverTimestamp()
           }
       ).then(
