@@ -1,32 +1,45 @@
+import {BASE_DOCUMENT} from "../src/constants/FireStore";
+
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
+const db = admin.firestore();
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-
-exports.createUser = functions.firestore
-.document('company/tala/completedreports/{reportId}')
+exports.incrementNumberOfTestsForService = functions.firestore
+.document('company/tala/completedreports/{id}')
 .onCreate((snap, context) => {
-  const report = snap.data();
-  //get the prevNumberOfTests
-  const prevNumberOfTests = report.prevNumberOfTests;
-  const numberOfTests = report.prevNumberOfTests;
-  //update the test count for this service
-  const service = report.service;
-  updateNumberOfTestsForService(service, prevNumberOfTests, numberOfTests);
-
-  //update this report's prevNumberOfTests to the current numberOfTests
-  return updatePrevNumberOfTestsForReport(context.params.reportId, numberOfTests);
+  return incrementNumberOfTestsForService(context.params.id, snap.data());
 });
 
+function incrementNumberOfTestsForService (id, report) {
+  db.collection(`${BASE_DOCUMENT}reportstats`).doc(report.service).get()
+  .then(doc => {
+    if (!doc.exists) {
+      //create report stats for that service if it doesnt exist
+      console.log(`Service entry doesnt exist. Creating entry for ${report.service}`);
 
-function updateNumberOfTestsForService (service, prevNumberOfTests, numberOfTests) {
-  //first get current value
-  //then build new object to push as update
+      db.collection(`${BASE_DOCUMENT}reportstats`).doc(report.service).set(
+          {numberOfTests: report.numberOfTests}
+      )
+    } else {
+       //get current report stats for service
+      console.log('Service entry exists: getting report starts for doc')
+    }
+  })
+  .catch(err => {
+    console.log('incrementNumberOfTestsForService FAILED: ', err)
+  });
 
-  return admin.firestore().collection(`company/tala/reportstats/${service}`)
-  .update()
-  .then(doc => console.log('updateNumberOfTestsForService', doc))
+  // //get current report stats for service
+  // db.doc(`company/tala/reportstats/${report.service}`)
+  // .get()
+  //
+  // //update report stats
+  // const numberOfTests = report.prevNumberOfTests;
+  // const service = report.service;
+  // const time = db.FieldValue.serverTimestamp();
+  //
+  // return db.doc(`company/tala/reportstats/${service}`)
+  // .update()
+  // .then(doc => console.log('updateNumberOfTestsForService', doc))
 }
