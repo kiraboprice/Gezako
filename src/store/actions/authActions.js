@@ -19,7 +19,7 @@ export const signIn = () => {
      else{
        // console.log(resp.user)
        notTalaEmployeeOrTestUserDispatchSent = false;
-       return firestore.collection(BASE_DOCUMENT+ 'users').doc(resp.user.uid).set({
+       return firestore.collection(BASE_DOCUMENT+ '/users').doc(resp.user.uid).set({
          displayName: resp.user.displayName,
          email: resp.user.email,
          photoURL: resp.user.photoURL
@@ -61,7 +61,7 @@ export const getUsersApartFromCurrentUser = () => {
     let users = [];
     const firestore = getFirestore();
     const profile = getState().firebase.auth;
-    firestore.collection(`${BASE_DOCUMENT}users`).get()
+    firestore.collection(`${BASE_DOCUMENT}/users`).get()
     .then((snapshot) => {
       if (snapshot.empty) {
         dispatch({type: 'GET_USERS_NO_USERS'});
@@ -89,7 +89,7 @@ export const getUsersApartFromCurrentUser = () => {
 export const getUserByIdThenStoreInMap = (id) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
-    firestore.collection(`${BASE_DOCUMENT}users`).doc(id).get()
+    firestore.collection(`${BASE_DOCUMENT}/users`).doc(id).get()
     .then(doc => {
       if (!doc.exists) {
         dispatch({type: 'GET_USER_BY_ID_THEN_MAP_NO_USER'});

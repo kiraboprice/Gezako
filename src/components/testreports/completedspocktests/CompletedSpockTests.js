@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import 'firebase/auth';
 import 'firebase/firestore';
 import {connect} from 'react-redux';
@@ -13,11 +13,38 @@ import Report from "../Report";
 import LoadingScreen from "../../loading/LoadingScreen";
 
 import createReportIcon from "../../../assets/Icons/create.png";
+import {
+  getReportStats,
+  resetCreateReportSuccess, resetGetReportStats, unsubscribeGetReportStats
+} from "../../../store/actions/reportActions";
+import {
+  showErrorAlert,
+  showSuccessAlert
+} from "../../../store/actions/snackbarActions";
 
 const CompletedSpockTests = (props) => {
-  const {auth, featureReports, endpointReports, service} = props;
-  if (!auth.uid) {return <Redirect to='/login'/>}
+  //variables
+  const {auth, featureReports, endpointReports, service, reportStats} = props;
 
+  //actions
+  const {getReportStats, unsubscribeGetReportStats, resetGetReportStats} = props;
+
+  useEffect(() => {
+    getReportStats(service);
+    return function cleanup() {
+    };
+  }, []);
+
+  //remove listeners and reset stats in props
+  useEffect(() => {
+    console.log('PROPSSSS', props);
+    return function cleanup() {
+      // unsubscribeGetReportStats(service);
+      // resetGetReportStats();
+    };
+  }, [props]);
+
+  if (!auth.uid) {return <Redirect to='/login'/>}
 
   return (
       <div id='home'>
@@ -31,7 +58,7 @@ const CompletedSpockTests = (props) => {
 
           <div id="status-card">
             <div id="status-description" style={{paddingTop: "25px"}}>
-              Total number of {service} tests: 200 - this is hardcoded for now
+              Total number of {service} tests: {reportStats? reportStats.numberOfTests : null}
             </div>
             <div id="status-updated">
               Code Coverage
@@ -116,12 +143,29 @@ const mapStateToProps = (state, ownProps) => {
     featureReports: state.firestore.ordered.featureReports,
     endpointReports: state.firestore.ordered.endpointReports,
     collection: 'completedreports',
-    service: getServiceNameFromPathName(ownProps.location.pathname)
+    service: getServiceNameFromPathName(ownProps.location.pathname),
+
+    //report stats
+    reportStats: state.report.reportStats
   }
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    // setPrevUrl: (url) => dispatch(setPrevUrl(url)),
+    getReportStats: (service) => dispatch(getReportStats(service)),
+    unsubscribeGetReportStats: (service) => dispatch(unsubscribeGetReportStats(service)),
+    resetGetReportStats: () => dispatch(resetGetReportStats()),
+
+    //alerts
+    showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
+    showErrorAlert: (message) => dispatch(showErrorAlert(message)),
+    resetCreateReportSuccess: (message) => dispatch(resetCreateReportSuccess(message)),
+  };
+};
+
 export default compose(
-    connect(mapStateToProps),
+    connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect(props => {
       return [
         {

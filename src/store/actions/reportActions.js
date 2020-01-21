@@ -67,9 +67,9 @@ export const createReport = (report) => {
     const userId = getState().firebase.auth.uid;
     let collectionUrl = '';
     if(report.phase == 'development'){
-      collectionUrl = BASE_DOCUMENT + 'developmentreports'
+      collectionUrl = BASE_DOCUMENT + '/developmentreports'
     } else if (report.phase == 'completed') {
-      collectionUrl = BASE_DOCUMENT + 'completedreports'
+      collectionUrl = BASE_DOCUMENT + '/completedreports'
     }
     firestore.collection(collectionUrl).add({
       ...report,
@@ -99,9 +99,9 @@ export const getReport = (id, phase) => {
 
     let collectionUrl = '';
     if(phase == 'development'){
-      collectionUrl = BASE_DOCUMENT + 'developmentreports'
+      collectionUrl = BASE_DOCUMENT + '/developmentreports'
     } else if (phase == 'completed') {
-      collectionUrl = BASE_DOCUMENT + 'completedreports'
+      collectionUrl = BASE_DOCUMENT + '/completedreports'
     }
     firestore.collection(collectionUrl).doc(id).get()
     .then((doc) => {
@@ -121,9 +121,9 @@ export const updateReport = (id, report) => {
     const firestore = getFirestore();
     let collectionUrl = '';
     if(report.phase === 'development'){
-      collectionUrl = BASE_DOCUMENT + 'developmentreports'
+      collectionUrl = BASE_DOCUMENT + '/developmentreports'
     } else if (report.phase === 'completed') {
-      collectionUrl = BASE_DOCUMENT + 'completedreports'
+      collectionUrl = BASE_DOCUMENT + '/completedreports'
     }
 
     console.log('updateReport action', id, report);
@@ -168,5 +168,36 @@ export const downloadReport = (report) => {
     .catch((err) =>  {
       dispatch({type: 'DOWNLOAD_REPORT_ERROR', err});
     });
+  }
+};
+
+
+export const getReportStats = (service) => {
+  console.log(`getReportStats---- ${service}`);
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    firestore.collection(`${BASE_DOCUMENT}/reportstats/`).doc(service)
+    .onSnapshot(docSnapshot => {
+      console.log(`Received getReportStats: ${docSnapshot.data()}`);
+      dispatch({type: 'GET_REPORT_STATS_SUCCESS', reportStats: docSnapshot.data()});
+
+    }, err => {
+      console.log(`getReportStats error: ${err}`);
+      dispatch({type: 'GET_REPORT_STATS_ERROR', error: err});
+    });
+  }
+};
+
+export const unsubscribeGetReportStats = (service) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    firestore.collection(`${BASE_DOCUMENT}/reportstats/`).doc(service)
+    .onSnapshot(() => { });
+  }
+};
+
+export const resetGetReportStats = () => {
+  return (dispatch) => {
+    dispatch({type: 'RESET_GET_REPORT_STATS'});
   }
 };
