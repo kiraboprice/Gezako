@@ -229,7 +229,7 @@ export const resetGetReportStats = () => {
 //   }
 // };
 
-export const updateReportStats = (service, coverage) => {
+export const updateReportStatsCoverage = (service, coverage) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
 

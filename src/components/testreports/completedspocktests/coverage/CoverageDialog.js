@@ -1,12 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {compose} from "redux";
 import connect from "react-redux/es/connect/connect";
-import {
-  hideErrorAlert,
-  hideInfoAlert,
-  hideSuccessAlert, hideWarningAlert,
-  showSuccessAlert
-} from "../../store/actions/snackbarActions";
 import Button from "@material-ui/core/Button/Button";
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle/DialogTitle";
@@ -15,40 +9,45 @@ import DialogContentText
   from "@material-ui/core/DialogContentText/DialogContentText";
 import TextField from "@material-ui/core/TextField/TextField";
 import DialogActions from "@material-ui/core/DialogActions/DialogActions";
+import {
+  updateReportStatsCoverage
+} from "../../../../store/actions/reportActions";
 
 
 const CoverageDialog = (props) => {
 
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [successAlertMessage, setSuccessAlertMessage] = useState(false);
+  const [showDialog, setShowDialog] = useState(true);
+  const [service, setService] = useState('');
+  const [classCoverage, setClassCoverage] = useState();
+  const [methodCoverage, setMethodCoverage] = useState();
+  const [lineCoverage, setLineCoverage] = useState();
 
   useEffect(() => {
     // console.log('showErrorAlert:', showErrorAlert)
-    setShowSuccessAlert(props.showSuccessAlert);
-    setSuccessAlertMessage(props.successAlertMessage);
+    setService(props.service);
+    setClassCoverage(props.coverage.class);
+    setMethodCoverage(props.coverage.method);
+    setLineCoverage(props.coverage.line);
   }, [props]);
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setShowSuccessAlert(false);
+  const handleClose = () => {
+    setShowDialog(false);
     props.hideSuccessAlert();
   };
 
+  const handleSubmit = () => {
+    setShowDialog(false);
+    const coverage = {classCoverage, methodCoverage, lineCoverage};
+    props.updateReportStatsCoverage(service, coverage);
+  };
 
   return (
       <div>
-        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-          Open form dialog
-        </Button>
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <Dialog open={showDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              To subscribe to this website, please enter your email address here. We will send updates
-              occasionally.
+              Update coverage for {service}
             </DialogContentText>
             <TextField
                 autoFocus
@@ -63,8 +62,8 @@ const CoverageDialog = (props) => {
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={handleClose} color="primary">
-              Subscribe
+            <Button onClick={handleSubmit} color="primary">
+              Submit
             </Button>
           </DialogActions>
         </Dialog>
@@ -81,7 +80,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    hideSuccessAlert: () => dispatch(hideSuccessAlert()),
+    updateReportStatsCoverage: (service, coverage) => dispatch(updateReportStatsCoverage(service, coverage)),
   }
 };
 

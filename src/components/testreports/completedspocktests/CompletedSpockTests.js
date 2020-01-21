@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import 'firebase/auth';
 import 'firebase/firestore';
 import {connect} from 'react-redux';
-import {Link, Redirect} from 'react-router-dom'
+import {BrowserRouter, Link, Redirect} from 'react-router-dom'
 
 import './completedspockreports.css';
 
@@ -22,6 +22,7 @@ import {
   showSuccessAlert
 } from "../../../store/actions/snackbarActions";
 import CoverageDialog from "./coverage/CoverageDialog";
+import CustomSnackbar from "../../snackbar/CustomSnackbar";
 
 const CompletedSpockTests = (props) => {
   //variables
@@ -48,7 +49,10 @@ const CompletedSpockTests = (props) => {
   if (!auth.uid) {return <Redirect to='/login'/>}
 
   function openCoverageDialog() {
-    return <CoverageDialog/>
+    return
+    ;
+
+
   }
 
   return (
@@ -139,6 +143,11 @@ const CompletedSpockTests = (props) => {
 
           </div>
         </div>
+
+        {/*<CoverageDialog*/}
+            {/*service = {service}*/}
+            {/*coverage = {reportStats? reportStats.coverage : null}*/}
+        {/*/>*/}
       </div>
   )
 
