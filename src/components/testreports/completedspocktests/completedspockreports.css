@@ -7,6 +7,27 @@ h4{
     font-family: 'Roboto', sans-serif;
 }
 
+/*
+Report Stats Card
+*/
+#report-stats-titles{
+    padding-top: 8px;
+    margin: 10px 15px;
+    color: grey;
+}
+
+#report-stats-number-of-tests{
+    margin-left: 15px;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+#report-stats-code-coverage{
+    margin-left: 15px;
+    font-size: 15px;
+
+}
+
 .service{
     margin-top: 10px;
 }

@@ -201,3 +201,48 @@ export const resetGetReportStats = () => {
     dispatch({type: 'RESET_GET_REPORT_STATS'});
   }
 };
+
+// export const createReportStats = (reportStats) => {
+//   return (dispatch, getState, {getFirebase, getFirestore}) => {
+//     const firestore = getFirestore();
+//     const profile = getState().firebase.profile;
+//     const userId = getState().firebase.auth.uid;
+//     let collectionUrl = '';
+//     if(report.phase == 'development'){
+//       collectionUrl = BASE_DOCUMENT + '/developmentreports'
+//     } else if (report.phase == 'completed') {
+//       collectionUrl = BASE_DOCUMENT + '/completedreports'
+//     }
+//     firestore.collection(collectionUrl).add({
+//       ...report,
+//       //just leaving this here to show possibility of using profile in an action. but this is not scalable. if the displayName ever gets updated, we'd need a cloud function which listens on the user collection for this user specifically, then updates everywhere.
+//       reportStats: profile.displayName,
+//       userId: userId,
+//       status: ReportStatus.NEW,
+//       createdAt: new Date(),
+//       updatedAt: new Date()
+//     }).then(() => {
+//       dispatch({type: 'CREATE_REPORT_SUCCESS'});
+//     }).catch(err => {
+//       dispatch({type: 'CREATE_REPORT_ERROR', err});
+//     });
+//   }
+// };
+
+export const updateReportStats = (service, coverage) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+
+    console.log('updateReportStats action', coverage);
+
+    firestore.collection(`${BASE_DOCUMENT}/reportstats/`).doc(`${service}/coverage`).update({
+      class: coverage.class,
+      method: coverage.method,
+      line: coverage.line,
+    }).then(() => {
+      dispatch({type: 'UPDATE_REPORT_STATS_SUCCESS'});
+    }).catch(err => {
+      dispatch({type: 'UPDATE_REPORT_STATS_ERROR', err});
+    });
+  }
+};

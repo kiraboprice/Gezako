@@ -21,6 +21,7 @@ import {
   showErrorAlert,
   showSuccessAlert
 } from "../../../store/actions/snackbarActions";
+import CoverageDialog from "./coverage/CoverageDialog";
 
 const CompletedSpockTests = (props) => {
   //variables
@@ -46,6 +47,10 @@ const CompletedSpockTests = (props) => {
 
   if (!auth.uid) {return <Redirect to='/login'/>}
 
+  function openCoverageDialog() {
+    return <CoverageDialog/>
+  }
+
   return (
       <div id='home'>
         <div id='reports-section'>
@@ -57,18 +62,27 @@ const CompletedSpockTests = (props) => {
           </Link>
 
           <div id="status-card">
-            <div id="status-description" style={{paddingTop: "25px"}}>
-              Total number of {service} tests: {reportStats? reportStats.numberOfTests : null}
+            <div id="report-stats-titles">
+              Total number of {service} tests
             </div>
-            <div id="status-updated">
+            <div id="report-stats-number-of-tests">
+              {reportStats? reportStats.numberOfTests : null}
+            </div>
+            <div id="report-stats-titles">
               Code Coverage
-              <br/>
-              Class, %:
-              Method, %:
-              Line, %:
             </div>
+            <div id="report-stats-code-coverage">
+              Class:
+            </div>
+            <div id="report-stats-code-coverage">
+              Method:
+            </div>
+            <div id="report-stats-code-coverage">
+              Line:
+            </div>
+
             <div id="update-status-options">
-              <button >Update Coverage <img src={penIcon} alt="Update Coverage" /> </button>
+              <button >Update Coverage <img src={penIcon} alt="Update Coverage" onClick={openCoverageDialog}/> </button>
             </div>
           </div>
 
