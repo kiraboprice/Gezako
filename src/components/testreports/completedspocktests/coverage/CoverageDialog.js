@@ -16,7 +16,7 @@ import {
 
 const CoverageDialog = (props) => {
 
-  const [showDialog, setShowDialog] = useState(true);
+  const [showDialog, setShowDialog] = useState(false);
   const [service, setService] = useState('');
   const [classCoverage, setClassCoverage] = useState();
   const [methodCoverage, setMethodCoverage] = useState();
