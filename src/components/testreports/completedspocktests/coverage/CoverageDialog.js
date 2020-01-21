@@ -25,9 +25,11 @@ const CoverageDialog = (props) => {
   useEffect(() => {
     // console.log('showErrorAlert:', showErrorAlert)
     setService(props.service);
-    setClassCoverage(props.coverage.class);
-    setMethodCoverage(props.coverage.method);
-    setLineCoverage(props.coverage.line);
+    if(props.coverage){
+      setClassCoverage(props.coverage.class);
+      setMethodCoverage(props.coverage.method);
+      setLineCoverage(props.coverage.line);
+    }
   }, [props]);
 
   const handleClose = () => {
@@ -44,7 +46,7 @@ const CoverageDialog = (props) => {
   return (
       <div>
         <Dialog open={showDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+          <DialogTitle id="form-dialog-title">Coverage</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Update coverage for {service}
@@ -53,7 +55,23 @@ const CoverageDialog = (props) => {
                 autoFocus
                 margin="dense"
                 id="name"
-                label="Email Address"
+                label="Class Coverage"
+                type="text"
+                fullWidth
+            />
+            <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Method Coverage"
+                type="email"
+                fullWidth
+            />
+            <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Line Coverage"
                 type="email"
                 fullWidth
             />

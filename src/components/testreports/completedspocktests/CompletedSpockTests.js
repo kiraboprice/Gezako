@@ -144,10 +144,10 @@ const CompletedSpockTests = (props) => {
           </div>
         </div>
 
-        {/*<CoverageDialog*/}
-            {/*service = {service}*/}
-            {/*coverage = {reportStats? reportStats.coverage : null}*/}
-        {/*/>*/}
+        <CoverageDialog
+            service = {service}
+            coverage = {reportStats? reportStats.coverage : null}
+        />
       </div>
   )
 
