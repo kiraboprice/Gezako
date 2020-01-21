@@ -7,56 +7,81 @@ const BASE_DOCUMENT = 'company/tala';
 exports.incrementNumberOfTestsForServiceOnCreate = functions.firestore
 .document(`${BASE_DOCUMENT}/completedreports/{id}`)
 .onCreate((snap, context) => {
-  return incrementNumberOfTestsForService(context.params.id, snap.data(), null);
+  return incrementNumberOfTestsOnCreate(context.params.id, snap.data());
 });
 
 exports.incrementNumberOfTestsForServiceOnUpdate = functions.firestore
 .document(`${BASE_DOCUMENT}/completedreports/{id}`)
 .onUpdate((change, context) => {
-  return incrementNumberOfTestsForService(context.params.id, change.after.data(), change.before.data());
+  return incrementNumberOfTestsOnUpdate(context.params.id, change.before.data(), change.after.data());
 });
 
 
-
-function incrementNumberOfTestsForService(id, newReport, oldReport) {
-  return db.collection(`${BASE_DOCUMENT}/reportstats`).doc(newReport.service).get()
+function incrementNumberOfTestsOnCreate(id, report) {
+  return db.collection(`${BASE_DOCUMENT}/reportstats`).doc(report.service).get()
   .then(doc => {
     if (!doc.exists) {
       //create report stats for that service if it doesnt exist
-      console.log(`Service entry doesnt exist. Creating entry for ${newReport.service}`);
-      db.collection(`${BASE_DOCUMENT}/reportstats`).doc(newReport.service).set(
+      console.log(`Service entry doesnt exist. Creating entry for ${report.service}`);
+      db.collection(`${BASE_DOCUMENT}/reportstats`).doc(report.service).set(
           {
             numberOfTests: newReport.numberOfTests,
             updatedAt: admin.firestore.FieldValue.serverTimestamp()
           }
       ).then(
-          console.log(`Created entry for ${newReport.service}`)
+          console.log(`Created entry for ${report.service}`)
       )
     } else {
       //update report stats for service
       console.log('Service entry exists: updating report stats..');
-      updateReportStats(doc.data(), oldReport, newReport)
+      updateReportStatsOnCreate(doc.data(), report)
     }
   })
   .catch(err => {
-    console.log('incrementNumberOfTestsForService FAILED: ', err)
+    console.log('incrementNumberOfTestsOnCreate FAILED: ', err)
   });
 }
 
-function updateReportStats(reportStats, oldReport, newReport) {
+function updateReportStatsOnCreate(reportStats, report) {
+  const newReportStatsNumberOfTests = parseInt(reportStats.numberOfTests) + parseInt(report.numberOfTests);
+
+  return db.collection(`${BASE_DOCUMENT}/reportstats`).doc(report.service)
+  .update({
+    numberOfTests: newReportStatsNumberOfTests,
+    updatedAt: admin.firestore.FieldValue.serverTimestamp()
+  })
+  .then(doc => {
+    console.log('updateReportStatsOnCreate success', doc)})
+  .catch(err => {
+    console.log('updateReportStatsOnCreate error: ', err)
+  });
+}
+
+function incrementNumberOfTestsOnUpdate(id, newReport, oldReport) {
+  return db.collection(`${BASE_DOCUMENT}/reportstats`).doc(newReport.service).get()
+  .then(doc => {
+    updateReportStatsOnUpdate(doc.data(), oldReport, newReport)
+  })
+  .catch(err => {
+    console.log('incrementNumberOfTestsOnUpdate error: ', err)
+  });
+}
+
+function updateReportStatsOnUpdate(reportStats, oldReport, newReport) {
   const oldNumberOfTests = parseInt(oldReport.numberOfTests);
   const newNumberOfTests = parseInt(newReport.numberOfTests);
   const numberOfTestsToIncrementBy = newNumberOfTests - oldNumberOfTests;
+  const newReportStatsNumberOfTests = parseInt(reportStats.numberOfTests) + numberOfTestsToIncrementBy;
 
   //todo this assumes that the service has not been updated. Remove ability to update the service coz why would you do this anyway?
   return db.collection(`${BASE_DOCUMENT}/reportstats`).doc(newReport.service)
   .update({
-    numberOfTests: reportStats.numberOfTests + numberOfTestsToIncrementBy,
+    numberOfTests: newReportStatsNumberOfTests,
     updatedAt: admin.firestore.FieldValue.serverTimestamp()
   })
   .then(doc => {
-    console.log('successfully updated Number Of Tests For Service', doc)})
+    console.log('updateReportStatsOnUpdate success', doc)})
   .catch(err => {
-    console.log('failed to update number Of Tests For service FAILED: ', err)
+    console.log('updateReportStatsOnUpdate error: ', err)
   });
 }
