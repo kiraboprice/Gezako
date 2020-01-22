@@ -31,8 +31,8 @@ const App = (props) => {
 
   return (
         <div>
-          <ErrorBoundary>
           <BrowserRouter>
+            <ErrorBoundary>
 
             <Navigation/>
 
@@ -64,8 +64,9 @@ const App = (props) => {
               <Route exact path='/tasks' component={Tasks}/>
               <Route exact path='/task/:id' component={TaskDetails}/>
             </Switch>
+
+            </ErrorBoundary>
           </BrowserRouter>
-          </ErrorBoundary>
         </div>
     );
 }

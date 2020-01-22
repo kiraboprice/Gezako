@@ -58,10 +58,10 @@ const CompletedSpockTests = (props) => {
       unsubscribeGetCoverage(service);
       resetGetCoverage();
 
-      unsubscribeGetFeatureReports(service);
+      unsubscribeGetFeatureReports('completed', service);
       resetGetFeatureReports();
 
-      unsubscribeGetEndpointReports(service);
+      unsubscribeGetEndpointReports('completed', service);
       resetGetEndpointReports();
     };
   }, [service]);
@@ -206,11 +206,11 @@ const mapDispatchToProps = dispatch => {
   return {
     // setPrevUrl: (url) => dispatch(setPrevUrl(url)),
     getFeatureReports: (phase, service) => dispatch(getFeatureReports(phase, service)),
-    unsubscribeGetFeatureReports: (service) => dispatch(unsubscribeGetFeatureReports(service)),
+    unsubscribeGetFeatureReports: (phase, service) => dispatch(unsubscribeGetFeatureReports(phase, service)),
     resetGetFeatureReports: () => dispatch(resetGetFeatureReports()),
 
     getEndpointReports: (phase, service) => dispatch(getEndpointReports(phase, service)),
-    unsubscribeGetEndpointReports: (service) => dispatch(unsubscribeGetEndpointReports(service)),
+    unsubscribeGetEndpointReports: (phase, service) => dispatch(unsubscribeGetEndpointReports(phase, service)),
     resetGetEndpointReports: () => dispatch(resetGetEndpointReports()),
 
     getReportStats: (service) => dispatch(getReportStats(service)),

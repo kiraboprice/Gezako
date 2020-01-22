@@ -1,97 +1,121 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { updateReport, resetState} from "../../../store/actions/reportActions";
+import {
+  updateReport,
+  resetState,
+  getFeatureReports,
+  getReport,
+  unsubscribeGetFeatureReports,
+  resetGetFeatureReports, unsubscribeGetReport, resetGetReport
+} from "../../../store/actions/reportActions";
 import * as firebase from "firebase";
 import CustomSnackbar from "../../snackbar/CustomSnackbar";
 import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 import {getUsersApartFromCurrentUser} from "../../../store/actions/authActions";
+import TextField from "@material-ui/core/TextField/TextField";
+import {blue} from "@material-ui/core/colors";
 
-class UpdateReport extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      file: '',
-      uploadProgress: 0
-    };
-  }
+const UpdateReport = (props) => {
+  //report fields
+  const [id, setId] = useState();
+  const [title, setTitle] = useState();
+  const [phase, setPhase] = useState();
+  const [service, setService] = useState();
+  const [type, setType] = useState();
+  const [fileDownLoadUrl, setFileDownLoadUrl] = useState();
+  const [assignedTo, setAssignedTo] = useState();
+  const [numberOfTests, setNumberOfTests] = useState();
+  const [productSpec, setProductSpec] = useState();
+  const [techSpec, setTechSpec] = useState();
 
-  storageRef = firebase.storage().ref();
+  //required to generate fileDownLoadUrl
+  const [file, setFile] = useState();
+  const [uploadProgress, setUploadProgress] = useState(0);
 
-  componentWillMount() {
+  //set up UI
+  const [displayDevelopmentFields, setDisplayDevelopmentFields] = useState();
+  const [displayCompletedFields, setDisplayCompletedFields] = useState();
 
-    const id = this.props.match.params.id;
-    this.setState({id: id});
-  }
+  useEffect(() => {
+    setId(props.match.params.id);
+    setPhase(getReportPhaseFromPathName(props.location.pathname));
 
-  componentDidMount() {
-    if (this.props.report) {
-      this.setState({
-        report: this.props.report
-      });
-    }
-    this.props.getUsersApartFromCurrentUser();
-
-    const phase = getReportPhaseFromPathName(this.props.location.pathname);
-    this.setState({phase: phase});
-    if(phase === 'development') {
-      this.setState({displayDevelopmentFields: 'block'});
-      this.setState({displayCompletedFields: 'none'})
+    if (phase === 'development') {
+      setDisplayDevelopmentFields('block');
+      setDisplayCompletedFields('none');
     } else if (phase === 'completed') {
-      this.setState({displayDevelopmentFields: 'none'});
-      this.setState({displayCompletedFields: 'block'})
+      setDisplayDevelopmentFields('none');
+      setDisplayCompletedFields('block');
     }
 
-  }
+    getReport(id, phase);
 
-  // componentWillReceiveProps(props, nextContext) {
-  //   if (this.props.report) {
-  //     this.setState({
-  //       report: this.props.report,
-  //       title: this.props.report.title,
-  //       phase: this.props.report.phase,
-  //       service: this.props.report.service,
-  //       type: this.props.report.type,
-  //       fileDownLoadUrl: this.props.report.fileDownLoadUrl
-  //     });
-  //   }
-  // }
+    return function cleanup() {
+      unsubscribeGetReport(service);
+      resetGetReport();
+    };
+  }, [service]);
 
-  componentWillUnmount() {
-    this.props.resetState()
-  }
+  useEffect(() => {
+    props.getUsersApartFromCurrentUser();
 
-  handleChange = (e) => {
+    setTitle(props.report.title);
+    setPhase(props.report.phase);
+    setService(props.report.service);
+    setType(props.report.type);
+    setFileDownLoadUrl(props.report.fileDownLoadUrl);
+    setAssignedTo(props.report.assignedTo);
+    setNumberOfTests(props.report.numberOfTests);
+    setProductSpec(props.report.productSpec);
+    setTechSpec(props.report.techSpec);
+
+    return function cleanup() {
+      props.resetState()
+    };
+  }, [props]);
+
+  const handleChange = (e) => {
     const value = e.target.value;
     console.log('handleChange: ', value);
     // console.log("state in handle change", this.state);
     switch (e.target.name) {
       case 'title':
-        this.setState(state => {
-          state.report.title = value;
-          return state
-        });
+        setTitle(value);
         break;
       case 'phase':
-        this.setState(state => {
-          state.report.phase = value;
-          return state
-        });
+        setPhase(value);
         break;
-      case 'service': //short version of the above snippet
-        this.setState(state => (state.report.service = value, state));
+      case 'service':
+        setService(value);
         break;
 
       case 'type':
-        this.setState(state => (state.report.type = value, state));
+        setType(value);
         break;
 
       case 'numberOfTests':
-        this.setState(state => (state.report.numberOfTests = value, state));
+        setNumberOfTests(value);
         break;
 
+      default:
+        return this.state;
+    }
+
+  };
+
+  const handleChangeForTextField = (e) => {
+    const value = e.target.value;
+    // console.log('handleChange: ', value);
+    switch (e.target.id) {
+      case 'productSpec':
+        setProductSpec(value);
+        break;
+      case 'techSpec':
+        setTechSpec(value);
+        break;
       default:
         return this.state;
     }
@@ -101,34 +125,36 @@ class UpdateReport extends Component {
   //store assignedTo as array of userId and DisplayName
   //because it's difficult to retrieve displayName using the userId when displaying
   //on a page with multiple assignees, like the allReportsInDevelopment Page
-  handleAssignedToChange = (e) => {
+  const handleAssignedToChange = (e) => {
     const sel = document.getElementsByName('assignedTo')[0];
     const opt = sel.options[sel.selectedIndex];
     const value = e.target.value;
-    this.setState(state => (state.report.assignedTo = {'id': value, 'displayName': opt.text}, state));
+    setAssignedTo({'id': value, 'displayName': opt.text});
   };
 
-  handleFileSelected = (e) => {
-    this.setState({
-      [e.target.file]: e.target.files[0]
-    });
+  const handleFileSelected = (e) => {
+    setFile(e.target.files[0])
   };
 
-  handleUploadFile = (e) => {
+  const handleFileUploaded = (fileDownLoadUrl) => {
+    console.log("file download url----", fileDownLoadUrl)
+    setFileDownLoadUrl(fileDownLoadUrl);
+  }
+
+  const handleUploadFile = (e) => {
     const state = this.state;
-    var context = this;
     var metadata = {
       contentType: 'text/html'
     };
-    var uploadTask = this.storageRef.child(
-        'spock-reports/' + state[e.target.file].name).put(
-        state[e.target.file], metadata);
+    var uploadTask = firebase.storage().ref().
+    child('spock-reports/' + state[e.target.file].name)
+    .put(file, metadata);
 
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
         function (snapshot) {
           var progress = (snapshot.bytesTransferred / snapshot.totalBytes)
               * 100;
-          state.uploadProgress = progress;
+          setUploadProgress(progress);
 
           switch (snapshot.state) {
             case firebase.storage.TaskState.PAUSED:
@@ -156,27 +182,30 @@ class UpdateReport extends Component {
         }, function () {
           // Upload completed successfully, now we can get the download URL
           uploadTask.snapshot.ref.getDownloadURL().then(function (downloadUrl) {
-            // state["fileDownLoadUrl"] = downloadUrl;
-            context.setState(state => (state.profile.fileDownLoadUrl = downloadUrl, state));
-            context.setState(state);
-            context.updateContextState(context)
+            handleFileUploaded(downloadUrl)
           });
         });
 
   };
 
-  updateContextState(context) {
-    this.state = context.state
-  }
-
-  handleUpdate = (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
-    const {report, id} = this.state;
+    const report = {
+      title,
+      phase,
+      service,
+      type,
+      fileDownLoadUrl,
+      assignedTo,
+      numberOfTests,
+      productSpec,
+      techSpec
+    };
 
-    this.props.updateReport(id, report);
+    props.updateReport(id, report);
 
     //todo add a cloud function which deletes the previous report from cloud storage
-    this.props.history.push(`/${report.phase}/${report.service}`);
+    props.history.push(`/${report.phase}/${report.service}`);
 
     return <CustomSnackbar
         showSuccessAlert = {true}
@@ -184,40 +213,38 @@ class UpdateReport extends Component {
     />;
   };
 
-  render() {
-    const { uploadProgress, report, displayDevelopmentFields, displayCompletedFields} = this.state;
     const { auth, users } = this.props;
     if (!auth.uid) return <Redirect to='/login' />;
 
     // console.log("STATEEEEEE");
     // console.log(this.state);
-    if (report) {
+    if (title) {
       return (
           <div id='upload'>
             <h3 >Update Spock Report</h3>
             <div>
             <div>
-              <input type='file' name='file' onChange={this.handleFileSelected} accept='html/*'/>
-              <button onClick={this.handleUploadFile}>Upload File</button>
+              <input type='file' name='file' onChange={handleFileSelected} accept='html/*'/>
+              <button onClick={handleUploadFile} style={{color: blue}}>Upload File</button>
             </div>
 
               <span id='uploading'>
                 Uploading report: {uploadProgress}%
               </span>
 
-              <form onSubmit={this.handleUpdate}>
+              <form onSubmit={handleUpdate}>
 
                 <div id='display-content'>
                   <label>Report Title:</label>
                   <textarea name='title'
                             onChange={this.handleChange}
-                            value = {report.title}
+                            value = {title}
                   />
                 </div>
 
                 <div id='display-content'>
                   <label>Phase: </label>
-                  <select name='phase' value={report.phase} onChange={this.handleChange}>
+                  <select name='phase' value={phase} onChange={handleChange}>
                     <option value='development'>Development</option>
                     <option value='completed'>Completed</option>
                   </select>
@@ -225,17 +252,17 @@ class UpdateReport extends Component {
 
                 <div id='display-content'>
                   <label>Service: </label>
-                  <select name='service' value={report.service} onChange={this.handleChange}>
+                  <select name='service' value={service} onChange={handleChange}>
+                    <option value='surveys'>Surveys</option>
+                    <option value='rules'>Rules</option>
                     <option value='loans'>Loans</option>
                     <option value='users'>Users</option>
-                    <option value='surveys'>Surveys</option>
                     <option value='auth'>Auth</option>
                     <option value='rails'>Rails</option>
                     <option value='approval'>Comms</option>
                     <option value='approval'>Approval</option>
                     <option value='scheduler'>Scheduler</option>
                     <option value='dsrouter'>DsRouter</option>
-                    <option value='rules'>Rules</option>
                     <option value='assignment'>Assignment</option>
                     <option value='dss'>Dss</option>
                     <option value='kyc'>Kyc</option>
@@ -247,7 +274,7 @@ class UpdateReport extends Component {
 
                 <div id='display-content'>
                   <label>Report Type: </label>
-                  <select name='type' value={report.type} onChange={this.handleChange}>
+                  <select name='type' value={type} onChange={handleChange}>
                     <option value='feature'>Feature</option>
                     <option value='endpoint'>Endpoint</option>
                   </select>
@@ -255,7 +282,7 @@ class UpdateReport extends Component {
 
                 <div id='display-content' style={{display: displayDevelopmentFields}}>
                   <label>Assign To: </label>
-                  <select name='assignedTo' onChange={this.handleAssignedToChange}>
+                  <select name='assignedTo' onChange={handleAssignedToChange}>
                     <option value=''></option>
                     {users && users.map(user => <option value={user.id}>{user.displayName}</option>)}
                   </select>
@@ -264,10 +291,30 @@ class UpdateReport extends Component {
                 <div id='display-content' style={{display: displayCompletedFields}}>
                   <label>No. of Tests in Report: </label>
                   <textarea name='numberOfTests'
-                            onChange={this.handleChange}
-                            value = {report.numberOfTests}
+                            onChange={handleChange}
+                            value = {numberOfTests}
                   />
                 </div>
+
+                <TextField
+                    margin="dense"
+                    id="productSpec"
+                    label="Product Requirement Spec"
+                    type="web"
+                    fullWidth
+                    value={productSpec}
+                    onChange={handleChangeForTextField}
+                />
+
+                <TextField
+                    margin="dense"
+                    id="techSpec"
+                    label="Technical Design Spec"
+                    type="web"
+                    fullWidth
+                    value={techSpec}
+                    onChange={handleChangeForTextField}
+                />
 
                 <button type="submit">Update</button>
               </form>
@@ -282,29 +329,22 @@ class UpdateReport extends Component {
           </div>
       )
     }
-
-  }
-
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const id = ownProps.match.params.id;
-  const phase = getReportPhaseFromPathName(ownProps.location.pathname);
-  const reports = state.firestore.data.reports;
-  const report = reports ? reports[id] : null;
-
-  console.log('reports in Update Report', reports)
-  console.log('report in Update Report', report)
+const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth,
-    report: report,
-    collection: `${phase}reports`,
+    auth: state.firebase.auth, //todo remove the need for this auth so we can fully remove firestoreConnect
+    report: state.report.getReport,
     users: state.auth.users
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    getReport: (id, phase) => dispatch(getReport(id, phase)),
+    unsubscribeGetReport: (id, phase) => dispatch(unsubscribeGetReport(id, phase)),
+    resetGetReport: () => dispatch(resetGetReport()),
+
     updateReport: (id, report) => dispatch(updateReport(id, report)),
     resetState: () => dispatch(resetState()),
     getUsersApartFromCurrentUser: () => dispatch(getUsersApartFromCurrentUser())
@@ -312,15 +352,5 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect(props => {
-      return [
-        {
-          collection: 'company',
-          doc: 'tala',
-          subcollections: [{collection: props.collection}],
-          storeAs: 'reports'
-        }
-      ]
-    })
-)(UpdateReport);
+    connect(mapStateToProps, mapDispatchToProps), firestoreConnect
+)(UpdateReport)

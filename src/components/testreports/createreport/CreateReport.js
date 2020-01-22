@@ -12,13 +12,14 @@ import {
 } from "../../../store/actions/authActions";
 
 import './createReport.css';
-import {getReportPhaseFromPathName} from "../../../util/StringUtil";
+import {getReportPhaseFromPathName, isValidUrl} from "../../../util/StringUtil";
 import {COMPLETED_PHASE, DEVELOPMENT_PHASE} from "../../../constants/Report";
 import CustomSnackbar from "../../snackbar/CustomSnackbar";
 import {
   showErrorAlert,
   showSuccessAlert
 } from "../../../store/actions/snackbarActions";
+import TextField from "@material-ui/core/TextField/TextField";
 
 const CreateReport = (props) => {
 
@@ -30,6 +31,8 @@ const CreateReport = (props) => {
   const [fileDownLoadUrl, setFileDownLoadUrl] = useState('');
   const [assignedTo, setAssignedTo] = useState(null);
   const [numberOfTests, setNumberOfTests] = useState(0);
+  const [productSpec, setproductSpec] = useState('');
+  const [techSpec, setTechSpec] = useState('');
 
 
   //required to generate fileDownLoadUrl
@@ -110,7 +113,22 @@ const CreateReport = (props) => {
 
   }
 
+  const handleChangeForTextField = (e) => {
+    const value = e.target.value;
+    switch (e.target.id) {
+      case 'productSpec':
+        setproductSpec(value);
+        break;
+      case 'techSpec':
+        setTechSpec(value);
+        break;
+      default:
+        break;
+    }
+  };
+
   function handleFileUploaded(fileDownLoadUrl) {
+    console.log("file download url----", fileDownLoadUrl)
     setFileDownLoadUrl(fileDownLoadUrl);
   }
 
@@ -127,7 +145,6 @@ const CreateReport = (props) => {
     //todo if uploading a dev report, upload to development-spock-reports child.
     //todo if uploading a complete report, upload to completed-spock-reports
     var uploadTask = firebase.storage().ref()
-
     .child('spock-reports/' + file.name)
     .put(file, metadata);
 
@@ -186,7 +203,16 @@ const CreateReport = (props) => {
    else if (!report.fileDownLoadUrl.length > 0) {
      return ("First upload a Test Teport")
    }
-
+   else if (report.productSpec.length > 0) {
+     if(!isValidUrl(report.productSpec)) {
+       return ("Set a valid URL for Product Spec")
+     }
+   }
+   else if (report.techSpec.length > 0) {
+     if(!isValidUrl(report.techSpec)){
+       return ("Set a valid URL for Tech Spec")
+     }
+   }
    // else if (report.numberOfTests.length > 0) {
    //   console.log(`numberOfTests.length > 0`)
    //   if(isNaN(report.numberOfTests)){
@@ -217,7 +243,9 @@ const CreateReport = (props) => {
       type,
       fileDownLoadUrl,
       assignedTo,
-      numberOfTests
+      numberOfTests,
+      productSpec,
+      techSpec
     };
 
     const validationText = validateFields(report);
@@ -259,16 +287,16 @@ const CreateReport = (props) => {
               <label>Service: </label>
               <select name='service' value={service}
                       onChange={handleChange}>
+                <option value='surveys'>Surveys</option>
+                <option value='rules'>Rules</option>
                 <option value='loans'>Loans</option>
                 <option value='users'>Users</option>
-                <option value='surveys'>Surveys</option>
                 <option value='auth'>Auth</option>
                 <option value='rails'>Rails</option>
                 <option value='approval'>Comms</option>
                 <option value='approval'>Approval</option>
                 <option value='scheduler'>Scheduler</option>
                 <option value='dsrouter'>DsRouter</option>
-                <option value='rules'>Rules</option>
                 <option value='assignment'>Assignment</option>
                 <option value='dss'>Dss</option>
                 <option value='kyc'>Kyc</option>
@@ -304,6 +332,26 @@ const CreateReport = (props) => {
                         value={numberOfTests}
               />
             </div>
+
+            <TextField
+                margin="dense"
+                id="productSpec"
+                label="Product Requirement Spec"
+                type="web"
+                fullWidth
+                value={productSpec}
+                onChange={handleChangeForTextField}
+            />
+
+              <TextField
+                  margin="dense"
+                  id="techSpec"
+                  label="Technical Design Spec"
+                  type="web"
+                  fullWidth
+                  value={techSpec}
+                  onChange={handleChangeForTextField}
+              />
 
             {/* ! Make sure someone has actually uploaded and filled out the required spaces because
               I was able to submit (by accident) without uploading or filling out the spaces */}
