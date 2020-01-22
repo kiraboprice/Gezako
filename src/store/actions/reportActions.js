@@ -61,7 +61,7 @@ export const uploadReport = (file) => {
 };
 
 export const createReport = (report) => {
-  console.log("REPORTTTTT", report);
+  // console.log("REPORTTTTT", report);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     const profile = getState().firebase.profile;
@@ -122,22 +122,23 @@ export const getFeatureReports = (phase, service) => {
   const collectionUrl = getCollectionUrl(phase);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
-    firestore.collection(`${collectionUrl}`).where('type', '==', 'feature')
-    // .orderBy('updatedAt')
+    firestore.collection(`${collectionUrl}`)
+    .where('service', '==', `${service}`)
+    .where('type', '==', 'feature')
+    .orderBy('updatedAt', 'desc')
     .onSnapshot(querySnapshot => {
       let featureReports = [];
       if (querySnapshot.empty) {
         dispatch({type: 'GET_FEATURE_REPORTS_EMPTY'});
       } else {
         querySnapshot.forEach(doc => {
-          let report = {id: doc.id, ...doc.data()};
-          featureReports.push(report)
+          featureReports.push({id: doc.id, ...doc.data()})
         });
         dispatch({type: 'GET_FEATURE_REPORTS_SUCCESS', featureReports: featureReports});
       }
 
     }, err => {
-      console.log(`getReportStats error: ${err}`);
+      console.log(`getFeatureReports error: ${err}`);
       dispatch({type: 'GET_FEATURE_REPORTS_ERROR', error: err});
     });
   }
@@ -155,6 +156,48 @@ export const unsubscribeGetFeatureReports = (phase) => {
 export const resetGetFeatureReports = () => {
   return (dispatch) => {
     dispatch({type: 'RESET_GET_FEATURE_REPORTS'});
+  }
+};
+
+export const getEndpointReports = (phase, service) => {
+  // console.log(`getEndpointReports---- ${service}`);
+  const collectionUrl = getCollectionUrl(phase);
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    firestore.collection(`${collectionUrl}`)
+    .where('service', '==', `${service}`)
+    .where('type', '==', 'endpoint')
+    .orderBy('updatedAt', 'desc')
+    .onSnapshot(querySnapshot => {
+      let endpointReports = [];
+      if (querySnapshot.empty) {
+        dispatch({type: 'GET_ENDPOINT_REPORTS_EMPTY'});
+      } else {
+        querySnapshot.forEach(doc => {
+          endpointReports.push({id: doc.id, ...doc.data()})
+        });
+        dispatch({type: 'GET_ENDPOINT_REPORTS_SUCCESS', endpointReports: endpointReports});
+      }
+
+    }, err => {
+      console.log(`getEndpointReports error: ${err}`);
+      dispatch({type: 'GET_ENDPOINT_REPORTS_ERROR', error: err});
+    });
+  }
+};
+
+export const unsubscribeGetEndpointReports = (phase) => {
+  const collectionUrl = getCollectionUrl(phase);
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    firestore.collection(`${collectionUrl}`).where('type', '==', 'endpoint')
+    .onSnapshot(() => { });
+  }
+};
+
+export const resetGetEndpointReports = () => {
+  return (dispatch) => {
+    dispatch({type: 'RESET_GET_ENDPOINT_REPORTS'});
   }
 };
 

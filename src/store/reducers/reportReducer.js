@@ -78,6 +78,28 @@ const reportReducer = (state = initState, action) => {
 
 
       /**
+       * Get Endpoint Reports
+       */
+    case 'GET_ENDPOINT_REPORTS_EMPTY':
+      console.log('GET_ENDPOINT_REPORTS_EMPTY');
+      return state;
+
+    case 'GET_ENDPOINT_REPORTS_SUCCESS':
+      console.log('GET_ENDPOINT_REPORTS_SUCCESS', action.endpointReports);
+      return {
+        ...state,
+        endpointReports: action.endpointReports
+      };
+
+    case 'GET_ENDPOINT_REPORTS_ERROR':
+      console.log('GET_ENDPOINT_REPORTS_ERROR', action.err);
+      return state;
+
+    case 'RESET_GET_ENDPOINT_REPORTS':
+      console.log('RESET_GET_ENDPOINT_REPORTS');
+      return state;
+
+      /**
        * Update Report
        */
     case 'UPDATE_REPORT_SUCCESS':
