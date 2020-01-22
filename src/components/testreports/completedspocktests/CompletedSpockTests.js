@@ -62,6 +62,15 @@ const CompletedSpockTests = (props) => {
   }
   console.log('showCoverageDialog in Completed Spokc Tests', showCoverageDialog);
 
+  let coverage = null;
+  if(reportStats) {
+    if(reportStats.coverage){
+      coverage = reportStats.coverage.coverage
+    } else {
+      coverage = null
+    }
+  }
+
   return (
       <div id='home'>
         <div id='reports-section'>
@@ -83,17 +92,17 @@ const CompletedSpockTests = (props) => {
               Code Coverage
             </div>
             <div id="report-stats-code-coverage">
-              Class:
+              Class: {coverage? coverage.class : 'Not Set'}
             </div>
             <div id="report-stats-code-coverage">
-              Method:
+              Method: {coverage? coverage.method : 'Not Set'}
             </div>
             <div id="report-stats-code-coverage">
-              Line:
+              Line: {coverage? coverage.line : 'Not Set'}
             </div>
 
             <div id="update-status-options">
-              <button >Update Coverage <img src={penIcon} alt="Update Coverage" onClick={setShowCoverageDialogToTrue}/> </button>
+              <button onClick={setShowCoverageDialogToTrue}>Update Coverage <img src={penIcon} alt="Update Coverage"/> </button>
             </div>
           </div>
 
@@ -155,7 +164,7 @@ const CompletedSpockTests = (props) => {
             showDialog = {showCoverageDialog}
             setDialogStateToFalse = {setShowCoverageDialogToFalse}
             service = {service}
-            coverage = {reportStats? reportStats.coverage : null}
+            coverage = {coverage? coverage : null}
         />
       </div>
   )

@@ -45,6 +45,24 @@ const CoverageDialog = (props) => {
     props.updateReportStatsCoverage(service, coverage);
   };
 
+  const handleChange = (e) => {
+    const value = e.target.value;
+    console.log('handleChange: ', value);
+    switch (e.target.id) {
+      case 'class':
+        setClassCoverage(value);
+        break;
+      case 'method':
+        setMethodCoverage(value);
+        break;
+      case 'line':
+        setLineCoverage(value);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
       <div>
         <Dialog open={showDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -56,26 +74,30 @@ const CoverageDialog = (props) => {
             <TextField
                 autoFocus
                 margin="dense"
-                id="name"
+                id="class"
                 label="Class Coverage"
                 type="text"
                 fullWidth
+                value={classCoverage}
+                onChange={handleChange}
             />
             <TextField
-                autoFocus
                 margin="dense"
-                id="name"
+                id="method"
                 label="Method Coverage"
                 type="email"
                 fullWidth
+                value={methodCoverage}
+                onChange={handleChange}
             />
             <TextField
-                autoFocus
                 margin="dense"
-                id="name"
+                id="line"
                 label="Line Coverage"
                 type="email"
                 fullWidth
+                value={lineCoverage}
+                onChange={handleChange}
             />
           </DialogContent>
           <DialogActions>

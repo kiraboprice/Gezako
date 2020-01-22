@@ -235,10 +235,10 @@ export const updateReportStatsCoverage = (service, coverage) => {
 
     console.log('updateReportStats action', coverage);
 
-    firestore.collection(`${BASE_DOCUMENT}/reportstats/`).doc(`${service}/coverage`).update({
-      class: coverage.class,
-      method: coverage.method,
-      line: coverage.line,
+    firestore.collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`).set({
+      class: coverage.classCoverage,
+      method: coverage.methodCoverage,
+      line: coverage.lineCoverage,
     }).then(() => {
       dispatch({type: 'UPDATE_REPORT_STATS_SUCCESS'});
     }).catch(err => {
