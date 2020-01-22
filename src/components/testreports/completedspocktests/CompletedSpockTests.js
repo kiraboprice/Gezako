@@ -26,7 +26,6 @@ import {
   showSuccessAlert
 } from "../../../store/actions/snackbarActions";
 import CoverageDialog from "./coverage/CoverageDialog";
-import CustomSnackbar from "../../snackbar/CustomSnackbar";
 
 const CompletedSpockTests = (props) => {
   const [showCoverageDialog, setShowCoverageDialog] = useState();
@@ -40,27 +39,15 @@ const CompletedSpockTests = (props) => {
 
   useEffect(() => {
     getReportStats(service);
+    getCoverage(service);
     return function cleanup() {
       unsubscribeGetReportStats(service);
       resetGetReportStats();
-    };
-  }, []);
 
-  useEffect(() => {
-    getCoverage(service);
-    return function cleanup() {
       unsubscribeGetCoverage(service);
       resetGetCoverage();
     };
-  }, []);
-
-  //remove listeners and reset stats in props
-  useEffect(() => {
-    return function cleanup() {
-      // unsubscribeGetReportStats(service);
-      // resetGetReportStats();
-    };
-  }, [props]);
+  }, [service]);
 
   if (!auth.uid) {return <Redirect to='/login'/>}
 
@@ -73,7 +60,6 @@ const CompletedSpockTests = (props) => {
     console.log(`setting show coverage dialog to false`);
     setShowCoverageDialog(false);
   }
-  console.log('showCoverageDialog in Completed Spokc Tests', showCoverageDialog);
 
   return (
       <div id='home'>
@@ -182,7 +168,6 @@ const mapStateToProps = (state, ownProps) => {
 
     return service
   }
-  console.log(state);
   return {
     auth: state.firebase.auth,
     featureReports: state.firestore.ordered.featureReports,

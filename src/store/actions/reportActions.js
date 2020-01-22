@@ -173,12 +173,11 @@ export const downloadReport = (report) => {
 
 
 export const getReportStats = (service) => {
-  console.log(`getReportStats---- ${service}`);
+  // console.log(`getReportStats---- ${service}`);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${BASE_DOCUMENT}/reportstats/`).doc(service)
     .onSnapshot(docSnapshot => {
-      console.log(`Received getReportStats: ${docSnapshot.data()}`);
       dispatch({type: 'GET_REPORT_STATS_SUCCESS', reportStats: docSnapshot.data()});
 
     }, err => {
@@ -203,12 +202,10 @@ export const resetGetReportStats = () => {
 };
 
 export const getCoverage = (service) => {
-  console.log(`getCoverage---- ${service}`);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`)
     .onSnapshot(docSnapshot => {
-      console.log(`Received getCoverage: ${docSnapshot.data()}`);
       dispatch({type: 'GET_COVERAGE_SUCCESS', coverage: docSnapshot.data()});
 
     }, err => {
@@ -235,8 +232,6 @@ export const resetGetCoverage = () => {
 export const updateCoverage = (service, coverage) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
-
-    console.log('updateCoverage action', coverage);
 
     firestore.collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`).set({
       class: coverage.classCoverage,

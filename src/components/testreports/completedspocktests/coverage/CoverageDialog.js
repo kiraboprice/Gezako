@@ -21,7 +21,6 @@ const CoverageDialog = (props) => {
   const [lineCoverage, setLineCoverage] = useState();
 
   useEffect(() => {
-    console.log('props.showDialog:', props.showDialog);
     setShowDialog(props.showDialog);
     setService(props.service);
     if(props.coverage){
@@ -45,7 +44,6 @@ const CoverageDialog = (props) => {
 
   const handleChange = (e) => {
     const value = e.target.value;
-    console.log('handleChange: ', value);
     switch (e.target.id) {
       case 'class':
         setClassCoverage(value);
