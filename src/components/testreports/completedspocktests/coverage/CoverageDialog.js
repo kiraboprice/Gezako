@@ -9,9 +9,7 @@ import DialogContentText
   from "@material-ui/core/DialogContentText/DialogContentText";
 import TextField from "@material-ui/core/TextField/TextField";
 import DialogActions from "@material-ui/core/DialogActions/DialogActions";
-import {
-  updateReportStatsCoverage
-} from "../../../../store/actions/reportActions";
+import {updateCoverage} from "../../../../store/actions/reportActions";
 
 
 const CoverageDialog = (props) => {
@@ -122,7 +120,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateReportStatsCoverage: (service, coverage) => dispatch(updateReportStatsCoverage(service, coverage)),
+    updateCoverage: (service, coverage) => dispatch(updateCoverage(service, coverage)),
   }
 };
 

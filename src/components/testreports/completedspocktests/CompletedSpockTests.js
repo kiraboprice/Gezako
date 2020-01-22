@@ -14,8 +14,12 @@ import LoadingScreen from "../../loading/LoadingScreen";
 
 import createReportIcon from "../../../assets/Icons/create.png";
 import {
+  getCoverage,
   getReportStats,
-  resetCreateReportSuccess, resetGetReportStats, unsubscribeGetReportStats
+  resetCreateReportSuccess,
+  resetGetCoverage,
+  resetGetReportStats, unsubscribeGetCoverage,
+  unsubscribeGetReportStats
 } from "../../../store/actions/reportActions";
 import {
   showErrorAlert,
@@ -28,16 +32,25 @@ const CompletedSpockTests = (props) => {
   const [showCoverageDialog, setShowCoverageDialog] = useState();
 
   //variables
-  const {auth, featureReports, endpointReports, service, reportStats} = props;
+  const {auth, featureReports, endpointReports, service, reportStats, coverage} = props;
 
   //actions
   const {getReportStats, unsubscribeGetReportStats, resetGetReportStats} = props;
+  const {getCoverage, unsubscribeGetCoverage, resetGetCoverage} = props;
 
   useEffect(() => {
     getReportStats(service);
     return function cleanup() {
       unsubscribeGetReportStats(service);
       resetGetReportStats();
+    };
+  }, []);
+
+  useEffect(() => {
+    getCoverage(service);
+    return function cleanup() {
+      unsubscribeGetCoverage(service);
+      resetGetCoverage();
     };
   }, []);
 
@@ -52,24 +65,15 @@ const CompletedSpockTests = (props) => {
   if (!auth.uid) {return <Redirect to='/login'/>}
 
   function setShowCoverageDialogToTrue() {
-    console.log(`setting show coverage dialog to true`)
+    console.log(`setting show coverage dialog to true`);
     setShowCoverageDialog(true);
   }
 
   function setShowCoverageDialogToFalse() {
-    console.log(`setting show coverage dialog to false`)
+    console.log(`setting show coverage dialog to false`);
     setShowCoverageDialog(false);
   }
   console.log('showCoverageDialog in Completed Spokc Tests', showCoverageDialog);
-
-  let coverage = null;
-  if(reportStats) {
-    if(reportStats.coverage){
-      coverage = reportStats.coverage.coverage
-    } else {
-      coverage = null
-    }
-  }
 
   return (
       <div id='home'>
@@ -186,8 +190,9 @@ const mapStateToProps = (state, ownProps) => {
     collection: 'completedreports',
     service: getServiceNameFromPathName(ownProps.location.pathname),
 
-    //report stats
-    reportStats: state.report.reportStats
+    reportStats: state.report.reportStats,
+
+    coverage: state.report.coverage
   }
 };
 
@@ -197,6 +202,10 @@ const mapDispatchToProps = dispatch => {
     getReportStats: (service) => dispatch(getReportStats(service)),
     unsubscribeGetReportStats: (service) => dispatch(unsubscribeGetReportStats(service)),
     resetGetReportStats: () => dispatch(resetGetReportStats()),
+
+    getCoverage: (service) => dispatch(getCoverage(service)),
+    unsubscribeGetCoverage: (service) => dispatch(unsubscribeGetCoverage(service)),
+    resetGetCoverage: () => dispatch(resetGetCoverage()),
 
     //alerts
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
