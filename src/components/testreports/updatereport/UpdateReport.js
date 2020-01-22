@@ -80,7 +80,6 @@ const UpdateReport = (props) => {
   const handleChange = (e) => {
     const value = e.target.value;
     console.log('handleChange: ', value);
-    // console.log("state in handle change", this.state);
     switch (e.target.name) {
       case 'title':
         setTitle(value);
@@ -101,7 +100,7 @@ const UpdateReport = (props) => {
         break;
 
       default:
-        return this.state;
+        break;
     }
 
   };
@@ -117,7 +116,7 @@ const UpdateReport = (props) => {
         setTechSpec(value);
         break;
       default:
-        return this.state;
+        break
     }
 
   };
@@ -142,12 +141,11 @@ const UpdateReport = (props) => {
   }
 
   const handleUploadFile = (e) => {
-    const state = this.state;
     var metadata = {
       contentType: 'text/html'
     };
     var uploadTask = firebase.storage().ref().
-    child('spock-reports/' + state[e.target.file].name)
+    child('spock-reports/' + file.name)
     .put(file, metadata);
 
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
@@ -213,11 +211,9 @@ const UpdateReport = (props) => {
     />;
   };
 
-    const { auth, users } = this.props;
+    const { auth, users } = props;
     if (!auth.uid) return <Redirect to='/login' />;
 
-    // console.log("STATEEEEEE");
-    // console.log(this.state);
     if (title) {
       return (
           <div id='upload'>
@@ -237,7 +233,7 @@ const UpdateReport = (props) => {
                 <div id='display-content'>
                   <label>Report Title:</label>
                   <textarea name='title'
-                            onChange={this.handleChange}
+                            onChange={handleChange}
                             value = {title}
                   />
                 </div>
@@ -329,7 +325,7 @@ const UpdateReport = (props) => {
           </div>
       )
     }
-}
+};
 
 const mapStateToProps = (state) => {
   return {
