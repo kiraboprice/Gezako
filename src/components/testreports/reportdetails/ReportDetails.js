@@ -21,7 +21,6 @@ const ReportDetails = (props) => {
   const {setPrevUrl, downloadReport, reportDownload, resetState} = props;
   const id = props.match.params.id;
 
-
   //clean up after this component is unmounted
   useEffect(() => {
     return function cleanup() {
@@ -48,6 +47,11 @@ const ReportDetails = (props) => {
   }
 
   // console.log('report');
+  function goToExternalLink(productSpec) {
+    window.open(productSpec) //open new tab
+    // window.location.replace(productSpec) //stay on page
+  }
+
   // console.log(report);
   if (report) {
     downloadReport(report);
@@ -64,12 +68,18 @@ const ReportDetails = (props) => {
 
                 {report.assignedTo?<div id="uploaded-by" style={{display: displayDevelopmentFields}}>Assigned to {report.assignedTo.displayName}</div> : null }
 
-                <Link to={`${report.requirementsSpec}`} >
-                  <button id="report-button-section1" style={{background: "#ff6f69", marginRight: "10px"}}>Product Requirements Spec</button>
-                </Link>
-                <Link to={`${report.designDoc}`} >
-                  <button id="report-button-section1" style={{background: "#ffeead"}}>Technical Design Doc</button>
-                </Link>
+                <button id="report-button-section1"
+                        style={{background: "#ff6f69", marginRight: "10px"}}
+                        onClick={()=> goToExternalLink(report.productSpec)}>
+                  Product Requirements Spec
+                </button>
+
+                <button id="report-button-section1"
+                        style={{background: "#ffeead"}}
+                        onClick={()=> goToExternalLink(report.techSpec)}>
+                  Technical Design Doc
+                </button>
+
                 <br/>
                 <Link to={`/${report.phase}/update-report/${id}`} >
                   <button id="report-button-section1" style={{background: "#f0f0f0", marginTop: "25px"}}>Update Report</button>

@@ -38,6 +38,9 @@ const reportReducer = (state = initState, action) => {
         createReportSuccess: null
       };
 
+      /**
+       * Get Report
+       */
     case 'GET_REPORT_SUCCESS':
       // console.log('GET_REPORT_SUCCESS', action.report);
       return {
@@ -46,13 +49,19 @@ const reportReducer = (state = initState, action) => {
       };
 
     case 'GET_REPORT_ERROR_NOT_EXISTS':
-      // console.log('GET_REPORT_ERROR_NOT_EXISTS', action.err);
+      console.log('GET_REPORT_ERROR_NOT_EXISTS', action.err);
       return state;
 
     case 'GET_REPORT_ERROR':
-      // console.log('GET_REPORT_ERROR', action.err);
+      console.log('GET_REPORT_ERROR', action.err);
       return state;
 
+    case 'RESET_GET_REPORT':
+      console.log('RESET_GET_FEATURE_REPORTS');
+      return {
+        ...state,
+        getReport: null
+      };
 
       /**
        * Get Feature Reports
@@ -62,7 +71,7 @@ const reportReducer = (state = initState, action) => {
       return state;
 
     case 'GET_FEATURE_REPORTS_SUCCESS':
-      console.log('GET_FEATURE_REPORTS_SUCCESS', action.featureReports);
+      // console.log('GET_FEATURE_REPORTS_SUCCESS', action.featureReports);
       return {
         ...state,
         featureReports: action.featureReports
@@ -74,8 +83,10 @@ const reportReducer = (state = initState, action) => {
 
     case 'RESET_GET_FEATURE_REPORTS':
       console.log('RESET_GET_FEATURE_REPORTS');
-      return state;
-
+      return {
+        ...state,
+        featureReports: null
+      };
 
       /**
        * Get Endpoint Reports
@@ -85,7 +96,7 @@ const reportReducer = (state = initState, action) => {
       return state;
 
     case 'GET_ENDPOINT_REPORTS_SUCCESS':
-      console.log('GET_ENDPOINT_REPORTS_SUCCESS', action.endpointReports);
+      // console.log('GET_ENDPOINT_REPORTS_SUCCESS', action.endpointReports);
       return {
         ...state,
         endpointReports: action.endpointReports
@@ -97,7 +108,10 @@ const reportReducer = (state = initState, action) => {
 
     case 'RESET_GET_ENDPOINT_REPORTS':
       console.log('RESET_GET_ENDPOINT_REPORTS');
-      return state;
+      return {
+        ...state,
+        endpointReports: null
+      };
 
       /**
        * Update Report

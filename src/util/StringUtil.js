@@ -38,3 +38,12 @@ export const getAssigneeName = (report) => {
       getFirstNameFromFullName(report.assignedTo.displayName) :
       null
 };
+
+export const isValidUrl = (url) => {
+  try {
+    new URL(url);
+    return true;
+  } catch (_) {
+    return false;
+  }
+};

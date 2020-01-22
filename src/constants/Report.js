@@ -12,6 +12,8 @@ export const COMPLETED_PHASE = 'completed';
  * fileDownLoadUrl
  * assignedTo
  * numberOfTests
+ * productSpec
+ * techSpec
  *
  * - added by action when creating new report:
  * createdBy

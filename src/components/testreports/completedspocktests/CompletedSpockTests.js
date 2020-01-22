@@ -58,10 +58,10 @@ const CompletedSpockTests = (props) => {
       unsubscribeGetCoverage(service);
       resetGetCoverage();
 
-      unsubscribeGetFeatureReports(service);
+      unsubscribeGetFeatureReports('completed', service);
       resetGetFeatureReports();
 
-      unsubscribeGetEndpointReports(service);
+      unsubscribeGetEndpointReports('completed', service);
       resetGetEndpointReports();
     };
   }, [service]);
@@ -83,7 +83,7 @@ const CompletedSpockTests = (props) => {
           {featureReports ? null : <LoadingScreen />}
 
           <Link to={'/completed/upload-report'} >
-            <div id="create-new-report" > <img src={createReportIcon} alt="Create a report" /> </div>
+            <div id="create-new-report" style={{background: "#ffeead"}}> <img src={createReportIcon} alt="Create a report" /> </div>
           </Link>
 
           <div id="status-card">
@@ -109,7 +109,7 @@ const CompletedSpockTests = (props) => {
               <span>{coverage? coverage.line : ''}</span>
             </div>
 
-            <div id="update-status-options">
+            <div id="update-status-options" style={{marginTop : '20px'}}>
               <button onClick={setShowCoverageDialogToTrue}>Update Coverage <img src={penIcon} alt="Update Coverage"/> </button>
             </div>
           </div>
@@ -206,11 +206,11 @@ const mapDispatchToProps = dispatch => {
   return {
     // setPrevUrl: (url) => dispatch(setPrevUrl(url)),
     getFeatureReports: (phase, service) => dispatch(getFeatureReports(phase, service)),
-    unsubscribeGetFeatureReports: (service) => dispatch(unsubscribeGetFeatureReports(service)),
+    unsubscribeGetFeatureReports: (phase, service) => dispatch(unsubscribeGetFeatureReports(phase, service)),
     resetGetFeatureReports: () => dispatch(resetGetFeatureReports()),
 
     getEndpointReports: (phase, service) => dispatch(getEndpointReports(phase, service)),
-    unsubscribeGetEndpointReports: (service) => dispatch(unsubscribeGetEndpointReports(service)),
+    unsubscribeGetEndpointReports: (phase, service) => dispatch(unsubscribeGetEndpointReports(phase, service)),
     resetGetEndpointReports: () => dispatch(resetGetEndpointReports()),
 
     getReportStats: (service) => dispatch(getReportStats(service)),

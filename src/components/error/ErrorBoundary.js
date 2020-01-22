@@ -21,7 +21,7 @@ class ErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <Link to={'/'} > <h1>Something went wrong. Click HERE to return to Gezako Home</h1></Link>;
+      return <Link to={'/'} > <h4>Something went wrong. Click HERE to return to Gezako Home</h4></Link>;
     }
 
     return this.props.children;

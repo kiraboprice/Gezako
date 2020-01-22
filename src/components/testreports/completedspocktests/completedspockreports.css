@@ -36,6 +36,10 @@ coverage
     font-size: 15px;
 }
 
+#update-coverage-btn{
+    margin: 10px 15px;
+}
+
 .service{
     margin-top: 10px;
 }
