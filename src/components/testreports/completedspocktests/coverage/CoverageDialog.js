@@ -40,7 +40,7 @@ const CoverageDialog = (props) => {
     setShowDialog(false);
     props.setDialogStateToFalse();
     const coverage = {classCoverage, methodCoverage, lineCoverage};
-    props.updateReportStatsCoverage(service, coverage);
+    props.updateCoverage(service, coverage);
   };
 
   const handleChange = (e) => {
@@ -120,7 +120,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateCoverage: (service, coverage) => dispatch(updateCoverage(service, coverage)),
+    updateCoverage: (service, coverage) => dispatch(updateCoverage(service, coverage))
   }
 };
 
