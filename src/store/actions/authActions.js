@@ -58,11 +58,11 @@ export const setPrevUrl = (url) => {
 
 export const getUsersApartFromCurrentUser = () => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
-    let users = [];
     const firestore = getFirestore();
     const profile = getState().firebase.auth;
     firestore.collection(`${BASE_DOCUMENT}/users`).get()
     .then((snapshot) => {
+      let users = [];
       if (snapshot.empty) {
         dispatch({type: 'GET_USERS_NO_USERS'});
       } else {

@@ -121,16 +121,15 @@ export const getFeatureReports = (phase, service) => {
   // console.log(`getFeatureReports---- ${service}`);
   const collectionUrl = getCollectionUrl(phase);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
-    let featureReports = [];
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`).where('type', '==', 'feature')
     .onSnapshot(querySnapshot => {
+      let featureReports = [];
       if (querySnapshot.empty) {
         dispatch({type: 'GET_FEATURE_REPORTS_EMPTY'});
       } else {
         querySnapshot.forEach(doc => {
-          const id = doc.id;
-          let report = {id, ...doc.data()};
+          let report = {id: doc.id, ...doc.data()};
           featureReports.push(report)
         });
         dispatch({type: 'GET_FEATURE_REPORTS_SUCCESS', featureReports: featureReports});
