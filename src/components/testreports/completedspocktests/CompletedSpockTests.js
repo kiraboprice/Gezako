@@ -52,12 +52,10 @@ const CompletedSpockTests = (props) => {
   if (!auth.uid) {return <Redirect to='/login'/>}
 
   function setShowCoverageDialogToTrue() {
-    console.log(`setting show coverage dialog to true`);
     setShowCoverageDialog(true);
   }
 
   function setShowCoverageDialogToFalse() {
-    console.log(`setting show coverage dialog to false`);
     setShowCoverageDialog(false);
   }
 

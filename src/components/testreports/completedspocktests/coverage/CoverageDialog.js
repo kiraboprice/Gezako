@@ -23,11 +23,9 @@ const CoverageDialog = (props) => {
   useEffect(() => {
     setShowDialog(props.showDialog);
     setService(props.service);
-    if(props.coverage){
-      setClassCoverage(props.coverage.class);
-      setMethodCoverage(props.coverage.method);
-      setLineCoverage(props.coverage.line);
-    }
+    setClassCoverage(props.coverage? props.coverage.class : '');
+    setMethodCoverage(props.coverage? props.coverage.method : '');
+    setLineCoverage(props.coverage? props.coverage.line : '');
   }, [props]);
 
   const handleClose = () => {

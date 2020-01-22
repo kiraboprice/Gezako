@@ -119,10 +119,18 @@ const reportReducer = (state = initState, action) => {
        */
     case 'GET_COVERAGE_SUCCESS':
       console.log('GET_COVERAGE_SUCCESS', action.coverage);
-      return {
-        ...state,
-        coverage: action.coverage
-      };
+      if(action.coverage){
+        return {
+          ...state,
+          coverage: action.coverage
+        };
+      }
+      else {
+        return {
+          ...state,
+          coverage: null
+        };
+      }
 
     case 'GET_COVERAGE_ERROR':
       console.log('GET_COVERAGE_ERROR', action.err);
