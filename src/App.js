@@ -22,6 +22,7 @@ import PerformanceTests from "./components/perfomance/PerformanceTests";
 import UpdateReport from "./components/testreports/updatereport/UpdateReport";
 import Home from "./components/testreports/home/Home";
 import CustomSnackbar from "./components/snackbar/CustomSnackbar";
+import ErrorBoundary from "./components/error/ErrorBoundary";
 
 
 const App = (props) => {
@@ -30,6 +31,7 @@ const App = (props) => {
 
   return (
         <div>
+          <ErrorBoundary>
           <BrowserRouter>
 
             <Navigation/>
@@ -63,6 +65,7 @@ const App = (props) => {
               <Route exact path='/task/:id' component={TaskDetails}/>
             </Switch>
           </BrowserRouter>
+          </ErrorBoundary>
         </div>
     );
 }
