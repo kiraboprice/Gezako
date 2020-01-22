@@ -66,11 +66,6 @@ const CompletedSpockTests = (props) => {
     };
   }, [service]);
 
-  useEffect(() => {
-    console.log('featureReports---', featureReports);
-
-  }, [props]);
-
   if (!auth.uid) {return <Redirect to='/login'/>}
 
   function setShowCoverageDialogToTrue() {
