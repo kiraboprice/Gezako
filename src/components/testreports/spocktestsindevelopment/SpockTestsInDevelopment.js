@@ -33,7 +33,7 @@ const SpockTestsInDevelopment = (props) => {
         <div id='reports-section'>
 
           <Link to={'/development/upload-report'} >
-            <div id="create-new-report" > <img src={createReportIcon} alt="Create a report" /> </div>
+            <div id="create-new-report" style={{background: "#ffeead"}} > <img src={createReportIcon} alt="Create a report" /> </div>
           </Link>
 
           <div id='features-reports'>

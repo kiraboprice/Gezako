@@ -83,7 +83,7 @@ const CompletedSpockTests = (props) => {
           {featureReports ? null : <LoadingScreen />}
 
           <Link to={'/completed/upload-report'} >
-            <div id="create-new-report" > <img src={createReportIcon} alt="Create a report" /> </div>
+            <div id="create-new-report" style={{background: "#ffeead"}}> <img src={createReportIcon} alt="Create a report" /> </div>
           </Link>
 
           <div id="status-card">
@@ -109,7 +109,7 @@ const CompletedSpockTests = (props) => {
               <span>{coverage? coverage.line : ''}</span>
             </div>
 
-            <div id="update-status-options">
+            <div id="update-status-options" style={{marginTop : '20px'}}>
               <button onClick={setShowCoverageDialogToTrue}>Update Coverage <img src={penIcon} alt="Update Coverage"/> </button>
             </div>
           </div>

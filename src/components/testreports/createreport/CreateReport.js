@@ -265,7 +265,7 @@ const CreateReport = (props) => {
         <div>
           <input type='file' name='file' onChange={handleFileSelected}
                  accept='html/*'/>
-          <button onClick={handleUploadFile}>Upload File</button>
+          <button onClick={handleUploadFile} style={{background: "#ffeead"}}>Upload File</button>
         </div>
 
         {/* ! Just a suggestion, maybe display this onSubmit? */}

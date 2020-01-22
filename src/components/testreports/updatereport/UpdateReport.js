@@ -51,27 +51,27 @@ const UpdateReport = (props) => {
       setDisplayCompletedFields('block');
     }
 
-    getReport(id, phase);
+    props.getReport(props.match.params.id, getReportPhaseFromPathName(props.location.pathname));
 
     return function cleanup() {
       unsubscribeGetReport(service);
       resetGetReport();
     };
-  }, [service]);
+  }, [id]);
 
   useEffect(() => {
     props.getUsersApartFromCurrentUser();
-
-    setTitle(props.report.title);
-    setPhase(props.report.phase);
-    setService(props.report.service);
-    setType(props.report.type);
-    setFileDownLoadUrl(props.report.fileDownLoadUrl);
-    setAssignedTo(props.report.assignedTo);
-    setNumberOfTests(props.report.numberOfTests);
-    setProductSpec(props.report.productSpec);
-    setTechSpec(props.report.techSpec);
-
+    if(props.report){
+      setTitle(props.report.title);
+      setPhase(props.report.phase);
+      setService(props.report.service);
+      setType(props.report.type);
+      setFileDownLoadUrl(props.report.fileDownLoadUrl);
+      setAssignedTo(props.report.assignedTo);
+      setNumberOfTests(props.report.numberOfTests);
+      setProductSpec(props.report.productSpec);
+      setTechSpec(props.report.techSpec);
+    }
     return function cleanup() {
       props.resetState()
     };
@@ -211,120 +211,120 @@ const UpdateReport = (props) => {
     />;
   };
 
-    const { auth, users } = props;
-    if (!auth.uid) return <Redirect to='/login' />;
+  const { auth, users } = props;
+  if (!auth.uid) return <Redirect to='/login' />;
 
-    if (title) {
-      return (
-          <div id='upload'>
-            <h3 >Update Spock Report</h3>
-            <div>
+  if (title) {
+    return (
+        <div id='upload'>
+          <h3 >Update Spock Report</h3>
+          <div>
             <div>
               <input type='file' name='file' onChange={handleFileSelected} accept='html/*'/>
-              <button onClick={handleUploadFile} style={{color: blue}}>Upload File</button>
+              <button onClick={handleUploadFile} style={{background: "#ffeead"}}>Upload File</button>
             </div>
 
-              <span id='uploading'>
+            <span id='uploading'>
                 Uploading report: {uploadProgress}%
               </span>
 
-              <form onSubmit={handleUpdate}>
+            <form onSubmit={handleUpdate}>
 
-                <div id='display-content'>
-                  <label>Report Title:</label>
-                  <textarea name='title'
-                            onChange={handleChange}
-                            value = {title}
-                  />
-                </div>
-
-                <div id='display-content'>
-                  <label>Phase: </label>
-                  <select name='phase' value={phase} onChange={handleChange}>
-                    <option value='development'>Development</option>
-                    <option value='completed'>Completed</option>
-                  </select>
-                </div>
-
-                <div id='display-content'>
-                  <label>Service: </label>
-                  <select name='service' value={service} onChange={handleChange}>
-                    <option value='surveys'>Surveys</option>
-                    <option value='rules'>Rules</option>
-                    <option value='loans'>Loans</option>
-                    <option value='users'>Users</option>
-                    <option value='auth'>Auth</option>
-                    <option value='rails'>Rails</option>
-                    <option value='approval'>Comms</option>
-                    <option value='approval'>Approval</option>
-                    <option value='scheduler'>Scheduler</option>
-                    <option value='dsrouter'>DsRouter</option>
-                    <option value='assignment'>Assignment</option>
-                    <option value='dss'>Dss</option>
-                    <option value='kyc'>Kyc</option>
-                    <option value='attribution'>Attribution</option>
-                    <option value='settlement'>Settlement</option>
-                    <option value='verification'>Verification</option>
-                  </select>
-                </div>
-
-                <div id='display-content'>
-                  <label>Report Type: </label>
-                  <select name='type' value={type} onChange={handleChange}>
-                    <option value='feature'>Feature</option>
-                    <option value='endpoint'>Endpoint</option>
-                  </select>
-                </div>
-
-                <div id='display-content' style={{display: displayDevelopmentFields}}>
-                  <label>Assign To: </label>
-                  <select name='assignedTo' onChange={handleAssignedToChange}>
-                    <option value=''></option>
-                    {users && users.map(user => <option value={user.id}>{user.displayName}</option>)}
-                  </select>
-                </div>
-
-                <div id='display-content' style={{display: displayCompletedFields}}>
-                  <label>No. of Tests in Report: </label>
-                  <textarea name='numberOfTests'
-                            onChange={handleChange}
-                            value = {numberOfTests}
-                  />
-                </div>
-
-                <TextField
-                    margin="dense"
-                    id="productSpec"
-                    label="Product Requirement Spec"
-                    type="web"
-                    fullWidth
-                    value={productSpec}
-                    onChange={handleChangeForTextField}
+              <div id='display-content'>
+                <label>Report Title:</label>
+                <textarea name='title'
+                          onChange={handleChange}
+                          value = {title}
                 />
+              </div>
 
-                <TextField
-                    margin="dense"
-                    id="techSpec"
-                    label="Technical Design Spec"
-                    type="web"
-                    fullWidth
-                    value={techSpec}
-                    onChange={handleChangeForTextField}
+              <div id='display-content'>
+                <label>Phase: </label>
+                <select name='phase' value={phase} onChange={handleChange}>
+                  <option value='development'>Development</option>
+                  <option value='completed'>Completed</option>
+                </select>
+              </div>
+
+              <div id='display-content'>
+                <label>Service: </label>
+                <select name='service' value={service} onChange={handleChange}>
+                  <option value='surveys'>Surveys</option>
+                  <option value='rules'>Rules</option>
+                  <option value='loans'>Loans</option>
+                  <option value='users'>Users</option>
+                  <option value='auth'>Auth</option>
+                  <option value='rails'>Rails</option>
+                  <option value='approval'>Comms</option>
+                  <option value='approval'>Approval</option>
+                  <option value='scheduler'>Scheduler</option>
+                  <option value='dsrouter'>DsRouter</option>
+                  <option value='assignment'>Assignment</option>
+                  <option value='dss'>Dss</option>
+                  <option value='kyc'>Kyc</option>
+                  <option value='attribution'>Attribution</option>
+                  <option value='settlement'>Settlement</option>
+                  <option value='verification'>Verification</option>
+                </select>
+              </div>
+
+              <div id='display-content'>
+                <label>Report Type: </label>
+                <select name='type' value={type} onChange={handleChange}>
+                  <option value='feature'>Feature</option>
+                  <option value='endpoint'>Endpoint</option>
+                </select>
+              </div>
+
+              <div id='display-content' style={{display: displayDevelopmentFields}}>
+                <label>Assign To: </label>
+                <select name='assignedTo' onChange={handleAssignedToChange}>
+                  <option value=''></option>
+                  {users && users.map(user => <option value={user.id}>{user.displayName}</option>)}
+                </select>
+              </div>
+
+              <div id='display-content' style={{display: displayCompletedFields}}>
+                <label>No. of Tests in Report: </label>
+                <textarea name='numberOfTests'
+                          onChange={handleChange}
+                          value = {numberOfTests}
                 />
+              </div>
 
-                <button type="submit">Update</button>
-              </form>
-            </div>
-          </div>
-      );
+              <TextField
+                  margin="dense"
+                  id="productSpec"
+                  label="Product Requirement Spec"
+                  type="web"
+                  fullWidth
+                  value={productSpec}
+                  onChange={handleChangeForTextField}
+              />
 
-    } else {
-      return (
-          <div id='report-details-section'>
-            <p>Loading report...</p>
+              <TextField
+                  margin="dense"
+                  id="techSpec"
+                  label="Technical Design Spec"
+                  type="web"
+                  fullWidth
+                  value={techSpec}
+                  onChange={handleChangeForTextField}
+              />
+
+              <button type="submit">Update</button>
+            </form>
           </div>
-      )
-    }
+        </div>
+    );
+
+  } else {
+    return (
+        <div id='report-details-section'>
+          <p>Loading report...</p>
+        </div>
+    )
+  }
 };
 
 const mapStateToProps = (state) => {
@@ -347,6 +347,4 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps), firestoreConnect
-)(UpdateReport)
+export default compose(connect(mapStateToProps, mapDispatchToProps)(UpdateReport))

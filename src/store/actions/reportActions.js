@@ -95,7 +95,8 @@ export const resetCreateReportSuccess = () => {
 };
 
 export const getReport = (id, phase) => {
-  // console.log(`getReport---- ${id}`);
+  console.log(`getReport---- ${id}`);
+  console.log(`getReport---- ${phase}`);
   const collectionUrl = getCollectionUrl(phase);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
