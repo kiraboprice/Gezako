@@ -19,7 +19,7 @@ const Report = (props) => {
       setDisplayCompletedFields('block');
     }
   }, [props]);
-
+console.log("props.report", props.report);
   return(
         <div id='report'>
           <div id='service'>{props.report.service}</div>
@@ -37,8 +37,9 @@ const Report = (props) => {
             {getAssigneeName(props.report)}
             </div>
 
-          <div id='title'>{getFirstNameFromFullName(props.report.createdBy)}</div>
-          <div id='end-column'>{moment(props.report.createdAt.toDate()).calendar()}</div>
+          {/*<div id='title'>{moment(props.report.updatedAt.toDate()).calendar()}</div>*/}
+          <div id='title'>{moment(props.report.createdAt.toDate()).calendar()}</div>
+          <div id='end-column'>{getFirstNameFromFullName(props.report.createdBy)}</div>
         </div>
     )
 };

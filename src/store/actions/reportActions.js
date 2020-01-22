@@ -61,7 +61,7 @@ export const uploadReport = (file) => {
 };
 
 export const createReport = (report) => {
-  console.log("REPORTTTTT", report);
+  // console.log("REPORTTTTT", report);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     const profile = getState().firebase.profile;
@@ -123,7 +123,7 @@ export const getFeatureReports = (phase, service) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`).where('type', '==', 'feature')
-    // .orderBy('updatedAt')
+    .orderBy('updatedAt', 'desc')
     .onSnapshot(querySnapshot => {
       let featureReports = [];
       if (querySnapshot.empty) {

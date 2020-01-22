@@ -54,6 +54,11 @@ const CompletedSpockTests = (props) => {
     };
   }, [service]);
 
+  useEffect(() => {
+    console.log('featureReports---', featureReports);
+
+  }, [props]);
+
   if (!auth.uid) {return <Redirect to='/login'/>}
 
   function setShowCoverageDialogToTrue() {
@@ -64,7 +69,6 @@ const CompletedSpockTests = (props) => {
     setShowCoverageDialog(false);
   }
 
-  console.log('featureReports---', featureReports);
   return (
       <div id='home'>
         <div id='reports-section'>
@@ -110,8 +114,9 @@ const CompletedSpockTests = (props) => {
               <div id='service'>Service</div>
               <div id='title'>Title</div>
               <div id='title'># of tests</div>
-              <div id='title'>Created By</div>
-              <div id='end-column'>Created At</div>
+              <div id='title'>Updated At</div>
+              <div id='title'>Created At</div>
+              <div id='end-column'>Created By</div>
             </div>
             { featureReports && featureReports.map(report => { //todo add the index back here!
                 return (

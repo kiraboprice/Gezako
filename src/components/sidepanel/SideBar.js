@@ -89,16 +89,16 @@ export default class SideBar extends Component {
                       icon={dev}
                       active={this.state.firstActive}
                       links={[
+                        [ "Surveys", '/completed/surveys'],
+                        [ "Rules", '/completed/rules'],
                         ["Loans", '/completed/loans'],
                         [ "Users", '/completed/users'],
-                        [ "Surveys", '/completed/surveys'],
                         [ "Auth", '/completed/auth'],
                         [ "Rails", '/completed/rails'],
                         [ "Comms", '/completed/comms'],
                         [ "Approval", '/completed/approval'],
                         [ "Scheduler", '/completed/scheduler'],
                         [ "DsRouter", '/completed/dsrouter'],
-                        [ "Rules", '/completed/rules'],
                         [ "Assignment", '/completed/assignment'],
                         [ "Dss", '/completed/dss'],
                         [ "Kyc", '/completed/kyc'],
@@ -106,7 +106,7 @@ export default class SideBar extends Component {
                         [ "Settlement", '/completed/settlement'],
                         [ "Verification", '/completed/verification']
                       ]}
-                      titleLink={'/completed/loans'}
+                      titleLink={'/completed/surveys'}
                   />
                 </div>
 
@@ -118,16 +118,16 @@ export default class SideBar extends Component {
                         icon={report}
                         haslinks={true}
                         links={[
+                          [ "Surveys", '/development/surveys'],
+                          [ "Rules", '/development/rules'],
                           ["Loans", '/development/loans'],
                           [ "Users", '/development/users'],
-                          [ "Surveys", '/development/surveys'],
                           [ "Auth", '/development/auth'],
                           [ "Rails", '/development/rails'],
                           [ "Comms", '/development/comms'],
                           [ "Approval", '/development/approval'],
                           [ "Scheduler", '/development/scheduler'],
                           [ "DsRouter", '/development/dsrouter'],
-                          [ "Rules", '/development/rules'],
                           [ "Assignment", '/development/assignment'],
                           [ "Dss", '/development/dss'],
                           [ "Kyc", '/development/kyc'],
@@ -136,7 +136,7 @@ export default class SideBar extends Component {
                           [ "Verification", '/development/verification']
                         ]}
                         active={this.state.secondActive}
-                        titleLink={'/development/loans'}
+                        titleLink={'/development/surveys'}
                     />
                 </div>
 
