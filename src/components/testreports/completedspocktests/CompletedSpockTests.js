@@ -114,7 +114,7 @@ const CompletedSpockTests = (props) => {
               <div id='service'>Service</div>
               <div id='title'>Title</div>
               <div id='title'># of tests</div>
-              <div id='title'>Updated At</div>
+              {/*<div id='title'>Updated At</div>*/}
               <div id='title'>Created At</div>
               <div id='end-column'>Created By</div>
             </div>
@@ -141,8 +141,9 @@ const CompletedSpockTests = (props) => {
               <div id='service'>Service</div>
               <div id='title'>Title</div>
               <div id='title'># of tests</div>
-              <div id='title'>Created By</div>
-              <div id='end-column'>Created At</div>
+              {/*<div id='title'>Updated At</div>*/}
+              <div id='title'>Created At</div>
+              <div id='end-column'>Created By</div>
             </div>
             { endpointReports && endpointReports.map(report => { //todo add the index back here!
               return (
@@ -216,19 +217,5 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect(props => {
-      return [
-        {
-          collection: 'company',
-          doc: 'tala',
-          subcollections: [{collection: props.collection}],
-          where: [
-            ['type', '==', 'endpoint'],
-            ['service', '==', props.service]
-          ],
-          storeAs: 'endpointReports'
-        }
-      ]
-    })
+    connect(mapStateToProps, mapDispatchToProps)
 )(CompletedSpockTests)

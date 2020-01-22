@@ -19,7 +19,7 @@ const Report = (props) => {
       setDisplayCompletedFields('block');
     }
   }, [props]);
-console.log("props.report", props.report);
+// console.log("props.report", props.report);
   return(
         <div id='report'>
           <div id='service'>{props.report.service}</div>
