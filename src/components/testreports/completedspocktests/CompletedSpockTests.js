@@ -14,11 +14,17 @@ import LoadingScreen from "../../loading/LoadingScreen";
 
 import createReportIcon from "../../../assets/Icons/create.png";
 import {
-  getCoverage, getFeatureReports,
+  getCoverage,
+  getEndpointReports,
+  getFeatureReports,
   getReportStats,
   resetCreateReportSuccess,
-  resetGetCoverage, resetGetFeatureReports,
-  resetGetReportStats, unsubscribeGetCoverage, unsubscribeGetFeatureReports,
+  resetGetCoverage, resetGetEndpointReports,
+  resetGetFeatureReports,
+  resetGetReportStats,
+  unsubscribeGetCoverage,
+  unsubscribeGetEndpointReports,
+  unsubscribeGetFeatureReports,
   unsubscribeGetReportStats
 } from "../../../store/actions/reportActions";
 import {
@@ -34,14 +40,17 @@ const CompletedSpockTests = (props) => {
   const {auth, featureReports, endpointReports, service, reportStats, coverage} = props;
 
   //actions
-  const {getFeatureReports, unsubscribeGetFeatureReports, resetGetFeatureReports} = props;
   const {getReportStats, unsubscribeGetReportStats, resetGetReportStats} = props;
   const {getCoverage, unsubscribeGetCoverage, resetGetCoverage} = props;
+  const {getFeatureReports, unsubscribeGetFeatureReports, resetGetFeatureReports} = props;
+  const {getEndpointReports, unsubscribeGetEndpointReports, resetGetEndpointReports} = props;
 
   useEffect(() => {
     getReportStats(service);
     getCoverage(service);
     getFeatureReports('completed', service);
+    getEndpointReports('completed', service);
+
     return function cleanup() {
       unsubscribeGetReportStats(service);
       resetGetReportStats();
@@ -51,6 +60,9 @@ const CompletedSpockTests = (props) => {
 
       unsubscribeGetFeatureReports(service);
       resetGetFeatureReports();
+
+      unsubscribeGetEndpointReports(service);
+      resetGetEndpointReports();
     };
   }, [service]);
 
@@ -184,12 +196,13 @@ const mapStateToProps = (state, ownProps) => {
   return {
     auth: state.firebase.auth,
     featureReports: state.report.featureReports,
-    endpointReports: state.firestore.ordered.endpointReports,
-    collection: 'completedreports',
-    service: getServiceNameFromPathName(ownProps.location.pathname),
+    endpointReports: state.report.endpointReports,
+
+    collection: 'completedreports', //not needed?
+
+    service: getServiceNameFromPathName(ownProps.location.pathname), //not needed?
 
     reportStats: state.report.reportStats,
-
     coverage: state.report.coverage
   }
 };
@@ -200,6 +213,10 @@ const mapDispatchToProps = dispatch => {
     getFeatureReports: (phase, service) => dispatch(getFeatureReports(phase, service)),
     unsubscribeGetFeatureReports: (service) => dispatch(unsubscribeGetFeatureReports(service)),
     resetGetFeatureReports: () => dispatch(resetGetFeatureReports()),
+
+    getEndpointReports: (phase, service) => dispatch(getEndpointReports(phase, service)),
+    unsubscribeGetEndpointReports: (service) => dispatch(unsubscribeGetEndpointReports(service)),
+    resetGetEndpointReports: () => dispatch(resetGetEndpointReports()),
 
     getReportStats: (service) => dispatch(getReportStats(service)),
     unsubscribeGetReportStats: (service) => dispatch(unsubscribeGetReportStats(service)),

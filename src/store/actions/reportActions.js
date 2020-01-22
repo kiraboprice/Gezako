@@ -127,15 +127,14 @@ export const getFeatureReports = (phase, service) => {
     .where('type', '==', 'feature')
     .orderBy('updatedAt', 'desc')
     .onSnapshot(querySnapshot => {
-      let reports = [];
+      let featureReports = [];
       if (querySnapshot.empty) {
         dispatch({type: 'GET_FEATURE_REPORTS_EMPTY'});
       } else {
         querySnapshot.forEach(doc => {
-          let report = {id: doc.id, ...doc.data()};
-          reports.push(report)
+          featureReports.push({id: doc.id, ...doc.data()})
         });
-        dispatch({type: 'GET_FEATURE_REPORTS_SUCCESS', featureReports: reports});
+        dispatch({type: 'GET_FEATURE_REPORTS_SUCCESS', featureReports: featureReports});
       }
 
     }, err => {
@@ -170,15 +169,14 @@ export const getEndpointReports = (phase, service) => {
     .where('type', '==', 'endpoint')
     .orderBy('updatedAt', 'desc')
     .onSnapshot(querySnapshot => {
-      let reports = [];
+      let endpointReports = [];
       if (querySnapshot.empty) {
         dispatch({type: 'GET_ENDPOINT_REPORTS_EMPTY'});
       } else {
         querySnapshot.forEach(doc => {
-          let report = {id: doc.id, ...doc.data()};
-          reports.push(report)
+          endpointReports.push({id: doc.id, ...doc.data()})
         });
-        dispatch({type: 'GET_ENDPOINT_REPORTS_SUCCESS', featureReports: reports});
+        dispatch({type: 'GET_ENDPOINT_REPORTS_SUCCESS', endpointReports: endpointReports});
       }
 
     }, err => {

@@ -62,7 +62,7 @@ const reportReducer = (state = initState, action) => {
       return state;
 
     case 'GET_FEATURE_REPORTS_SUCCESS':
-      console.log('GET_FEATURE_REPORTS_SUCCESS', action.reports);
+      console.log('GET_FEATURE_REPORTS_SUCCESS', action.featureReports);
       return {
         ...state,
         featureReports: action.featureReports
@@ -85,7 +85,7 @@ const reportReducer = (state = initState, action) => {
       return state;
 
     case 'GET_ENDPOINT_REPORTS_SUCCESS':
-      console.log('GET_ENDPOINT_REPORTS_SUCCESS', action.reports);
+      console.log('GET_ENDPOINT_REPORTS_SUCCESS', action.endpointReports);
       return {
         ...state,
         endpointReports: action.endpointReports
