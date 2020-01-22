@@ -14,8 +14,8 @@ export default class SideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstActive: window.location.pathname.includes('development') || window.location.pathname ===('/'),
-      secondActive: window.location.pathname.includes('completed'),
+      firstActive: window.location.pathname.includes('completed') || window.location.pathname ===('/'),
+      secondActive: window.location.pathname.includes('development'),
       thirdActive: window.location.pathname === '/performance',
       fourthActive: window.location.pathname === '/tasks',
       showCollapsedMenu: true,
@@ -81,6 +81,36 @@ export default class SideBar extends Component {
               }}>
 
                 <div onClick={this.setFirstActive}>
+                  <Links
+                      title={this.state.expanded ? 'Completed Spock Tests'
+                          : ''}
+                      isExpanded={this.state.expanded}
+                      haslinks={true}
+                      icon={dev}
+                      active={this.state.firstActive}
+                      links={[
+                        ["Loans", '/completed/loans'],
+                        [ "Users", '/completed/users'],
+                        [ "Surveys", '/completed/surveys'],
+                        [ "Auth", '/completed/auth'],
+                        [ "Rails", '/completed/rails'],
+                        [ "Comms", '/completed/comms'],
+                        [ "Approval", '/completed/approval'],
+                        [ "Scheduler", '/completed/scheduler'],
+                        [ "DsRouter", '/completed/dsrouter'],
+                        [ "Rules", '/completed/rules'],
+                        [ "Assignment", '/completed/assignment'],
+                        [ "Dss", '/completed/dss'],
+                        [ "Kyc", '/completed/kyc'],
+                        [ "Attribution", '/completed/attribution'],
+                        [ "Settlement", '/completed/settlement'],
+                        [ "Verification", '/completed/verification']
+                      ]}
+                      titleLink={'/completed/loans'}
+                  />
+                </div>
+
+                <div onClick={this.setSecondActive}>
                     <Links
                         title={this.state.expanded ? 'Spock Tests In Development'
                             : ''}
@@ -105,38 +135,8 @@ export default class SideBar extends Component {
                           [ "Settlement", '/development/settlement'],
                           [ "Verification", '/development/verification']
                         ]}
-                        active={this.state.firstActive}
-                        titleLink={'/development/loans'}
-                    />
-                </div>
-
-                <div onClick={this.setSecondActive}>
-                    <Links
-                        title={this.state.expanded ? 'Completed Spock Tests'
-                            : ''}
-                        isExpanded={this.state.expanded}
-                        haslinks={true}
-                        icon={dev}
                         active={this.state.secondActive}
-                        links={[
-                          ["Loans", '/completed/loans'],
-                          [ "Users", '/completed/users'],
-                          [ "Surveys", '/completed/surveys'],
-                          [ "Auth", '/completed/auth'],
-                          [ "Rails", '/completed/rails'],
-                          [ "Comms", '/completed/comms'],
-                          [ "Approval", '/completed/approval'],
-                          [ "Scheduler", '/completed/scheduler'],
-                          [ "DsRouter", '/completed/dsrouter'],
-                          [ "Rules", '/completed/rules'],
-                          [ "Assignment", '/completed/assignment'],
-                          [ "Dss", '/completed/dss'],
-                          [ "Kyc", '/completed/kyc'],
-                          [ "Attribution", '/completed/attribution'],
-                          [ "Settlement", '/completed/settlement'],
-                          [ "Verification", '/completed/verification']
-                          ]}
-                        titleLink={'/completed/loans'}
+                        titleLink={'/development/loans'}
                     />
                 </div>
 
