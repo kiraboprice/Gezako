@@ -132,14 +132,15 @@ export const resetGetReport = () => {
 };
 
 export const getFeatureReports = (phase, service) => {
-  // console.log(`getFeatureReports---- ${service}`);
   const collectionUrl = getCollectionUrl(phase);
+  console.log(`collectionUrl---- ${collectionUrl}`);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
     .where('type', '==', 'feature')
-    .orderBy('updatedAt', 'desc')
+    // .orderBy('updatedAt', 'desc') //todo add this back when field exists for all reports
+    .orderBy('createdAt', 'desc')
     .onSnapshot(querySnapshot => {
       let featureReports = [];
       if (querySnapshot.empty) {
@@ -184,7 +185,8 @@ export const getEndpointReports = (phase, service) => {
     firestore.collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
     .where('type', '==', 'endpoint')
-    .orderBy('updatedAt', 'desc')
+    // .orderBy('updatedAt', 'desc') //todo add this back
+    .orderBy('createdAt', 'desc')
     .onSnapshot(querySnapshot => {
       let endpointReports = [];
       if (querySnapshot.empty) {
