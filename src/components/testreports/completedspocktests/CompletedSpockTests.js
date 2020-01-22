@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import 'firebase/auth';
 import 'firebase/firestore';
 import {connect} from 'react-redux';
@@ -14,47 +14,57 @@ import LoadingScreen from "../../loading/LoadingScreen";
 
 import createReportIcon from "../../../assets/Icons/create.png";
 import {
+  getCoverage, getFeatureReports,
   getReportStats,
-  resetCreateReportSuccess, resetGetReportStats, unsubscribeGetReportStats
+  resetCreateReportSuccess,
+  resetGetCoverage, resetGetFeatureReports,
+  resetGetReportStats, unsubscribeGetCoverage, unsubscribeGetFeatureReports,
+  unsubscribeGetReportStats
 } from "../../../store/actions/reportActions";
 import {
   showErrorAlert,
   showSuccessAlert
 } from "../../../store/actions/snackbarActions";
 import CoverageDialog from "./coverage/CoverageDialog";
-import CustomSnackbar from "../../snackbar/CustomSnackbar";
 
 const CompletedSpockTests = (props) => {
+  const [showCoverageDialog, setShowCoverageDialog] = useState();
+
   //variables
-  const {auth, featureReports, endpointReports, service, reportStats} = props;
+  const {auth, featureReports, endpointReports, service, reportStats, coverage} = props;
 
   //actions
+  const {getFeatureReports, unsubscribeGetFeatureReports, resetGetFeatureReports} = props;
   const {getReportStats, unsubscribeGetReportStats, resetGetReportStats} = props;
+  const {getCoverage, unsubscribeGetCoverage, resetGetCoverage} = props;
 
   useEffect(() => {
     getReportStats(service);
+    getCoverage(service);
+    getFeatureReports('completed', service);
     return function cleanup() {
-    };
-  }, []);
+      unsubscribeGetReportStats(service);
+      resetGetReportStats();
 
-  //remove listeners and reset stats in props
-  useEffect(() => {
-    console.log('PROPSSSS', props);
-    return function cleanup() {
-      // unsubscribeGetReportStats(service);
-      // resetGetReportStats();
+      unsubscribeGetCoverage(service);
+      resetGetCoverage();
+
+      unsubscribeGetFeatureReports(service);
+      resetGetFeatureReports();
     };
-  }, [props]);
+  }, [service]);
 
   if (!auth.uid) {return <Redirect to='/login'/>}
 
-  function openCoverageDialog() {
-    return
-    ;
-
-
+  function setShowCoverageDialogToTrue() {
+    setShowCoverageDialog(true);
   }
 
+  function setShowCoverageDialogToFalse() {
+    setShowCoverageDialog(false);
+  }
+
+  console.log('featureReports---', featureReports);
   return (
       <div id='home'>
         <div id='reports-section'>
@@ -76,17 +86,20 @@ const CompletedSpockTests = (props) => {
               Code Coverage
             </div>
             <div id="report-stats-code-coverage">
-              Class:
+              <span id="report-stats-coverage-titles">Class:</span>
+              <span>{coverage? coverage.class : ''}</span>
             </div>
             <div id="report-stats-code-coverage">
-              Method:
+              <span id="report-stats-coverage-titles">Method:</span>
+              <span>{coverage? coverage.method : ''}</span>
             </div>
             <div id="report-stats-code-coverage">
-              Line:
+              <span id="report-stats-coverage-titles">Line:</span>
+              <span>{coverage? coverage.line : ''}</span>
             </div>
 
             <div id="update-status-options">
-              <button >Update Coverage <img src={penIcon} alt="Update Coverage" onClick={openCoverageDialog}/> </button>
+              <button onClick={setShowCoverageDialogToTrue}>Update Coverage <img src={penIcon} alt="Update Coverage"/> </button>
             </div>
           </div>
 
@@ -144,10 +157,12 @@ const CompletedSpockTests = (props) => {
           </div>
         </div>
 
-        {/*<CoverageDialog*/}
-            {/*service = {service}*/}
-            {/*coverage = {reportStats? reportStats.coverage : null}*/}
-        {/*/>*/}
+        <CoverageDialog
+            showDialog = {showCoverageDialog}
+            setDialogStateToFalse = {setShowCoverageDialogToFalse}
+            service = {service}
+            coverage = {coverage? coverage : null}
+        />
       </div>
   )
 
@@ -160,25 +175,33 @@ const mapStateToProps = (state, ownProps) => {
 
     return service
   }
-  console.log(state);
   return {
     auth: state.firebase.auth,
-    featureReports: state.firestore.ordered.featureReports,
+    featureReports: state.report.featureReports,
     endpointReports: state.firestore.ordered.endpointReports,
     collection: 'completedreports',
     service: getServiceNameFromPathName(ownProps.location.pathname),
 
-    //report stats
-    reportStats: state.report.reportStats
+    reportStats: state.report.reportStats,
+
+    coverage: state.report.coverage
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     // setPrevUrl: (url) => dispatch(setPrevUrl(url)),
+    getFeatureReports: (phase, service) => dispatch(getFeatureReports(phase, service)),
+    unsubscribeGetFeatureReports: (service) => dispatch(unsubscribeGetFeatureReports(service)),
+    resetGetFeatureReports: () => dispatch(resetGetFeatureReports()),
+
     getReportStats: (service) => dispatch(getReportStats(service)),
     unsubscribeGetReportStats: (service) => dispatch(unsubscribeGetReportStats(service)),
     resetGetReportStats: () => dispatch(resetGetReportStats()),
+
+    getCoverage: (service) => dispatch(getCoverage(service)),
+    unsubscribeGetCoverage: (service) => dispatch(unsubscribeGetCoverage(service)),
+    resetGetCoverage: () => dispatch(resetGetCoverage()),
 
     //alerts
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
@@ -189,20 +212,6 @@ const mapDispatchToProps = dispatch => {
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect(props => {
-      return [
-        {
-          collection: 'company',
-          doc: 'tala',
-          subcollections: [{collection: props.collection}],
-          where: [
-            ['type', '==', 'feature'],
-            ['service', '==', props.service]
-          ],
-          storeAs: 'featureReports'
-        }
-      ]
-    }),
     firestoreConnect(props => {
       return [
         {

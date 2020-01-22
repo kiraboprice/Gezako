@@ -183,9 +183,9 @@ const CreateReport = (props) => {
    else if (!report.type.length > 0) {
      return ("Select Type")
    }
-   else if (!report.fileDownLoadUrl.length > 0) {
-     return ("First upload a Test Teport")
-   }
+   // else if (!report.fileDownLoadUrl.length > 0) {
+   //   return ("First upload a Test Teport")
+   // }
 
    // else if (report.numberOfTests.length > 0) {
    //   console.log(`numberOfTests.length > 0`)

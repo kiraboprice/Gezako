@@ -9,42 +9,58 @@ import DialogContentText
   from "@material-ui/core/DialogContentText/DialogContentText";
 import TextField from "@material-ui/core/TextField/TextField";
 import DialogActions from "@material-ui/core/DialogActions/DialogActions";
-import {
-  updateReportStatsCoverage
-} from "../../../../store/actions/reportActions";
+import {updateCoverage} from "../../../../store/actions/reportActions";
 
 
 const CoverageDialog = (props) => {
 
-  const [showDialog, setShowDialog] = useState(true);
+  const [showDialog, setShowDialog] = useState(false);
   const [service, setService] = useState('');
   const [classCoverage, setClassCoverage] = useState();
   const [methodCoverage, setMethodCoverage] = useState();
   const [lineCoverage, setLineCoverage] = useState();
 
   useEffect(() => {
-    // console.log('showErrorAlert:', showErrorAlert)
+    setShowDialog(props.showDialog);
     setService(props.service);
-    setClassCoverage(props.coverage.class);
-    setMethodCoverage(props.coverage.method);
-    setLineCoverage(props.coverage.line);
+    setClassCoverage(props.coverage? props.coverage.class : '');
+    setMethodCoverage(props.coverage? props.coverage.method : '');
+    setLineCoverage(props.coverage? props.coverage.line : '');
   }, [props]);
 
   const handleClose = () => {
     setShowDialog(false);
-    props.hideSuccessAlert();
+    props.setDialogStateToFalse();
   };
 
   const handleSubmit = () => {
     setShowDialog(false);
+    props.setDialogStateToFalse();
     const coverage = {classCoverage, methodCoverage, lineCoverage};
-    props.updateReportStatsCoverage(service, coverage);
+    props.updateCoverage(service, coverage);
+  };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    switch (e.target.id) {
+      case 'class':
+        setClassCoverage(value);
+        break;
+      case 'method':
+        setMethodCoverage(value);
+        break;
+      case 'line':
+        setLineCoverage(value);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
       <div>
         <Dialog open={showDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+          <DialogTitle id="form-dialog-title">Coverage</DialogTitle>
           <DialogContent>
             <DialogContentText>
               Update coverage for {service}
@@ -52,10 +68,30 @@ const CoverageDialog = (props) => {
             <TextField
                 autoFocus
                 margin="dense"
-                id="name"
-                label="Email Address"
+                id="class"
+                label="Class Coverage"
+                type="text"
+                fullWidth
+                value={classCoverage}
+                onChange={handleChange}
+            />
+            <TextField
+                margin="dense"
+                id="method"
+                label="Method Coverage"
                 type="email"
                 fullWidth
+                value={methodCoverage}
+                onChange={handleChange}
+            />
+            <TextField
+                margin="dense"
+                id="line"
+                label="Line Coverage"
+                type="email"
+                fullWidth
+                value={lineCoverage}
+                onChange={handleChange}
             />
           </DialogContent>
           <DialogActions>
@@ -80,7 +116,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateReportStatsCoverage: (service, coverage) => dispatch(updateReportStatsCoverage(service, coverage)),
+    updateCoverage: (service, coverage) => dispatch(updateCoverage(service, coverage))
   }
 };
 

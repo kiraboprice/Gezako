@@ -53,6 +53,30 @@ const reportReducer = (state = initState, action) => {
       // console.log('GET_REPORT_ERROR', action.err);
       return state;
 
+
+      /**
+       * Get Feature Reports
+       */
+    case 'GET_FEATURE_REPORTS_EMPTY':
+      console.log('GET_FEATURE_REPORTS_EMPTY');
+      return state;
+
+    case 'GET_FEATURE_REPORTS_SUCCESS':
+      console.log('GET_FEATURE_REPORTS_SUCCESS', action.featureReports);
+      return {
+        ...state,
+        featureReports: action.featureReports
+      };
+
+    case 'GET_FEATURE_REPORTS_ERROR':
+      console.log('GET_FEATURE_REPORTS_ERROR', action.err);
+      return state;
+
+    case 'RESET_GET_FEATURE_REPORTS':
+      console.log('RESET_GET_FEATURE_REPORTS');
+      return state;
+
+
       /**
        * Update Report
        */
@@ -114,6 +138,35 @@ const reportReducer = (state = initState, action) => {
         reportStats: null
       };
 
+      /**
+       * coverage
+       */
+    case 'GET_COVERAGE_SUCCESS':
+      console.log('GET_COVERAGE_SUCCESS', action.coverage);
+      if(action.coverage){
+        return {
+          ...state,
+          coverage: action.coverage
+        };
+      }
+      else {
+        return {
+          ...state,
+          coverage: null
+        };
+      }
+
+    case 'GET_COVERAGE_ERROR':
+      console.log('GET_COVERAGE_ERROR', action.err);
+      return state;
+
+    case 'UPDATE_COVERAGE_SUCCESS':
+      console.log('UPDATE_COVERAGE_SUCCESS');
+      return state;
+
+    case 'UPDATE_COVERAGE_ERROR':
+      console.log('UPDATE_COVERAGE_ERROR', action.err);
+      return state;
     default:
       return state;
 
