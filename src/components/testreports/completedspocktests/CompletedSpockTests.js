@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import 'firebase/auth';
 import 'firebase/firestore';
 import {connect} from 'react-redux';
@@ -25,6 +25,8 @@ import CoverageDialog from "./coverage/CoverageDialog";
 import CustomSnackbar from "../../snackbar/CustomSnackbar";
 
 const CompletedSpockTests = (props) => {
+  const [showCoverageDialog, setShowCoverageDialog] = useState();
+
   //variables
   const {auth, featureReports, endpointReports, service, reportStats} = props;
 
@@ -34,12 +36,13 @@ const CompletedSpockTests = (props) => {
   useEffect(() => {
     getReportStats(service);
     return function cleanup() {
+      unsubscribeGetReportStats(service);
+      resetGetReportStats();
     };
   }, []);
 
   //remove listeners and reset stats in props
   useEffect(() => {
-    console.log('PROPSSSS', props);
     return function cleanup() {
       // unsubscribeGetReportStats(service);
       // resetGetReportStats();
@@ -48,12 +51,16 @@ const CompletedSpockTests = (props) => {
 
   if (!auth.uid) {return <Redirect to='/login'/>}
 
-  function openCoverageDialog() {
-    return
-    ;
-
-
+  function setShowCoverageDialogToTrue() {
+    console.log(`setting show coverage dialog to true`)
+    setShowCoverageDialog(true);
   }
+
+  function setShowCoverageDialogToFalse() {
+    console.log(`setting show coverage dialog to false`)
+    setShowCoverageDialog(false);
+  }
+  console.log('showCoverageDialog in Completed Spokc Tests', showCoverageDialog);
 
   return (
       <div id='home'>
@@ -86,7 +93,7 @@ const CompletedSpockTests = (props) => {
             </div>
 
             <div id="update-status-options">
-              <button >Update Coverage <img src={penIcon} alt="Update Coverage" onClick={openCoverageDialog}/> </button>
+              <button >Update Coverage <img src={penIcon} alt="Update Coverage" onClick={setShowCoverageDialogToTrue}/> </button>
             </div>
           </div>
 
@@ -145,6 +152,8 @@ const CompletedSpockTests = (props) => {
         </div>
 
         <CoverageDialog
+            showDialog = {showCoverageDialog}
+            setDialogStateToFalse = {setShowCoverageDialogToFalse}
             service = {service}
             coverage = {reportStats? reportStats.coverage : null}
         />

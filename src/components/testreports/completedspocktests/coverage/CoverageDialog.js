@@ -23,7 +23,8 @@ const CoverageDialog = (props) => {
   const [lineCoverage, setLineCoverage] = useState();
 
   useEffect(() => {
-    // console.log('showErrorAlert:', showErrorAlert)
+    console.log('props.showDialog:', props.showDialog);
+    setShowDialog(props.showDialog);
     setService(props.service);
     if(props.coverage){
       setClassCoverage(props.coverage.class);
@@ -34,11 +35,12 @@ const CoverageDialog = (props) => {
 
   const handleClose = () => {
     setShowDialog(false);
-    props.hideSuccessAlert();
+    props.setDialogStateToFalse();
   };
 
   const handleSubmit = () => {
     setShowDialog(false);
+    props.setDialogStateToFalse();
     const coverage = {classCoverage, methodCoverage, lineCoverage};
     props.updateReportStatsCoverage(service, coverage);
   };
