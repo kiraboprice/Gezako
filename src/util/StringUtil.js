@@ -1,3 +1,5 @@
+import {BASE_DOCUMENT} from "../constants/FireStore";
+
 export const checkUserEmailIsValid = (email) => {
   const testEmails = [
     "powermukisa@gmail.com",
@@ -16,6 +18,14 @@ export const getReportPhaseFromPathName = (pathname) => {
     return 'development'
   } else if (pathname.includes('completed')) {
     return 'completed'
+  }
+};
+
+export const getCollectionUrl = (phase) => {
+  if(phase === 'development'){
+    return BASE_DOCUMENT + '/developmentreports'
+  } else if (phase === 'completed') {
+    return BASE_DOCUMENT + '/completedreports'
   }
 };
 

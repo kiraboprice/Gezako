@@ -3,6 +3,7 @@ import firebase from 'firebase';
 
 import axios from 'axios';
 import * as ReportStatus from "../../constants/ReportStatus";
+import {getCollectionUrl} from "../../util/StringUtil";
 
 //this is not in use
 export const uploadReport = (file) => {
@@ -113,6 +114,47 @@ export const getReport = (id, phase) => {
     }).catch(err => {
       dispatch({type: 'GET_REPORT_ERROR', err});
     });
+  }
+};
+
+export const getFeatureReports = (phase, service) => {
+  // console.log(`getFeatureReports---- ${service}`);
+  const collectionUrl = getCollectionUrl(phase);
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    let featureReports = [];
+    const firestore = getFirestore();
+    firestore.collection(`${collectionUrl}`).where('type', '==', 'feature')
+    .onSnapshot(querySnapshot => {
+      if (querySnapshot.empty) {
+        dispatch({type: 'GET_FEATURE_REPORTS_EMPTY'});
+      } else {
+        querySnapshot.forEach(doc => {
+          const id = doc.id;
+          let report = {id, ...doc.data()};
+          featureReports.push(report)
+        });
+        dispatch({type: 'GET_FEATURE_REPORTS_SUCCESS', featureReports: featureReports});
+      }
+
+    }, err => {
+      console.log(`getReportStats error: ${err}`);
+      dispatch({type: 'GET_FEATURE_REPORTS_ERROR', error: err});
+    });
+  }
+};
+
+export const unsubscribeGetFeatureReports = (phase) => {
+  const collectionUrl = getCollectionUrl(phase);
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    firestore.collection(`${collectionUrl}`).where('type', '==', 'feature')
+    .onSnapshot(() => { });
+  }
+};
+
+export const resetGetFeatureReports = () => {
+  return (dispatch) => {
+    dispatch({type: 'RESET_GET_FEATURE_REPORTS'});
   }
 };
 

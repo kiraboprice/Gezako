@@ -14,11 +14,11 @@ import LoadingScreen from "../../loading/LoadingScreen";
 
 import createReportIcon from "../../../assets/Icons/create.png";
 import {
-  getCoverage,
+  getCoverage, getFeatureReports,
   getReportStats,
   resetCreateReportSuccess,
-  resetGetCoverage,
-  resetGetReportStats, unsubscribeGetCoverage,
+  resetGetCoverage, resetGetFeatureReports,
+  resetGetReportStats, unsubscribeGetCoverage, unsubscribeGetFeatureReports,
   unsubscribeGetReportStats
 } from "../../../store/actions/reportActions";
 import {
@@ -34,18 +34,23 @@ const CompletedSpockTests = (props) => {
   const {auth, featureReports, endpointReports, service, reportStats, coverage} = props;
 
   //actions
+  const {getFeatureReports, unsubscribeGetFeatureReports, resetGetFeatureReports} = props;
   const {getReportStats, unsubscribeGetReportStats, resetGetReportStats} = props;
   const {getCoverage, unsubscribeGetCoverage, resetGetCoverage} = props;
 
   useEffect(() => {
     getReportStats(service);
     getCoverage(service);
+    getFeatureReports('completed', service);
     return function cleanup() {
       unsubscribeGetReportStats(service);
       resetGetReportStats();
 
       unsubscribeGetCoverage(service);
       resetGetCoverage();
+
+      unsubscribeGetFeatureReports(service);
+      resetGetFeatureReports();
     };
   }, [service]);
 
@@ -59,6 +64,7 @@ const CompletedSpockTests = (props) => {
     setShowCoverageDialog(false);
   }
 
+  console.log('featureReports---', featureReports);
   return (
       <div id='home'>
         <div id='reports-section'>
@@ -171,7 +177,7 @@ const mapStateToProps = (state, ownProps) => {
   }
   return {
     auth: state.firebase.auth,
-    featureReports: state.firestore.ordered.featureReports,
+    featureReports: state.report.featureReports,
     endpointReports: state.firestore.ordered.endpointReports,
     collection: 'completedreports',
     service: getServiceNameFromPathName(ownProps.location.pathname),
@@ -185,6 +191,10 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return {
     // setPrevUrl: (url) => dispatch(setPrevUrl(url)),
+    getFeatureReports: (phase, service) => dispatch(getFeatureReports(phase, service)),
+    unsubscribeGetFeatureReports: (service) => dispatch(unsubscribeGetFeatureReports(service)),
+    resetGetFeatureReports: () => dispatch(resetGetFeatureReports()),
+
     getReportStats: (service) => dispatch(getReportStats(service)),
     unsubscribeGetReportStats: (service) => dispatch(unsubscribeGetReportStats(service)),
     resetGetReportStats: () => dispatch(resetGetReportStats()),
@@ -202,20 +212,6 @@ const mapDispatchToProps = dispatch => {
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect(props => {
-      return [
-        {
-          collection: 'company',
-          doc: 'tala',
-          subcollections: [{collection: props.collection}],
-          where: [
-            ['type', '==', 'feature'],
-            ['service', '==', props.service]
-          ],
-          storeAs: 'featureReports'
-        }
-      ]
-    }),
     firestoreConnect(props => {
       return [
         {
