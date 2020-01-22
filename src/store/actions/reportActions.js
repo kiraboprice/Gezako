@@ -123,6 +123,7 @@ export const getFeatureReports = (phase, service) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`).where('type', '==', 'feature')
+    // .orderBy('updatedAt')
     .onSnapshot(querySnapshot => {
       let featureReports = [];
       if (querySnapshot.empty) {
