@@ -29,7 +29,10 @@ When new changes are added to master, they need to be deployed to prod. This is 
 to prod, branch off master and create a new release branch with format release-1.2 
 
 - update the firebase config in fbConfig.js to point to prod config
-
+- use firebase prod config inorder to push functions to correct project:
+`firebase use prod` - probably not needed (taken care of by firebase deploy?)
+- update functions
+- `firebase deploy --only functions` - probably not needed (taken care of by firebase deploy?)
 - build the project 
 `sudo npm run build`
 - deploy the project 
