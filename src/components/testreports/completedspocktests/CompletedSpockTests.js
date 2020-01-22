@@ -80,13 +80,16 @@ const CompletedSpockTests = (props) => {
               Code Coverage
             </div>
             <div id="report-stats-code-coverage">
-              Class: {coverage? coverage.class : ''}
+              <span id="report-stats-coverage-titles">Class:</span>
+              <span>{coverage? coverage.class : ''}</span>
             </div>
             <div id="report-stats-code-coverage">
-              Method: {coverage? coverage.method : ''}
+              <span id="report-stats-coverage-titles">Method:</span>
+              <span>{coverage? coverage.method : ''}</span>
             </div>
             <div id="report-stats-code-coverage">
-              Line: {coverage? coverage.line : ''}
+              <span id="report-stats-coverage-titles">Line:</span>
+              <span>{coverage? coverage.line : ''}</span>
             </div>
 
             <div id="update-status-options">
