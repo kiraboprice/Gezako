@@ -20,13 +20,15 @@ import {
   showSuccessAlert
 } from "../../../store/actions/snackbarActions";
 import TextField from "@material-ui/core/TextField/TextField";
+import {COMPLETED, NEW} from "../../../constants/ReportStatus";
+const qs = require('query-string');
 
 const CreateReport = (props) => {
-
+  const serviceInQuery = qs.parse(props.location.search, { ignoreQueryPrefix: true }).service;
   //report fields
   const [title, setTitle] = useState('Test Report Title');
-  const [phase, setPhase] = useState('development');
-  const [service, setService] = useState('loans');
+  const [phase, setPhase] = useState(getReportPhaseFromPathName(props.location.pathname));
+  const [service, setService] = useState(serviceInQuery);
   const [type, setType] = useState('endpoint');
   const [fileDownLoadUrl, setFileDownLoadUrl] = useState('');
   const [assignedTo, setAssignedTo] = useState(null);
@@ -45,8 +47,6 @@ const CreateReport = (props) => {
 
   useEffect(() => {
     props.getUsersApartFromCurrentUser();
-
-    setPhase(getReportPhaseFromPathName(props.location.pathname));
     if (phase === 'development') {
       setDisplayDevelopmentFields('block');
       setDisplayCompletedFields('none');
@@ -55,6 +55,16 @@ const CreateReport = (props) => {
       setDisplayCompletedFields('block');
     }
   }, [props]);
+
+  useEffect(() => {
+    if (phase === 'development') {
+      setDisplayDevelopmentFields('block');
+      setDisplayCompletedFields('none');
+    } else if (phase === 'completed') {
+      setDisplayDevelopmentFields('none');
+      setDisplayCompletedFields('block');
+    }
+  }, []);
 
   //on submit report is clicked
   useEffect(() => {
@@ -188,11 +198,9 @@ const CreateReport = (props) => {
   }
 
   function validateFields(report) {
+    console.log('REPORT ISSSS', report);
    if(!report.title.length > 0) {
      return ("Fill in the Title")
-   }
-   else if (!report.phase.length > 0) {
-     return ("Select Phase")
    }
    else if (!report.service.length > 0) {
      return ("Select Service")
@@ -201,18 +209,23 @@ const CreateReport = (props) => {
      return ("Select Type")
    }
    else if (!report.fileDownLoadUrl.length > 0) {
-     return ("First upload a Test Teport")
+     return ("First upload a Test report")
    }
-   else if (report.productSpec.length > 0) {
-     if(!isValidUrl(report.productSpec)) {
-       return ("Set a valid URL for Product Spec")
-     }
-   }
-   else if (report.techSpec.length > 0) {
-     if(!isValidUrl(report.techSpec)){
-       return ("Set a valid URL for Tech Spec")
-     }
-   }
+   // else if (report.productSpec.length > 0) {
+   //   if(!isValidUrl(report.productSpec)) {
+   //     return ("Set a valid URL for Product Spec")
+   //
+   //   }
+   //   console.log("PROPS---", report);
+   //
+   // }
+   // else if (report.techSpec.length > 0) {
+   //   if(!isValidUrl(report.techSpec)){
+   //     return ("Set a valid URL for Tech Spec")
+   //   }
+   //   console.log("PROPS222---", report);
+   //
+   // }
    // else if (report.numberOfTests.length > 0) {
    //   console.log(`numberOfTests.length > 0`)
    //   if(isNaN(report.numberOfTests)){
@@ -235,7 +248,7 @@ const CreateReport = (props) => {
   function handleSubmit(e) {
     e.preventDefault();
     // console.log("PROPS---", props);
-
+    const status = (phase === 'completed')? COMPLETED : NEW;
     const report = {
       title,
       phase,
@@ -245,11 +258,13 @@ const CreateReport = (props) => {
       assignedTo,
       numberOfTests,
       productSpec,
-      techSpec
+      techSpec,
+      status
     };
 
     const validationText = validateFields(report);
     if(validationText!== 'valid'){
+      // console.log('REPORT validationText', validationText);
       props.showErrorAlert(validationText);
       return;
     }
@@ -380,6 +395,7 @@ const mapDispatchToProps = dispatch => {
 
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
     showErrorAlert: (message) => dispatch(showErrorAlert(message)),
+
     resetCreateReportSuccess: (message) => dispatch(resetCreateReportSuccess(message)),
 
   };

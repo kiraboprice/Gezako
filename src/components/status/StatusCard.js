@@ -4,6 +4,7 @@ import "./statuscard.css"
 import {compose} from "redux";
 import connect from "react-redux/es/connect/connect";
 import {
+  deleteReport,
   resetUpdateReportState,
   updateReport
 } from "../../store/actions/reportActions";
@@ -21,22 +22,38 @@ import deletedImage from "../../assets/Imgs/status/light-grey-deleted.png";
 import {getFirstNameFromFullName} from "../../util/StringUtil";
 import moment from "moment";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
+import {DELETED} from "../../constants/ReportStatus";
+import {showErrorAlert} from "../../store/actions/snackbarActions";
 
 const StatusCard = (props) => {
-  const { updateReport } = props;
+  //variables
+  const { auth } = props;
+
+  //actions
+  const { updateReport, resetUpdateReportState } = props;
+  const { deleteReport } = props;
+  const { showErrorAlert } = props;
+
   const [status, setStatusValue] = useState('');
+  const [assignedToName, setAssignedToName] = useState('NONE NONE');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
 
   const [stateFromProps, setLocalState] = useState(props);
   useEffect(() => {
     setLocalState(props);
-    const status = stateFromProps.report.status;
+    const status = props.report.status;
+    const assignedToName = props.report.assignedTo ? props.report.assignedTo.displayName : 'NONE';
+    // setStatusValue(props.report.status); //todo not sure why this doesnt set the value of Status. same applies for line below
+    // setAssignedToName(props.report.assignedTo ? props.report.assignedTo.displayName : 'NONE');
+
     setStatusValue(status);
+    setAssignedToName(assignedToName);
+
     setDescription(generateDescription(
         status,
-        getFirstNameFromFullName(stateFromProps.report.createdBy),
-        getFirstNameFromFullName(stateFromProps.report.assignedTo ? stateFromProps.report.assignedTo.displayName: null))
+        getFirstNameFromFullName(props.report.createdBy),
+        getFirstNameFromFullName(assignedToName))
     );
     setImage(getImage(status));
   }, [props]);
@@ -47,23 +64,31 @@ const StatusCard = (props) => {
     setDescription(generateDescription(
         status,
         getFirstNameFromFullName(stateFromProps.report.createdBy),
-        getFirstNameFromFullName(stateFromProps.report.assignedTo.displayName))
+        getFirstNameFromFullName(assignedToName))
     );
     setImage(getImage(status));
   }
 
   function updateStatus(e) {
     stateFromProps.report.status = status;
-    updateReport(stateFromProps.id, stateFromProps.report)
+    if(status === DELETED){
+      if((auth.uid === stateFromProps.report.userId)){
+        deleteReport(stateFromProps.id)
+      }
+      else {
+        showErrorAlert("Only the author of this report can delete it.");
+      }
+    }
+    else {
+      updateReport(stateFromProps.id, stateFromProps.report)
+    }
   }
 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [successAlertMessage, setSuccessAlertMessage] = useState('');
 
   useEffect(() => {
-    console.log('PROPSSSSSS', props);
-    console.log('showSuccessAlert', showSuccessAlert);
-    console.log('successAlertMessage', successAlertMessage);
+    // console.log('PROPSSSSSS', props);
     if(props.updateReportResult === 'success'){
       setShowSuccessAlert(true);
       setSuccessAlertMessage('Updated Status!');
@@ -94,7 +119,7 @@ const StatusCard = (props) => {
         return `${createdBy} moved the report to done`;
 
       case ReportStatus.COMPLETED:
-        return `${createdBy} moved the report to the Completed section`;
+        return `${createdBy} moved the report to the Completed phase`;
 
       case ReportStatus.ARCHIVED:
         return `${createdBy} archived the report`;
@@ -127,7 +152,7 @@ const StatusCard = (props) => {
         return doneImage;
 
       case ReportStatus.COMPLETED:
-        return completedImage;
+        return archivedImage;
 
       case ReportStatus.ARCHIVED:
         return archivedImage;
@@ -152,7 +177,7 @@ const StatusCard = (props) => {
         {description}
       </div>
       <div id="status-updated">
-        Last updated: {stateFromProps.report.updatedAt ? moment(stateFromProps.report.updatedAt.toDate()).calendar(): null}
+        Last updated: {moment(stateFromProps.report.updatedAt.toDate()).calendar()} by {stateFromProps.report.updatedBy ? getFirstNameFromFullName(stateFromProps.report.updatedBy.displayName) : null}
       </div>
       <div id="update-status-options">
         <select value={status} onChange={handleStatusChange}>
@@ -175,7 +200,9 @@ const StatusCard = (props) => {
 };
 
 const mapStateToProps = (state) => {
+  console.log('STATE----', state);
   return {
+    auth: state.firebase.auth,
     updateReportResult: state.report.updateReportResult,
   }
 };
@@ -184,6 +211,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateReport: (id, report) => dispatch(updateReport(id, report)),
     resetUpdateReportState: () => dispatch(resetUpdateReportState()),
+
+    deleteReport: (id, report) => dispatch(deleteReport(id)),
+
+    showErrorAlert: (message) => dispatch(showErrorAlert(message)),
   }
 };
 

@@ -10,7 +10,8 @@ import 'firebase/auth';
 //   storageBucket: "gs://gezako-staging-2.appspot.com"
 // };
 
-//use when deploying to staging
+// use when deploying to staging
+
 var config = {
   apiKey: "AIzaSyDyx214BC8smASa57pqCQpkweAnZV83gBc",
   authDomain: "gezako-staging.firebaseapp.com",

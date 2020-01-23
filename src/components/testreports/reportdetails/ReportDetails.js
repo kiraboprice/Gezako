@@ -6,9 +6,7 @@ import moment from 'moment'
 import {Link, Redirect} from 'react-router-dom'
 import {setPrevUrl} from "../../../store/actions/authActions";
 import {
-  downloadReport,
-  getReport,
-  resetState
+  downloadReport, getReport, resetGetReport, resetReportDownload, unsubscribeGetReport
 } from "../../../store/actions/reportActions";
 
 import '../reportdetails/reportdetails.css';
@@ -18,13 +16,14 @@ import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 
 const ReportDetails = (props) => {
   const {auth, report} = props;
-  const {setPrevUrl, downloadReport, reportDownload, resetState} = props;
+
+  const {setPrevUrl, downloadReport, reportDownload, resetReportDownload} = props;
   const id = props.match.params.id;
 
   //clean up after this component is unmounted
   useEffect(() => {
     return function cleanup() {
-      resetState()
+      resetReportDownload()
     };
   },[id]);
 
@@ -39,6 +38,13 @@ const ReportDetails = (props) => {
       setDisplayDevelopmentFields('none');
       setDisplayCompletedFields('block');
     }
+
+    props.getReport(props.match.params.id);
+
+    return function cleanup() {
+      unsubscribeGetReport(props.match.params.id);
+      resetGetReport();
+    };
   },[id]);
 
   if (!auth.uid) {
@@ -52,56 +58,65 @@ const ReportDetails = (props) => {
     // window.location.replace(productSpec) //stay on page
   }
 
-  // console.log(report);
   if (report) {
-    downloadReport(report);
+    if(report.toString == 'GET_REPORT_ERROR_NOT_EXISTS'.toString) {
+      return (
+          <div id='report-details-section'>
+            <p>Report does not exist.</p>
+          </div>
+      )
+    }
+    else {
+      downloadReport(report);
 
-    var htmlDoc = {__html: reportDownload};
+      var htmlDoc = {__html: reportDownload};
 
-    return (
-        <div id='report-details-section'>
-          <div >  
-            <div id="report-details-positioning">
-              <div id="section1">
-                <span id="report-title-section1">{report.title}</span>
-                <div id="uploaded-by">Uploaded by {report.createdBy}, {moment(report.createdAt.toDate()).calendar()}</div>
+      return (
+          <div id='report-details-section'>
+            <div >
+              <div id="report-details-positioning">
+                <div id="section1">
+                  <span id="report-title-section1">{report.title}</span>
+                  <div id="uploaded-by">Uploaded by {report.createdBy}, {moment(report.createdAt.toDate()).calendar()}</div>
 
-                {report.assignedTo?<div id="uploaded-by" style={{display: displayDevelopmentFields}}>Assigned to {report.assignedTo.displayName}</div> : null }
+                  {report.assignedTo?<div id="uploaded-by" style={{display: displayDevelopmentFields}}>Assigned to {report.assignedTo.displayName}</div> : null }
 
-                <button id="report-button-section1"
-                        style={{background: "#ff6f69", marginRight: "10px"}}
-                        onClick={()=> goToExternalLink(report.productSpec)}>
-                  Product Requirements Spec
-                </button>
+                  <button id="report-button-section1"
+                          style={{background: "#ff6f69", marginRight: "10px"}}
+                          onClick={()=> goToExternalLink(report.productSpec)}>
+                    Product Requirements Spec
+                  </button>
 
-                <button id="report-button-section1"
-                        style={{background: "#ffeead"}}
-                        onClick={()=> goToExternalLink(report.techSpec)}>
-                  Technical Design Doc
-                </button>
+                  <button id="report-button-section1"
+                          style={{background: "#ffeead"}}
+                          onClick={()=> goToExternalLink(report.techSpec)}>
+                    Technical Design Doc
+                  </button>
 
-                <br/>
-                <Link to={`/${report.phase}/update-report/${id}`} >
-                  <button id="report-button-section1" style={{background: "#f0f0f0", marginTop: "25px"}}>Update Report</button>
-                </Link>
+                  <br/>
+                  <Link to={`/${report.phase}/update-report/${id}`} >
+                    <button id="report-button-section1" style={{background: "#f0f0f0", marginTop: "25px"}}>Update Report</button>
+                  </Link>
+                </div>
+                <div id="section2">
+                  <StatusCard
+                      id = {id}
+                      report = {report}
+                  />
+                </div>
+
+
               </div>
-              <div id="section2">
-                <StatusCard
-                    id = {id}
-                    report = {report}
-                />
+
+              <div id="document-container">
+                <div dangerouslySetInnerHTML= {htmlDoc} />
               </div>
-
-             
-            </div>
-
-            <div id="document-container">
-              <div dangerouslySetInnerHTML= {htmlDoc} />
             </div>
           </div>
-        </div>
-    )
-  } else {
+      )
+    }
+  }
+  else {
     return (
         <div id='report-details-section'>
           <p>Loading report...</p>
@@ -111,41 +126,29 @@ const ReportDetails = (props) => {
 
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const id = ownProps.match.params.id;
-  const phase = getReportPhaseFromPathName(ownProps.location.pathname);
-  const reports = state.firestore.data.reports;
-  const report = reports ? reports[id] : null;
-
+const mapStateToProps = (state) => {
   // console.log('state');
   // console.log(state);
 
   return {
     auth: state.firebase.auth,
-    report: report,
+    report: state.report.getReport,
     reportDownload: state.report.reportDownload,
-    collection: `${phase}reports`
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getReport: (id) => dispatch(getReport(id)),
+    unsubscribeGetReport: (id) => dispatch(unsubscribeGetReport(id)),
+    resetGetReport: () => dispatch(resetGetReport()),
+
     downloadReport: (report) => dispatch(downloadReport(report)),
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
-    resetState: () => dispatch(resetState())
+    resetReportDownload: () => dispatch(resetReportDownload())
   }
 };
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect(props => {
-      return [
-        {
-          collection: 'company',
-          doc: 'tala',
-          subcollections: [{collection: props.collection}],
-          storeAs: 'reports'
-        }
-      ]
-    })
-)(ReportDetails)
+    connect(mapStateToProps, mapDispatchToProps))
+(ReportDetails)

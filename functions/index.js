@@ -2,16 +2,20 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
+
 const BASE_DOCUMENT = 'company/tala';
+const DELETED = "Deleted";
 
 exports.incrementNumberOfTestsForServiceOnCreate = functions.firestore
-.document(`${BASE_DOCUMENT}/completedreports/{id}`)
+.document(`${BASE_DOCUMENT}/reports/{id}`)
 .onCreate((snap, context) => {
   return incrementNumberOfTestsOnCreate(context.params.id, snap.data());
 });
 
+//todo see how to use onWrite inorder to combine this logic
+
 exports.incrementNumberOfTestsForServiceOnUpdate = functions.firestore
-.document(`${BASE_DOCUMENT}/completedreports/{id}`)
+.document(`${BASE_DOCUMENT}/reports/{id}`)
 .onUpdate((change, context) => {
   return incrementNumberOfTestsOnUpdate(context.params.id, change.before.data(), change.after.data());
 });
@@ -94,3 +98,11 @@ const newNumberOfTests = parseInt(newReport.numberOfTests);
     console.log('updateReportStatsOnUpdate error: ', err)
   });
 }
+
+exports.deleteReportWhenStatusIsUpdatedToDeleted = functions.firestore
+.document(`${BASE_DOCUMENT}/reports/{id}`)
+.onUpdate((change, context) => {
+  if(change.after.data().status === DELETED){
+    return change.after.ref.delete();
+  }
+});

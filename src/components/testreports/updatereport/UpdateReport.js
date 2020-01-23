@@ -3,22 +3,23 @@ import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import {
   updateReport,
-  resetState,
-  getFeatureReports,
+  resetReportDownload,
+  getCompletedFeatureReportsByService,
   getReport,
-  unsubscribeGetFeatureReports,
-  resetGetFeatureReports, unsubscribeGetReport, resetGetReport
+  unsubscribeGetCompletedFeatureReportsByService,
+  resetGetCompletedFeatureReportsByService, unsubscribeGetReport, resetGetReport
 } from "../../../store/actions/reportActions";
 import * as firebase from "firebase";
 import CustomSnackbar from "../../snackbar/CustomSnackbar";
 import {getReportPhaseFromPathName} from "../../../util/StringUtil";
-import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 import {getUsersApartFromCurrentUser} from "../../../store/actions/authActions";
 import TextField from "@material-ui/core/TextField/TextField";
 import {blue} from "@material-ui/core/colors";
 
 const UpdateReport = (props) => {
+  const { report } = props;
+
   //report fields
   const [id, setId] = useState();
   const [title, setTitle] = useState();
@@ -51,10 +52,10 @@ const UpdateReport = (props) => {
       setDisplayCompletedFields('block');
     }
 
-    props.getReport(props.match.params.id, getReportPhaseFromPathName(props.location.pathname));
+    props.getReport(props.match.params.id);
 
     return function cleanup() {
-      unsubscribeGetReport(service);
+      unsubscribeGetReport(props.match.params.id);
       resetGetReport();
     };
   }, [id]);
@@ -72,9 +73,7 @@ const UpdateReport = (props) => {
       setProductSpec(props.report.productSpec);
       setTechSpec(props.report.techSpec);
     }
-    return function cleanup() {
-      props.resetState()
-    };
+    // console.log('REPORRRRRTTTTUU----', report);
   }, [props]);
 
   const handleChange = (e) => {
@@ -185,10 +184,11 @@ const UpdateReport = (props) => {
         });
 
   };
-
+// console.log('REPORRRRRTTTTUU----', report);
   const handleUpdate = (e) => {
     e.preventDefault();
-    const report = {
+    const status = report.status; //this is not updated in this page. leave as is
+    const reportForUpdate = {
       title,
       phase,
       service,
@@ -197,10 +197,11 @@ const UpdateReport = (props) => {
       assignedTo,
       numberOfTests,
       productSpec,
-      techSpec
+      techSpec,
+      status
     };
 
-    props.updateReport(id, report);
+    props.updateReport(id, reportForUpdate);
 
     //todo add a cloud function which deletes the previous report from cloud storage
     props.history.push(`/${report.phase}/${report.service}`);
@@ -337,12 +338,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getReport: (id, phase) => dispatch(getReport(id, phase)),
-    unsubscribeGetReport: (id, phase) => dispatch(unsubscribeGetReport(id, phase)),
+    getReport: (id) => dispatch(getReport(id)),
+    unsubscribeGetReport: (id) => dispatch(unsubscribeGetReport(id)),
     resetGetReport: () => dispatch(resetGetReport()),
 
     updateReport: (id, report) => dispatch(updateReport(id, report)),
-    resetState: () => dispatch(resetState()),
+    resetState: () => dispatch(resetReportDownload()),
     getUsersApartFromCurrentUser: () => dispatch(getUsersApartFromCurrentUser())
   }
 };

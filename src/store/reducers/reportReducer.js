@@ -1,7 +1,5 @@
 
 const initState = {
-  getReport: null,
-  reportDownload: null
 };
 
 
@@ -14,7 +12,7 @@ const reportReducer = (state = initState, action) => {
       };
 
     case 'UPLOAD_REPORT_ERROR':
-      // console.log('UPLOAD_REPORT_ERROR', action.err);
+      // console.log('UPLOAD_REPORT_ERROR', action.error);
       return state;
 
     case 'CREATE_REPORT_SUCCESS':
@@ -25,14 +23,14 @@ const reportReducer = (state = initState, action) => {
       };
 
     case 'CREATE_REPORT_ERROR':
-      // console.log('CREATE_REPORT_ERROR', action.err);
+      // console.log('CREATE_REPORT_ERROR', action.error);
       return {
         ...state,
         createReportSuccess: 'error'
       };
 
     case 'RESET_CREATE_REPORT':
-      // console.log('RESET_CREATE_REPORT', action.err);
+      // console.log('RESET_CREATE_REPORT', action.error);
       return {
         ...state,
         createReportSuccess: null
@@ -42,18 +40,21 @@ const reportReducer = (state = initState, action) => {
        * Get Report
        */
     case 'GET_REPORT_SUCCESS':
-      // console.log('GET_REPORT_SUCCESS', action.report);
+      console.log('GET_REPORT_SUCCESS', action.report);
       return {
         ...state,
         getReport: action.report
       };
 
-    case 'GET_REPORT_ERROR_NOT_EXISTS':
-      console.log('GET_REPORT_ERROR_NOT_EXISTS', action.err);
-      return state;
+    case 'GET_REPORT_ERROR_NOT_EXIST':
+      console.log('GET_REPORT_ERROR_NOT_EXIST', action.error);
+      return {
+        ...state,
+        getReport: 'GET_REPORT_ERROR_NOT_EXIST'
+      };
 
     case 'GET_REPORT_ERROR':
-      console.log('GET_REPORT_ERROR', action.err);
+      console.log('GET_REPORT_ERROR', action.error);
       return state;
 
     case 'RESET_GET_REPORT':
@@ -64,46 +65,63 @@ const reportReducer = (state = initState, action) => {
       };
 
       /**
+       * Delete Report
+       */
+    // case 'DELETE_REPORT_SUCCESS':
+    //   console.log('DELETE_REPORT_SUCCESS');
+    //   return state;
+    //
+    // case 'DELETE_REPORT_ERROR':
+    //   console.log('DELETE_REPORT_ERROR', action.error);
+    //   return state;
+
+      /**
        * Get Feature Reports
        */
-    case 'GET_FEATURE_REPORTS_EMPTY':
-      console.log('GET_FEATURE_REPORTS_EMPTY');
-      return state;
-
-    case 'GET_FEATURE_REPORTS_SUCCESS':
-      // console.log('GET_FEATURE_REPORTS_SUCCESS', action.featureReports);
+    case 'GET_COMPLETED_FEATURE_REPORTS_EMPTY':
+      console.log('GET_COMPLETED_FEATURE_REPORTS_EMPTY');
       return {
         ...state,
-        featureReports: action.featureReports
+        completedFeatureReports: []
       };
 
-    case 'GET_FEATURE_REPORTS_ERROR':
-      console.log('GET_FEATURE_REPORTS_ERROR', action.err);
+    case 'GET_COMPLETED_FEATURE_REPORTS_SUCCESS':
+      // console.log('GET_COMPLETED_FEATURE_REPORTS_SUCCESS', action.completedFeatureReports);
+      return {
+        ...state,
+        completedFeatureReports: action.completedFeatureReports
+      };
+
+    case 'GET_COMPLETED_FEATURE_REPORTS_ERROR':
+      console.log('GET_COMPLETED_FEATURE_REPORTS_ERROR', action.error);
       return state;
 
     case 'RESET_GET_FEATURE_REPORTS':
       console.log('RESET_GET_FEATURE_REPORTS');
       return {
         ...state,
-        featureReports: null
+        completedFeatureReports: null
       };
 
       /**
        * Get Endpoint Reports
        */
-    case 'GET_ENDPOINT_REPORTS_EMPTY':
-      console.log('GET_ENDPOINT_REPORTS_EMPTY');
-      return state;
+    case 'GET_COMPLETED_ENDPOINT_REPORTS_EMPTY':
+      console.log('GET_COMPLETED_ENDPOINT_REPORTS_EMPTY');
+      return {
+        ...state,
+        endpointReports: []
+      };
 
-    case 'GET_ENDPOINT_REPORTS_SUCCESS':
-      // console.log('GET_ENDPOINT_REPORTS_SUCCESS', action.endpointReports);
+    case 'GET_COMPLETED_ENDPOINT_REPORTS_SUCCESS':
+      // console.log('GET_COMPLETED_ENDPOINT_REPORTS_SUCCESS', action.endpointReports);
       return {
         ...state,
         endpointReports: action.endpointReports
       };
 
-    case 'GET_ENDPOINT_REPORTS_ERROR':
-      console.log('GET_ENDPOINT_REPORTS_ERROR', action.err);
+    case 'GET_COMPLETED_ENDPOINT_REPORTS_ERROR':
+      console.log('GET_COMPLETED_ENDPOINT_REPORTS_ERROR', action.error);
       return state;
 
     case 'RESET_GET_ENDPOINT_REPORTS':
@@ -111,6 +129,34 @@ const reportReducer = (state = initState, action) => {
       return {
         ...state,
         endpointReports: null
+      };
+
+      /**
+       * Get Reports
+       */
+    case 'GET_REPORTS_IN_DEVELOPMENT_EMPTY':
+      console.log('GET_REPORTS_IN_DEVELOPMENT_EMPTY');
+      return {
+        ...state,
+        reportsInDevelopment: []
+      };
+
+    case 'GET_REPORTS_IN_DEVELOPMENT_SUCCESS':
+      // console.log('GET_REPORTS_IN_DEVELOPMENT_SUCCESS', action.reports);
+      return {
+        ...state,
+        reportsInDevelopment: action.reportsInDevelopment
+      };
+
+    case 'GET_REPORTS_IN_DEVELOPMENT_ERROR':
+      console.log('GET_REPORTS_IN_DEVELOPMENT_ERROR', action.error);
+      return state;
+
+    case 'RESET_GET_REPORTS_IN_DEVELOPMENT':
+      console.log('RESET_GET_REPORTS_IN_DEVELOPMENT');
+      return {
+        ...state,
+        reportsInDevelopment: null
       };
 
       /**
@@ -124,7 +170,7 @@ const reportReducer = (state = initState, action) => {
       };
 
     case 'UPDATE_REPORT_ERROR':
-      // console.log('UPDATE_REPORT_ERROR', action.err);
+      // console.log('UPDATE_REPORT_ERROR', action.error);
       return state;
 
     case 'RESET_UPDATE_REPORT_STATE':
@@ -141,15 +187,14 @@ const reportReducer = (state = initState, action) => {
       };
 
     case 'DOWNLOAD_REPORT_ERROR':
-      console.log('DOWNLOAD_REPORT_ERROR', action.err);
+      console.log('DOWNLOAD_REPORT_ERROR', action.error);
       return state;
 
 
     case 'RESET_STATE_SUCCESS':
-      // console.log('RESET_STATE_SUCCESS');
+      console.log('RESET_STATE_SUCCESS');
       return {
         ...state,
-        getReport: null,
         reportDownload: null
       };
 
@@ -164,11 +209,11 @@ const reportReducer = (state = initState, action) => {
       };
 
     case 'GET_REPORT_STATS_ERROR':
-      console.log('GET_REPORT_STATS_ERROR', action.err);
+      console.log('GET_REPORT_STATS_ERROR', action.error);
       return state;
 
     case 'RESET_GET_REPORT_STATS':
-      console.log('RESET_GET_REPORT_STATS', action.err);
+      console.log('RESET_GET_REPORT_STATS', action.error);
       return {
         ...state,
         reportStats: null
@@ -193,7 +238,7 @@ const reportReducer = (state = initState, action) => {
       }
 
     case 'GET_COVERAGE_ERROR':
-      console.log('GET_COVERAGE_ERROR', action.err);
+      console.log('GET_COVERAGE_ERROR', action.error);
       return state;
 
     case 'UPDATE_COVERAGE_SUCCESS':
@@ -201,7 +246,7 @@ const reportReducer = (state = initState, action) => {
       return state;
 
     case 'UPDATE_COVERAGE_ERROR':
-      console.log('UPDATE_COVERAGE_ERROR', action.err);
+      console.log('UPDATE_COVERAGE_ERROR', action.error);
       return state;
     default:
       return state;

@@ -14,6 +14,7 @@ export const COMPLETED_PHASE = 'completed';
  * numberOfTests
  * productSpec
  * techSpec
+ * status
  *
  * - added by action when creating new report:
  * createdBy

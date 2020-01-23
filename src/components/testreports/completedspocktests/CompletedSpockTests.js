@@ -7,7 +7,6 @@ import {BrowserRouter, Link, Redirect} from 'react-router-dom'
 import './completedspockreports.css';
 
 import {compose} from "redux";
-import {firestoreConnect} from "react-redux-firebase";
 import penIcon from "../../../assets/Icons/pen.png";
 import Report from "../Report";
 import LoadingScreen from "../../loading/LoadingScreen";
@@ -15,16 +14,16 @@ import LoadingScreen from "../../loading/LoadingScreen";
 import createReportIcon from "../../../assets/Icons/create.png";
 import {
   getCoverage,
-  getEndpointReports,
-  getFeatureReports,
+  getCompletedEndpointReportsByService,
+  getCompletedFeatureReportsByService,
   getReportStats,
   resetCreateReportSuccess,
-  resetGetCoverage, resetGetEndpointReports,
-  resetGetFeatureReports,
+  resetGetCoverage, resetGetCompletedEndpointReportsByService,
+  resetGetCompletedFeatureReportsByService,
   resetGetReportStats,
   unsubscribeGetCoverage,
-  unsubscribeGetEndpointReports,
-  unsubscribeGetFeatureReports,
+  unsubscribeGetCompletedEndpointReportsByService,
+  unsubscribeGetCompletedFeatureReportsByService,
   unsubscribeGetReportStats
 } from "../../../store/actions/reportActions";
 import {
@@ -32,14 +31,21 @@ import {
   showSuccessAlert
 } from "../../../store/actions/snackbarActions";
 import CoverageDialog from "./coverage/CoverageDialog";
+import NoReportsScreen from "../../noreports/NoReportsScreen";
+import {setPrevUrl} from "../../../store/actions/authActions";
+import {getFirstNameFromFullName} from "../../../util/StringUtil";
+import moment from "moment";
 
 const CompletedSpockTests = (props) => {
+  const phase = 'completed';
   const [showCoverageDialog, setShowCoverageDialog] = useState();
 
   //variables
-  const {auth, featureReports, endpointReports, service, reportStats, coverage} = props;
+  const {auth, completedFeatureReports, endpointReports, service, reportStats, coverage} = props;
 
   //actions
+  const { setPrevUrl } = props;
+
   const {getReportStats, unsubscribeGetReportStats, resetGetReportStats} = props;
   const {getCoverage, unsubscribeGetCoverage, resetGetCoverage} = props;
   const {getFeatureReports, unsubscribeGetFeatureReports, resetGetFeatureReports} = props;
@@ -48,8 +54,8 @@ const CompletedSpockTests = (props) => {
   useEffect(() => {
     getReportStats(service);
     getCoverage(service);
-    getFeatureReports('completed', service);
-    getEndpointReports('completed', service);
+    getFeatureReports(phase, service);
+    getEndpointReports(phase, service);
 
     return function cleanup() {
       unsubscribeGetReportStats(service);
@@ -58,15 +64,32 @@ const CompletedSpockTests = (props) => {
       unsubscribeGetCoverage(service);
       resetGetCoverage();
 
-      unsubscribeGetFeatureReports('completed', service);
+      unsubscribeGetFeatureReports(phase, service);
       resetGetFeatureReports();
 
-      unsubscribeGetEndpointReports('completed', service);
+      unsubscribeGetEndpointReports(phase, service);
       resetGetEndpointReports();
     };
   }, [service]);
 
-  if (!auth.uid) {return <Redirect to='/login'/>}
+  const [reportsAvailable, setReportsAvailable] = useState(true);
+  useEffect(() => {
+    if(completedFeatureReports && endpointReports) {
+      if (completedFeatureReports.length === 0 && endpointReports.length === 0){
+        setReportsAvailable(false);
+      } else {
+        setReportsAvailable(true);
+      }
+    }
+    return function cleanup() {
+      setReportsAvailable(true);
+    };
+  }, [props]);
+
+  if (!auth.uid) {
+    setPrevUrl(props.location.pathname);
+    return <Redirect to='/login' />;
+  }
 
   function setShowCoverageDialogToTrue() {
     setShowCoverageDialog(true);
@@ -80,11 +103,12 @@ const CompletedSpockTests = (props) => {
       <div id='home'>
         <div id='reports-section'>
 
-          {featureReports ? null : <LoadingScreen />}
+          {endpointReports || completedFeatureReports ? null : <LoadingScreen />}
 
-          <Link to={'/completed/upload-report'} >
+          <Link to={`/completed/upload-report?service=${service}`} >
             <div id="create-new-report" style={{background: "#ffeead"}}> <img src={createReportIcon} alt="Create a report" /> </div>
           </Link>
+
 
           <div id="status-card">
             <div id="report-stats-titles">
@@ -94,7 +118,7 @@ const CompletedSpockTests = (props) => {
               {reportStats? reportStats.numberOfTests : null}
             </div>
             <div id="report-stats-titles">
-              Code Coverage
+              Code Coverage. Last updated: {coverage? moment(coverage.updatedAt.toDate()).calendar() : ''}  by {coverage? getFirstNameFromFullName(coverage.updatedBy.displayName) : ''}
             </div>
             <div id="report-stats-code-coverage">
               <span id="report-stats-coverage-titles">Class:</span>
@@ -114,6 +138,12 @@ const CompletedSpockTests = (props) => {
             </div>
           </div>
 
+          {reportsAvailable ? false : <NoReportsScreen
+              service = {service}
+              phase = {phase}
+          />
+          }
+
           <div id='features-reports'>
             <h4>Features</h4>
             <div id='headers'>
@@ -125,7 +155,7 @@ const CompletedSpockTests = (props) => {
               <div id='title'>Created At</div>
               <div id='end-column'>Created By</div>
             </div>
-            { featureReports && featureReports.map(report => { //todo add the index back here!
+            { completedFeatureReports && completedFeatureReports.map(report => { //todo add the index back here!
                 return (
                     <div>
                       {/*<div key={index}>*/}
@@ -190,12 +220,10 @@ const mapStateToProps = (state, ownProps) => {
   }
   return {
     auth: state.firebase.auth,
-    featureReports: state.report.featureReports,
+    completedFeatureReports: state.report.completedFeatureReports,
     endpointReports: state.report.endpointReports,
 
-    collection: 'completedreports', //not needed?
-
-    service: getServiceNameFromPathName(ownProps.location.pathname), //not needed?
+    service: getServiceNameFromPathName(ownProps.location.pathname),
 
     reportStats: state.report.reportStats,
     coverage: state.report.coverage
@@ -204,14 +232,15 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // setPrevUrl: (url) => dispatch(setPrevUrl(url)),
-    getFeatureReports: (phase, service) => dispatch(getFeatureReports(phase, service)),
-    unsubscribeGetFeatureReports: (phase, service) => dispatch(unsubscribeGetFeatureReports(phase, service)),
-    resetGetFeatureReports: () => dispatch(resetGetFeatureReports()),
+    setPrevUrl: (url) => dispatch(setPrevUrl(url)),
 
-    getEndpointReports: (phase, service) => dispatch(getEndpointReports(phase, service)),
-    unsubscribeGetEndpointReports: (phase, service) => dispatch(unsubscribeGetEndpointReports(phase, service)),
-    resetGetEndpointReports: () => dispatch(resetGetEndpointReports()),
+    getFeatureReports: (phase, service) => dispatch(getCompletedFeatureReportsByService(phase, service)),
+    unsubscribeGetFeatureReports: (phase, service) => dispatch(unsubscribeGetCompletedFeatureReportsByService(phase, service)),
+    resetGetFeatureReports: () => dispatch(resetGetCompletedFeatureReportsByService()),
+
+    getEndpointReports: (phase, service) => dispatch(getCompletedEndpointReportsByService(phase, service)),
+    unsubscribeGetEndpointReports: (phase, service) => dispatch(unsubscribeGetCompletedEndpointReportsByService(phase, service)),
+    resetGetEndpointReports: () => dispatch(resetGetCompletedEndpointReportsByService()),
 
     getReportStats: (service) => dispatch(getReportStats(service)),
     unsubscribeGetReportStats: (service) => dispatch(unsubscribeGetReportStats(service)),
@@ -229,5 +258,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps)
-)(CompletedSpockTests)
+    connect(mapStateToProps, mapDispatchToProps))(CompletedSpockTests)
