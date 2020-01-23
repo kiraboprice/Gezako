@@ -209,18 +209,23 @@ const CreateReport = (props) => {
      return ("Select Type")
    }
    else if (!report.fileDownLoadUrl.length > 0) {
-     return ("First upload a Test Teport")
+     return ("First upload a Test report")
    }
-   else if (report.productSpec.length > 0) {
-     if(!isValidUrl(report.productSpec)) {
-       return ("Set a valid URL for Product Spec")
-     }
-   }
-   else if (report.techSpec.length > 0) {
-     if(!isValidUrl(report.techSpec)){
-       return ("Set a valid URL for Tech Spec")
-     }
-   }
+   // else if (report.productSpec.length > 0) {
+   //   if(!isValidUrl(report.productSpec)) {
+   //     return ("Set a valid URL for Product Spec")
+   //
+   //   }
+   //   console.log("PROPS---", report);
+   //
+   // }
+   // else if (report.techSpec.length > 0) {
+   //   if(!isValidUrl(report.techSpec)){
+   //     return ("Set a valid URL for Tech Spec")
+   //   }
+   //   console.log("PROPS222---", report);
+   //
+   // }
    // else if (report.numberOfTests.length > 0) {
    //   console.log(`numberOfTests.length > 0`)
    //   if(isNaN(report.numberOfTests)){
@@ -259,6 +264,7 @@ const CreateReport = (props) => {
 
     const validationText = validateFields(report);
     if(validationText!== 'valid'){
+      // console.log('REPORT validationText', validationText);
       props.showErrorAlert(validationText);
       return;
     }

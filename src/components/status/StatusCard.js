@@ -32,12 +32,17 @@ const StatusCard = (props) => {
   const [stateFromProps, setLocalState] = useState(props);
   useEffect(() => {
     setLocalState(props);
-    const status = stateFromProps.report.status;
+    const status = props.report.status;
+    const assignedToName = props.report.assignedTo ? props.report.assignedTo.displayName : 'NONE';
+    // setStatusValue(props.report.status); //todo not sure why this doesnt set the value of Status. same applies for line below
+    // setAssignedToName(props.report.assignedTo ? props.report.assignedTo.displayName : 'NONE');
+
     setStatusValue(status);
-    setAssignedToName(stateFromProps.report.assignedTo ? stateFromProps.report.assignedTo.displayName : 'NONE');
+    setAssignedToName(assignedToName);
+
     setDescription(generateDescription(
         status,
-        getFirstNameFromFullName(stateFromProps.report.createdBy),
+        getFirstNameFromFullName(props.report.createdBy),
         getFirstNameFromFullName(assignedToName))
     );
     setImage(getImage(status));
