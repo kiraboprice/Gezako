@@ -32,6 +32,7 @@ import {
   showSuccessAlert
 } from "../../../store/actions/snackbarActions";
 import CoverageDialog from "./coverage/CoverageDialog";
+import NoReportsScreen from "../../noreports/NoReportsScreen";
 
 const CompletedSpockTests = (props) => {
   const [showCoverageDialog, setShowCoverageDialog] = useState();
@@ -66,6 +67,19 @@ const CompletedSpockTests = (props) => {
     };
   }, [service]);
 
+  const [reportsAvailable, setReportsAvailable] = useState(true);
+  useEffect(() => {
+    if(featureReports && endpointReports) {
+      if (featureReports.length === 0 && endpointReports.length === 0){
+        setReportsAvailable(false);
+      } else {
+        setReportsAvailable(true);
+      }
+    }
+    return function cleanup() {
+    };
+  }, [props]);
+
   if (!auth.uid) {return <Redirect to='/login'/>}
 
   function setShowCoverageDialogToTrue() {
@@ -76,6 +90,7 @@ const CompletedSpockTests = (props) => {
     setShowCoverageDialog(false);
   }
 
+  console.log('repartss=-----OUT', reportsAvailable)
   return (
       <div id='home'>
         <div id='reports-section'>
@@ -85,6 +100,7 @@ const CompletedSpockTests = (props) => {
           <Link to={'/completed/upload-report'} >
             <div id="create-new-report" style={{background: "#ffeead"}}> <img src={createReportIcon} alt="Create a report" /> </div>
           </Link>
+
 
           <div id="status-card">
             <div id="report-stats-titles">
@@ -113,6 +129,8 @@ const CompletedSpockTests = (props) => {
               <button onClick={setShowCoverageDialogToTrue}>Update Coverage <img src={penIcon} alt="Update Coverage"/> </button>
             </div>
           </div>
+
+          {reportsAvailable ? false : <NoReportsScreen service = {service} />}
 
           <div id='features-reports'>
             <h4>Features</h4>

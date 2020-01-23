@@ -68,7 +68,10 @@ const reportReducer = (state = initState, action) => {
        */
     case 'GET_FEATURE_REPORTS_EMPTY':
       console.log('GET_FEATURE_REPORTS_EMPTY');
-      return state;
+      return {
+        ...state,
+        featureReports: []
+      };
 
     case 'GET_FEATURE_REPORTS_SUCCESS':
       // console.log('GET_FEATURE_REPORTS_SUCCESS', action.featureReports);
@@ -93,7 +96,10 @@ const reportReducer = (state = initState, action) => {
        */
     case 'GET_ENDPOINT_REPORTS_EMPTY':
       console.log('GET_ENDPOINT_REPORTS_EMPTY');
-      return state;
+      return {
+        ...state,
+        endpointReports: []
+      };
 
     case 'GET_ENDPOINT_REPORTS_SUCCESS':
       // console.log('GET_ENDPOINT_REPORTS_SUCCESS', action.endpointReports);
