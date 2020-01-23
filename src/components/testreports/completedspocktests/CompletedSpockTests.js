@@ -80,7 +80,7 @@ const CompletedSpockTests = (props) => {
       <div id='home'>
         <div id='reports-section'>
 
-          {featureReports ? null : <LoadingScreen />}
+          {endpointReports || featureReports ? null : <LoadingScreen />}
 
           <Link to={'/completed/upload-report'} >
             <div id="create-new-report" style={{background: "#ffeead"}}> <img src={createReportIcon} alt="Create a report" /> </div>

@@ -26,7 +26,7 @@ const CreateReport = (props) => {
   //report fields
   const [title, setTitle] = useState('Test Report Title');
   const [phase, setPhase] = useState('development');
-  const [service, setService] = useState('loans');
+  const [service, setService] = useState('surveys');
   const [type, setType] = useState('endpoint');
   const [fileDownLoadUrl, setFileDownLoadUrl] = useState('');
   const [assignedTo, setAssignedTo] = useState(null);
