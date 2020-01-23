@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import {
   updateReport,
-  resetState,
+  resetReportDownload,
   getCompletedFeatureReportsByService,
   getReport,
   unsubscribeGetCompletedFeatureReportsByService,
@@ -18,7 +18,7 @@ import TextField from "@material-ui/core/TextField/TextField";
 import {blue} from "@material-ui/core/colors";
 
 const UpdateReport = (props) => {
-  const {report} = props;
+  const { report } = props;
 
   //report fields
   const [id, setId] = useState();
@@ -73,9 +73,7 @@ const UpdateReport = (props) => {
       setProductSpec(props.report.productSpec);
       setTechSpec(props.report.techSpec);
     }
-    return function cleanup() {
-      props.resetState()
-    };
+    // console.log('REPORRRRRTTTTUU----', report);
   }, [props]);
 
   const handleChange = (e) => {
@@ -186,7 +184,7 @@ const UpdateReport = (props) => {
         });
 
   };
-
+// console.log('REPORRRRRTTTTUU----', report);
   const handleUpdate = (e) => {
     e.preventDefault();
     const status = report.status; //this is not updated in this page. leave as is
@@ -345,7 +343,7 @@ const mapDispatchToProps = dispatch => {
     resetGetReport: () => dispatch(resetGetReport()),
 
     updateReport: (id, report) => dispatch(updateReport(id, report)),
-    resetState: () => dispatch(resetState()),
+    resetState: () => dispatch(resetReportDownload()),
     getUsersApartFromCurrentUser: () => dispatch(getUsersApartFromCurrentUser())
   }
 };

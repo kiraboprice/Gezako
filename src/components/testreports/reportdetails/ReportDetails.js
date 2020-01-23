@@ -6,8 +6,7 @@ import moment from 'moment'
 import {Link, Redirect} from 'react-router-dom'
 import {setPrevUrl} from "../../../store/actions/authActions";
 import {
-  downloadReport, getReport, resetGetReport,
-  resetState, unsubscribeGetReport
+  downloadReport, getReport, resetGetReport, resetReportDownload, unsubscribeGetReport
 } from "../../../store/actions/reportActions";
 
 import '../reportdetails/reportdetails.css';
@@ -18,13 +17,13 @@ import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 const ReportDetails = (props) => {
   const {auth, report} = props;
 
-  const {setPrevUrl, downloadReport, reportDownload, resetState} = props;
+  const {setPrevUrl, downloadReport, reportDownload, resetReportDownload} = props;
   const id = props.match.params.id;
 
   //clean up after this component is unmounted
   useEffect(() => {
     return function cleanup() {
-      resetState()
+      resetReportDownload()
     };
   },[id]);
 
@@ -137,7 +136,7 @@ const mapDispatchToProps = (dispatch) => {
 
     downloadReport: (report) => dispatch(downloadReport(report)),
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
-    resetState: () => dispatch(resetState())
+    resetReportDownload: () => dispatch(resetReportDownload())
   }
 };
 

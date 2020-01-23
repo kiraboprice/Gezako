@@ -25,6 +25,7 @@ import CustomSnackbar from "../snackbar/CustomSnackbar";
 const StatusCard = (props) => {
   const { updateReport } = props;
   const [status, setStatusValue] = useState('');
+  const [assignedToName, setAssignedToName] = useState('NONE NONE');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
 
@@ -33,10 +34,11 @@ const StatusCard = (props) => {
     setLocalState(props);
     const status = stateFromProps.report.status;
     setStatusValue(status);
+    setAssignedToName(stateFromProps.report.assignedTo ? stateFromProps.report.assignedTo.displayName : 'NONE');
     setDescription(generateDescription(
         status,
         getFirstNameFromFullName(stateFromProps.report.createdBy),
-        getFirstNameFromFullName(stateFromProps.report.assignedTo ? stateFromProps.report.assignedTo.displayName: null))
+        getFirstNameFromFullName(assignedToName))
     );
     setImage(getImage(status));
   }, [props]);
@@ -47,7 +49,7 @@ const StatusCard = (props) => {
     setDescription(generateDescription(
         status,
         getFirstNameFromFullName(stateFromProps.report.createdBy),
-        getFirstNameFromFullName(stateFromProps.report.assignedTo.displayName))
+        getFirstNameFromFullName(assignedToName))
     );
     setImage(getImage(status));
   }

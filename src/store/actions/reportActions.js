@@ -229,6 +229,7 @@ export const getReportsInDevelopment = (phase, service) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
+    .where('phase', '==', 'development')
     .orderBy('updatedAt', 'desc')
     .onSnapshot(querySnapshot => {
       let reportsInDevelopment = [];
@@ -299,7 +300,7 @@ export const resetUpdateReportState = () => {
   }
 };
 
-export const resetState = () => {
+export const resetReportDownload = () => {
   return (dispatch) => {
     dispatch({type: 'RESET_STATE_SUCCESS'});
   }

@@ -27,10 +27,10 @@ const SpockTestsInDevelopment = (props) => {
   //actions
   const { setPrevUrl } = props;
 
-  const {getReports, unsubscribeGetReports, resetGetReports} = props;
+  const {getReportsInDevelopment, unsubscribeGetReports, resetGetReports} = props;
 
   useEffect(() => {
-    getReports(phase, service);
+    getReportsInDevelopment(phase, service);
 
     return function cleanup() {
       unsubscribeGetReports(phase, service);
@@ -122,7 +122,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
 
-    getReports: (phase, service) => dispatch(getReportsInDevelopment(phase, service)),
+    getReportsInDevelopment: (phase, service) => dispatch(getReportsInDevelopment(phase, service)),
     unsubscribeGetReports: (phase, service) => dispatch(unsubscribeGetReportsInDevelopment(phase, service)),
     resetGetReports: () => dispatch(resetGetReportsInDevelopment())
   }
