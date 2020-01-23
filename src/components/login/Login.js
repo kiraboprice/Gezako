@@ -53,7 +53,7 @@ class Login extends Component {
                   Gezako
                 </h1>
                 <h2 id='small_text'>
-                  Tala's Software QA Management System.
+                  Streamlined Software Development Processes.
                 </h2>
 
                 <div id='button' onClick={this.signIn}>
