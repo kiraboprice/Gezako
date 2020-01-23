@@ -23,10 +23,16 @@ import {getFirstNameFromFullName} from "../../util/StringUtil";
 import moment from "moment";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
 import {DELETED} from "../../constants/ReportStatus";
+import {showErrorAlert} from "../../store/actions/snackbarActions";
 
 const StatusCard = (props) => {
+  //variables
+  const { auth } = props;
+
+  //actions
   const { updateReport, resetUpdateReportState } = props;
   const { deleteReport } = props;
+  const { showErrorAlert } = props;
 
   const [status, setStatusValue] = useState('');
   const [assignedToName, setAssignedToName] = useState('NONE NONE');
@@ -66,7 +72,12 @@ const StatusCard = (props) => {
   function updateStatus(e) {
     stateFromProps.report.status = status;
     if(status === DELETED){
-      deleteReport(stateFromProps.id)
+      if((auth.uid === stateFromProps.report.userId)){
+        deleteReport(stateFromProps.id)
+      }
+      else {
+        showErrorAlert("Only the author of this report can delete it.");
+      }
     }
     else {
       updateReport(stateFromProps.id, stateFromProps.report)
@@ -189,7 +200,9 @@ const StatusCard = (props) => {
 };
 
 const mapStateToProps = (state) => {
+  console.log('STATE----', state);
   return {
+    auth: state.firebase.auth,
     updateReportResult: state.report.updateReportResult,
   }
 };
@@ -199,8 +212,9 @@ const mapDispatchToProps = (dispatch) => {
     updateReport: (id, report) => dispatch(updateReport(id, report)),
     resetUpdateReportState: () => dispatch(resetUpdateReportState()),
 
-    deleteReport: (id, report) => dispatch(deleteReport(id))
+    deleteReport: (id, report) => dispatch(deleteReport(id)),
 
+    showErrorAlert: (message) => dispatch(showErrorAlert(message)),
   }
 };
 

@@ -12,7 +12,7 @@ const reportReducer = (state = initState, action) => {
       };
 
     case 'UPLOAD_REPORT_ERROR':
-      // console.log('UPLOAD_REPORT_ERROR', action.err);
+      // console.log('UPLOAD_REPORT_ERROR', action.error);
       return state;
 
     case 'CREATE_REPORT_SUCCESS':
@@ -23,14 +23,14 @@ const reportReducer = (state = initState, action) => {
       };
 
     case 'CREATE_REPORT_ERROR':
-      // console.log('CREATE_REPORT_ERROR', action.err);
+      // console.log('CREATE_REPORT_ERROR', action.error);
       return {
         ...state,
         createReportSuccess: 'error'
       };
 
     case 'RESET_CREATE_REPORT':
-      // console.log('RESET_CREATE_REPORT', action.err);
+      // console.log('RESET_CREATE_REPORT', action.error);
       return {
         ...state,
         createReportSuccess: null
@@ -46,12 +46,15 @@ const reportReducer = (state = initState, action) => {
         getReport: action.report
       };
 
-    case 'GET_REPORT_ERROR_NOT_EXISTS':
-      console.log('GET_REPORT_ERROR_NOT_EXISTS', action.err);
-      return state;
+    case 'GET_REPORT_ERROR_NOT_EXIST':
+      console.log('GET_REPORT_ERROR_NOT_EXIST', action.error);
+      return {
+        ...state,
+        getReport: 'GET_REPORT_ERROR_NOT_EXIST'
+      };
 
     case 'GET_REPORT_ERROR':
-      console.log('GET_REPORT_ERROR', action.err);
+      console.log('GET_REPORT_ERROR', action.error);
       return state;
 
     case 'RESET_GET_REPORT':
@@ -60,6 +63,17 @@ const reportReducer = (state = initState, action) => {
         ...state,
         getReport: null
       };
+
+      /**
+       * Delete Report
+       */
+    // case 'DELETE_REPORT_SUCCESS':
+    //   console.log('DELETE_REPORT_SUCCESS');
+    //   return state;
+    //
+    // case 'DELETE_REPORT_ERROR':
+    //   console.log('DELETE_REPORT_ERROR', action.error);
+    //   return state;
 
       /**
        * Get Feature Reports
@@ -79,7 +93,7 @@ const reportReducer = (state = initState, action) => {
       };
 
     case 'GET_COMPLETED_FEATURE_REPORTS_ERROR':
-      console.log('GET_COMPLETED_FEATURE_REPORTS_ERROR', action.err);
+      console.log('GET_COMPLETED_FEATURE_REPORTS_ERROR', action.error);
       return state;
 
     case 'RESET_GET_FEATURE_REPORTS':
@@ -107,7 +121,7 @@ const reportReducer = (state = initState, action) => {
       };
 
     case 'GET_COMPLETED_ENDPOINT_REPORTS_ERROR':
-      console.log('GET_COMPLETED_ENDPOINT_REPORTS_ERROR', action.err);
+      console.log('GET_COMPLETED_ENDPOINT_REPORTS_ERROR', action.error);
       return state;
 
     case 'RESET_GET_ENDPOINT_REPORTS':
@@ -135,7 +149,7 @@ const reportReducer = (state = initState, action) => {
       };
 
     case 'GET_REPORTS_IN_DEVELOPMENT_ERROR':
-      console.log('GET_REPORTS_IN_DEVELOPMENT_ERROR', action.err);
+      console.log('GET_REPORTS_IN_DEVELOPMENT_ERROR', action.error);
       return state;
 
     case 'RESET_GET_REPORTS_IN_DEVELOPMENT':
@@ -156,7 +170,7 @@ const reportReducer = (state = initState, action) => {
       };
 
     case 'UPDATE_REPORT_ERROR':
-      // console.log('UPDATE_REPORT_ERROR', action.err);
+      // console.log('UPDATE_REPORT_ERROR', action.error);
       return state;
 
     case 'RESET_UPDATE_REPORT_STATE':
@@ -173,7 +187,7 @@ const reportReducer = (state = initState, action) => {
       };
 
     case 'DOWNLOAD_REPORT_ERROR':
-      console.log('DOWNLOAD_REPORT_ERROR', action.err);
+      console.log('DOWNLOAD_REPORT_ERROR', action.error);
       return state;
 
 
@@ -195,11 +209,11 @@ const reportReducer = (state = initState, action) => {
       };
 
     case 'GET_REPORT_STATS_ERROR':
-      console.log('GET_REPORT_STATS_ERROR', action.err);
+      console.log('GET_REPORT_STATS_ERROR', action.error);
       return state;
 
     case 'RESET_GET_REPORT_STATS':
-      console.log('RESET_GET_REPORT_STATS', action.err);
+      console.log('RESET_GET_REPORT_STATS', action.error);
       return {
         ...state,
         reportStats: null
@@ -224,7 +238,7 @@ const reportReducer = (state = initState, action) => {
       }
 
     case 'GET_COVERAGE_ERROR':
-      console.log('GET_COVERAGE_ERROR', action.err);
+      console.log('GET_COVERAGE_ERROR', action.error);
       return state;
 
     case 'UPDATE_COVERAGE_SUCCESS':
@@ -232,7 +246,7 @@ const reportReducer = (state = initState, action) => {
       return state;
 
     case 'UPDATE_COVERAGE_ERROR':
-      console.log('UPDATE_COVERAGE_ERROR', action.err);
+      console.log('UPDATE_COVERAGE_ERROR', action.error);
       return state;
     default:
       return state;

@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import axios from 'axios';
 import * as ReportStatus from "../../constants/ReportStatus";
 import {getReportsCollectionUrl} from "../../util/StringUtil";
+import React from "react";
 
 //this is not in use
 export const uploadReport = (file) => {
@@ -97,7 +98,7 @@ export const getReport = (id) => {
     .doc(id)
     .onSnapshot(snapshot => {
       if (!snapshot.exists) {
-        dispatch({type: 'GET_REPORT_ERROR_NOT_EXISTS'});
+        dispatch({type: 'GET_REPORT_ERROR_NOT_EXIST'});
       } else {
         dispatch({type: 'GET_REPORT_SUCCESS', report: snapshot.data()});
       }
@@ -135,7 +136,7 @@ export const deleteReport = (id) => {
         result => {
             dispatch({type: 'DELETE_REPORT_SUCCESS'});
         }, err => {
-          dispatch({type: 'DELETE_REPORT_error', error: err});
+          dispatch({type: 'DELETE_REPORT_ERROR', error: err});
         }
     );
   }

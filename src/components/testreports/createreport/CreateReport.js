@@ -395,6 +395,7 @@ const mapDispatchToProps = dispatch => {
 
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
     showErrorAlert: (message) => dispatch(showErrorAlert(message)),
+
     resetCreateReportSuccess: (message) => dispatch(resetCreateReportSuccess(message)),
 
   };

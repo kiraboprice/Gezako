@@ -12,6 +12,8 @@ exports.incrementNumberOfTestsForServiceOnCreate = functions.firestore
   return incrementNumberOfTestsOnCreate(context.params.id, snap.data());
 });
 
+//todo see how to use onWrite inorder to combine this logic
+
 exports.incrementNumberOfTestsForServiceOnUpdate = functions.firestore
 .document(`${BASE_DOCUMENT}/reports/{id}`)
 .onUpdate((change, context) => {
