@@ -4,7 +4,7 @@ admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
 
 const BASE_DOCUMENT = 'company/tala';
-export const DELETED = "Deleted";
+const DELETED = "Deleted";
 
 exports.incrementNumberOfTestsForServiceOnCreate = functions.firestore
 .document(`${BASE_DOCUMENT}/reports/{id}`)

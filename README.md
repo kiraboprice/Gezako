@@ -28,7 +28,12 @@ Since this is a shared testing and staging environment, do not make deletions fr
 When new changes are added to master, they need to be deployed to prod. This is currently a manual process. To deploy
 to prod, branch off master and create a new release branch with format release-1.2 
 
+DB Indices
 - check to see if there are any new db indices set up staging which need to be added to prod
+if there are new db indices, attempt to access them locally by first changing the fbConfig
+to the prod config. You can then follow the firestore links in the logs to help you auto set up 
+the indices
+
 - update the firebase config in fbConfig.js to point to prod config
 - use firebase prod config inorder to push functions to correct project:
 `firebase use prod` - probably not needed (taken care of by firebase deploy?)

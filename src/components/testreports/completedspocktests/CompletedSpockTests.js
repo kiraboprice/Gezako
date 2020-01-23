@@ -33,6 +33,8 @@ import {
 import CoverageDialog from "./coverage/CoverageDialog";
 import NoReportsScreen from "../../noreports/NoReportsScreen";
 import {setPrevUrl} from "../../../store/actions/authActions";
+import {getFirstNameFromFullName} from "../../../util/StringUtil";
+import moment from "moment";
 
 const CompletedSpockTests = (props) => {
   const phase = 'completed';
@@ -116,7 +118,7 @@ const CompletedSpockTests = (props) => {
               {reportStats? reportStats.numberOfTests : null}
             </div>
             <div id="report-stats-titles">
-              Code Coverage
+              Code Coverage. Last updated: {coverage? moment(coverage.updatedAt.toDate()).calendar() : ''}  by {coverage? getFirstNameFromFullName(coverage.updatedBy.displayName) : ''}
             </div>
             <div id="report-stats-code-coverage">
               <span id="report-stats-coverage-titles">Class:</span>

@@ -177,7 +177,7 @@ const StatusCard = (props) => {
         {description}
       </div>
       <div id="status-updated">
-        Last updated: {stateFromProps.report.updatedAt ? moment(stateFromProps.report.updatedAt.toDate()).calendar(): null}
+        Last updated: {moment(stateFromProps.report.updatedAt.toDate()).calendar()} by {stateFromProps.report.updatedBy ? getFirstNameFromFullName(stateFromProps.report.updatedBy.displayName) : null}
       </div>
       <div id="update-status-options">
         <select value={status} onChange={handleStatusChange}>

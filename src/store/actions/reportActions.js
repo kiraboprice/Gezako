@@ -144,7 +144,7 @@ export const deleteReport = (id) => {
 
 export const getCompletedFeatureReportsByService = (phase, service) => {
   const collectionUrl = getReportsCollectionUrl();
-  console.log(`collectionUrl---- ${collectionUrl}`);
+  // console.log(`collectionUrl---- ${collectionUrl}`);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
@@ -288,7 +288,10 @@ export const updateReport = (id, report) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     const collectionUrl = getReportsCollectionUrl();
-    console.log('updateReport action', id, report);
+    // console.log('updateReport action', id, report);
+
+    const displayName = getState().firebase.profile.displayName;
+    const uid = getState().firebase.auth.uid;
 
     firestore.collection(collectionUrl)
     .doc(id).update({
@@ -304,6 +307,7 @@ export const updateReport = (id, report) => {
 
       status: report.status,
       updatedAt: new Date(),
+      updatedBy: {id: uid, displayName: displayName}
     }).then(() => {
       dispatch({type: 'UPDATE_REPORT_SUCCESS'});
     }).catch(err => {
@@ -397,11 +401,14 @@ export const resetGetCoverage = () => {
 export const updateCoverage = (service, coverage) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
-
+    const displayName = getState().firebase.profile.displayName;
+    const uid = getState().firebase.auth.uid;
     firestore.collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`).set({
       class: coverage.classCoverage,
       method: coverage.methodCoverage,
       line: coverage.lineCoverage,
+      updatedAt: new Date(),
+      updatedBy: {id: uid, displayName: displayName}
     }).then(() => {
       dispatch({type: 'UPDATE_COVERAGE_SUCCESS'});
     }).catch(err => {
