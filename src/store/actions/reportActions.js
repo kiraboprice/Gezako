@@ -77,7 +77,6 @@ export const createReport = (report) => {
       //just leaving this here to show possibility of using profile in an action. but this is not scalable. if the displayName ever gets updated, we'd need a cloud function which listens on the user collection for this user specifically, then updates everywhere.
       createdBy: profile.displayName,
       userId: userId,
-      status: ReportStatus.NEW,
       createdAt: new Date(),
       updatedAt: new Date()
     }).then(() => {

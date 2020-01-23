@@ -20,6 +20,7 @@ import {
   showSuccessAlert
 } from "../../../store/actions/snackbarActions";
 import TextField from "@material-ui/core/TextField/TextField";
+import {COMPLETED, NEW} from "../../../constants/ReportStatus";
 const qs = require('query-string');
 
 const CreateReport = (props) => {
@@ -242,7 +243,7 @@ const CreateReport = (props) => {
   function handleSubmit(e) {
     e.preventDefault();
     // console.log("PROPS---", props);
-
+    const status = (phase === 'completed')? COMPLETED : NEW;
     const report = {
       title,
       phase,
@@ -252,7 +253,8 @@ const CreateReport = (props) => {
       assignedTo,
       numberOfTests,
       productSpec,
-      techSpec
+      techSpec,
+      status
     };
 
     const validationText = validateFields(report);

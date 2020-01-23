@@ -61,9 +61,7 @@ const StatusCard = (props) => {
   const [successAlertMessage, setSuccessAlertMessage] = useState('');
 
   useEffect(() => {
-    console.log('PROPSSSSSS', props);
-    console.log('showSuccessAlert', showSuccessAlert);
-    console.log('successAlertMessage', successAlertMessage);
+    // console.log('PROPSSSSSS', props);
     if(props.updateReportResult === 'success'){
       setShowSuccessAlert(true);
       setSuccessAlertMessage('Updated Status!');
@@ -127,7 +125,7 @@ const StatusCard = (props) => {
         return doneImage;
 
       case ReportStatus.COMPLETED:
-        return completedImage;
+        return archivedImage;
 
       case ReportStatus.ARCHIVED:
         return archivedImage;
