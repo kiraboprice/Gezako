@@ -6,28 +6,60 @@ import moment from 'moment'
 import connect from "react-redux/es/connect/connect";
 import {Redirect} from 'react-router-dom'
 import {firestoreConnect} from "react-redux-firebase";
-import {downloadReport} from "../../../store/actions/reportActions";
+import {
+  downloadReport,
+  getFeatureReports, getReports,
+  resetGetFeatureReports,
+  resetGetReports,
+  unsubscribeGetFeatureReports, unsubscribeGetReports
+} from "../../../store/actions/reportActions";
 import createReportIcon from "../../../assets/Icons/create.png";
 import {
   setPrevUrl
 } from "../../../store/actions/authActions";
-import {
-  getAssigneeName,
-  getFirstNameFromFullName
-} from "../../../util/StringUtil";
-
+import NoReportsScreen from "../../noreports/NoReportsScreen";
 
 const SpockTestsInDevelopment = (props) => {
-  const { auth, reports } = props;
+  const phase = 'development';
+
+  //variables
+  const { auth, service, reports } = props;
+
+  //actions
   const { setPrevUrl } = props;
+
+  const {getReports, unsubscribeGetReports, resetGetReports} = props;
+
+  useEffect(() => {
+    getReports(phase, service);
+
+    return function cleanup() {
+      unsubscribeGetReports(phase, service);
+      resetGetReports();
+    };
+  }, [service]);
+
+  const [reportsAvailable, setReportsAvailable] = useState(true);
+  useEffect(() => {
+    if(reports) {
+      if (reports.length === 0){
+        setReportsAvailable(false);
+      } else {
+        setReportsAvailable(true);
+      }
+    }
+    return function cleanup() {
+      setReportsAvailable(true);
+    };
+  }, [props]);
 
   if (!auth.uid) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login' />;
   }
 
-  console.log('report');
-  console.log(reports);
+  // console.log('report');
+  // console.log(reports);
 
   return (
         <div id='reports-section'>
@@ -35,6 +67,12 @@ const SpockTestsInDevelopment = (props) => {
           <Link to={'/development/upload-report'} >
             <div id="create-new-report" style={{background: "#ffeead"}} > <img src={createReportIcon} alt="Create a report" /> </div>
           </Link>
+
+          {reportsAvailable ? false : <NoReportsScreen
+              service={service}
+              phase={phase}
+          />
+          }
 
           <div id='features-reports'>
             <div id='headers'>
@@ -66,38 +104,30 @@ const SpockTestsInDevelopment = (props) => {
   )
 };
 
+//todo extract this to StringUtils
+function getServiceNameFromPathName(pathname) {
+  return pathname.split('/development/')[1]
+}
+
 const mapStateToProps = (state, ownProps) => {
-  //todo extract this to StringUtils
-  function getServiceNameFromPathName(pathname) {
-    return pathname.split('/development/')[1]
-  }
-  console.log('---------------state');
-  console.log(state);
+  // console.log('---------------state');
+  // console.log(state);
   return {
     auth: state.firebase.auth,
-    reports: state.firestore.ordered.reports,
-    collection: 'developmentreports',
     service: getServiceNameFromPathName(ownProps.location.pathname),
+    reports: state.report.reports
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
+
+    getReports: (phase, service) => dispatch(getReports(phase, service)),
+    unsubscribeGetReports: (phase, service) => dispatch(unsubscribeGetReports(phase, service)),
+    resetGetReports: () => dispatch(resetGetReports())
   }
 };
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect(props => {
-      return [
-        {
-          collection: 'company',
-          doc: 'tala',
-          subcollections: [{collection: props.collection}],
-          where: ['service', '==', props.service],
-          storeAs: 'reports'
-        }
-      ]
-    })
-)(SpockTestsInDevelopment)
+    connect(mapStateToProps, mapDispatchToProps))(SpockTestsInDevelopment)

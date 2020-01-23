@@ -3,7 +3,7 @@ import firebase from 'firebase';
 
 import axios from 'axios';
 import * as ReportStatus from "../../constants/ReportStatus";
-import {getCollectionUrl} from "../../util/StringUtil";
+import {getCollectionUrlFromPhase} from "../../util/StringUtil";
 
 //this is not in use
 export const uploadReport = (file) => {
@@ -97,7 +97,7 @@ export const resetCreateReportSuccess = () => {
 export const getReport = (id, phase) => {
   console.log(`getReport---- ${id}`);
   console.log(`getReport---- ${phase}`);
-  const collectionUrl = getCollectionUrl(phase);
+  const collectionUrl = getCollectionUrlFromPhase(phase);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
@@ -116,7 +116,7 @@ export const getReport = (id, phase) => {
 };
 
 export const unsubscribeGetReport = (id, phase) => {
-  const collectionUrl = getCollectionUrl(phase);
+  const collectionUrl = getCollectionUrlFromPhase(phase);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
@@ -132,7 +132,7 @@ export const resetGetReport = () => {
 };
 
 export const getFeatureReports = (phase, service) => {
-  const collectionUrl = getCollectionUrl(phase);
+  const collectionUrl = getCollectionUrlFromPhase(phase);
   console.log(`collectionUrl---- ${collectionUrl}`);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
@@ -160,7 +160,7 @@ export const getFeatureReports = (phase, service) => {
 };
 
 export const unsubscribeGetFeatureReports = (phase, service) => {
-  const collectionUrl = getCollectionUrl(phase);
+  const collectionUrl = getCollectionUrlFromPhase(phase);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
@@ -179,7 +179,7 @@ export const resetGetFeatureReports = () => {
 
 export const getEndpointReports = (phase, service) => {
   // console.log(`getEndpointReports---- ${service}`);
-  const collectionUrl = getCollectionUrl(phase);
+  const collectionUrl = getCollectionUrlFromPhase(phase);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
@@ -206,7 +206,7 @@ export const getEndpointReports = (phase, service) => {
 };
 
 export const unsubscribeGetEndpointReports = (phase, service) => {
-  const collectionUrl = getCollectionUrl(phase);
+  const collectionUrl = getCollectionUrlFromPhase(phase);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
@@ -220,6 +220,52 @@ export const unsubscribeGetEndpointReports = (phase, service) => {
 export const resetGetEndpointReports = () => {
   return (dispatch) => {
     dispatch({type: 'RESET_GET_ENDPOINT_REPORTS'});
+  }
+};
+
+/**
+ * Get Reports
+ */
+export const getReports = (phase, service) => {
+  // console.log(`getReports---- ${service}`);
+  const collectionUrl = getCollectionUrlFromPhase(phase);
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    firestore.collection(`${collectionUrl}`)
+    .where('service', '==', `${service}`)
+    .orderBy('updatedAt', 'desc')
+    .onSnapshot(querySnapshot => {
+      let reports = [];
+      if (querySnapshot.empty) {
+        dispatch({type: 'GET_REPORTS_EMPTY'});
+      } else {
+        querySnapshot.forEach(doc => {
+          reports.push({id: doc.id, ...doc.data()})
+        });
+        dispatch({type: 'GET_REPORTS_SUCCESS', reports: reports});
+      }
+
+    }, err => {
+      console.log(`getReports error: ${err}`);
+      dispatch({type: 'GET_REPORTS_ERROR', error: err});
+    });
+  }
+};
+
+export const unsubscribeGetReports = (phase, service) => {
+  const collectionUrl = getCollectionUrlFromPhase(phase);
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    firestore.collection(`${collectionUrl}`)
+    .where('service', '==', `${service}`)
+    .orderBy('updatedAt', 'desc')
+    .onSnapshot(() => { });
+  }
+};
+
+export const resetGetReports = () => {
+  return (dispatch) => {
+    dispatch({type: 'RESET_GET_REPORTS'});
   }
 };
 

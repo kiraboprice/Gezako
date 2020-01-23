@@ -120,6 +120,34 @@ const reportReducer = (state = initState, action) => {
       };
 
       /**
+       * Get Reports
+       */
+    case 'GET_REPORTS_EMPTY':
+      console.log('GET_REPORTS_EMPTY');
+      return {
+        ...state,
+        reports: []
+      };
+
+    case 'GET_REPORTS_SUCCESS':
+      // console.log('GET_REPORTS_SUCCESS', action.reports);
+      return {
+        ...state,
+        reports: action.reports
+      };
+
+    case 'GET_REPORTS_ERROR':
+      console.log('GET_REPORTS_ERROR', action.err);
+      return state;
+
+    case 'RESET_GET_REPORTS':
+      console.log('RESET_GET_REPORTS');
+      return {
+        ...state,
+        reports: null
+      };
+
+      /**
        * Update Report
        */
     case 'UPDATE_REPORT_SUCCESS':

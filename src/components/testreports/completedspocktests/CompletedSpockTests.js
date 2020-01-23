@@ -33,14 +33,18 @@ import {
 } from "../../../store/actions/snackbarActions";
 import CoverageDialog from "./coverage/CoverageDialog";
 import NoReportsScreen from "../../noreports/NoReportsScreen";
+import {setPrevUrl} from "../../../store/actions/authActions";
 
 const CompletedSpockTests = (props) => {
+  const phase = 'completed';
   const [showCoverageDialog, setShowCoverageDialog] = useState();
 
   //variables
   const {auth, featureReports, endpointReports, service, reportStats, coverage} = props;
 
   //actions
+  const { setPrevUrl } = props;
+
   const {getReportStats, unsubscribeGetReportStats, resetGetReportStats} = props;
   const {getCoverage, unsubscribeGetCoverage, resetGetCoverage} = props;
   const {getFeatureReports, unsubscribeGetFeatureReports, resetGetFeatureReports} = props;
@@ -49,8 +53,8 @@ const CompletedSpockTests = (props) => {
   useEffect(() => {
     getReportStats(service);
     getCoverage(service);
-    getFeatureReports('completed', service);
-    getEndpointReports('completed', service);
+    getFeatureReports(phase, service);
+    getEndpointReports(phase, service);
 
     return function cleanup() {
       unsubscribeGetReportStats(service);
@@ -59,10 +63,10 @@ const CompletedSpockTests = (props) => {
       unsubscribeGetCoverage(service);
       resetGetCoverage();
 
-      unsubscribeGetFeatureReports('completed', service);
+      unsubscribeGetFeatureReports(phase, service);
       resetGetFeatureReports();
 
-      unsubscribeGetEndpointReports('completed', service);
+      unsubscribeGetEndpointReports(phase, service);
       resetGetEndpointReports();
     };
   }, [service]);
@@ -77,10 +81,14 @@ const CompletedSpockTests = (props) => {
       }
     }
     return function cleanup() {
+      setReportsAvailable(true);
     };
   }, [props]);
 
-  if (!auth.uid) {return <Redirect to='/login'/>}
+  if (!auth.uid) {
+    setPrevUrl(props.location.pathname);
+    return <Redirect to='/login' />;
+  }
 
   function setShowCoverageDialogToTrue() {
     setShowCoverageDialog(true);
@@ -90,7 +98,6 @@ const CompletedSpockTests = (props) => {
     setShowCoverageDialog(false);
   }
 
-  console.log('repartss=-----OUT', reportsAvailable)
   return (
       <div id='home'>
         <div id='reports-section'>
@@ -130,7 +137,11 @@ const CompletedSpockTests = (props) => {
             </div>
           </div>
 
-          {reportsAvailable ? false : <NoReportsScreen service = {service} />}
+          {reportsAvailable ? false : <NoReportsScreen
+              service = {service}
+              phase = {phase}
+          />
+          }
 
           <div id='features-reports'>
             <h4>Features</h4>
@@ -211,9 +222,7 @@ const mapStateToProps = (state, ownProps) => {
     featureReports: state.report.featureReports,
     endpointReports: state.report.endpointReports,
 
-    collection: 'completedreports', //not needed?
-
-    service: getServiceNameFromPathName(ownProps.location.pathname), //not needed?
+    service: getServiceNameFromPathName(ownProps.location.pathname),
 
     reportStats: state.report.reportStats,
     coverage: state.report.coverage
@@ -222,7 +231,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // setPrevUrl: (url) => dispatch(setPrevUrl(url)),
+    setPrevUrl: (url) => dispatch(setPrevUrl(url)),
+
     getFeatureReports: (phase, service) => dispatch(getFeatureReports(phase, service)),
     unsubscribeGetFeatureReports: (phase, service) => dispatch(unsubscribeGetFeatureReports(phase, service)),
     resetGetFeatureReports: () => dispatch(resetGetFeatureReports()),
@@ -247,5 +257,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps)
-)(CompletedSpockTests)
+    connect(mapStateToProps, mapDispatchToProps))(CompletedSpockTests)
