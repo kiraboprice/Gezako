@@ -20,13 +20,14 @@ import {
   showSuccessAlert
 } from "../../../store/actions/snackbarActions";
 import TextField from "@material-ui/core/TextField/TextField";
+const qs = require('query-string');
 
 const CreateReport = (props) => {
-
+  const serviceInQuery = qs.parse(props.location.search, { ignoreQueryPrefix: true }).service;
   //report fields
   const [title, setTitle] = useState('Test Report Title');
-  const [phase, setPhase] = useState('development');
-  const [service, setService] = useState('surveys');
+  const [phase, setPhase] = useState(getReportPhaseFromPathName(props.location.pathname));
+  const [service, setService] = useState(serviceInQuery);
   const [type, setType] = useState('endpoint');
   const [fileDownLoadUrl, setFileDownLoadUrl] = useState('');
   const [assignedTo, setAssignedTo] = useState(null);
@@ -45,8 +46,6 @@ const CreateReport = (props) => {
 
   useEffect(() => {
     props.getUsersApartFromCurrentUser();
-
-    setPhase(getReportPhaseFromPathName(props.location.pathname));
     if (phase === 'development') {
       setDisplayDevelopmentFields('block');
       setDisplayCompletedFields('none');
@@ -55,6 +54,16 @@ const CreateReport = (props) => {
       setDisplayCompletedFields('block');
     }
   }, [props]);
+
+  useEffect(() => {
+    if (phase === 'development') {
+      setDisplayDevelopmentFields('block');
+      setDisplayCompletedFields('none');
+    } else if (phase === 'completed') {
+      setDisplayDevelopmentFields('none');
+      setDisplayCompletedFields('block');
+    }
+  }, []);
 
   //on submit report is clicked
   useEffect(() => {
@@ -188,11 +197,9 @@ const CreateReport = (props) => {
   }
 
   function validateFields(report) {
+    console.log('REPORT ISSSS', report);
    if(!report.title.length > 0) {
      return ("Fill in the Title")
-   }
-   else if (!report.phase.length > 0) {
-     return ("Select Phase")
    }
    else if (!report.service.length > 0) {
      return ("Select Service")

@@ -64,8 +64,8 @@ const SpockTestsInDevelopment = (props) => {
   return (
         <div id='reports-section'>
 
-          <Link to={'/development/upload-report'} >
-            <div id="create-new-report" style={{background: "#ffeead"}} > <img src={createReportIcon} alt="Create a report" /> </div>
+          <Link to={`/development/upload-report?service=${service}`} >
+          <div id="create-new-report" style={{background: "#ffeead"}} > <img src={createReportIcon} alt="Create a report" /> </div>
           </Link>
 
           {reportsAvailable ? false : <NoReportsScreen

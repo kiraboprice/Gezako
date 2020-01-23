@@ -104,7 +104,7 @@ const CompletedSpockTests = (props) => {
 
           {endpointReports || featureReports ? null : <LoadingScreen />}
 
-          <Link to={'/completed/upload-report'} >
+          <Link to={`/completed/upload-report?service=${service}`} >
             <div id="create-new-report" style={{background: "#ffeead"}}> <img src={createReportIcon} alt="Create a report" /> </div>
           </Link>
 
