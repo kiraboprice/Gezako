@@ -66,50 +66,50 @@ const reportReducer = (state = initState, action) => {
       /**
        * Get Feature Reports
        */
-    case 'GET_FEATURE_REPORTS_EMPTY':
-      console.log('GET_FEATURE_REPORTS_EMPTY');
+    case 'GET_COMPLETED_FEATURE_REPORTS_EMPTY':
+      console.log('GET_COMPLETED_FEATURE_REPORTS_EMPTY');
       return {
         ...state,
-        featureReports: []
+        completedFeatureReports: []
       };
 
-    case 'GET_FEATURE_REPORTS_SUCCESS':
-      // console.log('GET_FEATURE_REPORTS_SUCCESS', action.featureReports);
+    case 'GET_COMPLETED_FEATURE_REPORTS_SUCCESS':
+      // console.log('GET_COMPLETED_FEATURE_REPORTS_SUCCESS', action.completedFeatureReports);
       return {
         ...state,
-        featureReports: action.featureReports
+        completedFeatureReports: action.completedFeatureReports
       };
 
-    case 'GET_FEATURE_REPORTS_ERROR':
-      console.log('GET_FEATURE_REPORTS_ERROR', action.err);
+    case 'GET_COMPLETED_FEATURE_REPORTS_ERROR':
+      console.log('GET_COMPLETED_FEATURE_REPORTS_ERROR', action.err);
       return state;
 
     case 'RESET_GET_FEATURE_REPORTS':
       console.log('RESET_GET_FEATURE_REPORTS');
       return {
         ...state,
-        featureReports: null
+        completedFeatureReports: null
       };
 
       /**
        * Get Endpoint Reports
        */
-    case 'GET_ENDPOINT_REPORTS_EMPTY':
-      console.log('GET_ENDPOINT_REPORTS_EMPTY');
+    case 'GET_COMPLETED_ENDPOINT_REPORTS_EMPTY':
+      console.log('GET_COMPLETED_ENDPOINT_REPORTS_EMPTY');
       return {
         ...state,
         endpointReports: []
       };
 
-    case 'GET_ENDPOINT_REPORTS_SUCCESS':
-      // console.log('GET_ENDPOINT_REPORTS_SUCCESS', action.endpointReports);
+    case 'GET_COMPLETED_ENDPOINT_REPORTS_SUCCESS':
+      // console.log('GET_COMPLETED_ENDPOINT_REPORTS_SUCCESS', action.endpointReports);
       return {
         ...state,
         endpointReports: action.endpointReports
       };
 
-    case 'GET_ENDPOINT_REPORTS_ERROR':
-      console.log('GET_ENDPOINT_REPORTS_ERROR', action.err);
+    case 'GET_COMPLETED_ENDPOINT_REPORTS_ERROR':
+      console.log('GET_COMPLETED_ENDPOINT_REPORTS_ERROR', action.err);
       return state;
 
     case 'RESET_GET_ENDPOINT_REPORTS':
@@ -122,29 +122,29 @@ const reportReducer = (state = initState, action) => {
       /**
        * Get Reports
        */
-    case 'GET_REPORTS_EMPTY':
-      console.log('GET_REPORTS_EMPTY');
+    case 'GET_REPORTS_IN_DEVELOPMENT_EMPTY':
+      console.log('GET_REPORTS_IN_DEVELOPMENT_EMPTY');
       return {
         ...state,
-        reports: []
+        reportsInDevelopment: []
       };
 
-    case 'GET_REPORTS_SUCCESS':
-      // console.log('GET_REPORTS_SUCCESS', action.reports);
+    case 'GET_REPORTS_IN_DEVELOPMENT_SUCCESS':
+      // console.log('GET_REPORTS_IN_DEVELOPMENT_SUCCESS', action.reports);
       return {
         ...state,
-        reports: action.reports
+        reportsInDevelopment: action.reportsInDevelopment
       };
 
-    case 'GET_REPORTS_ERROR':
-      console.log('GET_REPORTS_ERROR', action.err);
+    case 'GET_REPORTS_IN_DEVELOPMENT_ERROR':
+      console.log('GET_REPORTS_IN_DEVELOPMENT_ERROR', action.err);
       return state;
 
-    case 'RESET_GET_REPORTS':
-      console.log('RESET_GET_REPORTS');
+    case 'RESET_GET_REPORTS_IN_DEVELOPMENT':
+      console.log('RESET_GET_REPORTS_IN_DEVELOPMENT');
       return {
         ...state,
-        reports: null
+        reportsInDevelopment: null
       };
 
       /**

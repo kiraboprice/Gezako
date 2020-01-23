@@ -7,7 +7,6 @@ import {Link, Redirect} from 'react-router-dom'
 import {setPrevUrl} from "../../../store/actions/authActions";
 import {
   downloadReport,
-  getReport,
   resetState
 } from "../../../store/actions/reportActions";
 

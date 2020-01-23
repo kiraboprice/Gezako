@@ -21,12 +21,8 @@ export const getReportPhaseFromPathName = (pathname) => {
   }
 };
 
-export const getCollectionUrlFromPhase = (phase) => {
-  if(phase === 'development'){
-    return BASE_DOCUMENT + '/developmentreports'
-  } else if (phase === 'completed') {
-    return BASE_DOCUMENT + '/completedreports'
-  }
+export const getReportsCollectionUrl = () => {
+    return BASE_DOCUMENT + '/reports'
 };
 
 export const getFirstNameFromFullName = (fullName) => {

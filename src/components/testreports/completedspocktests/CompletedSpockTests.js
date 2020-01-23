@@ -15,16 +15,16 @@ import LoadingScreen from "../../loading/LoadingScreen";
 import createReportIcon from "../../../assets/Icons/create.png";
 import {
   getCoverage,
-  getEndpointReports,
-  getFeatureReports,
+  getCompletedEndpointReportsByService,
+  getCompletedFeatureReportsByService,
   getReportStats,
   resetCreateReportSuccess,
-  resetGetCoverage, resetGetEndpointReports,
-  resetGetFeatureReports,
+  resetGetCoverage, resetGetCompletedEndpointReportsByService,
+  resetGetCompletedFeatureReportsByService,
   resetGetReportStats,
   unsubscribeGetCoverage,
-  unsubscribeGetEndpointReports,
-  unsubscribeGetFeatureReports,
+  unsubscribeGetCompletedEndpointReportsByService,
+  unsubscribeGetCompletedFeatureReportsByService,
   unsubscribeGetReportStats
 } from "../../../store/actions/reportActions";
 import {
@@ -40,7 +40,7 @@ const CompletedSpockTests = (props) => {
   const [showCoverageDialog, setShowCoverageDialog] = useState();
 
   //variables
-  const {auth, featureReports, endpointReports, service, reportStats, coverage} = props;
+  const {auth, completedFeatureReports, endpointReports, service, reportStats, coverage} = props;
 
   //actions
   const { setPrevUrl } = props;
@@ -73,8 +73,8 @@ const CompletedSpockTests = (props) => {
 
   const [reportsAvailable, setReportsAvailable] = useState(true);
   useEffect(() => {
-    if(featureReports && endpointReports) {
-      if (featureReports.length === 0 && endpointReports.length === 0){
+    if(completedFeatureReports && endpointReports) {
+      if (completedFeatureReports.length === 0 && endpointReports.length === 0){
         setReportsAvailable(false);
       } else {
         setReportsAvailable(true);
@@ -102,7 +102,7 @@ const CompletedSpockTests = (props) => {
       <div id='home'>
         <div id='reports-section'>
 
-          {endpointReports || featureReports ? null : <LoadingScreen />}
+          {endpointReports || completedFeatureReports ? null : <LoadingScreen />}
 
           <Link to={`/completed/upload-report?service=${service}`} >
             <div id="create-new-report" style={{background: "#ffeead"}}> <img src={createReportIcon} alt="Create a report" /> </div>
@@ -154,7 +154,7 @@ const CompletedSpockTests = (props) => {
               <div id='title'>Created At</div>
               <div id='end-column'>Created By</div>
             </div>
-            { featureReports && featureReports.map(report => { //todo add the index back here!
+            { completedFeatureReports && completedFeatureReports.map(report => { //todo add the index back here!
                 return (
                     <div>
                       {/*<div key={index}>*/}
@@ -219,7 +219,7 @@ const mapStateToProps = (state, ownProps) => {
   }
   return {
     auth: state.firebase.auth,
-    featureReports: state.report.featureReports,
+    completedFeatureReports: state.report.completedFeatureReports,
     endpointReports: state.report.endpointReports,
 
     service: getServiceNameFromPathName(ownProps.location.pathname),
@@ -233,13 +233,13 @@ const mapDispatchToProps = dispatch => {
   return {
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
 
-    getFeatureReports: (phase, service) => dispatch(getFeatureReports(phase, service)),
-    unsubscribeGetFeatureReports: (phase, service) => dispatch(unsubscribeGetFeatureReports(phase, service)),
-    resetGetFeatureReports: () => dispatch(resetGetFeatureReports()),
+    getFeatureReports: (phase, service) => dispatch(getCompletedFeatureReportsByService(phase, service)),
+    unsubscribeGetFeatureReports: (phase, service) => dispatch(unsubscribeGetCompletedFeatureReportsByService(phase, service)),
+    resetGetFeatureReports: () => dispatch(resetGetCompletedFeatureReportsByService()),
 
-    getEndpointReports: (phase, service) => dispatch(getEndpointReports(phase, service)),
-    unsubscribeGetEndpointReports: (phase, service) => dispatch(unsubscribeGetEndpointReports(phase, service)),
-    resetGetEndpointReports: () => dispatch(resetGetEndpointReports()),
+    getEndpointReports: (phase, service) => dispatch(getCompletedEndpointReportsByService(phase, service)),
+    unsubscribeGetEndpointReports: (phase, service) => dispatch(unsubscribeGetCompletedEndpointReportsByService(phase, service)),
+    resetGetEndpointReports: () => dispatch(resetGetCompletedEndpointReportsByService()),
 
     getReportStats: (service) => dispatch(getReportStats(service)),
     unsubscribeGetReportStats: (service) => dispatch(unsubscribeGetReportStats(service)),

@@ -3,7 +3,7 @@ import firebase from 'firebase';
 
 import axios from 'axios';
 import * as ReportStatus from "../../constants/ReportStatus";
-import {getCollectionUrlFromPhase} from "../../util/StringUtil";
+import {getReportsCollectionUrl} from "../../util/StringUtil";
 
 //this is not in use
 export const uploadReport = (file) => {
@@ -66,12 +66,7 @@ export const createReport = (report) => {
     const firestore = getFirestore();
     const profile = getState().firebase.profile;
     const userId = getState().firebase.auth.uid;
-    let collectionUrl = '';
-    if(report.phase == 'development'){
-      collectionUrl = BASE_DOCUMENT + '/developmentreports'
-    } else if (report.phase == 'completed') {
-      collectionUrl = BASE_DOCUMENT + '/completedreports'
-    }
+    const collectionUrl = getReportsCollectionUrl();
     firestore.collection(collectionUrl).add({
       ...report,
       //just leaving this here to show possibility of using profile in an action. but this is not scalable. if the displayName ever gets updated, we'd need a cloud function which listens on the user collection for this user specifically, then updates everywhere.
@@ -95,11 +90,11 @@ export const resetCreateReportSuccess = () => {
 
 export const getReport = (id, phase) => {
   console.log(`getReport---- ${id}`);
-  console.log(`getReport---- ${phase}`);
-  const collectionUrl = getCollectionUrlFromPhase(phase);
+  const collectionUrl = getReportsCollectionUrl();
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
+    .where('phase', '==', `${phase}`)
     .doc(id)
     .onSnapshot(snapshot => {
       if (!snapshot.exists) {
@@ -115,10 +110,11 @@ export const getReport = (id, phase) => {
 };
 
 export const unsubscribeGetReport = (id, phase) => {
-  const collectionUrl = getCollectionUrlFromPhase(phase);
+  const collectionUrl = getReportsCollectionUrl();
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
+    .where('phase', '==', `${phase}`)
     .doc(id)
     .onSnapshot(() => { });
   }
@@ -130,82 +126,85 @@ export const resetGetReport = () => {
   }
 };
 
-export const getFeatureReports = (phase, service) => {
-  const collectionUrl = getCollectionUrlFromPhase(phase);
+export const getCompletedFeatureReportsByService = (phase, service) => {
+  const collectionUrl = getReportsCollectionUrl();
   console.log(`collectionUrl---- ${collectionUrl}`);
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
+    .where('phase', '==', `completed`)
     .where('type', '==', 'feature')
     // .orderBy('updatedAt', 'desc') //todo add this back when field exists for all reports
     .orderBy('createdAt', 'desc')
     .onSnapshot(querySnapshot => {
-      let featureReports = [];
+      let completedFeatureReports = [];
       if (querySnapshot.empty) {
-        dispatch({type: 'GET_FEATURE_REPORTS_EMPTY'});
+        dispatch({type: 'GET_COMPLETED_FEATURE_REPORTS_EMPTY'});
       } else {
         querySnapshot.forEach(doc => {
-          featureReports.push({id: doc.id, ...doc.data()})
+          completedFeatureReports.push({id: doc.id, ...doc.data()})
         });
-        dispatch({type: 'GET_FEATURE_REPORTS_SUCCESS', featureReports: featureReports});
+        dispatch({type: 'GET_COMPLETED_FEATURE_REPORTS_SUCCESS', completedFeatureReports: completedFeatureReports});
       }
 
     }, err => {
-      console.log(`getFeatureReports error: ${err}`);
-      dispatch({type: 'GET_FEATURE_REPORTS_ERROR', error: err});
+      console.log(`getCompletedFeatureReportsByService error: ${err}`);
+      dispatch({type: 'GET_COMPLETED_FEATURE_REPORTS_ERROR', error: err});
     });
   }
 };
 
-export const unsubscribeGetFeatureReports = (phase, service) => {
-  const collectionUrl = getCollectionUrlFromPhase(phase);
+export const unsubscribeGetCompletedFeatureReportsByService = (phase, service) => {
+  const collectionUrl = getReportsCollectionUrl();
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
+    .where('phase', '==', `completed`)
     .where('type', '==', 'feature')
     .orderBy('updatedAt', 'desc')
     .onSnapshot(() => { });
   }
 };
 
-export const resetGetFeatureReports = () => {
+export const resetGetCompletedFeatureReportsByService = () => {
   return (dispatch) => {
     dispatch({type: 'RESET_GET_FEATURE_REPORTS'});
   }
 };
 
-export const getEndpointReports = (phase, service) => {
-  // console.log(`getEndpointReports---- ${service}`);
-  const collectionUrl = getCollectionUrlFromPhase(phase);
+export const getCompletedEndpointReportsByService = (phase, service) => {
+  // console.log(`getCompletedEndpointReportsByService---- ${service}`);
+  const collectionUrl = getReportsCollectionUrl();
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
+    .where('phase', '==', `completed`)
     .where('type', '==', 'endpoint')
     // .orderBy('updatedAt', 'desc') //todo add this back
     .orderBy('createdAt', 'desc')
     .onSnapshot(querySnapshot => {
       let endpointReports = [];
       if (querySnapshot.empty) {
-        dispatch({type: 'GET_ENDPOINT_REPORTS_EMPTY'});
+        dispatch({type: 'GET_COMPLETED_ENDPOINT_REPORTS_EMPTY'});
       } else {
         querySnapshot.forEach(doc => {
           endpointReports.push({id: doc.id, ...doc.data()})
         });
-        dispatch({type: 'GET_ENDPOINT_REPORTS_SUCCESS', endpointReports: endpointReports});
+        dispatch({type: 'GET_COMPLETED_ENDPOINT_REPORTS_SUCCESS', endpointReports: endpointReports});
       }
 
     }, err => {
-      console.log(`getEndpointReports error: ${err}`);
-      dispatch({type: 'GET_ENDPOINT_REPORTS_ERROR', error: err});
+      console.log(`getCompletedEndpointReportsByService error: ${err}`);
+      dispatch({type: 'GET_COMPLETED_ENDPOINT_REPORTS_ERROR', error: err});
     });
   }
 };
 
-export const unsubscribeGetEndpointReports = (phase, service) => {
-  const collectionUrl = getCollectionUrlFromPhase(phase);
+export const unsubscribeGetCompletedEndpointReportsByService = (phase, service) => {
+  const collectionUrl = getReportsCollectionUrl();
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
@@ -216,7 +215,7 @@ export const unsubscribeGetEndpointReports = (phase, service) => {
   }
 };
 
-export const resetGetEndpointReports = () => {
+export const resetGetCompletedEndpointReportsByService = () => {
   return (dispatch) => {
     dispatch({type: 'RESET_GET_ENDPOINT_REPORTS'});
   }
@@ -225,34 +224,34 @@ export const resetGetEndpointReports = () => {
 /**
  * Get Reports
  */
-export const getReports = (phase, service) => {
-  // console.log(`getReports---- ${service}`);
-  const collectionUrl = getCollectionUrlFromPhase(phase);
+export const getReportsInDevelopment = (phase, service) => {
+  // console.log(`getReportsInDevelopment---- ${service}`);
+  const collectionUrl = getReportsCollectionUrl();
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
     .orderBy('updatedAt', 'desc')
     .onSnapshot(querySnapshot => {
-      let reports = [];
+      let reportsInDevelopment = [];
       if (querySnapshot.empty) {
-        dispatch({type: 'GET_REPORTS_EMPTY'});
+        dispatch({type: 'GET_REPORTS_IN_DEVELOPMENT_EMPTY'});
       } else {
         querySnapshot.forEach(doc => {
-          reports.push({id: doc.id, ...doc.data()})
+          reportsInDevelopment.push({id: doc.id, ...doc.data()})
         });
-        dispatch({type: 'GET_REPORTS_SUCCESS', reports: reports});
+        dispatch({type: 'GET_REPORTS_IN_DEVELOPMENT_SUCCESS', reportsInDevelopment: reportsInDevelopment});
       }
 
     }, err => {
-      console.log(`getReports error: ${err}`);
-      dispatch({type: 'GET_REPORTS_ERROR', error: err});
+      console.log(`getReportsInDevelopment error: ${err}`);
+      dispatch({type: 'GET_REPORTS_IN_DEVELOPMENT_ERROR', error: err});
     });
   }
 };
 
-export const unsubscribeGetReports = (phase, service) => {
-  const collectionUrl = getCollectionUrlFromPhase(phase);
+export const unsubscribeGetReportsInDevelopment = (phase, service) => {
+  const collectionUrl = getReportsCollectionUrl();
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
@@ -262,28 +261,23 @@ export const unsubscribeGetReports = (phase, service) => {
   }
 };
 
-export const resetGetReports = () => {
+export const resetGetReportsInDevelopment = () => {
   return (dispatch) => {
-    dispatch({type: 'RESET_GET_REPORTS'});
+    dispatch({type: 'RESET_GET_REPORTS_IN_DEVELOPMENT'});
   }
 };
 
 export const updateReport = (id, report) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
-    let collectionUrl = '';
-    if(report.phase === 'development'){
-      collectionUrl = BASE_DOCUMENT + '/developmentreports'
-    } else if (report.phase === 'completed') {
-      collectionUrl = BASE_DOCUMENT + '/completedreports'
-    }
-
+    const collectionUrl = getReportsCollectionUrl();
     console.log('updateReport action', id, report);
 
-    firestore.collection(collectionUrl).doc(id).update({
+    firestore.collection(collectionUrl)
+    .doc(id).update({
       title: report.title,
       phase: report.phase,
-      service: report.service,
+      // service: report.service, //should not be able to update a report's service
       type: report.type,
       fileDownLoadUrl: report.fileDownLoadUrl,
       assignedTo: report.assignedTo || null,

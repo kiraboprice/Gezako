@@ -92,7 +92,7 @@ const StatusCard = (props) => {
         return `${createdBy} moved the report to done`;
 
       case ReportStatus.COMPLETED:
-        return `${createdBy} moved the report to the Completed section`;
+        return `${createdBy} moved the report to the Completed phase`;
 
       case ReportStatus.ARCHIVED:
         return `${createdBy} archived the report`;

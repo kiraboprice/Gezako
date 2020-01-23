@@ -4,10 +4,10 @@ import { Redirect } from 'react-router-dom'
 import {
   updateReport,
   resetState,
-  getFeatureReports,
+  getCompletedFeatureReportsByService,
   getReport,
-  unsubscribeGetFeatureReports,
-  resetGetFeatureReports, unsubscribeGetReport, resetGetReport
+  unsubscribeGetCompletedFeatureReportsByService,
+  resetGetCompletedFeatureReportsByService, unsubscribeGetReport, resetGetReport
 } from "../../../store/actions/reportActions";
 import * as firebase from "firebase";
 import CustomSnackbar from "../../snackbar/CustomSnackbar";

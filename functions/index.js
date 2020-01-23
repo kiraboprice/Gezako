@@ -94,3 +94,9 @@ const newNumberOfTests = parseInt(newReport.numberOfTests);
     console.log('updateReportStatsOnUpdate error: ', err)
   });
 }
+
+// exports.deleteReportWithStatusIsUpdatedToDeleted = functions.firestore
+// .document(`${BASE_DOCUMENT}/completedreports/{id}`)
+// .onUpdate((change, context) => {
+//   return incrementNumberOfTestsOnUpdate(context.params.id, change.before.data(), change.after.data());
+// });

@@ -8,10 +8,10 @@ import {Redirect} from 'react-router-dom'
 import {firestoreConnect} from "react-redux-firebase";
 import {
   downloadReport,
-  getFeatureReports, getReports,
-  resetGetFeatureReports,
-  resetGetReports,
-  unsubscribeGetFeatureReports, unsubscribeGetReports
+  getCompletedFeatureReportsByService, getReportsInDevelopment,
+  resetGetCompletedFeatureReportsByService,
+  resetGetReportsInDevelopment,
+  unsubscribeGetCompletedFeatureReportsByService, unsubscribeGetReportsInDevelopment
 } from "../../../store/actions/reportActions";
 import createReportIcon from "../../../assets/Icons/create.png";
 import {
@@ -115,7 +115,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     auth: state.firebase.auth,
     service: getServiceNameFromPathName(ownProps.location.pathname),
-    reports: state.report.reports
+    reports: state.report.reportsInDevelopment
   }
 };
 
@@ -123,9 +123,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
 
-    getReports: (phase, service) => dispatch(getReports(phase, service)),
-    unsubscribeGetReports: (phase, service) => dispatch(unsubscribeGetReports(phase, service)),
-    resetGetReports: () => dispatch(resetGetReports())
+    getReports: (phase, service) => dispatch(getReportsInDevelopment(phase, service)),
+    unsubscribeGetReports: (phase, service) => dispatch(unsubscribeGetReportsInDevelopment(phase, service)),
+    resetGetReports: () => dispatch(resetGetReportsInDevelopment())
   }
 };
 
