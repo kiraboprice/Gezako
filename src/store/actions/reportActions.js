@@ -124,6 +124,23 @@ export const resetGetReport = () => {
   }
 };
 
+export const deleteReport = (id) => {
+  console.log(`deleteReport---- ${id}`);
+  const collectionUrl = getReportsCollectionUrl();
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    firestore.collection(`${collectionUrl}`)
+    .doc(id)
+    .delete().then(
+        result => {
+            dispatch({type: 'DELETE_REPORT_SUCCESS'});
+        }, err => {
+          dispatch({type: 'DELETE_REPORT_error', error: err});
+        }
+    );
+  }
+};
+
 export const getCompletedFeatureReportsByService = (phase, service) => {
   const collectionUrl = getReportsCollectionUrl();
   console.log(`collectionUrl---- ${collectionUrl}`);

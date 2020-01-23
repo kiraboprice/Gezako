@@ -2,7 +2,9 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 const db = admin.firestore();
+
 const BASE_DOCUMENT = 'company/tala';
+export const DELETED = "Deleted";
 
 exports.incrementNumberOfTestsForServiceOnCreate = functions.firestore
 .document(`${BASE_DOCUMENT}/reports/{id}`)
@@ -95,8 +97,10 @@ const newNumberOfTests = parseInt(newReport.numberOfTests);
   });
 }
 
-// exports.deleteReportWithStatusIsUpdatedToDeleted = functions.firestore
-// .document(`${BASE_DOCUMENT}/completedreports/{id}`)
-// .onUpdate((change, context) => {
-//   return incrementNumberOfTestsOnUpdate(context.params.id, change.before.data(), change.after.data());
-// });
+exports.deleteReportWhenStatusIsUpdatedToDeleted = functions.firestore
+.document(`${BASE_DOCUMENT}/reports/{id}`)
+.onUpdate((change, context) => {
+  if(change.after.data().status === DELETED){
+    return change.after.ref.delete();
+  }
+});

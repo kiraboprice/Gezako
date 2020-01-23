@@ -4,6 +4,7 @@ import "./statuscard.css"
 import {compose} from "redux";
 import connect from "react-redux/es/connect/connect";
 import {
+  deleteReport,
   resetUpdateReportState,
   updateReport
 } from "../../store/actions/reportActions";
@@ -21,9 +22,12 @@ import deletedImage from "../../assets/Imgs/status/light-grey-deleted.png";
 import {getFirstNameFromFullName} from "../../util/StringUtil";
 import moment from "moment";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
+import {DELETED} from "../../constants/ReportStatus";
 
 const StatusCard = (props) => {
-  const { updateReport } = props;
+  const { updateReport, resetUpdateReportState } = props;
+  const { deleteReport } = props;
+
   const [status, setStatusValue] = useState('');
   const [assignedToName, setAssignedToName] = useState('NONE NONE');
   const [description, setDescription] = useState('');
@@ -61,7 +65,12 @@ const StatusCard = (props) => {
 
   function updateStatus(e) {
     stateFromProps.report.status = status;
-    updateReport(stateFromProps.id, stateFromProps.report)
+    if(status === DELETED){
+      deleteReport(stateFromProps.id)
+    }
+    else {
+      updateReport(stateFromProps.id, stateFromProps.report)
+    }
   }
 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -189,6 +198,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateReport: (id, report) => dispatch(updateReport(id, report)),
     resetUpdateReportState: () => dispatch(resetUpdateReportState()),
+
+    deleteReport: (id, report) => dispatch(deleteReport(id))
+
   }
 };
 
