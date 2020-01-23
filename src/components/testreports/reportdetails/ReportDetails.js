@@ -6,8 +6,8 @@ import moment from 'moment'
 import {Link, Redirect} from 'react-router-dom'
 import {setPrevUrl} from "../../../store/actions/authActions";
 import {
-  downloadReport,
-  resetState
+  downloadReport, getReport, resetGetReport,
+  resetState, unsubscribeGetReport
 } from "../../../store/actions/reportActions";
 
 import '../reportdetails/reportdetails.css';
@@ -17,6 +17,7 @@ import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 
 const ReportDetails = (props) => {
   const {auth, report} = props;
+
   const {setPrevUrl, downloadReport, reportDownload, resetState} = props;
   const id = props.match.params.id;
 
@@ -38,6 +39,13 @@ const ReportDetails = (props) => {
       setDisplayDevelopmentFields('none');
       setDisplayCompletedFields('block');
     }
+
+    props.getReport(props.match.params.id);
+
+    return function cleanup() {
+      unsubscribeGetReport(props.match.params.id);
+      resetGetReport();
+    };
   },[id]);
 
   if (!auth.uid) {
@@ -110,25 +118,23 @@ const ReportDetails = (props) => {
 
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const id = ownProps.match.params.id;
-  const phase = getReportPhaseFromPathName(ownProps.location.pathname);
-  const reports = state.firestore.data.reports;
-  const report = reports ? reports[id] : null;
-
+const mapStateToProps = (state) => {
   // console.log('state');
   // console.log(state);
 
   return {
     auth: state.firebase.auth,
-    report: report,
+    report: state.report.getReport,
     reportDownload: state.report.reportDownload,
-    collection: `${phase}reports`
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getReport: (id) => dispatch(getReport(id)),
+    unsubscribeGetReport: (id) => dispatch(unsubscribeGetReport(id)),
+    resetGetReport: () => dispatch(resetGetReport()),
+
     downloadReport: (report) => dispatch(downloadReport(report)),
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
     resetState: () => dispatch(resetState())
@@ -136,15 +142,5 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect(props => {
-      return [
-        {
-          collection: 'company',
-          doc: 'tala',
-          subcollections: [{collection: props.collection}],
-          storeAs: 'reports'
-        }
-      ]
-    })
-)(ReportDetails)
+    connect(mapStateToProps, mapDispatchToProps))
+(ReportDetails)

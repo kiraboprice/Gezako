@@ -5,13 +5,13 @@ const db = admin.firestore();
 const BASE_DOCUMENT = 'company/tala';
 
 exports.incrementNumberOfTestsForServiceOnCreate = functions.firestore
-.document(`${BASE_DOCUMENT}/completedreports/{id}`)
+.document(`${BASE_DOCUMENT}/reports/{id}`)
 .onCreate((snap, context) => {
   return incrementNumberOfTestsOnCreate(context.params.id, snap.data());
 });
 
 exports.incrementNumberOfTestsForServiceOnUpdate = functions.firestore
-.document(`${BASE_DOCUMENT}/completedreports/{id}`)
+.document(`${BASE_DOCUMENT}/reports/{id}`)
 .onUpdate((change, context) => {
   return incrementNumberOfTestsOnUpdate(context.params.id, change.before.data(), change.after.data());
 });

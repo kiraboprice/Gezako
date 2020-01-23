@@ -7,7 +7,6 @@ import {BrowserRouter, Link, Redirect} from 'react-router-dom'
 import './completedspockreports.css';
 
 import {compose} from "redux";
-import {firestoreConnect} from "react-redux-firebase";
 import penIcon from "../../../assets/Icons/pen.png";
 import Report from "../Report";
 import LoadingScreen from "../../loading/LoadingScreen";

@@ -5,7 +5,6 @@ import {compose} from "redux";
 import moment from 'moment'
 import connect from "react-redux/es/connect/connect";
 import {Redirect} from 'react-router-dom'
-import {firestoreConnect} from "react-redux-firebase";
 import {
   downloadReport,
   getCompletedFeatureReportsByService, getReportsInDevelopment,

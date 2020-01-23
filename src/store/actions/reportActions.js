@@ -88,13 +88,12 @@ export const resetCreateReportSuccess = () => {
   }
 };
 
-export const getReport = (id, phase) => {
+export const getReport = (id) => {
   console.log(`getReport---- ${id}`);
   const collectionUrl = getReportsCollectionUrl();
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
-    .where('phase', '==', `${phase}`)
     .doc(id)
     .onSnapshot(snapshot => {
       if (!snapshot.exists) {
@@ -109,12 +108,11 @@ export const getReport = (id, phase) => {
   }
 };
 
-export const unsubscribeGetReport = (id, phase) => {
+export const unsubscribeGetReport = (id) => {
   const collectionUrl = getReportsCollectionUrl();
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
-    .where('phase', '==', `${phase}`)
     .doc(id)
     .onSnapshot(() => { });
   }
@@ -285,7 +283,7 @@ export const updateReport = (id, report) => {
       productSpec: report.productSpec || null,
       techSpec: report.techSpec || null,
 
-      status: report.status || null,
+      status: report.status,
       updatedAt: new Date(),
     }).then(() => {
       dispatch({type: 'UPDATE_REPORT_SUCCESS'});
