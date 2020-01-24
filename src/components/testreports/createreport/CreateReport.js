@@ -308,7 +308,7 @@ const CreateReport = (props) => {
                 <option value='users'>Users</option>
                 <option value='auth'>Auth</option>
                 <option value='rails'>Rails</option>
-                <option value='approval'>Comms</option>
+                <option value='comms'>Comms</option>
                 <option value='approval'>Approval</option>
                 <option value='scheduler'>Scheduler</option>
                 <option value='dsrouter'>DsRouter</option>
@@ -318,6 +318,7 @@ const CreateReport = (props) => {
                 <option value='attribution'>Attribution</option>
                 <option value='settlement'>Settlement</option>
                 <option value='verification'>Verification</option>
+                <option value='lendingpartner'>Lendingpartner</option>
               </select>
             </div>
 

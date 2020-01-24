@@ -104,7 +104,8 @@ export default class SideBar extends Component {
                         [ "Kyc", '/completed/kyc'],
                         [ "Attribution", '/completed/attribution'],
                         [ "Settlement", '/completed/settlement'],
-                        [ "Verification", '/completed/verification']
+                        [ "Verification", '/completed/verification'],
+                        [ "Lendingpartner", '/completed/lendingpartner'],
                       ]}
                       titleLink={'/completed/surveys'}
                   />
@@ -133,7 +134,8 @@ export default class SideBar extends Component {
                           [ "Kyc", '/development/kyc'],
                           [ "Attribution", '/development/attribution'],
                           [ "Settlement", '/development/settlement'],
-                          [ "Verification", '/development/verification']
+                          [ "Verification", '/development/verification'],
+                          [ "Lendingpartner", '/development/lendingpartner']
                         ]}
                         active={this.state.secondActive}
                         titleLink={'/development/surveys'}
