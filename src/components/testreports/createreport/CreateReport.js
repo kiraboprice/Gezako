@@ -26,11 +26,11 @@ const qs = require('query-string');
 const CreateReport = (props) => {
   const serviceInQuery = qs.parse(props.location.search, { ignoreQueryPrefix: true }).service;
   //report fields
-  const [title, setTitle] = useState('Test Report Title');
+  const [title, setTitle] = useState();
   const [phase, setPhase] = useState(getReportPhaseFromPathName(props.location.pathname));
   const [service, setService] = useState(serviceInQuery);
   const [type, setType] = useState('endpoint');
-  const [fileDownLoadUrl, setFileDownLoadUrl] = useState('');
+  const [fileDownLoadUrl, setFileDownLoadUrl] = useState();
   const [assignedTo, setAssignedTo] = useState(null);
   const [numberOfTests, setNumberOfTests] = useState(0);
   const [productSpec, setproductSpec] = useState('');

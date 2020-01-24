@@ -62,19 +62,20 @@ const UpdateReport = (props) => {
 
   useEffect(() => {
     props.getUsersApartFromCurrentUser();
-    if(props.report){
-      setTitle(props.report.title);
-      setPhase(props.report.phase);
-      setService(props.report.service);
-      setType(props.report.type);
-      setFileDownLoadUrl(props.report.fileDownLoadUrl);
-      setAssignedTo(props.report.assignedTo);
-      setNumberOfTests(props.report.numberOfTests);
-      setProductSpec(props.report.productSpec);
-      setTechSpec(props.report.techSpec);
+    if(report){
+
+      setTitle(report.title);
+      setPhase(report.phase);
+      setService(report.service);
+      setType(report.type);
+      setFileDownLoadUrl(report.fileDownLoadUrl);
+      setAssignedTo(report.assignedTo);
+      setNumberOfTests(report.numberOfTests);
+      setProductSpec(report.productSpec);
+      setTechSpec(report.techSpec);
     }
     // console.log('REPORRRRRTTTTUU----', report);
-  }, [props]);
+  }, [report]);
 
   const handleChange = (e) => {
     const value = e.target.value;
