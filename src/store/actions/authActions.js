@@ -1,11 +1,13 @@
+import firebase from "../../fbConfig"
+import firestore from "../../fbConfig"
+
 import {BASE_DOCUMENT} from "../../constants/FireStore";
 import * as StringUtils from "../../util/StringUtil";
 
 var notTalaEmployeeOrTestUserDispatchSent = false;
 
 export const signIn = () => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firebase = getFirebase();
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
 
     let provider = new firebase.auth.GoogleAuthProvider();

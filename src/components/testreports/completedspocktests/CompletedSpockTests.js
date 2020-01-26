@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react'
-import 'firebase/auth';
-import 'firebase/firestore';
+
+import firebase from "../../../fbConfig";
+import firestore from "../../../fbConfig";
+
 import {connect} from 'react-redux';
 import {BrowserRouter, Link, Redirect} from 'react-router-dom'
 
@@ -86,6 +88,7 @@ const CompletedSpockTests = (props) => {
     };
   }, [props]);
 
+  console.log("FIREBASE---------", firebase.auth.uid);
   if (!auth.uid) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login' />;
@@ -212,6 +215,8 @@ const CompletedSpockTests = (props) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
+  console.log("STATE---------", state);
+  console.log("state.firebase.auth---------", state.firebase.auth);
   //todo extract this to StringUtils
   function getServiceNameFromPathName(pathname) {
     const service = pathname.split('/completed/')[1];
