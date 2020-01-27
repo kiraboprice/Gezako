@@ -10,9 +10,12 @@ import {
 } from "../../../store/actions/reportActions";
 
 import '../reportdetails/reportdetails.css';
+import '../reportdetails/spockreportcustomstyles.css';
+
 import StatusCard from "../../status/StatusCard";
 
 import {getReportPhaseFromPathName} from "../../../util/StringUtil";
+import twitterIcon from "../../../assets/Icons/twitter.png";
 
 const ReportDetails = (props) => {
   const {user, report} = props;
@@ -84,16 +87,21 @@ const ReportDetails = (props) => {
                   <button id="report-button-section1"
                           style={{background: "#ff6f69", marginRight: "10px"}}
                           onClick={()=> goToExternalLink(report.productSpec)}>
-                    Product Requirements Spec
+                    {report.techSpec? 'Product Requirements Spec' : 'No Product Requirements Spec Set'}
                   </button>
 
                   <button id="report-button-section1"
                           style={{background: "#ffeead"}}
                           onClick={()=> goToExternalLink(report.techSpec)}>
-                    Technical Design Doc
+                    {report.techSpec? 'Technical Design Doc' : 'No Technical Design Doc Set'}
                   </button>
 
-                  <br/>
+                  <div id='postman-tests'>
+                    <a href= {report.postmanTest} target='_blank'>
+                      {report.postmanTest? 'Postman Tests' : 'No Postman Tests Added'}
+                    </a>
+                  </div>
+
                   <Link to={`/${report.phase}/update-report/${id}`} >
                     <button id="report-button-section1" style={{background: "#f0f0f0", marginTop: "25px"}}>Update Report</button>
                   </Link>
