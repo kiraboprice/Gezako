@@ -29,6 +29,7 @@ const UpdateReport = (props) => {
   const [fileDownLoadUrl, setFileDownLoadUrl] = useState('');
   const [assignedTo, setAssignedTo] = useState('');
   const [numberOfTests, setNumberOfTests] = useState('');
+  const [postmanTest, setPostmanTest] = useState('');
   const [productSpec, setProductSpec] = useState('');
   const [techSpec, setTechSpec] = useState('');
 
@@ -71,6 +72,7 @@ const UpdateReport = (props) => {
       setFileDownLoadUrl(report.fileDownLoadUrl);
       setAssignedTo(report.assignedTo);
       setNumberOfTests(report.numberOfTests);
+      setPostmanTest(report.postmanTest);
       setProductSpec(report.productSpec);
       setTechSpec(report.techSpec);
     }
@@ -109,6 +111,9 @@ const UpdateReport = (props) => {
     const value = e.target.value;
     // console.log('handleChange: ', value);
     switch (e.target.id) {
+      case 'postmanTest':
+        setPostmanTest(value);
+        break;
       case 'productSpec':
         setProductSpec(value);
         break;
@@ -197,6 +202,7 @@ const UpdateReport = (props) => {
       fileDownLoadUrl,
       assignedTo,
       numberOfTests,
+      postmanTest,
       productSpec,
       techSpec,
       status
@@ -294,6 +300,16 @@ const UpdateReport = (props) => {
                           value = {numberOfTests}
                 />
               </div>
+
+              <TextField
+                  margin="dense"
+                  id="postmanTest"
+                  label="Postman Tests Link"
+                  type="web"
+                  fullWidth
+                  value={postmanTest}
+                  onChange={handleChangeForTextField}
+              />
 
               <TextField
                   margin="dense"

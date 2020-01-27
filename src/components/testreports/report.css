@@ -24,11 +24,6 @@
     flex: 2;
 }
 
-#end-column a{
-    color: #01ACC1;
-    text-decoration: none;
-}
-
 #headers{
     color: grey;
     align-items: center;

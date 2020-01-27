@@ -69,7 +69,7 @@ const App = (props) => {
           </BrowserRouter>
         </div>
     );
-}
+};
 
 const mapStateToProps = (state) => {
   return {

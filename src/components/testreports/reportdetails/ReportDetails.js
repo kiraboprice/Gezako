@@ -10,9 +10,12 @@ import {
 } from "../../../store/actions/reportActions";
 
 import '../reportdetails/reportdetails.css';
+import '../reportdetails/spockreportcustomstyles.css';
+
 import StatusCard from "../../status/StatusCard";
 
 import {getReportPhaseFromPathName} from "../../../util/StringUtil";
+import twitterIcon from "../../../assets/Icons/twitter.png";
 
 const ReportDetails = (props) => {
   const {user, report} = props;
@@ -93,7 +96,12 @@ const ReportDetails = (props) => {
                     Technical Design Doc
                   </button>
 
-                  <br/>
+                  <div id='postman-tests'>
+                    <a href= {report.postmanTest} target='_blank'>
+                      {report.postmanTest? 'Postman Tests' : 'No Postman Tests'}
+                    </a>
+                  </div>
+
                   <Link to={`/${report.phase}/update-report/${id}`} >
                     <button id="report-button-section1" style={{background: "#f0f0f0", marginTop: "25px"}}>Update Report</button>
                   </Link>
