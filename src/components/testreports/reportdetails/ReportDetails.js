@@ -87,18 +87,18 @@ const ReportDetails = (props) => {
                   <button id="report-button-section1"
                           style={{background: "#ff6f69", marginRight: "10px"}}
                           onClick={()=> goToExternalLink(report.productSpec)}>
-                    Product Requirements Spec
+                    {report.techSpec? 'Product Requirements Spec' : 'No Product Requirements Spec Set'}
                   </button>
 
                   <button id="report-button-section1"
                           style={{background: "#ffeead"}}
                           onClick={()=> goToExternalLink(report.techSpec)}>
-                    Technical Design Doc
+                    {report.techSpec? 'Technical Design Doc' : 'No Technical Design Doc Set'}
                   </button>
 
                   <div id='postman-tests'>
                     <a href= {report.postmanTest} target='_blank'>
-                      {report.postmanTest? 'Postman Tests' : 'No Postman Tests'}
+                      {report.postmanTest? 'Postman Tests' : 'No Postman Tests Added'}
                     </a>
                   </div>
 
