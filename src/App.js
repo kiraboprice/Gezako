@@ -9,7 +9,7 @@ import './assets/fonts/fonts.css';
 import './app.css';
 import SpockTestsInDevelopment from './components/testreports/spocktestsindevelopment/SpockTestsInDevelopment';
 
-import Navigation from "./components/navigation/NavBar";
+import Navigation from "./components/navbar/NavBar";
 import SideBar from "./components/sidepanel/SideBar";
 import Tasks from "./components/tasks/Tasks";
 import CreateTask from "./components/tasks/CreateTask";
@@ -32,7 +32,7 @@ const App = (props) => {
   return (
         <div>
           <BrowserRouter>
-            {/*<ErrorBoundary>*/}
+            <ErrorBoundary>
 
             <Navigation/>
 
@@ -65,7 +65,7 @@ const App = (props) => {
               <Route exact path='/task/:id' component={TaskDetails}/>
             </Switch>
 
-            {/*</ErrorBoundary>*/}
+            </ErrorBoundary>
           </BrowserRouter>
         </div>
     );

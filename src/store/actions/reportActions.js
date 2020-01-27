@@ -9,7 +9,7 @@ import React from "react";
 
 //this is not in use
 export const uploadReport = (file) => {
-  return (dispatch, getState, {getFirestore}) => {
+  return (dispatch, getState) => {
     // const firebase = getFirebase;
     const storageRef = firebase.storage().ref();
 
