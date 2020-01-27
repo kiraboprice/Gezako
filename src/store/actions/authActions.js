@@ -1,5 +1,4 @@
 import firebase from "../../fbConfig"
-import firestore from "../../fbConfig"
 
 import {BASE_DOCUMENT} from "../../constants/FireStore";
 import * as StringUtils from "../../util/StringUtil";
@@ -20,9 +19,7 @@ var notTalaEmployeeOrTestUserDispatchSent = false;
 // };
 
 export const signIn = () => {
-  return (dispatch, getState, {getFirestore}) => {
-    const firestore = getFirestore();
-
+  return (dispatch, getState) => {
     let provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider).then((resp) => {
 
@@ -34,7 +31,7 @@ export const signIn = () => {
      else{
        // console.log(resp.user)
        notTalaEmployeeOrTestUserDispatchSent = false;
-       return firestore.collection(BASE_DOCUMENT+ '/users').doc(resp.user.uid).set({
+       return firebase.firestore().collection(BASE_DOCUMENT+ '/users').doc(resp.user.uid).set({
          displayName: resp.user.displayName,
          email: resp.user.email,
          photoURL: resp.user.photoURL
@@ -70,10 +67,9 @@ export const setPrevUrl = (url) => {
 };
 
 export const getUsersApartFromCurrentUser = () => {
-  return (dispatch, getState, {getFirestore}) => {
-    const firestore = getFirestore();
-    const user = firebase.auth;
-    firestore.collection(`${BASE_DOCUMENT}/users`).get()
+  return (dispatch, getState) => {
+    const user = getState().auth.user;
+    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).get()
     .then((snapshot) => {
       let users = [];
       if (snapshot.empty) {
@@ -100,9 +96,8 @@ export const getUsersApartFromCurrentUser = () => {
  * @returns {Function}
  */
 export const getUserByIdThenStoreInMap = (id) => {
-  return (dispatch, getState, {getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.collection(`${BASE_DOCUMENT}/users`).doc(id).get()
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).doc(id).get()
     .then(doc => {
       if (!doc.exists) {
         dispatch({type: 'GET_USER_BY_ID_THEN_MAP_NO_USER'});

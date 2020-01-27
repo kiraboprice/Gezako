@@ -34,4 +34,3 @@ firebase.initializeApp(config);
 // firebase.firestore();
 
 export default firebase
-export const firestore = firebase.firestore();

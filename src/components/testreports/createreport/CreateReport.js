@@ -202,15 +202,16 @@ const CreateReport = (props) => {
    if(!report.title.length > 0) {
      return ("Fill in the Title")
    }
-   else if (!report.service.length > 0) {
-     return ("Select Service")
-   }
-   else if (!report.type.length > 0) {
-     return ("Select Type")
-   }
-   else if (!report.fileDownLoadUrl.length > 0) {
-     return ("First upload a Test report")
-   }
+   // else if (!report.service.length > 0) {
+   //   return ("Select Service")
+   // }
+   // else if (!report.type.length > 0) {
+   //   return ("Select Type")
+   // }
+   // else if (!report.fileDownLoadUrl.length > 0) {
+   //   return ("First upload a Test report")
+   // }
+
    // else if (report.productSpec.length > 0) {
    //   if(!isValidUrl(report.productSpec)) {
    //     return ("Set a valid URL for Product Spec")
