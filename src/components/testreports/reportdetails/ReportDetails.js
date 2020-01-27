@@ -15,7 +15,7 @@ import StatusCard from "../../status/StatusCard";
 import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 
 const ReportDetails = (props) => {
-  const {auth, report} = props;
+  const {user, report} = props;
 
   const {setPrevUrl, downloadReport, reportDownload, resetReportDownload} = props;
   const id = props.match.params.id;
@@ -47,7 +47,7 @@ const ReportDetails = (props) => {
     };
   },[id]);
 
-  if (!auth.uid) {
+  if (!user.uid) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login' />;
   }
@@ -131,7 +131,7 @@ const mapStateToProps = (state) => {
   // console.log(state);
 
   return {
-    auth: state.firebase.auth,
+    user: state.auth.user,
     report: state.report.getReport,
     reportDownload: state.report.reportDownload,
   }

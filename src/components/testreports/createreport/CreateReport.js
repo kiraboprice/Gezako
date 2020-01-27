@@ -80,8 +80,8 @@ const CreateReport = (props) => {
     };
   }, [props]);
 
-  const {auth, setPrevUrl, users} = props;
-  if (!auth.uid) {
+  const {user, setPrevUrl, users} = props;
+  if (!user.uid) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login'/>;
   }
@@ -382,7 +382,7 @@ const CreateReport = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth,
+    user: state.auth.user,
     users: state.auth.users,
     createReportSuccess: state.report.createReportSuccess
   };

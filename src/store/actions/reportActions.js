@@ -404,7 +404,7 @@ export const updateCoverage = (service, coverage) => {
   return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     const displayName = getState().firebase.profile.displayName;
-    const uid = getState().firebase.auth.uid;
+    const uid = firebase.auth.uid;
     firestore.collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`).set({
       class: coverage.classCoverage,
       method: coverage.methodCoverage,

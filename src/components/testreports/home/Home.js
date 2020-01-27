@@ -6,9 +6,9 @@ import {setPrevUrl} from "../../../store/actions/authActions";
 
 
 const Home = (props) => {
-  const { auth, setPrevUrl, reports } = props;
+  const { user, setPrevUrl } = props;
 
-  if (!auth.uid) {
+  if (!user.uid) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login' />;
   } else {
@@ -18,7 +18,7 @@ const Home = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth
+    user: state.auth.user
   }
 };
 

@@ -72,7 +72,7 @@ export const setPrevUrl = (url) => {
 export const getUsersApartFromCurrentUser = () => {
   return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
-    const profile = getState().firebase.auth;
+    const user = firebase.auth;
     firestore.collection(`${BASE_DOCUMENT}/users`).get()
     .then((snapshot) => {
       let users = [];
@@ -80,7 +80,7 @@ export const getUsersApartFromCurrentUser = () => {
         dispatch({type: 'GET_USERS_NO_USERS'});
       } else {
         snapshot.forEach(doc => {
-          if(doc.data().email !== profile.email){
+          if(doc.data().email !== user.email){
             const id = doc.id;
             let user = {...doc.data(), id};
             users.push(user)

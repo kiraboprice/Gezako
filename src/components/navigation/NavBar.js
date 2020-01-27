@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 
-import './navigation.css';
+import './navbar.css';
 
 import {connect} from 'react-redux'
 import {signOut} from '../../store/actions/authActions'
 
-const Navigation = (props) => {
-  const { profile, signOut } = props;
+const NavBar = (props) => {
+  const { user, signOut } = props;
   const [displaySignOutButton, setDisplaySignOutButton] = useState('none');
 
   return (
@@ -19,7 +19,7 @@ const Navigation = (props) => {
         </div>
         <div id='profile-picture'>
 
-        <img src={profile.photoURL} alt={profile.displayName} onClick={
+        <img src={user.photoURL} alt={user.displayName} onClick={
           () => displaySignOutButton === 'none' ? setDisplaySignOutButton('block') : setDisplaySignOutButton('none')
         }></img>
 
@@ -30,7 +30,7 @@ const Navigation = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    profile: state.firebase.profile
+    user: state.auth.user
   }
 };
 
@@ -40,5 +40,5 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navigation)
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar)
             

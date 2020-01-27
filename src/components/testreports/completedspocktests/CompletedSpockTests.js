@@ -89,7 +89,7 @@ const CompletedSpockTests = (props) => {
   }, [props]);
 
   console.log("user---------", user);
-  if (!user.uid) { //this was user.uid!
+  if (!user.uid) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login' />;
   }

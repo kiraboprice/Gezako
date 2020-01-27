@@ -6,8 +6,8 @@ import { compose } from 'redux'
 import {Link, Redirect} from 'react-router-dom'
 
 const Tasks = (props) => {
-    const { auth, tasks } = props;
-    if (!auth.uid) return <Redirect to='/login' />;
+    const { user, tasks } = props;
+    if (!user.uid) return <Redirect to='/login' />;
 
     return (
         <div  id='tasks-section'>
@@ -28,7 +28,7 @@ const Tasks = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth,
+    user: state.auth.user,
     tasks: state.firestore.ordered.tasks
   }
 };
