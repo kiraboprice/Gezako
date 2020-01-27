@@ -6,8 +6,8 @@ import moment from 'moment'
 import { Redirect } from 'react-router-dom'
 
 const TaskDetails = (props) => {
-  const { auth, task } = props;
-  if (!auth.uid) return <Redirect to='/login' />;
+  const { user, task } = props;
+  if (!user.uid) return <Redirect to='/login' />;
 
   if (task) {
     return (
@@ -38,7 +38,7 @@ const mapStateToProps = (state, ownProps) => {
   const tasks = state.firestore.data.tasks;
   const task = tasks ? tasks[id] : null;
   return {
-    auth: state.firebase.auth,
+    user: state.auth.user,
     task: task
   }
 }

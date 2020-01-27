@@ -21,8 +21,8 @@ class CreateTask extends Component {
     this.props.history.push('/tasks');
   };
   render() {
-    const { auth } = this.props;
-    if (!auth.uid) return <Redirect to='/login' />;
+    const { user } = this.props;
+    if (!user.uid) return <Redirect to='/login' />;
     return (
       <div id='tasks-section'>
         <form onSubmit={this.handleSubmit}>
@@ -46,7 +46,7 @@ class CreateTask extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth,
+    user: state.auth.user
   }
 };
 

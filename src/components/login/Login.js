@@ -22,9 +22,9 @@ class Login extends Component {
   }
 
   render() {
-    const { authSuccess, authError, prevUrl, setPrevUrl } = this.props;
+    const { user, userAuthError, prevUrl, setPrevUrl } = this.props;
 
-    if(authSuccess!== null) {
+    if(user!== null) {
       if(prevUrl!== null) {
         setPrevUrl(null);
         return <Redirect to= {prevUrl} />
@@ -61,7 +61,7 @@ class Login extends Component {
                 </div>
                 <div id='errorText' className="errorText">
                   {/*TODO dismiss loading icon once error is shown*/}
-                  {authError ? <p>{authError}</p> : null}
+                  {userAuthError ? <p>{userAuthError}</p> : null}
                 </div>
               </div>
             </div>
@@ -92,8 +92,8 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    authSuccess: state.auth.authSuccess, //if auth is successful, store user details in db
-    authError: state.auth.authError, //if auth not successful, show error
+    user: state.auth.user, //if auth is successful, store user details in db
+    userAuthError: state.auth.userAuthError, //if auth not successful, show error
     prevUrl: state.auth.prevUrl
   }
 };

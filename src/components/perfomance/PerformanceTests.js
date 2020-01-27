@@ -4,8 +4,8 @@ import {Link, Redirect} from 'react-router-dom'
 import {compose} from "redux";
 
 const PerformanceTests = (props) => {
-  const {auth} = props;
-  if (!auth.uid) {return <Redirect to='/login'/>}
+  const {user} = props;
+  if (!user.uid) {return <Redirect to='/login'/>}
 
 
   return (
@@ -20,7 +20,7 @@ const PerformanceTests = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth,
+    user: state.auth.user,
   }
 };
 

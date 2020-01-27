@@ -22,7 +22,7 @@ const SpockTestsInDevelopment = (props) => {
   const phase = 'development';
 
   //variables
-  const { auth, service, reports } = props;
+  const { user, service, reports } = props;
 
   //actions
   const { setPrevUrl } = props;
@@ -52,7 +52,7 @@ const SpockTestsInDevelopment = (props) => {
     };
   }, [props]);
 
-  if (!auth.uid) {
+  if (!user.uid) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login' />;
   }
@@ -112,7 +112,7 @@ const mapStateToProps = (state, ownProps) => {
   // console.log('---------------state');
   // console.log(state);
   return {
-    auth: state.firebase.auth,
+    user: state.auth.user,
     service: getServiceNameFromPathName(ownProps.location.pathname),
     reports: state.report.reportsInDevelopment
   }

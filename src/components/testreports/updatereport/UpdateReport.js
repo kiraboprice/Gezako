@@ -21,16 +21,16 @@ const UpdateReport = (props) => {
   const { report } = props;
 
   //report fields
-  const [id, setId] = useState();
-  const [title, setTitle] = useState();
-  const [phase, setPhase] = useState();
-  const [service, setService] = useState();
-  const [type, setType] = useState();
-  const [fileDownLoadUrl, setFileDownLoadUrl] = useState();
-  const [assignedTo, setAssignedTo] = useState();
-  const [numberOfTests, setNumberOfTests] = useState();
-  const [productSpec, setProductSpec] = useState();
-  const [techSpec, setTechSpec] = useState();
+  const [id, setId] = useState('');
+  const [title, setTitle] = useState('');
+  const [phase, setPhase] = useState('');
+  const [service, setService] = useState('');
+  const [type, setType] = useState('');
+  const [fileDownLoadUrl, setFileDownLoadUrl] = useState('');
+  const [assignedTo, setAssignedTo] = useState('');
+  const [numberOfTests, setNumberOfTests] = useState('');
+  const [productSpec, setProductSpec] = useState('');
+  const [techSpec, setTechSpec] = useState('');
 
   //required to generate fileDownLoadUrl
   const [file, setFile] = useState();
@@ -213,8 +213,8 @@ const UpdateReport = (props) => {
     />;
   };
 
-  const { auth, users } = props;
-  if (!auth.uid) return <Redirect to='/login' />;
+  const { user, users } = props;
+  if (!user.uid) return <Redirect to='/login' />;
 
   if (title) {
     return (
@@ -332,7 +332,7 @@ const UpdateReport = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth, //todo remove the need for this auth so we can fully remove firestoreConnect
+    user: state.auth.user,
     report: state.report.getReport,
     users: state.auth.users
   }

@@ -26,11 +26,11 @@ const qs = require('query-string');
 const CreateReport = (props) => {
   const serviceInQuery = qs.parse(props.location.search, { ignoreQueryPrefix: true }).service;
   //report fields
-  const [title, setTitle] = useState();
+  const [title, setTitle] = useState('');
   const [phase, setPhase] = useState(getReportPhaseFromPathName(props.location.pathname));
   const [service, setService] = useState(serviceInQuery);
   const [type, setType] = useState('endpoint');
-  const [fileDownLoadUrl, setFileDownLoadUrl] = useState();
+  const [fileDownLoadUrl, setFileDownLoadUrl] = useState('');
   const [assignedTo, setAssignedTo] = useState(null);
   const [numberOfTests, setNumberOfTests] = useState(0);
   const [productSpec, setproductSpec] = useState('');
@@ -80,8 +80,8 @@ const CreateReport = (props) => {
     };
   }, [props]);
 
-  const {auth, setPrevUrl, users} = props;
-  if (!auth.uid) {
+  const {user, setPrevUrl, users} = props;
+  if (!user.uid) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login'/>;
   }
@@ -205,12 +205,10 @@ const CreateReport = (props) => {
    else if (!report.service.length > 0) {
      return ("Select Service")
    }
-   else if (!report.type.length > 0) {
-     return ("Select Type")
-   }
    else if (!report.fileDownLoadUrl.length > 0) {
      return ("First upload a Test report")
    }
+
    // else if (report.productSpec.length > 0) {
    //   if(!isValidUrl(report.productSpec)) {
    //     return ("Set a valid URL for Product Spec")
@@ -382,7 +380,7 @@ const CreateReport = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.firebase.auth,
+    user: state.auth.user,
     users: state.auth.users,
     createReportSuccess: state.report.createReportSuccess
   };

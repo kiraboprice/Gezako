@@ -1,5 +1,6 @@
+import firebase from "../../fbConfig"
+
 import {BASE_DOCUMENT} from "../../constants/FireStore";
-import firebase from 'firebase';
 
 import axios from 'axios';
 import * as ReportStatus from "../../constants/ReportStatus";
@@ -8,7 +9,7 @@ import React from "react";
 
 //this is not in use
 export const uploadReport = (file) => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState) => {
     // const firebase = getFirebase;
     const storageRef = firebase.storage().ref();
 
@@ -63,16 +64,15 @@ export const uploadReport = (file) => {
 
 export const createReport = (report) => {
   // console.log("REPORTTTTT", report);
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    const profile = getState().firebase.profile;
-    const userId = getState().firebase.auth.uid;
+  return (dispatch, getState) => {
+    const user = getState().auth.user;
     const collectionUrl = getReportsCollectionUrl();
-    firestore.collection(collectionUrl).add({
+    firebase.firestore().collection(collectionUrl).add({
+      // firestore.collection(collectionUrl).add({
       ...report,
       //just leaving this here to show possibility of using profile in an action. but this is not scalable. if the displayName ever gets updated, we'd need a cloud function which listens on the user collection for this user specifically, then updates everywhere.
-      createdBy: profile.displayName,
-      userId: userId,
+      createdBy: user.displayName,
+      userId: user.uid,
       createdAt: new Date(),
       updatedAt: new Date()
     }).then(() => {
@@ -90,11 +90,10 @@ export const resetCreateReportSuccess = () => {
 };
 
 export const getReport = (id) => {
-  console.log(`getReport---- ${id}`);
+  // console.log(`getReport---- ${id}`);
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.collection(`${collectionUrl}`)
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${collectionUrl}`)
     .doc(id)
     .onSnapshot(snapshot => {
       if (!snapshot.exists) {
@@ -111,9 +110,8 @@ export const getReport = (id) => {
 
 export const unsubscribeGetReport = (id) => {
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.collection(`${collectionUrl}`)
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${collectionUrl}`)
     .doc(id)
     .onSnapshot(() => { });
   }
@@ -126,11 +124,10 @@ export const resetGetReport = () => {
 };
 
 export const deleteReport = (id) => {
-  console.log(`deleteReport---- ${id}`);
+  // console.log(`deleteReport---- ${id}`);
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.collection(`${collectionUrl}`)
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${collectionUrl}`)
     .doc(id)
     .delete().then(
         result => {
@@ -145,9 +142,8 @@ export const deleteReport = (id) => {
 export const getCompletedFeatureReportsByService = (phase, service) => {
   const collectionUrl = getReportsCollectionUrl();
   // console.log(`collectionUrl---- ${collectionUrl}`);
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.collection(`${collectionUrl}`)
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
     .where('phase', '==', `completed`)
     .where('type', '==', 'feature')
@@ -173,9 +169,8 @@ export const getCompletedFeatureReportsByService = (phase, service) => {
 
 export const unsubscribeGetCompletedFeatureReportsByService = (phase, service) => {
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.collection(`${collectionUrl}`)
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
     .where('phase', '==', `completed`)
     .where('type', '==', 'feature')
@@ -193,9 +188,8 @@ export const resetGetCompletedFeatureReportsByService = () => {
 export const getCompletedEndpointReportsByService = (phase, service) => {
   // console.log(`getCompletedEndpointReportsByService---- ${service}`);
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.collection(`${collectionUrl}`)
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
     .where('phase', '==', `completed`)
     .where('type', '==', 'endpoint')
@@ -221,9 +215,8 @@ export const getCompletedEndpointReportsByService = (phase, service) => {
 
 export const unsubscribeGetCompletedEndpointReportsByService = (phase, service) => {
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.collection(`${collectionUrl}`)
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
     .where('type', '==', 'endpoint')
     .orderBy('updatedAt', 'desc')
@@ -243,9 +236,8 @@ export const resetGetCompletedEndpointReportsByService = () => {
 export const getReportsInDevelopment = (phase, service) => {
   // console.log(`getReportsInDevelopment---- ${service}`);
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.collection(`${collectionUrl}`)
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
     .where('phase', '==', 'development')
     .orderBy('updatedAt', 'desc')
@@ -269,9 +261,8 @@ export const getReportsInDevelopment = (phase, service) => {
 
 export const unsubscribeGetReportsInDevelopment = (phase, service) => {
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.collection(`${collectionUrl}`)
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
     .orderBy('updatedAt', 'desc')
     .onSnapshot(() => { });
@@ -285,15 +276,12 @@ export const resetGetReportsInDevelopment = () => {
 };
 
 export const updateReport = (id, report) => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
+  return (dispatch, getState) => {
     const collectionUrl = getReportsCollectionUrl();
     // console.log('updateReport action', id, report);
+    const user = getState().auth.user;
 
-    const displayName = getState().firebase.profile.displayName;
-    const uid = getState().firebase.auth.uid;
-
-    firestore.collection(collectionUrl)
+    firebase.firestore().collection(collectionUrl)
     .doc(id).update({
       title: report.title,
       phase: report.phase,
@@ -307,7 +295,7 @@ export const updateReport = (id, report) => {
 
       status: report.status,
       updatedAt: new Date(),
-      updatedBy: {id: uid, displayName: displayName}
+      updatedBy: {id: user.uid, displayName: user.displayName}
     }).then(() => {
       dispatch({type: 'UPDATE_REPORT_SUCCESS'});
     }).catch(err => {
@@ -343,9 +331,8 @@ export const downloadReport = (report) => {
 
 export const getReportStats = (service) => {
   // console.log(`getReportStats---- ${service}`);
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.collection(`${BASE_DOCUMENT}/reportstats/`).doc(service)
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${BASE_DOCUMENT}/reportstats/`).doc(service)
     .onSnapshot(docSnapshot => {
       dispatch({type: 'GET_REPORT_STATS_SUCCESS', reportStats: docSnapshot.data()});
 
@@ -357,9 +344,8 @@ export const getReportStats = (service) => {
 };
 
 export const unsubscribeGetReportStats = (service) => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.collection(`${BASE_DOCUMENT}/reportstats/`).doc(service)
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${BASE_DOCUMENT}/reportstats/`).doc(service)
     .onSnapshot(() => { });
   }
 };
@@ -371,9 +357,8 @@ export const resetGetReportStats = () => {
 };
 
 export const getCoverage = (service) => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`)
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`)
     .onSnapshot(docSnapshot => {
       dispatch({type: 'GET_COVERAGE_SUCCESS', coverage: docSnapshot.data()});
 
@@ -385,9 +370,8 @@ export const getCoverage = (service) => {
 };
 
 export const unsubscribeGetCoverage = (service) => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`)
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`)
     .onSnapshot(() => { });
   }
 };
@@ -399,16 +383,14 @@ export const resetGetCoverage = () => {
 };
 
 export const updateCoverage = (service, coverage) => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    const displayName = getState().firebase.profile.displayName;
-    const uid = getState().firebase.auth.uid;
-    firestore.collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`).set({
+  return (dispatch, getState) => {
+    const user = getState().auth.user;
+    firebase.firestore().collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`).set({
       class: coverage.classCoverage,
       method: coverage.methodCoverage,
       line: coverage.lineCoverage,
       updatedAt: new Date(),
-      updatedBy: {id: uid, displayName: displayName}
+      updatedBy: {id: user.uid, displayName: user.displayName}
     }).then(() => {
       dispatch({type: 'UPDATE_COVERAGE_SUCCESS'});
     }).catch(err => {

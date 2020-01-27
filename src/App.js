@@ -9,7 +9,7 @@ import './assets/fonts/fonts.css';
 import './app.css';
 import SpockTestsInDevelopment from './components/testreports/spocktestsindevelopment/SpockTestsInDevelopment';
 
-import Navigation from "./components/navigation/Navigation";
+import Navigation from "./components/navbar/NavBar";
 import SideBar from "./components/sidepanel/SideBar";
 import Tasks from "./components/tasks/Tasks";
 import CreateTask from "./components/tasks/CreateTask";
@@ -73,7 +73,7 @@ const App = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    //authSuccess: state.auth.authSuccess,
+    //user: state.auth.user,
   }
 };
 

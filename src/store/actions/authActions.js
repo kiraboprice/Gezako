@@ -1,13 +1,25 @@
+import firebase from "../../fbConfig"
+
 import {BASE_DOCUMENT} from "../../constants/FireStore";
 import * as StringUtils from "../../util/StringUtil";
 
 var notTalaEmployeeOrTestUserDispatchSent = false;
 
-export const signIn = () => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firebase = getFirebase();
-    const firestore = getFirestore();
+// export const verifyAuth = () => dispatch => {
+//   // dispatch(verifyRequest());
+//   firebase.auth().onAuthStateChanged(user => {
+//     if (user !== null) {
+//       dispatch({ type: 'LOGIN_SUCCESS' })
+//     }
+//     // else {
+//     //   dispatch({ type: 'USER_NOT_LOGGED_IN' })
+//     // }
+//     dispatch({ type: 'VERIFY_AUTH_FINISHED' })
+//   });
+// };
 
+export const signIn = () => {
+  return (dispatch, getState) => {
     let provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider).then((resp) => {
 
@@ -19,16 +31,16 @@ export const signIn = () => {
      else{
        // console.log(resp.user)
        notTalaEmployeeOrTestUserDispatchSent = false;
-       return firestore.collection(BASE_DOCUMENT+ '/users').doc(resp.user.uid).set({
+       return firebase.firestore().collection(BASE_DOCUMENT+ '/users').doc(resp.user.uid).set({
          displayName: resp.user.displayName,
          email: resp.user.email,
          photoURL: resp.user.photoURL
        });
      }
-    }).then((resp) => {
+    }).then((user) => {
       if(!notTalaEmployeeOrTestUserDispatchSent){
         //dispatch this action only if the user email was valid. else do nothing. the NOT_TALA_EMPLOYEE_OR_TEST_USER action would have already been dispatched
-        dispatch({ type: 'LOGIN_SUCCESS' })
+        dispatch({ type: 'LOGIN_SUCCESS', user })
       }
     }).catch((err) => {
       // console.log("An error occurred while logging in or storing data in db", err)
@@ -38,9 +50,7 @@ export const signIn = () => {
 };
 
 export const signOut = () => {
-  return (dispatch, getState, {getFirebase}) => {
-    const firebase = getFirebase();
-
+  return (dispatch, getState) => {
     firebase.auth().signOut().then(() => {
       dispatch({ type: 'LOGOUT_SUCCESS' })
 
@@ -57,17 +67,16 @@ export const setPrevUrl = (url) => {
 };
 
 export const getUsersApartFromCurrentUser = () => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    const profile = getState().firebase.auth;
-    firestore.collection(`${BASE_DOCUMENT}/users`).get()
+  return (dispatch, getState) => {
+    const user = getState().auth.user;
+    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).get()
     .then((snapshot) => {
       let users = [];
       if (snapshot.empty) {
         dispatch({type: 'GET_USERS_NO_USERS'});
       } else {
         snapshot.forEach(doc => {
-          if(doc.data().email !== profile.email){
+          if(doc.data().email !== user.email){
             const id = doc.id;
             let user = {...doc.data(), id};
             users.push(user)
@@ -87,9 +96,8 @@ export const getUsersApartFromCurrentUser = () => {
  * @returns {Function}
  */
 export const getUserByIdThenStoreInMap = (id) => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.collection(`${BASE_DOCUMENT}/users`).doc(id).get()
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).doc(id).get()
     .then(doc => {
       if (!doc.exists) {
         dispatch({type: 'GET_USER_BY_ID_THEN_MAP_NO_USER'});

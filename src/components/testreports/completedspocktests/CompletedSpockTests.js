@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react'
-import 'firebase/auth';
-import 'firebase/firestore';
+
+import firebase from "../../../fbConfig";
+import firestore from "../../../fbConfig";
+
 import {connect} from 'react-redux';
 import {BrowserRouter, Link, Redirect} from 'react-router-dom'
 
@@ -41,7 +43,7 @@ const CompletedSpockTests = (props) => {
   const [showCoverageDialog, setShowCoverageDialog] = useState();
 
   //variables
-  const {auth, completedFeatureReports, endpointReports, service, reportStats, coverage} = props;
+  const {user, completedFeatureReports, endpointReports, service, reportStats, coverage} = props;
 
   //actions
   const { setPrevUrl } = props;
@@ -86,7 +88,8 @@ const CompletedSpockTests = (props) => {
     };
   }, [props]);
 
-  if (!auth.uid) {
+  console.log("user---------", user);
+  if (!user.uid) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login' />;
   }
@@ -212,6 +215,7 @@ const CompletedSpockTests = (props) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
+  console.log("STATE---------", state);
   //todo extract this to StringUtils
   function getServiceNameFromPathName(pathname) {
     const service = pathname.split('/completed/')[1];
@@ -219,7 +223,7 @@ const mapStateToProps = (state, ownProps) => {
     return service
   }
   return {
-    auth: state.firebase.auth,
+    user: state.auth.user,
     completedFeatureReports: state.report.completedFeatureReports,
     endpointReports: state.report.endpointReports,
 

@@ -27,7 +27,7 @@ import {showErrorAlert} from "../../store/actions/snackbarActions";
 
 const StatusCard = (props) => {
   //variables
-  const { auth } = props;
+  const { user } = props;
 
   //actions
   const { updateReport, resetUpdateReportState } = props;
@@ -72,7 +72,7 @@ const StatusCard = (props) => {
   function updateStatus(e) {
     stateFromProps.report.status = status;
     if(status === DELETED){
-      if((auth.uid === stateFromProps.report.userId)){
+      if((user.uid === stateFromProps.report.userId)){
         deleteReport(stateFromProps.id)
       }
       else {
@@ -202,7 +202,7 @@ const StatusCard = (props) => {
 const mapStateToProps = (state) => {
   console.log('STATE----', state);
   return {
-    auth: state.firebase.auth,
+    user: state.auth.user,
     updateReportResult: state.report.updateReportResult,
   }
 };
