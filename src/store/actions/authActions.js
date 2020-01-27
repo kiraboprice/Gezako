@@ -6,6 +6,19 @@ import * as StringUtils from "../../util/StringUtil";
 
 var notTalaEmployeeOrTestUserDispatchSent = false;
 
+// export const verifyAuth = () => dispatch => {
+//   // dispatch(verifyRequest());
+//   firebase.auth().onAuthStateChanged(user => {
+//     if (user !== null) {
+//       dispatch({ type: 'LOGIN_SUCCESS' })
+//     }
+//     // else {
+//     //   dispatch({ type: 'USER_NOT_LOGGED_IN' })
+//     // }
+//     dispatch({ type: 'VERIFY_AUTH_FINISHED' })
+//   });
+// };
+
 export const signIn = () => {
   return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
@@ -27,10 +40,10 @@ export const signIn = () => {
          photoURL: resp.user.photoURL
        });
      }
-    }).then((resp) => {
+    }).then((user) => {
       if(!notTalaEmployeeOrTestUserDispatchSent){
         //dispatch this action only if the user email was valid. else do nothing. the NOT_TALA_EMPLOYEE_OR_TEST_USER action would have already been dispatched
-        dispatch({ type: 'LOGIN_SUCCESS' })
+        dispatch({ type: 'LOGIN_SUCCESS', user })
       }
     }).catch((err) => {
       // console.log("An error occurred while logging in or storing data in db", err)
@@ -40,9 +53,7 @@ export const signIn = () => {
 };
 
 export const signOut = () => {
-  return (dispatch, getState, {getFirebase}) => {
-    const firebase = getFirebase();
-
+  return (dispatch, getState) => {
     firebase.auth().signOut().then(() => {
       dispatch({ type: 'LOGOUT_SUCCESS' })
 
@@ -59,7 +70,7 @@ export const setPrevUrl = (url) => {
 };
 
 export const getUsersApartFromCurrentUser = () => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     const profile = getState().firebase.auth;
     firestore.collection(`${BASE_DOCUMENT}/users`).get()
@@ -89,7 +100,7 @@ export const getUsersApartFromCurrentUser = () => {
  * @returns {Function}
  */
 export const getUserByIdThenStoreInMap = (id) => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${BASE_DOCUMENT}/users`).doc(id).get()
     .then(doc => {

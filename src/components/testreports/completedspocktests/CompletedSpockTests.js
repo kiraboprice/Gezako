@@ -43,7 +43,7 @@ const CompletedSpockTests = (props) => {
   const [showCoverageDialog, setShowCoverageDialog] = useState();
 
   //variables
-  const {auth, completedFeatureReports, endpointReports, service, reportStats, coverage} = props;
+  const {user, completedFeatureReports, endpointReports, service, reportStats, coverage} = props;
 
   //actions
   const { setPrevUrl } = props;
@@ -88,8 +88,8 @@ const CompletedSpockTests = (props) => {
     };
   }, [props]);
 
-  console.log("FIREBASE---------", firebase.auth.uid);
-  if (!auth.uid) {
+  console.log("user---------", user);
+  if (!user.uid) { //this was user.uid!
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login' />;
   }
@@ -216,7 +216,6 @@ const CompletedSpockTests = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
   console.log("STATE---------", state);
-  console.log("state.firebase.auth---------", state.firebase.auth);
   //todo extract this to StringUtils
   function getServiceNameFromPathName(pathname) {
     const service = pathname.split('/completed/')[1];
@@ -224,7 +223,7 @@ const mapStateToProps = (state, ownProps) => {
     return service
   }
   return {
-    auth: state.firebase.auth,
+    user: state.auth.user,
     completedFeatureReports: state.report.completedFeatureReports,
     endpointReports: state.report.endpointReports,
 

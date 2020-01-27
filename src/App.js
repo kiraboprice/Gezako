@@ -32,7 +32,7 @@ const App = (props) => {
   return (
         <div>
           <BrowserRouter>
-            <ErrorBoundary>
+            {/*<ErrorBoundary>*/}
 
             <Navigation/>
 
@@ -65,7 +65,7 @@ const App = (props) => {
               <Route exact path='/task/:id' component={TaskDetails}/>
             </Switch>
 
-            </ErrorBoundary>
+            {/*</ErrorBoundary>*/}
           </BrowserRouter>
         </div>
     );
@@ -73,7 +73,7 @@ const App = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    //authSuccess: state.auth.authSuccess,
+    //user: state.auth.user,
   }
 };
 

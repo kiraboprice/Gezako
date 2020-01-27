@@ -1,30 +1,37 @@
 const initState = {
-  authSuccess: null,
-  authError: null,
+  user: null,
+  userAuthError: null,
   getUserByIdThenStoreInMap: []
 }
 
 const authReducer = (state = initState, action) => {
   switch(action.type){
+    // case 'VERIFY_AUTH_FINISHED':
+    //   return {
+    //     ...state,
+    //     verifyAuth: 'FINISHED'
+    //   };
+
     case 'LOGIN_SUCCESS':
+      // console.log('LOGIN_SUCCESS---', action.user);
       return {
         ...state,
-        authSuccess: action.result,
-        authError: null
+        user: action.user,
+        userAuthError: null
       };
 
     case 'LOGIN_ERROR':
       return {
         ...state,
-        authSuccess: null,
-        authError: "Log in failed. error:" + action.err.message
+        user: null,
+        userAuthError: "Log in failed. error:" + action.err.message
       };
 
     case 'NOT_TALA_EMPLOYEE_OR_TEST_USER':
       return {
         ...state,
-        authSuccess: null,
-        authError: 'Email ' + action.userEmail + ' is not valid. Please log in with your Tala email to use Gezako.'
+        user: null,
+        userAuthError: 'Email ' + action.userEmail + ' is not valid. Please log in with your Tala email to use Gezako.'
       };
 
     case 'SET_PREV_URL_SUCCESS':

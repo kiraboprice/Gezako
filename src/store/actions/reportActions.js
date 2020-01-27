@@ -1,5 +1,7 @@
+import firebase from "../../fbConfig"
+import firestore from "../../fbConfig"
+
 import {BASE_DOCUMENT} from "../../constants/FireStore";
-import firebase from 'firebase';
 
 import axios from 'axios';
 import * as ReportStatus from "../../constants/ReportStatus";
@@ -8,7 +10,7 @@ import React from "react";
 
 //this is not in use
 export const uploadReport = (file) => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     // const firebase = getFirebase;
     const storageRef = firebase.storage().ref();
 
@@ -63,10 +65,10 @@ export const uploadReport = (file) => {
 
 export const createReport = (report) => {
   // console.log("REPORTTTTT", report);
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
-    const profile = getState().firebase.profile;
-    const userId = getState().firebase.auth.uid;
+    const profile = firebase.profile;
+    const userId = firebase.auth.uid;
     const collectionUrl = getReportsCollectionUrl();
     firestore.collection(collectionUrl).add({
       ...report,
@@ -92,7 +94,7 @@ export const resetCreateReportSuccess = () => {
 export const getReport = (id) => {
   console.log(`getReport---- ${id}`);
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
     .doc(id)
@@ -111,7 +113,7 @@ export const getReport = (id) => {
 
 export const unsubscribeGetReport = (id) => {
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
     .doc(id)
@@ -128,7 +130,7 @@ export const resetGetReport = () => {
 export const deleteReport = (id) => {
   console.log(`deleteReport---- ${id}`);
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
     .doc(id)
@@ -145,7 +147,7 @@ export const deleteReport = (id) => {
 export const getCompletedFeatureReportsByService = (phase, service) => {
   const collectionUrl = getReportsCollectionUrl();
   // console.log(`collectionUrl---- ${collectionUrl}`);
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
@@ -173,7 +175,7 @@ export const getCompletedFeatureReportsByService = (phase, service) => {
 
 export const unsubscribeGetCompletedFeatureReportsByService = (phase, service) => {
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
@@ -193,7 +195,7 @@ export const resetGetCompletedFeatureReportsByService = () => {
 export const getCompletedEndpointReportsByService = (phase, service) => {
   // console.log(`getCompletedEndpointReportsByService---- ${service}`);
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
@@ -221,7 +223,7 @@ export const getCompletedEndpointReportsByService = (phase, service) => {
 
 export const unsubscribeGetCompletedEndpointReportsByService = (phase, service) => {
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
@@ -243,7 +245,7 @@ export const resetGetCompletedEndpointReportsByService = () => {
 export const getReportsInDevelopment = (phase, service) => {
   // console.log(`getReportsInDevelopment---- ${service}`);
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
@@ -269,7 +271,7 @@ export const getReportsInDevelopment = (phase, service) => {
 
 export const unsubscribeGetReportsInDevelopment = (phase, service) => {
   const collectionUrl = getReportsCollectionUrl();
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
@@ -285,13 +287,13 @@ export const resetGetReportsInDevelopment = () => {
 };
 
 export const updateReport = (id, report) => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     const collectionUrl = getReportsCollectionUrl();
     // console.log('updateReport action', id, report);
 
-    const displayName = getState().firebase.profile.displayName;
-    const uid = getState().firebase.auth.uid;
+    const displayName = firebase.profile.displayName;
+    const uid = firebase.auth.uid;
 
     firestore.collection(collectionUrl)
     .doc(id).update({
@@ -343,7 +345,7 @@ export const downloadReport = (report) => {
 
 export const getReportStats = (service) => {
   // console.log(`getReportStats---- ${service}`);
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${BASE_DOCUMENT}/reportstats/`).doc(service)
     .onSnapshot(docSnapshot => {
@@ -357,7 +359,7 @@ export const getReportStats = (service) => {
 };
 
 export const unsubscribeGetReportStats = (service) => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${BASE_DOCUMENT}/reportstats/`).doc(service)
     .onSnapshot(() => { });
@@ -371,7 +373,7 @@ export const resetGetReportStats = () => {
 };
 
 export const getCoverage = (service) => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`)
     .onSnapshot(docSnapshot => {
@@ -385,7 +387,7 @@ export const getCoverage = (service) => {
 };
 
 export const unsubscribeGetCoverage = (service) => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     firestore.collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`)
     .onSnapshot(() => { });
@@ -399,7 +401,7 @@ export const resetGetCoverage = () => {
 };
 
 export const updateCoverage = (service, coverage) => {
-  return (dispatch, getState, {getFirebase, getFirestore}) => {
+  return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     const displayName = getState().firebase.profile.displayName;
     const uid = getState().firebase.auth.uid;
