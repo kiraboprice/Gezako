@@ -9,7 +9,6 @@ import rootReducer from './store/reducers/rootReducer'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 
-import fbConfig from "fbConfig";
 import firebase from "./fbConfig";
 
 const store = createStore(

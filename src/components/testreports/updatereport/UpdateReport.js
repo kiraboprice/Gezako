@@ -21,16 +21,16 @@ const UpdateReport = (props) => {
   const { report } = props;
 
   //report fields
-  const [id, setId] = useState();
-  const [title, setTitle] = useState();
-  const [phase, setPhase] = useState();
-  const [service, setService] = useState();
-  const [type, setType] = useState();
-  const [fileDownLoadUrl, setFileDownLoadUrl] = useState();
-  const [assignedTo, setAssignedTo] = useState();
-  const [numberOfTests, setNumberOfTests] = useState();
-  const [productSpec, setProductSpec] = useState();
-  const [techSpec, setTechSpec] = useState();
+  const [id, setId] = useState('');
+  const [title, setTitle] = useState('');
+  const [phase, setPhase] = useState('');
+  const [service, setService] = useState('');
+  const [type, setType] = useState('');
+  const [fileDownLoadUrl, setFileDownLoadUrl] = useState('');
+  const [assignedTo, setAssignedTo] = useState('');
+  const [numberOfTests, setNumberOfTests] = useState('');
+  const [productSpec, setProductSpec] = useState('');
+  const [techSpec, setTechSpec] = useState('');
 
   //required to generate fileDownLoadUrl
   const [file, setFile] = useState();
