@@ -33,6 +33,7 @@ const CreateReport = (props) => {
   const [fileDownLoadUrl, setFileDownLoadUrl] = useState('');
   const [assignedTo, setAssignedTo] = useState(null);
   const [numberOfTests, setNumberOfTests] = useState(0);
+  const [githubPR, setGithubPR] = useState('');
   const [postmanTest, setPostmanTest] = useState('');
   const [productSpec, setProductSpec] = useState('');
   const [techSpec, setTechSpec] = useState('');
@@ -127,6 +128,9 @@ const CreateReport = (props) => {
   const handleChangeForTextField = (e) => {
     const value = e.target.value;
     switch (e.target.id) {
+      case 'githubPR':
+        setGithubPR(value);
+        break;
       case 'postmanTest':
         setPostmanTest(value);
         break;
@@ -213,6 +217,14 @@ const CreateReport = (props) => {
      return ("Upload a Test report by pressing the Yellow Button above.")
    }
 
+   // else if (report.githubPR.length > 0) {
+   //   if(!isValidUrl(report.githubPR)) {
+   //     return ("Set a valid URL for githubPR")
+   //
+   //   }
+   //   console.log("PROPS---", report);
+   //
+   // }
    // else if (report.postmanTest.length > 0) {
    //   if(!isValidUrl(report.postmanTest)) {
    //     return ("Set a valid URL for postmanTest")
@@ -267,6 +279,7 @@ const CreateReport = (props) => {
       fileDownLoadUrl,
       assignedTo,
       numberOfTests,
+      githubPR,
       postmanTest,
       productSpec,
       techSpec,
@@ -359,6 +372,16 @@ const CreateReport = (props) => {
                         value={numberOfTests}
               />
             </div>
+
+            <TextField
+                margin="dense"
+                id="githubPR"
+                label="Github Pull Request Link"
+                type="web"
+                fullWidth
+                value={githubPR}
+                onChange={handleChangeForTextField}
+            />
 
             <TextField
                 margin="dense"

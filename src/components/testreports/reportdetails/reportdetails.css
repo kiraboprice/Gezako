@@ -46,6 +46,14 @@
 	position: relative;
 }
 
+/*Github PR */
+#github-pr {
+  margin-top: 25px;
+  text-decoration: underline;
+  color: blue
+}
+
+
 /*Postman Tests */
 #postman-tests {
 	margin-top: 10px;

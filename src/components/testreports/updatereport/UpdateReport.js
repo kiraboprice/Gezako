@@ -29,6 +29,7 @@ const UpdateReport = (props) => {
   const [fileDownLoadUrl, setFileDownLoadUrl] = useState('');
   const [assignedTo, setAssignedTo] = useState('');
   const [numberOfTests, setNumberOfTests] = useState('');
+  const [githubPR, setGithubPR] = useState('');
   const [postmanTest, setPostmanTest] = useState('');
   const [productSpec, setProductSpec] = useState('');
   const [techSpec, setTechSpec] = useState('');
@@ -72,6 +73,7 @@ const UpdateReport = (props) => {
       setFileDownLoadUrl(report.fileDownLoadUrl);
       setAssignedTo(report.assignedTo);
       setNumberOfTests(report.numberOfTests);
+      setGithubPR(report.githubPR);
       setPostmanTest(report.postmanTest);
       setProductSpec(report.productSpec);
       setTechSpec(report.techSpec);
@@ -111,6 +113,9 @@ const UpdateReport = (props) => {
     const value = e.target.value;
     // console.log('handleChange: ', value);
     switch (e.target.id) {
+      case 'githubPR':
+        setGithubPR(value);
+        break;
       case 'postmanTest':
         setPostmanTest(value);
         break;
@@ -202,6 +207,7 @@ const UpdateReport = (props) => {
       fileDownLoadUrl,
       assignedTo,
       numberOfTests,
+      githubPR,
       postmanTest,
       productSpec,
       techSpec,
@@ -300,6 +306,16 @@ const UpdateReport = (props) => {
                           value = {numberOfTests}
                 />
               </div>
+
+              <TextField
+                  margin="dense"
+                  id="githubPR"
+                  label="Github Pull Request Link"
+                  type="web"
+                  fullWidth
+                  value={githubPR}
+                  onChange={handleChangeForTextField}
+              />
 
               <TextField
                   margin="dense"
