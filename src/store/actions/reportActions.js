@@ -290,6 +290,7 @@ export const updateReport = (id, report) => {
       fileDownLoadUrl: report.fileDownLoadUrl,
       assignedTo: report.assignedTo || null,
       numberOfTests: report.numberOfTests || 0,
+      githubPR: report.githubPR || null,
       postmanTest: report.postmanTest || null,
       productSpec: report.productSpec || null,
       techSpec: report.techSpec || null,
