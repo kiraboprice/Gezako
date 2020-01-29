@@ -226,7 +226,7 @@ const UpdateReport = (props) => {
   };
 
   const { user, users } = props;
-  if (!user.uid) return <Redirect to='/login' />;
+  if (!user) return <Redirect to='/login' />;
 
   if (title) {
     return (

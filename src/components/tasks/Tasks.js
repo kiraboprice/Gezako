@@ -7,7 +7,7 @@ import {Link, Redirect} from 'react-router-dom'
 
 const Tasks = (props) => {
     const { user, tasks } = props;
-    if (!user.uid) return <Redirect to='/login' />;
+    if (!user) return <Redirect to='/login' />;
 
     return (
         <div  id='tasks-section'>

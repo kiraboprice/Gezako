@@ -83,7 +83,7 @@ const CreateReport = (props) => {
   }, [props]);
 
   const {user, setPrevUrl, users} = props;
-  if (!user.uid) {
+  if (!user) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login'/>;
   }

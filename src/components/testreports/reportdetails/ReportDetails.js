@@ -50,7 +50,7 @@ const ReportDetails = (props) => {
     };
   },[id]);
 
-  if (!user.uid) {
+  if (!user) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login' />;
   }
