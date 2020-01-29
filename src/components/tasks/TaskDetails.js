@@ -7,7 +7,7 @@ import { Redirect } from 'react-router-dom'
 
 const TaskDetails = (props) => {
   const { user, task } = props;
-  if (!user.uid) return <Redirect to='/login' />;
+  if (!user) return <Redirect to='/login' />;
 
   if (task) {
     return (

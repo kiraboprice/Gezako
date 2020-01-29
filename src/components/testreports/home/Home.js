@@ -8,7 +8,7 @@ import {setPrevUrl} from "../../../store/actions/authActions";
 const Home = (props) => {
   const { user, setPrevUrl } = props;
 
-  if (!user.uid) {
+  if (!user) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login' />;
   } else {

@@ -6,11 +6,12 @@ const initState = {
 
 const authReducer = (state = initState, action) => {
   switch(action.type){
-    // case 'VERIFY_AUTH_FINISHED':
-    //   return {
-    //     ...state,
-    //     verifyAuth: 'FINISHED'
-    //   };
+    case 'NO_USER_IS_SIGNED_IN':
+      return {
+        ...state,
+        user: null,
+        userAuthError: null
+      };
 
     case 'LOGIN_SUCCESS':
       // console.log('LOGIN_SUCCESS---', action.user);

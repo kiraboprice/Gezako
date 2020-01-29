@@ -22,7 +22,7 @@ class CreateTask extends Component {
   };
   render() {
     const { user } = this.props;
-    if (!user.uid) return <Redirect to='/login' />;
+    if (!user) return <Redirect to='/login' />;
     return (
       <div id='tasks-section'>
         <form onSubmit={this.handleSubmit}>

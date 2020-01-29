@@ -5,7 +5,7 @@ import {compose} from "redux";
 
 const PerformanceTests = (props) => {
   const {user} = props;
-  if (!user.uid) {return <Redirect to='/login'/>}
+  if (!user) {return <Redirect to='/login'/>}
 
 
   return (
