@@ -37,7 +37,6 @@ import NoReportsScreen from "../../noreports/NoReportsScreen";
 import {setPrevUrl} from "../../../store/actions/authActions";
 import {getFirstNameFromFullName} from "../../../util/StringUtil";
 import moment from "moment";
-import ErrorBoundary from "../../error/ErrorBoundary";
 
 const CompletedSpockTests = (props) => {
   const phase = 'completed';
