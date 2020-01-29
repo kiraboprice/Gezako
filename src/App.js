@@ -26,21 +26,23 @@ import ErrorBoundary from "./components/error/ErrorBoundary";
 
 
 const App = (props) => {
-  // snackbar
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const { user } = props;
 
   return (
         <div>
           <BrowserRouter>
             <ErrorBoundary>
 
-            <Navigation/>
+              {user? <Navigation/> : null}
 
-            <SideBar/>
+              {user? <SideBar/> : null}
 
-            <CustomSnackbar
-                showSuccessAlert = {true}
-            />
+              {user?
+                  <CustomSnackbar
+                  showSuccessAlert = {true}
+                  />
+                  : null
+              }
 
             <Switch>
               <Route exact path='/login' component={Login}/>
@@ -73,7 +75,7 @@ const App = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    //user: state.auth.user,
+    user: state.auth.user,
   }
 };
 

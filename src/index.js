@@ -22,6 +22,10 @@ firebase.auth().onAuthStateChanged(user => {
   if (user !== null) {
     store.dispatch({ type: 'LOGIN_SUCCESS', user })
   }
+  else {
+    console.log('NO_USER_IS_SIGNED_IN');
+    store.dispatch({ type: 'NO_USER_IS_SIGNED_IN'});
+  }
   ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
