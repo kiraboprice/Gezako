@@ -50,6 +50,7 @@ const authReducer = (state = initState, action) => {
       return state;
 
     case 'GET_USERS_SUCCESS':
+      console.log('GET_USERS_SUCCESS', action.users);
       return {
         ...state,
         users: action.users
@@ -57,6 +58,13 @@ const authReducer = (state = initState, action) => {
 
     case 'GET_USERS_ERROR':
       return state;
+
+    case 'RESET_GET_USERS_SUCCESS': //we may never need to call this?
+      console.log('RESET_GET_USERS_SUCCESS');
+      return {
+        ...state,
+        users: null
+      };
 
       /**
        * Get User By Id

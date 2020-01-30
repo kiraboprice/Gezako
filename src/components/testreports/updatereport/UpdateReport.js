@@ -13,7 +13,10 @@ import * as firebase from "firebase";
 import CustomSnackbar from "../../snackbar/CustomSnackbar";
 import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 import {compose} from "redux";
-import {getUsersApartFromCurrentUser} from "../../../store/actions/authActions";
+import {
+  getUsersApartFromCurrentUser,
+  unsubscribeGetUsersApartFromCurrentUser
+} from "../../../store/actions/authActions";
 import TextField from "@material-ui/core/TextField/TextField";
 import {blue} from "@material-ui/core/colors";
 
@@ -43,6 +46,14 @@ const UpdateReport = (props) => {
   const [displayCompletedFields, setDisplayCompletedFields] = useState();
 
   useEffect(() => {
+    props.getUsersApartFromCurrentUser();
+
+    return function cleanup() {
+      props.unsubscribeGetUsersApartFromCurrentUser()
+    };
+  }, []);
+
+  useEffect(() => {
     setId(props.match.params.id);
     setPhase(getReportPhaseFromPathName(props.location.pathname));
 
@@ -63,7 +74,6 @@ const UpdateReport = (props) => {
   }, [id]);
 
   useEffect(() => {
-    props.getUsersApartFromCurrentUser();
     if(report){
 
       setTitle(report.title);
@@ -378,7 +388,8 @@ const mapDispatchToProps = dispatch => {
 
     updateReport: (id, report) => dispatch(updateReport(id, report)),
     resetState: () => dispatch(resetReportDownload()),
-    getUsersApartFromCurrentUser: () => dispatch(getUsersApartFromCurrentUser())
+    getUsersApartFromCurrentUser: () => dispatch(getUsersApartFromCurrentUser()),
+    unsubscribeGetUsersApartFromCurrentUser: () => dispatch(unsubscribeGetUsersApartFromCurrentUser())
   }
 };
 
