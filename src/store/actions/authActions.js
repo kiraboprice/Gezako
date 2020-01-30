@@ -90,6 +90,19 @@ export const getUsersApartFromCurrentUser = () => {
   }
 };
 
+export const unsubscribeGetUsersApartFromCurrentUser = () => {
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).get()
+    .then((snapshot) => { });
+  }
+};
+
+export const resetGetUsersApartFromCurrentUser = () => {
+  return (dispatch) => {
+    dispatch({type: 'RESET_GET_USERS_SUCCESS'});
+  }
+};
+
 /**
  * Get user by ID then store them in a map of id to userObject
  * @param id

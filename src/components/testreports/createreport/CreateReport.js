@@ -8,7 +8,7 @@ import {
 import * as firebase from 'firebase';
 import {
   getUsersApartFromCurrentUser,
-  setPrevUrl
+  setPrevUrl, unsubscribeGetUsersApartFromCurrentUser
 } from "../../../store/actions/authActions";
 
 import './createReport.css';
@@ -49,14 +49,11 @@ const CreateReport = (props) => {
 
   useEffect(() => {
     props.getUsersApartFromCurrentUser();
-    if (phase === 'development') {
-      setDisplayDevelopmentFields('block');
-      setDisplayCompletedFields('none');
-    } else if (phase === 'completed') {
-      setDisplayDevelopmentFields('none');
-      setDisplayCompletedFields('block');
-    }
-  }, [props]);
+
+    return function cleanup() {
+      props.unsubscribeGetUsersApartFromCurrentUser()
+    };
+  }, []);
 
   useEffect(() => {
     if (phase === 'development') {
@@ -437,6 +434,7 @@ const mapDispatchToProps = dispatch => {
     createReport: (report) => dispatch(createReport(report)),
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
     getUsersApartFromCurrentUser: () => dispatch(getUsersApartFromCurrentUser()),
+    unsubscribeGetUsersApartFromCurrentUser: () => dispatch(unsubscribeGetUsersApartFromCurrentUser()),
 
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
     showErrorAlert: (message) => dispatch(showErrorAlert(message)),
