@@ -13,12 +13,13 @@ import {
   updateCoverage,
   updateServiceStats
 } from "../../../../store/actions/reportActions";
+import {ServiceStats} from "../../../../constants/ServiceStats";
 
 
 const ServiceStatsDialog = (props) => {
 
   const [showDialog, setShowDialog] = useState(false);
-  let [serviceStats, setserviceStats] = useState('');
+  let [serviceStats, setServiceStats] = useState('');
   const [service, setService] = useState('');
   const [classCoverage, setClassCoverage] = useState();
   const [methodCoverage, setMethodCoverage] = useState();
@@ -26,7 +27,7 @@ const ServiceStatsDialog = (props) => {
 
   useEffect(() => {
     setShowDialog(props.showDialog);
-    setserviceStats(props.serviceStats);
+    setServiceStats(props.serviceStats);
     setService(props.service);
     setClassCoverage(props.serviceStats? props.serviceStats.classCoverage : '');
     setMethodCoverage(props.serviceStats? props.serviceStats.methodCoverage : '');
@@ -41,10 +42,20 @@ const ServiceStatsDialog = (props) => {
   const handleSubmit = () => {
     setShowDialog(false);
     props.setDialogStateToFalse();
-    serviceStats.classCoverage = classCoverage;
-    serviceStats.methodCoverage = methodCoverage;
-    serviceStats.lineCoverage = lineCoverage;
-    props.updateserviceStats(service, serviceStats);
+    if(serviceStats) {
+      serviceStats.classCoverage = classCoverage;
+      serviceStats.methodCoverage = methodCoverage;
+      serviceStats.lineCoverage = lineCoverage;
+    }
+    else {
+      serviceStats = new ServiceStats(
+          null, null, null, null, null, null, null
+      );
+      serviceStats.classCoverage = classCoverage;
+      serviceStats.methodCoverage = methodCoverage;
+      serviceStats.lineCoverage = lineCoverage;
+    }
+    props.updateServiceStats(service, serviceStats);
   };
 
   const handleChange = (e) => {

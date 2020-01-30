@@ -46,18 +46,18 @@ const CompletedSpockTests = (props) => {
   //actions
   const { setPrevUrl } = props;
 
-  const {getserviceStats, unsubscribeGetserviceStats, resetGetserviceStats} = props;
+  const {getServiceStats, unsubscribeGetServiceStats, resetGetServiceStats} = props;
   const {getFeatureReports, unsubscribeGetFeatureReports, resetGetFeatureReports} = props;
   const {getEndpointReports, unsubscribeGetEndpointReports, resetGetEndpointReports} = props;
 
   useEffect(() => {
-    getserviceStats(service);
+    getServiceStats(service);
     getFeatureReports(phase, service);
     getEndpointReports(phase, service);
 
     return function cleanup() {
-      unsubscribeGetserviceStats(service);
-      resetGetserviceStats();
+      unsubscribeGetServiceStats(service);
+      resetGetServiceStats();
 
       unsubscribeGetFeatureReports(phase, service);
       resetGetFeatureReports();
@@ -136,13 +136,13 @@ const CompletedSpockTests = (props) => {
                   </div>
 
                   <div id="update-status-options" style={{marginTop : '20px'}}>
-                    <button onClick={setShowStatsDialogToTrue}>Update<img src={penIcon} alt="Update"/> </button>
+                    <button onClick={setShowStatsDialogToTrue}>Update<img src={penIcon} alt="Update Service Info"/> </button>
                   </div>
 
                 </div> :
 
                 <div id="update-status-options" style={{marginTop : '20px'}}>
-                  <button onClick={setShowStatsDialogToTrue}>Update<img src={penIcon} alt="Update"/> </button>
+                  <button onClick={setShowStatsDialogToTrue}>Update<img src={penIcon} alt="Update Service Info"/> </button>
                 </div>
           }
 
@@ -248,9 +248,9 @@ const mapDispatchToProps = dispatch => {
     unsubscribeGetEndpointReports: (phase, service) => dispatch(unsubscribeGetCompletedEndpointReportsByService(phase, service)),
     resetGetEndpointReports: () => dispatch(resetGetCompletedEndpointReportsByService()),
 
-    getserviceStats: (service) => dispatch(getServiceStats(service)),
-    unsubscribeGetserviceStats: (service) => dispatch(unsubscribeGetServiceStats(service)),
-    resetGetserviceStats: () => dispatch(resetGetserviceStats()),
+    getServiceStats: (service) => dispatch(getServiceStats(service)),
+    unsubscribeGetServiceStats: (service) => dispatch(unsubscribeGetServiceStats(service)),
+    resetGetServiceStats: () => dispatch(resetGetserviceStats()),
 
     //alerts
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),

@@ -335,12 +335,16 @@ export const getServiceStats = (service) => {
   // console.log(`getServiceStats---- ${service}`);
   return (dispatch, getState) => {
     firebase.firestore().collection(`${BASE_DOCUMENT}/servicestats/`).doc(service)
-    .onSnapshot(docSnapshot => {
-      dispatch({type: 'GET_REPORT_STATS_SUCCESS', serviceStats: docSnapshot.data()});
+    .onSnapshot(snapshot => {
+      if (!snapshot.exists) {
+        dispatch({type: 'GET_SERVICE_STATS_SUCCESS_NOT_EXIST'});
+      } else {
+        dispatch({type: 'GET_SERVICE_STATS_SUCCESS', serviceStats: snapshot.data()});
+      }
 
     }, err => {
       console.log(`getServiceStats error: ${err}`);
-      dispatch({type: 'GET_REPORT_STATS_ERROR', error: err});
+      dispatch({type: 'GET_SERVICE_STATS_ERROR', error: err});
     });
   }
 };
@@ -354,7 +358,7 @@ export const unsubscribeGetServiceStats = (service) => {
 
 export const resetGetserviceStats = () => {
   return (dispatch) => {
-    dispatch({type: 'RESET_GET_REPORT_STATS'});
+    dispatch({type: 'RESET_GET_SERVICE_STATS'});
   }
 };
 

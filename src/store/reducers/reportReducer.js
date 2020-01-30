@@ -202,19 +202,26 @@ const reportReducer = (state = initState, action) => {
       /**
        * serviceStats
        */
-    case 'GET_REPORT_STATS_SUCCESS':
-      console.log('GET_REPORT_STATS_SUCCESS', action.serviceStats);
+    case 'GET_SERVICE_STATS_SUCCESS_NOT_EXIST':
+      console.log('GET_SERVICE_STATS_SUCCESS_NOT_EXIST');
+      return {
+        ...state,
+        serviceStats: null
+      };
+
+    case 'GET_SERVICE_STATS_SUCCESS':
+      console.log('GET_SERVICE_STATS_SUCCESS', action.serviceStats);
       return {
         ...state,
         serviceStats: action.serviceStats
       };
 
-    case 'GET_REPORT_STATS_ERROR':
-      console.log('GET_REPORT_STATS_ERROR', action.error);
+    case 'GET_SERVICE_STATS_ERROR':
+      console.log('GET_SERVICE_STATS_ERROR', action.error);
       return state;
 
-    case 'RESET_GET_REPORT_STATS':
-      console.log('RESET_GET_REPORT_STATS', action.error);
+    case 'RESET_GET_SERVICE_STATS':
+      console.log('RESET_GET_SERVICE_STATS', action.error);
       return {
         ...state,
         serviceStats: null
