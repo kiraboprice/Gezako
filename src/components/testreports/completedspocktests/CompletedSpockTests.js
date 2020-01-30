@@ -20,10 +20,9 @@ import {
   getCompletedFeatureReportsByService,
   getReportStats,
   resetCreateReportSuccess,
-  resetGetCoverage, resetGetCompletedEndpointReportsByService,
+  resetGetCompletedEndpointReportsByService,
   resetGetCompletedFeatureReportsByService,
   resetGetReportStats,
-  unsubscribeGetCoverage,
   unsubscribeGetCompletedEndpointReportsByService,
   unsubscribeGetCompletedFeatureReportsByService,
   unsubscribeGetReportStats
@@ -32,7 +31,7 @@ import {
   showErrorAlert,
   showSuccessAlert
 } from "../../../store/actions/snackbarActions";
-import CoverageDialog from "./coverage/CoverageDialog";
+import ReportStatsDialog from "./reportstats/ReportStatsDialog";
 import NoReportsScreen from "../../noreports/NoReportsScreen";
 import {setPrevUrl} from "../../../store/actions/authActions";
 import {getFirstNameFromFullName} from "../../../util/StringUtil";
@@ -40,31 +39,26 @@ import moment from "moment";
 
 const CompletedSpockTests = (props) => {
   const phase = 'completed';
-  const [showCoverageDialog, setShowCoverageDialog] = useState();
+  const [showStatsDialog, setShowStatsDialog] = useState();
 
   //variables
-  const {user, completedFeatureReports, endpointReports, service, reportStats, coverage} = props;
+  const {user, completedFeatureReports, endpointReports, service, reportStats} = props;
 
   //actions
   const { setPrevUrl } = props;
 
   const {getReportStats, unsubscribeGetReportStats, resetGetReportStats} = props;
-  const {getCoverage, unsubscribeGetCoverage, resetGetCoverage} = props;
   const {getFeatureReports, unsubscribeGetFeatureReports, resetGetFeatureReports} = props;
   const {getEndpointReports, unsubscribeGetEndpointReports, resetGetEndpointReports} = props;
 
   useEffect(() => {
     getReportStats(service);
-    getCoverage(service);
     getFeatureReports(phase, service);
     getEndpointReports(phase, service);
 
     return function cleanup() {
       unsubscribeGetReportStats(service);
       resetGetReportStats();
-
-      unsubscribeGetCoverage(service);
-      resetGetCoverage();
 
       unsubscribeGetFeatureReports(phase, service);
       resetGetFeatureReports();
@@ -93,12 +87,12 @@ const CompletedSpockTests = (props) => {
     return <Redirect to='/login' />;
   }
 
-  function setShowCoverageDialogToTrue() {
-    setShowCoverageDialog(true);
+  function setShowStatsDialogToTrue() {
+    setShowStatsDialog(true);
   }
 
-  function setShowCoverageDialogToFalse() {
-    setShowCoverageDialog(false);
+  function setShowStatsDialogToFalse() {
+    setShowStatsDialog(false);
   }
 
   return (
@@ -111,34 +105,48 @@ const CompletedSpockTests = (props) => {
             <div id="create-new-report" style={{background: "#ffeead"}}> <img src={createReportIcon} alt="Create a report" /> </div>
           </Link>
 
+          {
+            reportStats?
+                <div id="status-card">
+                  <div id="report-stats-titles">
+                    Total number of {service} tests
+                  </div>
+                  <div id="report-stats-number-of-tests">
+                    {reportStats? reportStats.numberOfTests : null}
+                  </div>
+                  <div id="report-stats-titles">
+                    Code Coverage. Last updated: {reportStats.coverageUpdatedAt? moment(reportStats.coverageUpdatedAt.toDate()).calendar() : ''}  by {reportStats.coverageUpdatedBy? getFirstNameFromFullName(reportStats.coverageUpdatedBy.displayName) : ''}
+                  </div>
+                  <div id="report-stats-code-coverage">
+                    <span id="report-stats-coverage-titles">Class:</span>
+                    <span>{reportStats.classCoverage}</span>
+                  </div>
+                  <div id="report-stats-code-coverage">
+                    <span id="report-stats-coverage-titles">Method:</span>
+                    <span>{reportStats.methodCoverage}</span>
+                  </div>
+                  <div id="report-stats-code-coverage">
+                    <span id="report-stats-coverage-titles">Line:</span>
+                    <span>{reportStats.lineCoverage}</span>
+                  </div>
 
-          <div id="status-card">
-            <div id="report-stats-titles">
-              Total number of {service} tests
-            </div>
-            <div id="report-stats-number-of-tests">
-              {reportStats? reportStats.numberOfTests : null}
-            </div>
-            <div id="report-stats-titles">
-              Code Coverage. Last updated: {coverage? moment(coverage.updatedAt.toDate()).calendar() : ''}  by {coverage? getFirstNameFromFullName(coverage.updatedBy.displayName) : ''}
-            </div>
-            <div id="report-stats-code-coverage">
-              <span id="report-stats-coverage-titles">Class:</span>
-              <span>{coverage? coverage.class : ''}</span>
-            </div>
-            <div id="report-stats-code-coverage">
-              <span id="report-stats-coverage-titles">Method:</span>
-              <span>{coverage? coverage.method : ''}</span>
-            </div>
-            <div id="report-stats-code-coverage">
-              <span id="report-stats-coverage-titles">Line:</span>
-              <span>{coverage? coverage.line : ''}</span>
-            </div>
+                  <div id='service-spec'>
+                    <a href= {reportStats.serviceSpec} target='_blank'>
+                      {reportStats.serviceSpec? 'Service Spec' : 'No Service Spec Added'}
+                    </a>
+                  </div>
 
-            <div id="update-status-options" style={{marginTop : '20px'}}>
-              <button onClick={setShowCoverageDialogToTrue}>Update Coverage <img src={penIcon} alt="Update Coverage"/> </button>
-            </div>
-          </div>
+                  <div id="update-status-options" style={{marginTop : '20px'}}>
+                    <button onClick={setShowStatsDialogToTrue}>Update<img src={penIcon} alt="Update"/> </button>
+                  </div>
+
+                </div> :
+
+                <div id="update-status-options" style={{marginTop : '20px'}}>
+                  <button onClick={setShowStatsDialogToTrue}>Update<img src={penIcon} alt="Update"/> </button>
+                </div>
+          }
+
 
           {reportsAvailable ? false : <NoReportsScreen
               service = {service}
@@ -200,11 +208,11 @@ const CompletedSpockTests = (props) => {
           </div>
         </div>
 
-        <CoverageDialog
-            showDialog = {showCoverageDialog}
-            setDialogStateToFalse = {setShowCoverageDialogToFalse}
+        <ReportStatsDialog
+            showDialog = {showStatsDialog}
+            setDialogStateToFalse = {setShowStatsDialogToFalse}
             service = {service}
-            coverage = {coverage? coverage : null}
+            reportStats = {reportStats? reportStats : null}
         />
       </div>
   )
@@ -225,9 +233,7 @@ const mapStateToProps = (state, ownProps) => {
     endpointReports: state.report.endpointReports,
 
     service: getServiceNameFromPathName(ownProps.location.pathname),
-
     reportStats: state.report.reportStats,
-    coverage: state.report.coverage
   }
 };
 
@@ -246,10 +252,6 @@ const mapDispatchToProps = dispatch => {
     getReportStats: (service) => dispatch(getReportStats(service)),
     unsubscribeGetReportStats: (service) => dispatch(unsubscribeGetReportStats(service)),
     resetGetReportStats: () => dispatch(resetGetReportStats()),
-
-    getCoverage: (service) => dispatch(getCoverage(service)),
-    unsubscribeGetCoverage: (service) => dispatch(unsubscribeGetCoverage(service)),
-    resetGetCoverage: () => dispatch(resetGetCoverage()),
 
     //alerts
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),

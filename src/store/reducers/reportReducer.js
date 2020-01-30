@@ -1,5 +1,6 @@
 
 const initState = {
+  reportStats: null
 };
 
 
@@ -218,36 +219,6 @@ const reportReducer = (state = initState, action) => {
         ...state,
         reportStats: null
       };
-
-      /**
-       * coverage
-       */
-    case 'GET_COVERAGE_SUCCESS':
-      console.log('GET_COVERAGE_SUCCESS', action.coverage);
-      if(action.coverage){
-        return {
-          ...state,
-          coverage: action.coverage
-        };
-      }
-      else {
-        return {
-          ...state,
-          coverage: null
-        };
-      }
-
-    case 'GET_COVERAGE_ERROR':
-      console.log('GET_COVERAGE_ERROR', action.error);
-      return state;
-
-    case 'UPDATE_COVERAGE_SUCCESS':
-      console.log('UPDATE_COVERAGE_SUCCESS');
-      return state;
-
-    case 'UPDATE_COVERAGE_ERROR':
-      console.log('UPDATE_COVERAGE_ERROR', action.error);
-      return state;
     default:
       return state;
 

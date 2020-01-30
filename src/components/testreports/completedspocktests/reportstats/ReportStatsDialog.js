@@ -9,12 +9,16 @@ import DialogContentText
   from "@material-ui/core/DialogContentText/DialogContentText";
 import TextField from "@material-ui/core/TextField/TextField";
 import DialogActions from "@material-ui/core/DialogActions/DialogActions";
-import {updateCoverage} from "../../../../store/actions/reportActions";
+import {
+  updateCoverage,
+  updateReportStats
+} from "../../../../store/actions/reportActions";
 
 
-const CoverageDialog = (props) => {
+const ReportStatsDialog = (props) => {
 
   const [showDialog, setShowDialog] = useState(false);
+  let [reportStats, setReportStats] = useState('');
   const [service, setService] = useState('');
   const [classCoverage, setClassCoverage] = useState();
   const [methodCoverage, setMethodCoverage] = useState();
@@ -22,10 +26,11 @@ const CoverageDialog = (props) => {
 
   useEffect(() => {
     setShowDialog(props.showDialog);
+    setReportStats(props.reportStats);
     setService(props.service);
-    setClassCoverage(props.coverage? props.coverage.class : '');
-    setMethodCoverage(props.coverage? props.coverage.method : '');
-    setLineCoverage(props.coverage? props.coverage.line : '');
+    setClassCoverage(props.reportStats? props.reportStats.classCoverage : '');
+    setMethodCoverage(props.reportStats? props.reportStats.methodCoverage : '');
+    setLineCoverage(props.reportStats? props.reportStats.lineCoverage : '');
   }, [props]);
 
   const handleClose = () => {
@@ -36,8 +41,10 @@ const CoverageDialog = (props) => {
   const handleSubmit = () => {
     setShowDialog(false);
     props.setDialogStateToFalse();
-    const coverage = {classCoverage, methodCoverage, lineCoverage};
-    props.updateCoverage(service, coverage);
+    reportStats.classCoverage = classCoverage;
+    reportStats.methodCoverage = methodCoverage;
+    reportStats.lineCoverage = lineCoverage;
+    props.updateReportStats(service, reportStats);
   };
 
   const handleChange = (e) => {
@@ -116,10 +123,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateCoverage: (service, coverage) => dispatch(updateCoverage(service, coverage))
+    updateReportStats: (service, reportStats) => dispatch(updateReportStats(service, reportStats))
   }
 };
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps)
-)(CoverageDialog)
+)(ReportStatsDialog)
