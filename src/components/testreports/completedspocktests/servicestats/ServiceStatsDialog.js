@@ -24,6 +24,7 @@ const ServiceStatsDialog = (props) => {
   const [classCoverage, setClassCoverage] = useState();
   const [methodCoverage, setMethodCoverage] = useState();
   const [lineCoverage, setLineCoverage] = useState();
+  const [serviceSpec, setServiceSpec] = useState();
 
   useEffect(() => {
     setShowDialog(props.showDialog);
@@ -32,6 +33,7 @@ const ServiceStatsDialog = (props) => {
     setClassCoverage(props.serviceStats? props.serviceStats.classCoverage : '');
     setMethodCoverage(props.serviceStats? props.serviceStats.methodCoverage : '');
     setLineCoverage(props.serviceStats? props.serviceStats.lineCoverage : '');
+    setServiceSpec(props.serviceStats? props.serviceStats.serviceSpec : '');
   }, [props]);
 
   const handleClose = () => {
@@ -46,6 +48,7 @@ const ServiceStatsDialog = (props) => {
       serviceStats.classCoverage = classCoverage;
       serviceStats.methodCoverage = methodCoverage;
       serviceStats.lineCoverage = lineCoverage;
+      serviceStats.serviceSpec = serviceSpec;
     }
     else {
       serviceStats = new ServiceStats(
@@ -54,6 +57,7 @@ const ServiceStatsDialog = (props) => {
       serviceStats.classCoverage = classCoverage;
       serviceStats.methodCoverage = methodCoverage;
       serviceStats.lineCoverage = lineCoverage;
+      serviceStats.serviceSpec = serviceSpec;
     }
     props.updateServiceStats(service, serviceStats);
   };
@@ -69,6 +73,9 @@ const ServiceStatsDialog = (props) => {
         break;
       case 'line':
         setLineCoverage(value);
+        break;
+      case 'serviceSpec':
+        setServiceSpec(value);
         break;
       default:
         break;
@@ -109,6 +116,15 @@ const ServiceStatsDialog = (props) => {
                 type="email"
                 fullWidth
                 value={lineCoverage}
+                onChange={handleChange}
+            />
+            <TextField
+                margin="dense"
+                id="serviceSpec"
+                label="Service Spec"
+                type="email"
+                fullWidth
+                value={serviceSpec}
                 onChange={handleChange}
             />
           </DialogContent>

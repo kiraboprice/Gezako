@@ -369,6 +369,7 @@ export const updateServiceStats = (service, serviceStats) => {
       classCoverage: serviceStats.classCoverage,
       methodCoverage: serviceStats.methodCoverage,
       lineCoverage: serviceStats.lineCoverage,
+      serviceSpec: serviceStats.serviceSpec,
       coverageUpdatedAt: new Date(),
       coverageUpdatedBy: {id: user.uid, displayName: user.displayName}
     }).then(() => {
