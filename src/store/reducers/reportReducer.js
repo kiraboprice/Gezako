@@ -1,6 +1,6 @@
 
 const initState = {
-  reportStats: null
+  serviceStats: null
 };
 
 
@@ -200,13 +200,13 @@ const reportReducer = (state = initState, action) => {
       };
 
       /**
-       * reportStats
+       * serviceStats
        */
     case 'GET_REPORT_STATS_SUCCESS':
-      console.log('GET_REPORT_STATS_SUCCESS', action.reportStats);
+      console.log('GET_REPORT_STATS_SUCCESS', action.serviceStats);
       return {
         ...state,
-        reportStats: action.reportStats
+        serviceStats: action.serviceStats
       };
 
     case 'GET_REPORT_STATS_ERROR':
@@ -217,7 +217,7 @@ const reportReducer = (state = initState, action) => {
       console.log('RESET_GET_REPORT_STATS', action.error);
       return {
         ...state,
-        reportStats: null
+        serviceStats: null
       };
     default:
       return state;

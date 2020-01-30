@@ -15,50 +15,49 @@ import LoadingScreen from "../../loading/LoadingScreen";
 
 import createReportIcon from "../../../assets/Icons/create.png";
 import {
-  getCoverage,
   getCompletedEndpointReportsByService,
   getCompletedFeatureReportsByService,
-  getReportStats,
+  getServiceStats,
   resetCreateReportSuccess,
   resetGetCompletedEndpointReportsByService,
   resetGetCompletedFeatureReportsByService,
-  resetGetReportStats,
+  resetGetserviceStats,
   unsubscribeGetCompletedEndpointReportsByService,
   unsubscribeGetCompletedFeatureReportsByService,
-  unsubscribeGetReportStats
+  unsubscribeGetServiceStats
 } from "../../../store/actions/reportActions";
 import {
   showErrorAlert,
   showSuccessAlert
 } from "../../../store/actions/snackbarActions";
-import ReportStatsDialog from "./reportstats/ReportStatsDialog";
 import NoReportsScreen from "../../noreports/NoReportsScreen";
 import {setPrevUrl} from "../../../store/actions/authActions";
 import {getFirstNameFromFullName} from "../../../util/StringUtil";
 import moment from "moment";
+import ServiceStatsDialog from "./servicestats/ServiceStatsDialog";
 
 const CompletedSpockTests = (props) => {
   const phase = 'completed';
   const [showStatsDialog, setShowStatsDialog] = useState();
 
   //variables
-  const {user, completedFeatureReports, endpointReports, service, reportStats} = props;
+  const {user, completedFeatureReports, endpointReports, service, serviceStats} = props;
 
   //actions
   const { setPrevUrl } = props;
 
-  const {getReportStats, unsubscribeGetReportStats, resetGetReportStats} = props;
+  const {getserviceStats, unsubscribeGetserviceStats, resetGetserviceStats} = props;
   const {getFeatureReports, unsubscribeGetFeatureReports, resetGetFeatureReports} = props;
   const {getEndpointReports, unsubscribeGetEndpointReports, resetGetEndpointReports} = props;
 
   useEffect(() => {
-    getReportStats(service);
+    getserviceStats(service);
     getFeatureReports(phase, service);
     getEndpointReports(phase, service);
 
     return function cleanup() {
-      unsubscribeGetReportStats(service);
-      resetGetReportStats();
+      unsubscribeGetserviceStats(service);
+      resetGetserviceStats();
 
       unsubscribeGetFeatureReports(phase, service);
       resetGetFeatureReports();
@@ -106,33 +105,33 @@ const CompletedSpockTests = (props) => {
           </Link>
 
           {
-            reportStats?
+            serviceStats?
                 <div id="status-card">
                   <div id="report-stats-titles">
                     Total number of {service} tests
                   </div>
                   <div id="report-stats-number-of-tests">
-                    {reportStats? reportStats.numberOfTests : null}
+                    {serviceStats? serviceStats.numberOfTests : null}
                   </div>
                   <div id="report-stats-titles">
-                    Code Coverage. Last updated: {reportStats.coverageUpdatedAt? moment(reportStats.coverageUpdatedAt.toDate()).calendar() : ''}  by {reportStats.coverageUpdatedBy? getFirstNameFromFullName(reportStats.coverageUpdatedBy.displayName) : ''}
+                    Code Coverage. Last updated: {serviceStats.coverageUpdatedAt? moment(serviceStats.coverageUpdatedAt.toDate()).calendar() : ''}  by {serviceStats.coverageUpdatedBy? getFirstNameFromFullName(serviceStats.coverageUpdatedBy.displayName) : ''}
                   </div>
                   <div id="report-stats-code-coverage">
                     <span id="report-stats-coverage-titles">Class:</span>
-                    <span>{reportStats.classCoverage}</span>
+                    <span>{serviceStats.classCoverage}</span>
                   </div>
                   <div id="report-stats-code-coverage">
                     <span id="report-stats-coverage-titles">Method:</span>
-                    <span>{reportStats.methodCoverage}</span>
+                    <span>{serviceStats.methodCoverage}</span>
                   </div>
                   <div id="report-stats-code-coverage">
                     <span id="report-stats-coverage-titles">Line:</span>
-                    <span>{reportStats.lineCoverage}</span>
+                    <span>{serviceStats.lineCoverage}</span>
                   </div>
 
                   <div id='service-spec'>
-                    <a href= {reportStats.serviceSpec} target='_blank'>
-                      {reportStats.serviceSpec? 'Service Spec' : 'No Service Spec Added'}
+                    <a href= {serviceStats.serviceSpec} target='_blank'>
+                      {serviceStats.serviceSpec? 'Service Spec' : 'No Service Spec Added'}
                     </a>
                   </div>
 
@@ -208,11 +207,11 @@ const CompletedSpockTests = (props) => {
           </div>
         </div>
 
-        <ReportStatsDialog
+        <ServiceStatsDialog
             showDialog = {showStatsDialog}
             setDialogStateToFalse = {setShowStatsDialogToFalse}
             service = {service}
-            reportStats = {reportStats? reportStats : null}
+            serviceStats = {serviceStats? serviceStats : null}
         />
       </div>
   )
@@ -233,7 +232,7 @@ const mapStateToProps = (state, ownProps) => {
     endpointReports: state.report.endpointReports,
 
     service: getServiceNameFromPathName(ownProps.location.pathname),
-    reportStats: state.report.reportStats,
+    serviceStats: state.report.serviceStats,
   }
 };
 
@@ -249,9 +248,9 @@ const mapDispatchToProps = dispatch => {
     unsubscribeGetEndpointReports: (phase, service) => dispatch(unsubscribeGetCompletedEndpointReportsByService(phase, service)),
     resetGetEndpointReports: () => dispatch(resetGetCompletedEndpointReportsByService()),
 
-    getReportStats: (service) => dispatch(getReportStats(service)),
-    unsubscribeGetReportStats: (service) => dispatch(unsubscribeGetReportStats(service)),
-    resetGetReportStats: () => dispatch(resetGetReportStats()),
+    getserviceStats: (service) => dispatch(getServiceStats(service)),
+    unsubscribeGetserviceStats: (service) => dispatch(unsubscribeGetServiceStats(service)),
+    resetGetserviceStats: () => dispatch(resetGetserviceStats()),
 
     //alerts
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),

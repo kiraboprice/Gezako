@@ -11,14 +11,14 @@ import TextField from "@material-ui/core/TextField/TextField";
 import DialogActions from "@material-ui/core/DialogActions/DialogActions";
 import {
   updateCoverage,
-  updateReportStats
+  updateServiceStats
 } from "../../../../store/actions/reportActions";
 
 
-const ReportStatsDialog = (props) => {
+const ServiceStatsDialog = (props) => {
 
   const [showDialog, setShowDialog] = useState(false);
-  let [reportStats, setReportStats] = useState('');
+  let [serviceStats, setserviceStats] = useState('');
   const [service, setService] = useState('');
   const [classCoverage, setClassCoverage] = useState();
   const [methodCoverage, setMethodCoverage] = useState();
@@ -26,11 +26,11 @@ const ReportStatsDialog = (props) => {
 
   useEffect(() => {
     setShowDialog(props.showDialog);
-    setReportStats(props.reportStats);
+    setserviceStats(props.serviceStats);
     setService(props.service);
-    setClassCoverage(props.reportStats? props.reportStats.classCoverage : '');
-    setMethodCoverage(props.reportStats? props.reportStats.methodCoverage : '');
-    setLineCoverage(props.reportStats? props.reportStats.lineCoverage : '');
+    setClassCoverage(props.serviceStats? props.serviceStats.classCoverage : '');
+    setMethodCoverage(props.serviceStats? props.serviceStats.methodCoverage : '');
+    setLineCoverage(props.serviceStats? props.serviceStats.lineCoverage : '');
   }, [props]);
 
   const handleClose = () => {
@@ -41,10 +41,10 @@ const ReportStatsDialog = (props) => {
   const handleSubmit = () => {
     setShowDialog(false);
     props.setDialogStateToFalse();
-    reportStats.classCoverage = classCoverage;
-    reportStats.methodCoverage = methodCoverage;
-    reportStats.lineCoverage = lineCoverage;
-    props.updateReportStats(service, reportStats);
+    serviceStats.classCoverage = classCoverage;
+    serviceStats.methodCoverage = methodCoverage;
+    serviceStats.lineCoverage = lineCoverage;
+    props.updateserviceStats(service, serviceStats);
   };
 
   const handleChange = (e) => {
@@ -123,10 +123,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateReportStats: (service, reportStats) => dispatch(updateReportStats(service, reportStats))
+    updateServiceStats: (service, serviceStats) => dispatch(updateServiceStats(service, serviceStats))
   }
 };
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps)
-)(ReportStatsDialog)
+)(ServiceStatsDialog)

@@ -331,40 +331,40 @@ export const downloadReport = (report) => {
 };
 
 
-export const getReportStats = (service) => {
-  // console.log(`getReportStats---- ${service}`);
+export const getServiceStats = (service) => {
+  // console.log(`getServiceStats---- ${service}`);
   return (dispatch, getState) => {
-    firebase.firestore().collection(`${BASE_DOCUMENT}/reportstats/`).doc(service)
+    firebase.firestore().collection(`${BASE_DOCUMENT}/servicestats/`).doc(service)
     .onSnapshot(docSnapshot => {
-      dispatch({type: 'GET_REPORT_STATS_SUCCESS', reportStats: docSnapshot.data()});
+      dispatch({type: 'GET_REPORT_STATS_SUCCESS', serviceStats: docSnapshot.data()});
 
     }, err => {
-      console.log(`getReportStats error: ${err}`);
+      console.log(`getServiceStats error: ${err}`);
       dispatch({type: 'GET_REPORT_STATS_ERROR', error: err});
     });
   }
 };
 
-export const unsubscribeGetReportStats = (service) => {
+export const unsubscribeGetServiceStats = (service) => {
   return (dispatch, getState) => {
-    firebase.firestore().collection(`${BASE_DOCUMENT}/reportstats/`).doc(service)
+    firebase.firestore().collection(`${BASE_DOCUMENT}/servicestats/`).doc(service)
     .onSnapshot(() => { });
   }
 };
 
-export const resetGetReportStats = () => {
+export const resetGetserviceStats = () => {
   return (dispatch) => {
     dispatch({type: 'RESET_GET_REPORT_STATS'});
   }
 };
 
-export const updateReportStats = (service, reportStats) => {
+export const updateServiceStats = (service, serviceStats) => {
   return (dispatch, getState) => {
     const user = getState().auth.user;
-    firebase.firestore().collection(`${BASE_DOCUMENT}/reportstats/`).doc(service).set({
-      classCoverage: reportStats.classCoverage,
-      methodCoverage: reportStats.methodCoverage,
-      lineCoverage: reportStats.lineCoverage,
+    firebase.firestore().collection(`${BASE_DOCUMENT}/servicestats/`).doc(service).set({
+      classCoverage: serviceStats.classCoverage,
+      methodCoverage: serviceStats.methodCoverage,
+      lineCoverage: serviceStats.lineCoverage,
       coverageUpdatedAt: new Date(),
       coverageUpdatedBy: {id: user.uid, displayName: user.displayName}
     }).then(() => {
