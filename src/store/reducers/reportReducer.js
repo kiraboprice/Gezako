@@ -40,14 +40,14 @@ const reportReducer = (state = initState, action) => {
        * Get Report
        */
     case 'GET_REPORT_SUCCESS':
-      console.log('GET_REPORT_SUCCESS', action.report);
+      // console.log('GET_REPORT_SUCCESS', action.report);
       return {
         ...state,
         getReport: action.report
       };
 
     case 'GET_REPORT_ERROR_NOT_EXIST':
-      console.log('GET_REPORT_ERROR_NOT_EXIST', action.error);
+      // console.log('GET_REPORT_ERROR_NOT_EXIST', action.error);
       return {
         ...state,
         getReport: 'GET_REPORT_ERROR_NOT_EXIST'
@@ -58,7 +58,7 @@ const reportReducer = (state = initState, action) => {
       return state;
 
     case 'RESET_GET_REPORT':
-      console.log('RESET_GET_FEATURE_REPORTS');
+      // console.log('RESET_GET_FEATURE_REPORTS');
       return {
         ...state,
         getReport: null

@@ -23,7 +23,12 @@ import {getFirstNameFromFullName} from "../../util/StringUtil";
 import moment from "moment";
 import CustomSnackbar from "../snackbar/CustomSnackbar";
 import {DELETED} from "../../constants/ReportStatus";
-import {showErrorAlert} from "../../store/actions/snackbarActions";
+import {
+  showErrorAlert,
+  showSuccessAlert
+} from "../../store/actions/snackbarActions";
+import {COMPLETED} from "../../constants/ReportStatus";
+import {COMPLETED_PHASE} from "../../constants/Report";
 
 const StatusCard = (props) => {
   //variables
@@ -53,7 +58,9 @@ const StatusCard = (props) => {
     setDescription(generateDescription(
         status,
         getFirstNameFromFullName(props.report.createdBy),
-        getFirstNameFromFullName(assignedToName))
+        getFirstNameFromFullName(assignedToName),
+        getFirstNameFromFullName(user.displayName)
+        )
     );
     setImage(getImage(status));
   }, [props]);
@@ -64,13 +71,21 @@ const StatusCard = (props) => {
     setDescription(generateDescription(
         status,
         getFirstNameFromFullName(stateFromProps.report.createdBy),
-        getFirstNameFromFullName(assignedToName))
+        getFirstNameFromFullName(assignedToName),
+        getFirstNameFromFullName(user.displayName)
+        )
+
     );
     setImage(getImage(status));
   }
 
   function updateStatus(e) {
     stateFromProps.report.status = status;
+
+    if(status === COMPLETED) {
+      stateFromProps.report.phase = COMPLETED_PHASE;
+    }
+
     if(status === DELETED){
       if((user.uid === stateFromProps.report.userId)){
         deleteReport(stateFromProps.id)
@@ -84,42 +99,40 @@ const StatusCard = (props) => {
     }
   }
 
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [successAlertMessage, setSuccessAlertMessage] = useState('');
+  const { showSuccessAlert } = props;
 
   useEffect(() => {
     // console.log('PROPSSSSSS', props);
     if(props.updateReportResult === 'success'){
-      setShowSuccessAlert(true);
-      setSuccessAlertMessage('Updated Status!');
+      showSuccessAlert('Updated Status!')
     }
 
     return function cleanup() {
     };
   }, [props]);
 
-  function generateDescription(status, createdBy, assignedTo) {
+  function generateDescription(status, createdBy, assignedTo, loggedInUser) {
     switch(status) {
       case ReportStatus.NEW:
         return `${createdBy} uploaded a new report and is waiting for ${assignedTo} to review`;
 
       case ReportStatus.IN_REVIEW:
-        return `${assignedTo} started reviewing the report`;
+        return `${loggedInUser} started reviewing the report`;
 
       case ReportStatus.REQUESTED_CHANGES:
-        return `${assignedTo} finished the review and gave some feedback to ${createdBy} to fix a few things`;
+        return `${loggedInUser} finished the review and gave some feedback to ${createdBy} to fix a few things`;
 
       case ReportStatus.RE_UPLOADED:
-        return `${createdBy} addressed comments from ${assignedTo} and uploaded an updated report`;
+        return `${createdBy} addressed comments and uploaded an updated report`;
 
       case ReportStatus.APPROVED:
-        return `${assignedTo} approved the report form ${createdBy}`;
+        return `${loggedInUser} approved the report created by ${createdBy}`;
 
       case ReportStatus.DONE:
-        return `${createdBy} moved the report to done`;
+        return `${loggedInUser} moved the report to done`;
 
       case ReportStatus.COMPLETED:
-        return `${createdBy} moved the report to the Completed phase`;
+        return `${loggedInUser} moved the report to the Completed phase`;
 
       case ReportStatus.ARCHIVED:
         return `${createdBy} archived the report`;
@@ -177,7 +190,7 @@ const StatusCard = (props) => {
         {description}
       </div>
       <div id="status-updated">
-        Last updated: {moment(stateFromProps.report.updatedAt.toDate()).calendar()} by {stateFromProps.report.updatedBy ? getFirstNameFromFullName(stateFromProps.report.updatedBy.displayName) : null}
+        Status updated: {moment(stateFromProps.report.updatedAt.toDate()).calendar()}
       </div>
       <div id="update-status-options">
         <select value={status} onChange={handleStatusChange}>
@@ -200,7 +213,7 @@ const StatusCard = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log('STATE----', state);
+  // console.log('STATE----', state);
   return {
     user: state.auth.user,
     updateReportResult: state.report.updateReportResult,
@@ -214,6 +227,7 @@ const mapDispatchToProps = (dispatch) => {
 
     deleteReport: (id, report) => dispatch(deleteReport(id)),
 
+    showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
     showErrorAlert: (message) => dispatch(showErrorAlert(message)),
   }
 };

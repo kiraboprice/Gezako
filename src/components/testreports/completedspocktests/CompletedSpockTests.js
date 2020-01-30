@@ -153,8 +153,7 @@ const CompletedSpockTests = (props) => {
               <div id='service'>Service</div>
               <div id='title'>Title</div>
               <div id='title'># of tests</div>
-              {/*<div id='title'>Updated At</div>*/}
-              <div id='title'>Created At</div>
+              <div id='title'>Updated At</div>
               <div id='end-column'>Created By</div>
             </div>
             { completedFeatureReports && completedFeatureReports.map(report => { //todo add the index back here!
@@ -180,8 +179,7 @@ const CompletedSpockTests = (props) => {
               <div id='service'>Service</div>
               <div id='title'>Title</div>
               <div id='title'># of tests</div>
-              {/*<div id='title'>Updated At</div>*/}
-              <div id='title'>Created At</div>
+              <div id='title'>Updated At</div>
               <div id='end-column'>Created By</div>
             </div>
             { endpointReports && endpointReports.map(report => { //todo add the index back here!
