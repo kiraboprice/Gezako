@@ -1,5 +1,6 @@
 
 const initState = {
+  serviceStats: null
 };
 
 
@@ -40,14 +41,14 @@ const reportReducer = (state = initState, action) => {
        * Get Report
        */
     case 'GET_REPORT_SUCCESS':
-      console.log('GET_REPORT_SUCCESS', action.report);
+      // console.log('GET_REPORT_SUCCESS', action.report);
       return {
         ...state,
         getReport: action.report
       };
 
     case 'GET_REPORT_ERROR_NOT_EXIST':
-      console.log('GET_REPORT_ERROR_NOT_EXIST', action.error);
+      // console.log('GET_REPORT_ERROR_NOT_EXIST', action.error);
       return {
         ...state,
         getReport: 'GET_REPORT_ERROR_NOT_EXIST'
@@ -58,7 +59,7 @@ const reportReducer = (state = initState, action) => {
       return state;
 
     case 'RESET_GET_REPORT':
-      console.log('RESET_GET_FEATURE_REPORTS');
+      // console.log('RESET_GET_FEATURE_REPORTS');
       return {
         ...state,
         getReport: null
@@ -199,55 +200,32 @@ const reportReducer = (state = initState, action) => {
       };
 
       /**
-       * reportStats
+       * serviceStats
        */
-    case 'GET_REPORT_STATS_SUCCESS':
-      console.log('GET_REPORT_STATS_SUCCESS', action.reportStats);
+    case 'GET_SERVICE_STATS_SUCCESS_NOT_EXIST':
+      console.log('GET_SERVICE_STATS_SUCCESS_NOT_EXIST');
       return {
         ...state,
-        reportStats: action.reportStats
+        serviceStats: null
       };
 
-    case 'GET_REPORT_STATS_ERROR':
-      console.log('GET_REPORT_STATS_ERROR', action.error);
-      return state;
-
-    case 'RESET_GET_REPORT_STATS':
-      console.log('RESET_GET_REPORT_STATS', action.error);
+    case 'GET_SERVICE_STATS_SUCCESS':
+      console.log('GET_SERVICE_STATS_SUCCESS', action.serviceStats);
       return {
         ...state,
-        reportStats: null
+        serviceStats: action.serviceStats
       };
 
-      /**
-       * coverage
-       */
-    case 'GET_COVERAGE_SUCCESS':
-      console.log('GET_COVERAGE_SUCCESS', action.coverage);
-      if(action.coverage){
-        return {
-          ...state,
-          coverage: action.coverage
-        };
-      }
-      else {
-        return {
-          ...state,
-          coverage: null
-        };
-      }
-
-    case 'GET_COVERAGE_ERROR':
-      console.log('GET_COVERAGE_ERROR', action.error);
+    case 'GET_SERVICE_STATS_ERROR':
+      console.log('GET_SERVICE_STATS_ERROR', action.error);
       return state;
 
-    case 'UPDATE_COVERAGE_SUCCESS':
-      console.log('UPDATE_COVERAGE_SUCCESS');
-      return state;
-
-    case 'UPDATE_COVERAGE_ERROR':
-      console.log('UPDATE_COVERAGE_ERROR', action.error);
-      return state;
+    case 'RESET_GET_SERVICE_STATS':
+      console.log('RESET_GET_SERVICE_STATS', action.error);
+      return {
+        ...state,
+        serviceStats: null
+      };
     default:
       return state;
 

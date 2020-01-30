@@ -331,72 +331,51 @@ export const downloadReport = (report) => {
 };
 
 
-export const getReportStats = (service) => {
-  // console.log(`getReportStats---- ${service}`);
+export const getServiceStats = (service) => {
+  // console.log(`getServiceStats---- ${service}`);
   return (dispatch, getState) => {
-    firebase.firestore().collection(`${BASE_DOCUMENT}/reportstats/`).doc(service)
-    .onSnapshot(docSnapshot => {
-      dispatch({type: 'GET_REPORT_STATS_SUCCESS', reportStats: docSnapshot.data()});
+    firebase.firestore().collection(`${BASE_DOCUMENT}/servicestats/`).doc(service)
+    .onSnapshot(snapshot => {
+      if (!snapshot.exists) {
+        dispatch({type: 'GET_SERVICE_STATS_SUCCESS_NOT_EXIST'});
+      } else {
+        dispatch({type: 'GET_SERVICE_STATS_SUCCESS', serviceStats: snapshot.data()});
+      }
 
     }, err => {
-      console.log(`getReportStats error: ${err}`);
-      dispatch({type: 'GET_REPORT_STATS_ERROR', error: err});
+      console.log(`getServiceStats error: ${err}`);
+      dispatch({type: 'GET_SERVICE_STATS_ERROR', error: err});
     });
   }
 };
 
-export const unsubscribeGetReportStats = (service) => {
+export const unsubscribeGetServiceStats = (service) => {
   return (dispatch, getState) => {
-    firebase.firestore().collection(`${BASE_DOCUMENT}/reportstats/`).doc(service)
+    firebase.firestore().collection(`${BASE_DOCUMENT}/servicestats/`).doc(service)
     .onSnapshot(() => { });
   }
 };
 
-export const resetGetReportStats = () => {
+export const resetGetserviceStats = () => {
   return (dispatch) => {
-    dispatch({type: 'RESET_GET_REPORT_STATS'});
+    dispatch({type: 'RESET_GET_SERVICE_STATS'});
   }
 };
 
-export const getCoverage = (service) => {
-  return (dispatch, getState) => {
-    firebase.firestore().collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`)
-    .onSnapshot(docSnapshot => {
-      dispatch({type: 'GET_COVERAGE_SUCCESS', coverage: docSnapshot.data()});
-
-    }, err => {
-      console.log(`getReportStats error: ${err}`);
-      dispatch({type: 'GET_COVERAGE_ERROR', error: err});
-    });
-  }
-};
-
-export const unsubscribeGetCoverage = (service) => {
-  return (dispatch, getState) => {
-    firebase.firestore().collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`)
-    .onSnapshot(() => { });
-  }
-};
-
-export const resetGetCoverage = () => {
-  return (dispatch) => {
-    dispatch({type: 'RESET_GET_COVERAGE'});
-  }
-};
-
-export const updateCoverage = (service, coverage) => {
+export const updateServiceStats = (service, serviceStats) => {
   return (dispatch, getState) => {
     const user = getState().auth.user;
-    firebase.firestore().collection(`${BASE_DOCUMENT}/reportstats/${service}/coverage`).doc(`coverage`).set({
-      class: coverage.classCoverage,
-      method: coverage.methodCoverage,
-      line: coverage.lineCoverage,
-      updatedAt: new Date(),
-      updatedBy: {id: user.uid, displayName: user.displayName}
+    firebase.firestore().collection(`${BASE_DOCUMENT}/servicestats/`).doc(service).set({
+      classCoverage: serviceStats.classCoverage,
+      methodCoverage: serviceStats.methodCoverage,
+      lineCoverage: serviceStats.lineCoverage,
+      serviceSpec: serviceStats.serviceSpec,
+      coverageUpdatedAt: new Date(),
+      coverageUpdatedBy: {id: user.uid, displayName: user.displayName}
     }).then(() => {
-      dispatch({type: 'UPDATE_COVERAGE_SUCCESS'});
+      dispatch({type: 'UPDATE_REPORT_STATS_SUCCESS'});
     }).catch(err => {
-      dispatch({type: 'UPDATE_COVERAGE_ERROR', err});
+      dispatch({type: 'UPDATE_REPORT_STATS_ERROR', err});
     });
   }
 };

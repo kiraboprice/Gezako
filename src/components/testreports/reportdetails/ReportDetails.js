@@ -97,10 +97,10 @@ const ReportDetails = (props) => {
                   </button>
 
                   <div id='github-pr'>
-                  <a href= {report.githubPR} target='_blank'>
-                    {report.githubPR? 'Github Pull Request' : 'No Github Pull Request Opened'}
-                  </a>
-                </div>
+                    <a href= {report.githubPR} target='_blank'>
+                      {report.githubPR? 'Github Pull Request' : 'No Github Pull Request Opened'}
+                    </a>
+                  </div>
 
                   <div id='postman-tests'>
                     <a href= {report.postmanTest} target='_blank'>

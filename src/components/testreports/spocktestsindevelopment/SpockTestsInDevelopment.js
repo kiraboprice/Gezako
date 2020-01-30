@@ -80,8 +80,8 @@ const SpockTestsInDevelopment = (props) => {
               <div id='title'>Title</div>
               <div id='title'>Status</div>
               <div id='title'>Assigned To</div>
-              <div id='title'>Created By</div>
-              <div id='end-column'>Created At</div>
+              <div id='title'>Updated At</div>
+              <div id='end-column'>Created By</div>
             </div>
             { reports && reports.map(report => {
                 return (

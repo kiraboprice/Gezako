@@ -9,23 +9,31 @@ import DialogContentText
   from "@material-ui/core/DialogContentText/DialogContentText";
 import TextField from "@material-ui/core/TextField/TextField";
 import DialogActions from "@material-ui/core/DialogActions/DialogActions";
-import {updateCoverage} from "../../../../store/actions/reportActions";
+import {
+  updateCoverage,
+  updateServiceStats
+} from "../../../../store/actions/reportActions";
+import {ServiceStats} from "../../../../constants/ServiceStats";
 
 
-const CoverageDialog = (props) => {
+const ServiceStatsDialog = (props) => {
 
   const [showDialog, setShowDialog] = useState(false);
+  let [serviceStats, setServiceStats] = useState('');
   const [service, setService] = useState('');
   const [classCoverage, setClassCoverage] = useState();
   const [methodCoverage, setMethodCoverage] = useState();
   const [lineCoverage, setLineCoverage] = useState();
+  const [serviceSpec, setServiceSpec] = useState();
 
   useEffect(() => {
     setShowDialog(props.showDialog);
+    setServiceStats(props.serviceStats);
     setService(props.service);
-    setClassCoverage(props.coverage? props.coverage.class : '');
-    setMethodCoverage(props.coverage? props.coverage.method : '');
-    setLineCoverage(props.coverage? props.coverage.line : '');
+    setClassCoverage(props.serviceStats? props.serviceStats.classCoverage : '');
+    setMethodCoverage(props.serviceStats? props.serviceStats.methodCoverage : '');
+    setLineCoverage(props.serviceStats? props.serviceStats.lineCoverage : '');
+    setServiceSpec(props.serviceStats? props.serviceStats.serviceSpec : '');
   }, [props]);
 
   const handleClose = () => {
@@ -36,8 +44,22 @@ const CoverageDialog = (props) => {
   const handleSubmit = () => {
     setShowDialog(false);
     props.setDialogStateToFalse();
-    const coverage = {classCoverage, methodCoverage, lineCoverage};
-    props.updateCoverage(service, coverage);
+    if(serviceStats) {
+      serviceStats.classCoverage = classCoverage;
+      serviceStats.methodCoverage = methodCoverage;
+      serviceStats.lineCoverage = lineCoverage;
+      serviceStats.serviceSpec = serviceSpec;
+    }
+    else {
+      serviceStats = new ServiceStats(
+          null, null, null, null, null, null, null
+      );
+      serviceStats.classCoverage = classCoverage;
+      serviceStats.methodCoverage = methodCoverage;
+      serviceStats.lineCoverage = lineCoverage;
+      serviceStats.serviceSpec = serviceSpec;
+    }
+    props.updateServiceStats(service, serviceStats);
   };
 
   const handleChange = (e) => {
@@ -51,6 +73,9 @@ const CoverageDialog = (props) => {
         break;
       case 'line':
         setLineCoverage(value);
+        break;
+      case 'serviceSpec':
+        setServiceSpec(value);
         break;
       default:
         break;
@@ -93,6 +118,15 @@ const CoverageDialog = (props) => {
                 value={lineCoverage}
                 onChange={handleChange}
             />
+            <TextField
+                margin="dense"
+                id="serviceSpec"
+                label="Service Spec"
+                type="email"
+                fullWidth
+                value={serviceSpec}
+                onChange={handleChange}
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
@@ -116,10 +150,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateCoverage: (service, coverage) => dispatch(updateCoverage(service, coverage))
+    updateServiceStats: (service, serviceStats) => dispatch(updateServiceStats(service, serviceStats))
   }
 };
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps)
-)(CoverageDialog)
+)(ServiceStatsDialog)
