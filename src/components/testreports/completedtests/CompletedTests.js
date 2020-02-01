@@ -6,7 +6,7 @@ import firestore from "../../../fbConfig";
 import {connect} from 'react-redux';
 import {BrowserRouter, Link, Redirect} from 'react-router-dom'
 
-import './completedspockreports.css';
+import './completedtests.css';
 
 import {compose} from "redux";
 import penIcon from "../../../assets/Icons/pen.png";
@@ -36,7 +36,7 @@ import {getFirstNameFromFullName} from "../../../util/StringUtil";
 import moment from "moment";
 import ServiceStatsDialog from "./servicestats/ServiceStatsDialog";
 
-const CompletedSpockTests = (props) => {
+const CompletedTests = (props) => {
   const phase = 'completed';
   const [showStatsDialog, setShowStatsDialog] = useState();
 
@@ -260,4 +260,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps))(CompletedSpockTests)
+    connect(mapStateToProps, mapDispatchToProps))(CompletedTests)

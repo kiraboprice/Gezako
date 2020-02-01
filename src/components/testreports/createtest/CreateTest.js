@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
-import {Link, Redirect} from 'react-router-dom';
+import { Redirect} from 'react-router-dom';
 import {
   createTest,
   resetCreateTestSuccess
 } from '../../../store/actions/reportActions';
-import * as firebase from 'firebase';
 import {
   getUsersApartFromCurrentUser,
   setPrevUrl, unsubscribeGetUsersApartFromCurrentUser
@@ -13,14 +12,14 @@ import {
 
 import './createTest.css';
 import {getReportPhaseFromPathName, isValidUrl} from "../../../util/StringUtil";
-import {COMPLETED_PHASE, DEVELOPMENT_PHASE} from "../../../constants/Report";
-import CustomSnackbar from "../../snackbar/CustomSnackbar";
 import {
   showErrorAlert,
   showSuccessAlert
 } from "../../../store/actions/snackbarActions";
 import TextField from "@material-ui/core/TextField/TextField";
 import {COMPLETED, NEW} from "../../../constants/ReportStatus";
+
+import FileUpload from "../../fileupload/FileUpload";
 const qs = require('query-string');
 
 const CreateTest = (props) => {
@@ -38,9 +37,6 @@ const CreateTest = (props) => {
   const [productSpec, setProductSpec] = useState(null);
   const [techSpec, setTechSpec] = useState(null);
 
-
-  //required to generate fileDownLoadUrl
-  const [file, setFile] = useState();
   const [uploadProgress, setUploadProgress] = useState(0);
 
   //set up UI
@@ -150,66 +146,6 @@ const CreateTest = (props) => {
     }
   };
 
-  function handleFileUploaded(fileDownLoadUrl) {
-    console.log("file download url----", fileDownLoadUrl)
-    setFileDownLoadUrl(fileDownLoadUrl);
-  }
-
-  function handleFileSelected(e) {
-    setFile(e.target.files[0])
-  }
-
-  //todo extract this to using actions and leave this component clean
-  function handleUploadFile(e) {
-    var metadata = {
-      contentType: 'text/html'
-    };
-    //todo update the spock-reports child
-    //todo if uploading a dev report, upload to development-spock-reports child.
-    //todo if uploading a complete report, upload to completed-spock-reports
-    var uploadTask = firebase.storage().ref()
-    .child('spock-reports/' + file.name)
-    .put(file, metadata);
-
-    uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-        function (snapshot) {
-          var progress = (snapshot.bytesTransferred / snapshot.totalBytes)
-              * 100;
-          setUploadProgress(progress);
-
-          switch (snapshot.state) {
-            case firebase.storage.TaskState.PAUSED:
-              console.log('Upload is paused');
-              break;
-            case firebase.storage.TaskState.RUNNING:
-              console.log('Upload is running');
-              break;
-          }
-        },
-        function (error) {
-          switch (error.code) {
-            case 'storage/unauthorized':
-              // User doesn't have permission to access the object
-              break;
-
-            case 'storage/canceled':
-              // User canceled the upload
-              break;
-
-            case 'storage/unknown':
-              // Unknown error occurred, inspect error.serverResponse
-              break;
-          }
-        },
-        function () {
-          // Upload completed successfully, now we can get the download URL
-          uploadTask.snapshot.ref.getDownloadURL().then(function (downloadUrl) {
-            handleFileUploaded(downloadUrl)
-          });
-        }
-    );
-  }
-
   function validateFields(report) {
     console.log('REPORT ISSSS', report);
    if(!report.title.length > 0) {
@@ -275,7 +211,7 @@ const CreateTest = (props) => {
   function handleCreate(e) {
     e.preventDefault();
     setCreateTestIsClicked(true);
-    // console.log("PROPS---", props);
+    console.log("PROPS---", props);
     const status = (phase === 'completed')? COMPLETED : NEW;
     const report = {
       title,
@@ -307,11 +243,12 @@ const CreateTest = (props) => {
         <h3>Upload Spock Report</h3>
         {phase === 'completed' ? 'Upload Report for a Complete test'
             : 'Upload Report for a test in Development'}
-        <div>
-          <input type='file' name='file' onChange={handleFileSelected}
-                 accept='html/*'/>
-          <button onClick={handleUploadFile} style={{background: "#ffeead"}}>Upload File</button>
-        </div>
+
+        <FileUpload
+            storageLocation='spock-reports/'
+            setUploadProgress={setUploadProgress}
+            setFileDownLoadUrl={setFileDownLoadUrl}
+        />
 
         {/* ! Just a suggestion, maybe display this onSubmit? */}
         <span id='uploading'>
