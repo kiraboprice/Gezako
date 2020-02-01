@@ -82,11 +82,11 @@ export default class SideBar extends Component {
 
                 <div onClick={this.setFirstActive}>
                   <Links
-                      title={this.state.expanded ? 'Completed Spock Tests'
+                      title={this.state.expanded ? 'Tests'
                           : ''}
                       isExpanded={this.state.expanded}
                       haslinks={true}
-                      icon={dev}
+                      icon={report}
                       active={this.state.firstActive}
                       links={[
                         [ "Surveys", '/completed/surveys'],
@@ -116,7 +116,7 @@ export default class SideBar extends Component {
                         title={this.state.expanded ? 'Spock Tests In Development'
                             : ''}
                         isExpanded={this.state.expanded}
-                        icon={report}
+                        icon={dev}
                         haslinks={true}
                         links={[
                           [ "Surveys", '/development/surveys'],

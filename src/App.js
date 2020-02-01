@@ -51,13 +51,13 @@ const App = (props) => {
               <Route exact path='/completed/upload-report' component={UploadReport}/>
               <Route exact path='/completed/:service' component={CompletedSpockTests}/>
               <Route exact path='/completed/update-report/:id' component={UpdateReport}/>
-              <Route exact path='/completed/report/:id' component ={ReportDetails}/>
+              <Route exact path='/completed/test/:id' component ={ReportDetails}/>
 
               <Route exact path='/development/upload-report' component={UploadReport}/>
               <Route exact path='/development/:service' component={SpockTestsInDevelopment}/>
               {/*<Route exact path='/report/development/:id'*/}
                      {/*render={(props) => <ReportDetails {...props} collectionUrl='developmentreports' />}/>*/}
-              <Route exact path='/development/report/:id' component ={ReportDetails}/>
+              <Route exact path='/development/test/:id' component ={ReportDetails}/>
               <Route exact path='/development/update-report/:id' component={UpdateReport}/>
 
               <Route exact path='/performance' component={PerformanceTests}/>

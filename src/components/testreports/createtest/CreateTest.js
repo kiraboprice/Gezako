@@ -74,7 +74,7 @@ const CreateTest = (props) => {
     if(createTestIsClicked === true) {
       if(props.createTestNewTestId) {
         props.showSuccessAlert('Successfully created test');
-        props.history.push(`/${phase}/report/${props.createTestNewTestId}`);
+        props.history.push(`/${phase}/test/${props.createTestNewTestId}`);
         //todo reset createTestSuccess to null
       } else {
         props.showErrorAlert('Failed to create test');
