@@ -211,9 +211,9 @@ const CreateTest = (props) => {
   function handleCreate(e) {
     e.preventDefault();
     setCreateTestIsClicked(true);
-    console.log("PROPS---", props);
+    // console.log("PROPS---", props);
     const status = (phase === 'completed')? COMPLETED : NEW;
-    const report = {
+    const test = {
       title,
       phase,
       service,
@@ -228,14 +228,13 @@ const CreateTest = (props) => {
       status
     };
 
-    const validationText = validateFields(report);
+    const validationText = validateFields(test);
     if(validationText!== 'valid'){
       // console.log('REPORT validationText', validationText);
       props.showErrorAlert(validationText);
       return;
     }
-
-    props.createTest(report);
+    props.createTest(test);
   }
 
   return (
