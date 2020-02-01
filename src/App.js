@@ -3,11 +3,11 @@ import 'firebase/auth';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
 import Login from './components/login/Login';
-import CompletedSpockTests from './components/testreports/completedspocktests/CompletedSpockTests';
+import CompletedSpockTests from './components/testreports/completedtests/CompletedTests';
 
 import './assets/fonts/fonts.css';
 import './app.css';
-import SpockTestsInDevelopment from './components/testreports/spocktestsindevelopment/SpockTestsInDevelopment';
+import SpockTestsInDevelopment from './components/testreports/testsindevelopment/TestsInDevelopment';
 
 import Navigation from "./components/navbar/NavBar";
 import SideBar from "./components/sidepanel/SideBar";

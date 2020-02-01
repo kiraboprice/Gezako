@@ -18,7 +18,7 @@ import {
 } from "../../../store/actions/authActions";
 import NoReportsScreen from "../../noreports/NoReportsScreen";
 
-const SpockTestsInDevelopment = (props) => {
+const TestsInDevelopment = (props) => {
   const phase = 'development';
 
   //variables
@@ -129,4 +129,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps))(SpockTestsInDevelopment)
+    connect(mapStateToProps, mapDispatchToProps))(TestsInDevelopment)
