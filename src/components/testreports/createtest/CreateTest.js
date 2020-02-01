@@ -218,9 +218,9 @@ const CreateTest = (props) => {
    else if (!report.service.length > 0) {
      return ("Select Service")
    }
-   else if (!report.fileDownLoadUrl.length > 0) {
-     return ("Upload a Test report by pressing the Yellow Button above.")
-   }
+   // else if (!report.fileDownLoadUrl.length > 0) {
+   //   return ("Upload a Test report by pressing the Yellow Button above.")
+   // }
 
    // else if (report.githubPR.length > 0) {
    //   if(!isValidUrl(report.githubPR)) {
@@ -421,8 +421,8 @@ const CreateTest = (props) => {
 
             {/* ! Make sure someone has actually uploaded and filled out the required spaces because
               I was able to submit (by accident) without uploading or filling out the spaces */}
-            <button id='submit-report' type='submit'>
-              Submit
+            <button id='create-test' type='submit'>
+              Create Test
             </button>
           </div>
         </form>

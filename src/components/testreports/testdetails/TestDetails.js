@@ -4,34 +4,45 @@ import { compose } from 'redux'
 import {firestoreConnect} from "react-redux-firebase";
 import moment from 'moment'
 import {Link, Redirect} from 'react-router-dom'
+import lifecycle from 'react-pure-lifecycle';
+
 import {setPrevUrl} from "../../../store/actions/authActions";
 import {
   downloadReport, getReport, resetGetReport, resetReportDownload, unsubscribeGetReport
 } from "../../../store/actions/reportActions";
 
-import '../reportdetails/reportdetails.css';
-import '../reportdetails/spockreportcustomstyles.css';
+import './/testdetails.css';
+import './/spockreportcustomstyles.css';
 
 import StatusCard from "../../status/StatusCard";
 
 import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 import twitterIcon from "../../../assets/Icons/twitter.png";
 
-const ReportDetails = (props) => {
-  const {user, report} = props;
+// const customLifeCycleMethod = { //had to use this to implement componentWillUnmount
+//   componentWillUnmount(props) {
+//     props.resetReportDownload()
+//   }
+// };
 
-  const {setPrevUrl, downloadReport, reportDownload, resetReportDownload} = props;
+const TestDetails = (props) => {
+  const {user, test} = props;
+
+  const {reportDownload} = props;
   const id = props.match.params.id;
 
-  //clean up after this component is unmounted
+  const {setPrevUrl, downloadReport, resetReportDownload} = props;
   useEffect(() => {
+    // resetReportDownload()
     return function cleanup() {
       resetReportDownload()
     };
-  },[id]);
+  },[]); //componentWillUnmount
 
   const [displayDevelopmentFields, setDisplayDevelopmentFields] = useState('');
   const [displayCompletedFields, setDisplayCompletedFields] = useState('');
+  const {getReport, unsubscribeGetReport, resetGetReport} = props;
+
   useEffect(() => {
     const phase = getReportPhaseFromPathName(props.location.pathname);
     if(phase === 'development') {
@@ -42,35 +53,37 @@ const ReportDetails = (props) => {
       setDisplayCompletedFields('block');
     }
 
-    props.getReport(props.match.params.id);
+    getReport(props.match.params.id);
 
     return function cleanup() {
       unsubscribeGetReport(props.match.params.id);
       resetGetReport();
     };
-  },[id]);
+  },[]); //componentWillUnmount
 
   if (!user) {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login' />;
   }
 
-  // console.log('report');
+  // console.log('test');
   function goToExternalLink(productSpec) {
     window.open(productSpec) //open new tab
     // window.location.replace(productSpec) //stay on page
   }
 
-  if (report) {
-    if(report.toString == 'GET_REPORT_ERROR_NOT_EXISTS'.toString) {
+  if (test) {
+    if(test.toString == 'GET_REPORT_ERROR_NOT_EXISTS'.toString) {
       return (
           <div id='report-details-section'>
-            <p>Report does not exist.</p>
+            <p>Test does not exist.</p>
           </div>
       )
     }
     else {
-      downloadReport(report);
+      console.log('BEFORE DOWNLOAD------test');
+      console.log(test);
+      downloadReport(test);
 
       var htmlDoc = {__html: reportDownload};
 
@@ -79,43 +92,43 @@ const ReportDetails = (props) => {
             <div >
               <div id="report-details-positioning">
                 <div id="section1">
-                  <span id="report-title-section1">{report.title}</span>
-                  <div id="uploaded-by">Uploaded by {report.createdBy}, {moment(report.createdAt.toDate()).calendar()}</div>
+                  <span id="report-title-section1">{test.title}</span>
+                  <div id="uploaded-by">Uploaded by {test.createdBy}, {moment(test.createdAt.toDate()).calendar()}</div>
 
-                  {report.assignedTo?<div id="uploaded-by" style={{display: displayDevelopmentFields}}>Assigned to {report.assignedTo.displayName}</div> : null }
+                  {test.assignedTo?<div id="uploaded-by" style={{display: displayDevelopmentFields}}>Assigned to {test.assignedTo.displayName}</div> : null }
 
                   <button id="report-button-section1"
                           style={{background: "#ff6f69", marginRight: "10px"}}
-                          onClick={()=> goToExternalLink(report.productSpec)}>
-                    {report.techSpec? 'Product Requirements Spec' : 'No Product Requirements Spec Set'}
+                          onClick={()=> goToExternalLink(test.productSpec)}>
+                    {test.techSpec? 'Product Requirements Spec' : 'No Product Requirements Spec Set'}
                   </button>
 
                   <button id="report-button-section1"
                           style={{background: "#ffeead"}}
-                          onClick={()=> goToExternalLink(report.techSpec)}>
-                    {report.techSpec? 'Technical Design Doc' : 'No Technical Design Doc Set'}
+                          onClick={()=> goToExternalLink(test.techSpec)}>
+                    {test.techSpec? 'Technical Design Doc' : 'No Technical Design Doc Set'}
                   </button>
 
                   <div id='github-pr'>
-                    <a href= {report.githubPR} target='_blank'>
-                      {report.githubPR? 'Github Pull Request' : 'No Github Pull Request Opened'}
+                    <a href= {test.githubPR} target='_blank'>
+                      {test.githubPR? 'Github Pull Request' : 'No Github Pull Request Opened'}
                     </a>
                   </div>
 
                   <div id='postman-tests'>
-                    <a href= {report.postmanTest} target='_blank'>
-                      {report.postmanTest? 'Postman Tests' : 'No Postman Tests Added'}
+                    <a href= {test.postmanTest} target='_blank'>
+                      {test.postmanTest? 'Postman Tests' : 'No Postman Tests Added'}
                     </a>
                   </div>
 
-                  <Link to={`/${report.phase}/update-report/${id}`} >
-                    <button id="report-button-section1" style={{background: "#f0f0f0", marginTop: "25px"}}>Update Report</button>
+                  <Link to={`/${test.phase}/update-report/${id}`} >
+                    <button id="report-button-section1" style={{background: "#f0f0f0", marginTop: "25px"}}>Update Test</button>
                   </Link>
                 </div>
                 <div id="section2">
                   <StatusCard
                       id = {id}
-                      report = {report}
+                      report = {test}
                   />
                 </div>
 
@@ -141,12 +154,12 @@ const ReportDetails = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  // console.log('state');
-  // console.log(state);
+  console.log('TestDetails state----------');
+  console.log(state);
 
   return {
     user: state.auth.user,
-    report: state.report.getReport,
+    test: state.report.getReport,
     reportDownload: state.report.reportDownload,
   }
 };
@@ -157,12 +170,10 @@ const mapDispatchToProps = (dispatch) => {
     unsubscribeGetReport: (id) => dispatch(unsubscribeGetReport(id)),
     resetGetReport: () => dispatch(resetGetReport()),
 
-    downloadReport: (report) => dispatch(downloadReport(report)),
+    downloadReport: (test) => dispatch(downloadReport(test)),
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
     resetReportDownload: () => dispatch(resetReportDownload())
   }
 };
 
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps))
-(ReportDetails)
+export default compose(connect(mapStateToProps, mapDispatchToProps))(TestDetails);

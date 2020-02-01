@@ -314,7 +314,7 @@ export const resetUpdateReportState = () => {
 
 export const resetReportDownload = () => {
   return (dispatch) => {
-    dispatch({type: 'RESET_STATE_SUCCESS'});
+    dispatch({type: 'RESET_REPORT_DOWNLOAD'});
   }
 };
 

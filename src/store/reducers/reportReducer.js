@@ -59,7 +59,7 @@ const reportReducer = (state = initState, action) => {
       return state;
 
     case 'RESET_GET_REPORT':
-      // console.log('RESET_GET_FEATURE_REPORTS');
+      console.log('RESET_GET_REPORT');
       return {
         ...state,
         getReport: null
@@ -182,18 +182,21 @@ const reportReducer = (state = initState, action) => {
       };
 
     case 'DOWNLOAD_REPORT_SUCCESS':
+      console.log('DOWNLOAD_REPORT_SUCCESS');
       return {
         ...state,
         reportDownload: action.reportDownload
       };
 
     case 'DOWNLOAD_REPORT_ERROR':
-      console.log('DOWNLOAD_REPORT_ERROR', action.error);
-      return state;
+      console.log('DOWNLOAD_REPORT_ERROR', action.err);
+      return {
+        ...state,
+        reportDownload: null
+      };
 
-
-    case 'RESET_STATE_SUCCESS':
-      console.log('RESET_STATE_SUCCESS');
+    case 'RESET_REPORT_DOWNLOAD':
+      console.log('RESET_REPORT_DOWNLOAD');
       return {
         ...state,
         reportDownload: null
