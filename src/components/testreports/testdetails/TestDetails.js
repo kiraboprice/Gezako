@@ -103,15 +103,15 @@ const TestDetails = (props) => {
                     {test.techSpec? 'Technical Design Doc' : 'No Technical Design Doc Set'}
                   </button>
 
-                  <div id='github-pr'>
-                    <a href= {test.githubPR} target='_blank'>
-                      {test.githubPR? 'Github Pull Request' : 'No Github Pull Request Opened'}
-                    </a>
-                  </div>
-
                   <div id='postman-tests'>
                     <a href= {test.postmanTest} target='_blank'>
                       {test.postmanTest? 'Postman Tests' : 'No Postman Tests Added'}
+                    </a>
+                  </div>
+
+                  <div id='github-pr'>
+                    <a href= {test.githubPR} target='_blank'>
+                      {test.githubPR? 'Github Pull Request' : 'No Github Pull Request Opened'}
                     </a>
                   </div>
 
@@ -129,12 +129,15 @@ const TestDetails = (props) => {
 
               </div>
 
-              { test.fileDownLoadUrl?
-                <div id="document-container">
-                  Spock Report (Derek: Split this into different container)
-                  <div dangerouslySetInnerHTML= {htmlReport} />
-                </div>
+              { test.fileDownLoadUrl
+                  ?
+                  <div id="document-container">
+                    Spock Report (Derek: Split this into different container)
+                    <div dangerouslySetInnerHTML={htmlReport}/>
+                  </div>
+
                   :
+
                   <div id="document-container">
                     No Spock Report (Derek: Split this into different container)
                   </div>
