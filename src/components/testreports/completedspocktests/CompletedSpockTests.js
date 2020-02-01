@@ -10,7 +10,7 @@ import './completedspockreports.css';
 
 import {compose} from "redux";
 import penIcon from "../../../assets/Icons/pen.png";
-import Report from "../Report";
+import Test from "../Test";
 import LoadingScreen from "../../loading/LoadingScreen";
 
 import createReportIcon from "../../../assets/Icons/create.png";
@@ -18,7 +18,7 @@ import {
   getCompletedEndpointReportsByService,
   getCompletedFeatureReportsByService,
   getServiceStats,
-  resetCreateReportSuccess,
+  resetCreateTestSuccess,
   resetGetCompletedEndpointReportsByService,
   resetGetCompletedFeatureReportsByService,
   resetGetserviceStats,
@@ -167,8 +167,8 @@ const CompletedSpockTests = (props) => {
                 return (
                     <div>
                       {/*<div key={index}>*/}
-                      <Link to={'/completed/report/' + report.id} key={report.id}>
-                        <Report
+                      <Link to={'/completed/test/' + report.id} key={report.id}>
+                        <Test
                             report={report}
                         />
                       </Link>
@@ -193,8 +193,8 @@ const CompletedSpockTests = (props) => {
               return (
                   <div>
                     {/*<div key={index}>*/}
-                    <Link to={'/completed/report/' + report.id} key={report.id}>
-                      <Report
+                    <Link to={'/completed/test/' + report.id} key={report.id}>
+                      <Test
                           report={report}
                       />
                     </Link>
@@ -255,7 +255,7 @@ const mapDispatchToProps = dispatch => {
     //alerts
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
     showErrorAlert: (message) => dispatch(showErrorAlert(message)),
-    resetCreateReportSuccess: (message) => dispatch(resetCreateReportSuccess(message)),
+    resetCreateReportSuccess: (message) => dispatch(resetCreateTestSuccess(message)),
   };
 };
 

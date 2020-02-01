@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import Report from "../Report";
+import Test from "../Test";
 import {Link} from "react-router-dom";
 import {compose} from "redux";
 import moment from 'moment'
@@ -86,9 +86,9 @@ const SpockTestsInDevelopment = (props) => {
             { reports && reports.map(report => {
                 return (
                     <div>
-                      <Link to={'/development/report/' + report.id} key={report.id}>
+                      <Link to={'/development/test/' + report.id} key={report.id}>
                         {console.log("assignedTo", report.assignedTo)}
-                        <Report
+                        <Test
                             report = {report}
                         />
                       </Link>

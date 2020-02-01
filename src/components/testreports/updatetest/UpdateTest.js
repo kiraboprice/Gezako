@@ -3,11 +3,8 @@ import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import {
   updateReport,
-  resetReportDownload,
-  getCompletedFeatureReportsByService,
   getReport,
-  unsubscribeGetCompletedFeatureReportsByService,
-  resetGetCompletedFeatureReportsByService, unsubscribeGetReport, resetGetReport
+  unsubscribeGetReport, resetGetReport, resetUpdateReportState
 } from "../../../store/actions/reportActions";
 import * as firebase from "firebase";
 import CustomSnackbar from "../../snackbar/CustomSnackbar";
@@ -20,22 +17,22 @@ import {
 import TextField from "@material-ui/core/TextField/TextField";
 import {blue} from "@material-ui/core/colors";
 
-const UpdateReport = (props) => {
+const UpdateTest = (props) => {
   const { report } = props;
 
   //report fields
-  const [id, setId] = useState('');
-  const [title, setTitle] = useState('');
-  const [phase, setPhase] = useState('');
-  const [service, setService] = useState('');
-  const [type, setType] = useState('');
-  const [fileDownLoadUrl, setFileDownLoadUrl] = useState('');
-  const [assignedTo, setAssignedTo] = useState('');
-  const [numberOfTests, setNumberOfTests] = useState('');
-  const [githubPR, setGithubPR] = useState('');
-  const [postmanTest, setPostmanTest] = useState('');
-  const [productSpec, setProductSpec] = useState('');
-  const [techSpec, setTechSpec] = useState('');
+  const [id, setId] = useState(null);
+  const [title, setTitle] = useState(null);
+  const [phase, setPhase] = useState(null);
+  const [service, setService] = useState(null);
+  const [type, setType] = useState(null);
+  const [fileDownLoadUrl, setFileDownLoadUrl] = useState(null);
+  const [assignedTo, setAssignedTo] = useState(null);
+  const [numberOfTests, setNumberOfTests] = useState(null);
+  const [githubPR, setGithubPR] = useState(null);
+  const [postmanTest, setPostmanTest] = useState(null);
+  const [productSpec, setProductSpec] = useState(null);
+  const [techSpec, setTechSpec] = useState(null);
 
   //required to generate fileDownLoadUrl
   const [file, setFile] = useState();
@@ -227,8 +224,9 @@ const UpdateReport = (props) => {
     props.updateReport(id, reportForUpdate);
 
     //todo add a cloud function which deletes the previous report from cloud storage
-    props.history.push(`/${report.phase}/${report.service}`);
+    props.history.push(`/${report.phase}/test/${report.id}`);
 
+    //todo check why this isnt working
     return <CustomSnackbar
         showSuccessAlert = {true}
         successAlertMessage = 'Updated Report!'
@@ -387,10 +385,11 @@ const mapDispatchToProps = dispatch => {
     resetGetReport: () => dispatch(resetGetReport()),
 
     updateReport: (id, report) => dispatch(updateReport(id, report)),
-    resetState: () => dispatch(resetReportDownload()),
+    resetUpdateReportState: () => dispatch(resetUpdateReportState()),
+
     getUsersApartFromCurrentUser: () => dispatch(getUsersApartFromCurrentUser()),
     unsubscribeGetUsersApartFromCurrentUser: () => dispatch(unsubscribeGetUsersApartFromCurrentUser())
   }
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps)(UpdateReport))
+export default compose(connect(mapStateToProps, mapDispatchToProps)(UpdateTest))

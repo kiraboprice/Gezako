@@ -16,10 +16,10 @@ import CreateTask from "./components/tasks/CreateTask";
 
 import TaskDetails from "./components/tasks/TaskDetails";
 import { connect } from 'react-redux'
-import ReportDetails from "./components/testreports/reportdetails/ReportDetails";
-import UploadReport from "./components/testreports/createreport/CreateReport";
+import ReportDetails from "./components/testreports/testdetails/TestDetails";
+import UploadReport from "./components/testreports/createtest/CreateTest";
 import PerformanceTests from "./components/perfomance/PerformanceTests";
-import UpdateReport from "./components/testreports/updatereport/UpdateReport";
+import UpdateReport from "./components/testreports/updatetest/UpdateTest";
 import Home from "./components/testreports/home/Home";
 import CustomSnackbar from "./components/snackbar/CustomSnackbar";
 import ErrorBoundary from "./components/error/ErrorBoundary";
@@ -51,13 +51,13 @@ const App = (props) => {
               <Route exact path='/completed/upload-report' component={UploadReport}/>
               <Route exact path='/completed/:service' component={CompletedSpockTests}/>
               <Route exact path='/completed/update-report/:id' component={UpdateReport}/>
-              <Route exact path='/completed/report/:id' component ={ReportDetails}/>
+              <Route exact path='/completed/test/:id' component ={ReportDetails}/>
 
               <Route exact path='/development/upload-report' component={UploadReport}/>
               <Route exact path='/development/:service' component={SpockTestsInDevelopment}/>
               {/*<Route exact path='/report/development/:id'*/}
                      {/*render={(props) => <ReportDetails {...props} collectionUrl='developmentreports' />}/>*/}
-              <Route exact path='/development/report/:id' component ={ReportDetails}/>
+              <Route exact path='/development/test/:id' component ={ReportDetails}/>
               <Route exact path='/development/update-report/:id' component={UpdateReport}/>
 
               <Route exact path='/performance' component={PerformanceTests}/>

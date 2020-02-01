@@ -62,7 +62,7 @@ export const uploadReport = (file) => {
   }
 };
 
-export const createReport = (report) => {
+export const createTest = (report) => {
   // console.log("REPORTTTTT", report);
   return (dispatch, getState) => {
     const user = getState().auth.user;
@@ -75,15 +75,15 @@ export const createReport = (report) => {
       userId: user.uid,
       createdAt: new Date(),
       updatedAt: new Date()
-    }).then(() => {
-      dispatch({type: 'CREATE_REPORT_SUCCESS'});
+    }).then((docRef) => {
+      dispatch({type: 'CREATE_REPORT_SUCCESS', id: docRef.id});
     }).catch(err => {
       dispatch({type: 'CREATE_REPORT_ERROR', err});
     });
   }
 };
 
-export const resetCreateReportSuccess = () => {
+export const resetCreateTestSuccess = () => {
   return (dispatch) => {
     dispatch({type: 'RESET_CREATE_REPORT'});
   }
@@ -99,7 +99,8 @@ export const getReport = (id) => {
       if (!snapshot.exists) {
         dispatch({type: 'GET_REPORT_ERROR_NOT_EXIST'});
       } else {
-        dispatch({type: 'GET_REPORT_SUCCESS', report: snapshot.data()});
+        let test = {...snapshot.data(), id};
+        dispatch({type: 'GET_REPORT_SUCCESS', report: test});
       }
 
     }, err => {
@@ -314,7 +315,7 @@ export const resetUpdateReportState = () => {
 
 export const resetReportDownload = () => {
   return (dispatch) => {
-    dispatch({type: 'RESET_STATE_SUCCESS'});
+    dispatch({type: 'RESET_REPORT_DOWNLOAD'});
   }
 };
 

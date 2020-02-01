@@ -82,11 +82,11 @@ export default class SideBar extends Component {
 
                 <div onClick={this.setFirstActive}>
                   <Links
-                      title={this.state.expanded ? 'Completed Spock Tests'
+                      title={this.state.expanded ? 'Tests'
                           : ''}
                       isExpanded={this.state.expanded}
                       haslinks={true}
-                      icon={dev}
+                      icon={report}
                       active={this.state.firstActive}
                       links={[
                         [ "Surveys", '/completed/surveys'],
@@ -113,10 +113,10 @@ export default class SideBar extends Component {
 
                 <div onClick={this.setSecondActive}>
                     <Links
-                        title={this.state.expanded ? 'Spock Tests In Development'
+                        title={this.state.expanded ? 'Tests In Development'
                             : ''}
                         isExpanded={this.state.expanded}
-                        icon={report}
+                        icon={dev}
                         haslinks={true}
                         links={[
                           [ "Surveys", '/development/surveys'],
@@ -142,33 +142,33 @@ export default class SideBar extends Component {
                     />
                 </div>
 
-                <div onClick={this.setThirdActive}>
-                  <Link to='/performance'>
-                    <Links
-                        title={this.state.expanded ? 'Performance Tests' : ''}
-                        isExpanded={this.state.expanded}
-                        haslinks={false}
-                        icon={perf}
-                        active={this.state.thirdActive}
-                        links={[]}
-                        titleLink={'/performance'}
-                    />
-                  </Link>
-                </div>
+                {/*<div onClick={this.setThirdActive}>*/}
+                  {/*<Link to='/performance'>*/}
+                    {/*<Links*/}
+                        {/*title={this.state.expanded ? 'Performance Tests' : ''}*/}
+                        {/*isExpanded={this.state.expanded}*/}
+                        {/*haslinks={false}*/}
+                        {/*icon={perf}*/}
+                        {/*active={this.state.thirdActive}*/}
+                        {/*links={[]}*/}
+                        {/*titleLink={'/performance'}*/}
+                    {/*/>*/}
+                  {/*</Link>*/}
+                {/*</div>*/}
 
-                <div onClick={this.setFourthActive}>
-                  <Link to='/tasks'>
-                    <Links
-                        title={this.state.expanded ? 'Tasks' : ''}
-                        isExpanded={this.state.expanded}
-                        haslinks={false}
-                        icon={task}
-                        active={this.state.fourthActive}
-                        links={[]}
-                        titleLink={'/tasks'}
-                    />
-                  </Link>
-                </div>
+                {/*<div onClick={this.setFourthActive}>*/}
+                  {/*<Link to='/tasks'>*/}
+                    {/*<Links*/}
+                        {/*title={this.state.expanded ? 'Tasks' : ''}*/}
+                        {/*isExpanded={this.state.expanded}*/}
+                        {/*haslinks={false}*/}
+                        {/*icon={task}*/}
+                        {/*active={this.state.fourthActive}*/}
+                        {/*links={[]}*/}
+                        {/*titleLink={'/tasks'}*/}
+                    {/*/>*/}
+                  {/*</Link>*/}
+                {/*</div>*/}
               </div>
 
               <div id='sidepanel-mobile'
@@ -201,29 +201,29 @@ export default class SideBar extends Component {
                   />
                 </div>
 
-                <div onClick={this.setThirdActive}>
-                  <Links
-                      title='Performance Tests'
-                      isExpanded={this.state.isExpandedMobile}
-                      haslinks={false}
-                      icon={perf}
-                      active={this.state.thirdActive}
-                      links={[]}
-                      titleLink={'/performance'}
-                  />
-                </div>
+                {/*<div onClick={this.setThirdActive}>*/}
+                  {/*<Links*/}
+                      {/*title='Performance Tests'*/}
+                      {/*isExpanded={this.state.isExpandedMobile}*/}
+                      {/*haslinks={false}*/}
+                      {/*icon={perf}*/}
+                      {/*active={this.state.thirdActive}*/}
+                      {/*links={[]}*/}
+                      {/*titleLink={'/performance'}*/}
+                  {/*/>*/}
+                {/*</div>*/}
 
-                <div onClick={this.setFourthActive}>
-                  <Links
-                      title='Tasks'
-                      isExpanded={this.state.isExpandedMobile}
-                      haslinks={false}
-                      icon={task}
-                      active={this.state.fourthActive}
-                      links={[]}
-                      titleLink={'/tasks'}
-                  />
-                </div>
+                {/*<div onClick={this.setFourthActive}>*/}
+                  {/*<Links*/}
+                      {/*title='Tasks'*/}
+                      {/*isExpanded={this.state.isExpandedMobile}*/}
+                      {/*haslinks={false}*/}
+                      {/*icon={task}*/}
+                      {/*active={this.state.fourthActive}*/}
+                      {/*links={[]}*/}
+                      {/*titleLink={'/tasks'}*/}
+                  {/*/>*/}
+                {/*</div>*/}
 
               </div>
 
