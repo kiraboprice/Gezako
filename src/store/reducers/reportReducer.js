@@ -17,17 +17,17 @@ const reportReducer = (state = initState, action) => {
       return state;
 
     case 'CREATE_REPORT_SUCCESS':
-      console.log('CREATE_REPORT_SUCCESS', action.report);
+      console.log('CREATE_REPORT_SUCCESS', action.id);
       return {
         ...state,
-        createReportSuccess: 'success'
+        createTestNewTestId: action.id
       };
 
     case 'CREATE_REPORT_ERROR':
       // console.log('CREATE_REPORT_ERROR', action.error);
       return {
         ...state,
-        createReportSuccess: 'error'
+        createTestNewTestId: null
       };
 
     case 'RESET_CREATE_REPORT':

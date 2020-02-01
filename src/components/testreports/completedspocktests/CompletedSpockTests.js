@@ -18,7 +18,7 @@ import {
   getCompletedEndpointReportsByService,
   getCompletedFeatureReportsByService,
   getServiceStats,
-  resetCreateReportSuccess,
+  resetCreateTestSuccess,
   resetGetCompletedEndpointReportsByService,
   resetGetCompletedFeatureReportsByService,
   resetGetserviceStats,
@@ -255,7 +255,7 @@ const mapDispatchToProps = dispatch => {
     //alerts
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
     showErrorAlert: (message) => dispatch(showErrorAlert(message)),
-    resetCreateReportSuccess: (message) => dispatch(resetCreateReportSuccess(message)),
+    resetCreateReportSuccess: (message) => dispatch(resetCreateTestSuccess(message)),
   };
 };
 

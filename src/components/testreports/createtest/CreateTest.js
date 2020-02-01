@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 import {Link, Redirect} from 'react-router-dom';
 import {
-  createReport,
-  resetCreateReportSuccess
+  createTest,
+  resetCreateTestSuccess
 } from '../../../store/actions/reportActions';
 import * as firebase from 'firebase';
 import {
@@ -11,7 +11,7 @@ import {
   setPrevUrl, unsubscribeGetUsersApartFromCurrentUser
 } from "../../../store/actions/authActions";
 
-import './createReport.css';
+import './createTest.css';
 import {getReportPhaseFromPathName, isValidUrl} from "../../../util/StringUtil";
 import {COMPLETED_PHASE, DEVELOPMENT_PHASE} from "../../../constants/Report";
 import CustomSnackbar from "../../snackbar/CustomSnackbar";
@@ -23,7 +23,7 @@ import TextField from "@material-ui/core/TextField/TextField";
 import {COMPLETED, NEW} from "../../../constants/ReportStatus";
 const qs = require('query-string');
 
-const CreateReport = (props) => {
+const CreateTest = (props) => {
   const serviceInQuery = qs.parse(props.location.search, { ignoreQueryPrefix: true }).service;
   //report fields
   const [title, setTitle] = useState('');
@@ -65,18 +65,26 @@ const CreateReport = (props) => {
     }
   }, []);
 
-  //on submit report is clicked
+  /**
+   * on submit report is clicked
+   *
+   */
+  const [createTestIsClicked, setCreateTestIsClicked] = useState(false);
   useEffect(() => {
-    if(props.createReportSuccess === 'success') {
-      props.showSuccessAlert('Successfully created report');
-      props.history.push(`/${phase}/${service}`);
-      //todo reset createReportSuccess to null
-    } else if (props.createReportSuccess === 'error') {
-      props.showErrorAlert('Failed to create report');
+    if(createTestIsClicked === true) {
+      if(props.createTestNewTestId) {
+        props.showSuccessAlert('Successfully created test');
+        props.history.push(`/${phase}/report/${props.createTestNewTestId}`);
+        //todo reset createTestSuccess to null
+      } else {
+        props.showErrorAlert('Failed to create test');
+      }
+
+      return function cleanup() {
+        props.resetCreateTestSuccess()
+      };
     }
-    return function cleanup() {
-      props.resetCreateReportSuccess()
-    };
+
   }, [props]);
 
   const {user, setPrevUrl, users} = props;
@@ -264,8 +272,9 @@ const CreateReport = (props) => {
    }
   }
 
-  function handleSubmit(e) {
+  function handleCreate(e) {
     e.preventDefault();
+    setCreateTestIsClicked(true);
     // console.log("PROPS---", props);
     const status = (phase === 'completed')? COMPLETED : NEW;
     const report = {
@@ -290,7 +299,7 @@ const CreateReport = (props) => {
       return;
     }
 
-    props.createReport(report);
+    props.createTest(report);
   }
 
   return (
@@ -308,7 +317,7 @@ const CreateReport = (props) => {
         <span id='uploading'>
 		  Uploading report: {uploadProgress}%
 	  </span>
-        <form onSubmit={handleSubmit} style={{marginTop: '25px'}}>
+        <form onSubmit={handleCreate} style={{marginTop: '25px'}}>
           <div>
 
             <div id='display-content'>
@@ -425,13 +434,13 @@ const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
     users: state.auth.users,
-    createReportSuccess: state.report.createReportSuccess
+    createTestNewTestId: state.report.createTestNewTestId
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    createReport: (report) => dispatch(createReport(report)),
+    createTest: (report) => dispatch(createTest(report)),
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
     getUsersApartFromCurrentUser: () => dispatch(getUsersApartFromCurrentUser()),
     unsubscribeGetUsersApartFromCurrentUser: () => dispatch(unsubscribeGetUsersApartFromCurrentUser()),
@@ -439,9 +448,9 @@ const mapDispatchToProps = dispatch => {
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
     showErrorAlert: (message) => dispatch(showErrorAlert(message)),
 
-    resetCreateReportSuccess: (message) => dispatch(resetCreateReportSuccess(message)),
+    resetCreateTestSuccess: (message) => dispatch(resetCreateTestSuccess(message)),
 
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateReport);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTest);
