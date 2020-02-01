@@ -153,7 +153,7 @@ const UpdateTest = (props) => {
   };
 
   const handleFileUploaded = (fileDownLoadUrl) => {
-    console.log("file download url----", fileDownLoadUrl)
+    // console.log("file download url----", fileDownLoadUrl)
     setFileDownLoadUrl(fileDownLoadUrl);
   }
 

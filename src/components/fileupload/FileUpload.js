@@ -23,7 +23,7 @@ const FileUpload = (props) => {
   };
 
   const handleFileUploaded= (fileDownLoadUrl) => {
-    console.log("file download url----", fileDownLoadUrl);
+    // console.log("file download url----", fileDownLoadUrl);
     props.setFileDownLoadUrl(fileDownLoadUrl);
   };
 
