@@ -104,7 +104,7 @@ const StatusCard = (props) => {
   useEffect(() => {
     // console.log('PROPSSSSSS', props);
     if(props.updateReportResult === 'success'){
-      showSuccessAlert('Updated Status!')
+      showSuccessAlert('Updated Successfully!')
     }
 
     return function cleanup() {

@@ -19,7 +19,7 @@ import { connect } from 'react-redux'
 import ReportDetails from "./components/testreports/testdetails/TestDetails";
 import UploadReport from "./components/testreports/createtest/CreateTest";
 import PerformanceTests from "./components/perfomance/PerformanceTests";
-import UpdateReport from "./components/testreports/updatereport/UpdateReport";
+import UpdateReport from "./components/testreports/updatetest/UpdateTest";
 import Home from "./components/testreports/home/Home";
 import CustomSnackbar from "./components/snackbar/CustomSnackbar";
 import ErrorBoundary from "./components/error/ErrorBoundary";

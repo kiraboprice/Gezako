@@ -4,7 +4,6 @@ import { compose } from 'redux'
 import {firestoreConnect} from "react-redux-firebase";
 import moment from 'moment'
 import {Link, Redirect} from 'react-router-dom'
-import lifecycle from 'react-pure-lifecycle';
 
 import {setPrevUrl} from "../../../store/actions/authActions";
 import {
@@ -19,12 +18,6 @@ import StatusCard from "../../status/StatusCard";
 import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 import twitterIcon from "../../../assets/Icons/twitter.png";
 
-// const customLifeCycleMethod = { //had to use this to implement componentWillUnmount
-//   componentWillUnmount(props) {
-//     props.resetReportDownload()
-//   }
-// };
-
 const TestDetails = (props) => {
   const {user, test} = props;
 
@@ -33,7 +26,6 @@ const TestDetails = (props) => {
 
   const {setPrevUrl, downloadReport, resetReportDownload} = props;
   useEffect(() => {
-    // resetReportDownload()
     return function cleanup() {
       resetReportDownload()
     };
@@ -81,11 +73,13 @@ const TestDetails = (props) => {
       )
     }
     else {
-      console.log('BEFORE DOWNLOAD------test');
-      console.log(test);
-      downloadReport(test);
-
-      var htmlDoc = {__html: reportDownload};
+      // console.log('BEFORE DOWNLOAD------test');
+      // console.log(test);
+      let htmlReport = null;
+      if(test.fileDownLoadUrl) {
+        downloadReport(test);
+        htmlReport = {__html: reportDownload};
+      }
 
       return (
           <div id='report-details-section'>
@@ -135,9 +129,17 @@ const TestDetails = (props) => {
 
               </div>
 
-              <div id="document-container">
-                <div dangerouslySetInnerHTML= {htmlDoc} />
-              </div>
+              { test.fileDownLoadUrl?
+                <div id="document-container">
+                  Spock Report (Derek: Split this into different container)
+                  <div dangerouslySetInnerHTML= {htmlReport} />
+                </div>
+                  :
+                  <div id="document-container">
+                    No Spock Report (Derek: Split this into different container)
+                  </div>
+              }
+
             </div>
           </div>
       )
@@ -154,8 +156,8 @@ const TestDetails = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log('TestDetails state----------');
-  console.log(state);
+  // console.log('TestDetails state----------');
+  // console.log(state);
 
   return {
     user: state.auth.user,

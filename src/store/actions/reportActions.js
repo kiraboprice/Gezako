@@ -99,7 +99,8 @@ export const getReport = (id) => {
       if (!snapshot.exists) {
         dispatch({type: 'GET_REPORT_ERROR_NOT_EXIST'});
       } else {
-        dispatch({type: 'GET_REPORT_SUCCESS', report: snapshot.data()});
+        let test = {...snapshot.data(), id};
+        dispatch({type: 'GET_REPORT_SUCCESS', report: test});
       }
 
     }, err => {
