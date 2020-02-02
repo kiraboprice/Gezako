@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import TaskList from "./TaskList";
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
-import {Link, Redirect} from 'react-router-dom'
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+import {Link, Redirect} from 'react-router-dom';
 
 const Tasks = (props) => {
     const { user, tasks } = props;

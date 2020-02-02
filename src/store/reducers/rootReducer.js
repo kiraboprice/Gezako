@@ -1,12 +1,12 @@
-import authReducer from './authReducer'
-import taskReducer from './taskReducer'
+import authReducer from './authReducer';
+import taskReducer from './taskReducer';
 import reportReducer from "./reportReducer";
 import snackbarReducer from "./snackbarReducer";
 
 import { firestoreReducer } from 'redux-firestore';
-import { firebaseReducer } from 'react-redux-firebase'
+import { firebaseReducer } from 'react-redux-firebase';
 
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
   auth: authReducer,

@@ -1,6 +1,6 @@
 {
   "name": "gezako",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Gezako Software Quality Assurance All your Software QA needs in one place.",
   "private": true,
   "main": "index.js",
@@ -16,9 +16,11 @@
     "react": "16.9.0",
     "react-dom": "16.9.0",
     "react-redux": "^5.0.7",
+    "react-redux-firebase": "^3.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.0",
     "redux": "^4.0.4",
+    "redux-firestore": "^0.11.0",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {},

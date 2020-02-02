@@ -1,9 +1,10 @@
 #sidepanel{
     left: 0;
     position: fixed;
-    margin-top: 0px;
     margin-left: 2%;
     width: 55px;
+    height: 100%;
+    padding-right: 15px;
     overflow: auto;
     transition: all ease-in-out 400ms;
     font-size: 90%;
@@ -39,6 +40,7 @@
     padding: 15px;
     position: relative;
     margin-bottom: 30px;
+    margin-left: 5px;
     transition: all ease-in-out 400ms;
     border-radius: 5px;
 }
@@ -52,6 +54,7 @@ a{
     padding: 15px;
     position: relative;
     margin-bottom: 30px;
+    margin-left: 5px;
     transition: all ease-in-out 400ms;
     border-radius: 5px;
 }
