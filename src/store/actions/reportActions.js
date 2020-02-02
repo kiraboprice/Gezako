@@ -63,12 +63,11 @@ export const uploadReport = (file) => {
 };
 
 export const createTest = (report) => {
-  // console.log("REPORTTTTT", report);
+  // console.log("createTest---", report);
   return (dispatch, getState) => {
     const user = getState().auth.user;
     const collectionUrl = getReportsCollectionUrl();
     firebase.firestore().collection(collectionUrl).add({
-      // firestore.collection(collectionUrl).add({
       ...report,
       //just leaving this here to show possibility of using profile in an action. but this is not scalable. if the displayName ever gets updated, we'd need a cloud function which listens on the user collection for this user specifically, then updates everywhere.
       createdBy: user.displayName,
