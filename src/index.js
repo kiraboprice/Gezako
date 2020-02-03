@@ -10,6 +10,8 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 
 import firebase from "./fbConfig";
+import * as StringUtils from "./util/StringUtil";
+import {BASE_DOCUMENT} from "./constants/FireStore";
 
 const store = createStore(
     rootReducer,
@@ -17,10 +19,25 @@ const store = createStore(
         applyMiddleware(thunk)
     )
 );
+let notTalaEmployeeOrTestUserDispatchSent = false;
 
 firebase.auth().onAuthStateChanged(user => {
   if (user !== null) {
-    store.dispatch({ type: 'LOGIN_SUCCESS', user })
+    if(!StringUtils.checkUserEmailIsValid(user.email)) {
+      const userEmail = user.email;
+      notTalaEmployeeOrTestUserDispatchSent = true;
+      store.dispatch({ type: 'NOT_TALA_EMPLOYEE_OR_TEST_USER', userEmail })
+    }
+    else{
+      // console.log("IN ELSE--------");
+      notTalaEmployeeOrTestUserDispatchSent = false;
+      firebase.firestore().collection(BASE_DOCUMENT+ '/users').doc(user.uid).set({
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL
+      });
+      store.dispatch({ type: 'LOGIN_SUCCESS', user })
+    }
   }
   else {
     console.log('NO_USER_IS_SIGNED_IN');

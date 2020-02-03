@@ -3,7 +3,7 @@ import firebase from "../../fbConfig"
 import {BASE_DOCUMENT} from "../../constants/FireStore";
 import * as StringUtils from "../../util/StringUtil";
 
-var notTalaEmployeeOrTestUserDispatchSent = false;
+let notTalaEmployeeOrTestUserDispatchSent = false;
 
 // export const verifyAuth = () => dispatch => {
 //   // dispatch(verifyRequest());
@@ -23,24 +23,26 @@ export const signIn = () => {
     let provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider).then((resp) => {
 
-     if(!StringUtils.checkUserEmailIsValid(resp.user.email)) {
-       const userEmail = resp.user.email;
-       notTalaEmployeeOrTestUserDispatchSent = true;
-       return dispatch({ type: 'NOT_TALA_EMPLOYEE_OR_TEST_USER', userEmail });
-     }
-     else{
-       // console.log(resp.user)
-       notTalaEmployeeOrTestUserDispatchSent = false;
-       return firebase.firestore().collection(BASE_DOCUMENT+ '/users').doc(resp.user.uid).set({
-         displayName: resp.user.displayName,
-         email: resp.user.email,
-         photoURL: resp.user.photoURL
-       });
-     }
+     // if(!StringUtils.checkUserEmailIsValid(resp.user.email)) {
+     //   const userEmail = resp.user.email;
+     //   notTalaEmployeeOrTestUserDispatchSent = true;
+     //   return dispatch({ type: 'NOT_TALA_EMPLOYEE_OR_TEST_USER', userEmail });
+     // }
+     // else{
+     //   // console.log(resp.user)
+     //   notTalaEmployeeOrTestUserDispatchSent = false;
+     //   return firebase.firestore().collection(BASE_DOCUMENT+ '/users').doc(resp.user.uid).set({
+     //     displayName: resp.user.displayName,
+     //     email: resp.user.email,
+     //     photoURL: resp.user.photoURL
+     //   });
+     // }
     }).then((user) => {
       if(!notTalaEmployeeOrTestUserDispatchSent){
         //dispatch this action only if the user email was valid. else do nothing. the NOT_TALA_EMPLOYEE_OR_TEST_USER action would have already been dispatched
-        dispatch({ type: 'LOGIN_SUCCESS', user })
+        // console.log("IN signIn--------");
+        // dispatch({ type: 'LOGIN_SUCCESS', user }) //this causes an error when the user first logs in.
+        //using the onAuthStateChanged in index.js for now
       }
     }).catch((err) => {
       // console.log("An error occurred while logging in or storing data in db", err)
