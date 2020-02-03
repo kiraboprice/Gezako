@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import TaskList from "./TaskList";
-import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import {Link, Redirect} from 'react-router-dom'
 
@@ -35,12 +34,12 @@ const mapStateToProps = (state) => {
 
 export default compose(
     connect(mapStateToProps),
-    firestoreConnect([
-      {
-        collection: 'company',
-        doc: 'tala',
-        subcollections: [{ collection: 'tasks' }],
-        storeAs: 'tasks'
-      }
-    ])
+    // firestoreConnect([
+    //   {
+    //     collection: 'company',
+    //     doc: 'tala',
+    //     subcollections: [{ collection: 'tasks' }],
+    //     storeAs: 'tasks'
+    //   }
+    // ])
 )(Tasks)

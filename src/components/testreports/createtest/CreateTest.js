@@ -20,6 +20,7 @@ import TextField from "@material-ui/core/TextField/TextField";
 import {COMPLETED, NEW} from "../../../constants/ReportStatus";
 
 import FileUpload from "../../fileupload/FileUpload";
+import AsyncAlertDialog from "../../alerts/AsyncAlertDialog";
 const qs = require('query-string');
 
 const CreateTest = (props) => {
@@ -62,18 +63,48 @@ const CreateTest = (props) => {
   }, []);
 
   /**
-   * on submit report is clicked
-   *
+   * When create test is clicked
    */
+  const [test, setTest] = useState(null);
   const [createTestIsClicked, setCreateTestIsClicked] = useState(false);
+  const [userSelectedAFile, setUserSelectedAFile] = useState(null);
+  const [uploadSelectedFile, setUploadTheFile] = useState(null);
+  const [showAsyncAlertDialog, setShowAsyncAlertDialog] = useState(false);
   useEffect(() => {
     if(createTestIsClicked === true) {
-      if(props.createTestNewTestId) {
-        props.showSuccessAlert('Successfully created test');
-        props.history.push(`/${phase}/test/${props.createTestNewTestId}`);
-        //todo reset createTestSuccess to null
+
+      if (userSelectedAFile) { //if file is set, upload to storage
+        setShowAsyncAlertDialog(true); //no need to show this if the action will be quick - simply creating a test without uploading a report
+
+        setUploadTheFile(true); //tell the child component to upload the file
+        //wait for file download url to be populated by child component
+        if(fileDownLoadUrl) {
+          test.fileDownLoadUrl = fileDownLoadUrl;
+          props.createTest(test);
+        }
       } else {
-        props.showErrorAlert('Failed to create test');
+        props.createTest(test);
+      }
+    }
+
+  }, [createTestIsClicked, fileDownLoadUrl]);
+
+  /**
+   * When test is created (or not)
+   */
+  const { createTestNewTestId, showSuccessAlert, showErrorAlert} = props;
+  useEffect(() => {
+    if(createTestIsClicked === true) {
+      props.createTest(test);
+
+      if(createTestNewTestId) {
+        setShowAsyncAlertDialog(false);
+
+        showSuccessAlert('Successfully created test');
+        props.history.push(`/${phase}/test/${props.createTestNewTestId}`);
+      } else {
+        setShowAsyncAlertDialog(false);
+        showErrorAlert('Failed to create test');
       }
 
       return function cleanup() {
@@ -81,7 +112,7 @@ const CreateTest = (props) => {
       };
     }
 
-  }, [props]);
+  }, [createTestNewTestId]);
 
   const {user, setPrevUrl, users} = props;
   if (!user) {
@@ -234,7 +265,8 @@ const CreateTest = (props) => {
       props.showErrorAlert(validationText);
       return;
     }
-    props.createTest(test);
+
+    setTest(test)
   }
 
   return (
@@ -245,6 +277,8 @@ const CreateTest = (props) => {
 
         <FileUpload
             storageLocation='spock-reports/'
+            setUserSelectedAFile={setUserSelectedAFile}
+            uploadSelectedFile={uploadSelectedFile}
             setUploadProgress={setUploadProgress}
             setFileDownLoadUrl={setFileDownLoadUrl}
         />
@@ -362,6 +396,12 @@ const CreateTest = (props) => {
             </button>
           </div>
         </form>
+
+        <AsyncAlertDialog
+            showAsyncAlertDialog = {showAsyncAlertDialog}
+            testTitle = {test? test.title : ""}
+        />
+
       </div>
   );
 };

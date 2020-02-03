@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import moment from 'moment'
 import { Redirect } from 'react-router-dom'
@@ -45,12 +44,12 @@ const mapStateToProps = (state, ownProps) => {
 
 export default compose(
     connect(mapStateToProps),
-    firestoreConnect([
-      {
-        collection: 'company',
-        doc: 'tala',
-        subcollections: [{ collection: 'tasks' }],
-        storeAs: 'tasks'
-      }
-    ])
+    // firestoreConnect([
+    //   {
+    //     collection: 'company',
+    //     doc: 'tala',
+    //     subcollections: [{ collection: 'tasks' }],
+    //     storeAs: 'tasks'
+    //   }
+    // ])
 )(TaskDetails)
