@@ -81,74 +81,84 @@ const TestDetails = (props) => {
       }
 
       return (
-        <React.Fragment>
-          <div id='report-details-section'>
-            <div id="report-details-positioning">
-              <div id="section1">
-                <span id="report-title-section1">{test.title}</span>
-                <div id="uploaded-by">Uploaded by {test.createdBy}, {moment(test.createdAt.toDate()).calendar()}</div>
+          <div>
+            <div id='report-details-section'>
+              <div id="report-details-positioning">
+                <div id="section1">
+                  <span id="report-title-section1">{test.title}</span>
+                  <div id="uploaded-by">Uploaded by {test.createdBy}, {moment(
+                      test.createdAt.toDate()).calendar()}</div>
 
-                {test.assignedTo?<div id="uploaded-by" style={{display: displayDevelopmentFields}}>Assigned to {test.assignedTo.displayName}</div> : null }
+                  {test.assignedTo ? <div id="uploaded-by"
+                                          style={{display: displayDevelopmentFields}}>Assigned
+                    to {test.assignedTo.displayName}</div> : null}
 
-                <button id="report-button-section1"
-                        style={{background: "#ff6f69", marginRight: "10px"}}
-                        onClick={()=> goToExternalLink(test.productSpec)}>
-                  {test.techSpec? 'Product Requirements Spec' : 'No Product Requirements Spec Set'}
-                </button>
+                  <button id="report-button-section1"
+                          style={{background: "#ff6f69", marginRight: "10px"}}
+                          onClick={() => goToExternalLink(test.productSpec)}>
+                    {test.techSpec ? 'Product Requirements Spec'
+                        : 'No Product Requirements Spec Set'}
+                  </button>
 
-                <button id="report-button-section1"
-                        style={{background: "#ffeead"}}
-                        onClick={()=> goToExternalLink(test.techSpec)}>
-                  {test.techSpec? 'Technical Design Doc' : 'No Technical Design Doc Set'}
-                </button>
+                  <button id="report-button-section1"
+                          style={{background: "#ffeead"}}
+                          onClick={() => goToExternalLink(test.techSpec)}>
+                    {test.techSpec ? 'Technical Design Doc'
+                        : 'No Technical Design Doc Set'}
+                  </button>
 
-                <div id='postman-tests'>
-                  <a href= {test.postmanTest} target='_blank'>
-                    {test.postmanTest? 'Postman Tests' : 'No Postman Tests Added'}
-                  </a>
+                  <div id='postman-tests'>
+                    <a href={test.postmanTest} target='_blank'>
+                      {test.postmanTest ? 'Postman Tests'
+                          : 'No Postman Tests Added'}
+                    </a>
+                  </div>
+
+                  <Link to={`/${test.phase}/update-report/${id}`}>
+                    <button id="report-button-section1" style={{
+                      background: "#f0f0f0",
+                      marginTop: "25px"
+                    }}>Update Test
+                    </button>
+                  </Link>
+                </div>
+                <div id="section2">
+                  <StatusCard
+                      id={id}
+                      report={test}
+                  />
                 </div>
 
-                <Link to={`/${test.phase}/update-report/${id}`} >
-                  <button id="report-button-section1" style={{background: "#f0f0f0", marginTop: "25px"}}>Update Test</button>
-                </Link>
-              </div>
-              <div id="section2">
-                <StatusCard
-                    id = {id}
-                    report = {test}
-                />
-              </div>
 
-
+              </div>
             </div>
-          </div>
 
-            { test.fileDownLoadUrl
+            {test.fileDownLoadUrl
                 ?
                 <div id='report-details-section'>
                   <div id="document-container">
                     <b>Spock Report</b>
-                    
+
                     <div id='github-pr'>
-                      <a href= {test.githubPR} target='_blank'>
-                        {test.githubPR? 'Github Pull Request' : 'No Github Pull Request Opened'}
+                      <a href={test.githubPR} target='_blank'>
+                        {test.githubPR ? 'Github Pull Request'
+                            : 'No Github Pull Request Opened'}
                       </a>
                     </div>
 
                     <div dangerouslySetInnerHTML={htmlReport}/>
                   </div>
-                </div> 
+                </div>
 
                 :
 
-
-                  <div id='report-details-section'>
-                    <div id="document-container">
-                      <b>No Spock Report</b>
-                    </div>
+                <div id='report-details-section'>
+                  <div id="document-container">
+                    <b>No Spock Report</b>
                   </div>
+                </div>
             }
-          </React.Fragment>
+          </div>
       )
     }
   }
