@@ -21,6 +21,7 @@ var config = {
 
 // use when deploying to prod
 // //todo find a safe way to do this
+
 // var config = {
 //   apiKey: "AIzaSyCkXI9xk9GcwQ9IlVC5_NUitcH4n5tiukM",
 //   authDomain: "gezako-8a7aa.firebaseapp.com",

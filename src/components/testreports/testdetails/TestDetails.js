@@ -109,10 +109,17 @@ const TestDetails = (props) => {
 
                   <div id='postman-tests'>
                     <a href={test.postmanTest} target='_blank'>
-                      {test.postmanTest ? 'Postman Tests'
-                          : 'No Postman Tests Added'}
+                      {test.postmanTest ? 'Integration Tests (Postman)'
+                          : 'No Integration Tests Added (Postman)'}
                     </a>
                   </div>
+
+                  {/*<div id='perfomance-tests'>*/}
+                    {/*<a href={test.perfomanceTests} target='_blank'>*/}
+                      {/*{test.perfomanceTests ? 'Load Performance Tests (Gatling)'*/}
+                          {/*: 'No Load Performance Tests Added (Gatling) - COMING SOON'}*/}
+                    {/*</a>*/}
+                  {/*</div>*/}
 
                   <Link to={`/${test.phase}/update-report/${id}`}>
                     <button id="test-button-summary" style={{
@@ -137,7 +144,7 @@ const TestDetails = (props) => {
                 ?
                 <div id='test-details-section'>
                   <div id="spock-report-container">
-                    <b>Spock Report</b>
+                    <b>Service Tests In Isolation (Spock)</b>
 
                     <div id='github-pr'>
                       <a href={test.githubPR} target='_blank'>
@@ -153,7 +160,7 @@ const TestDetails = (props) => {
                 :
                 <div id='test-details-section'>
                   {/*<div id="spock-report-container">*/}
-                    <b>No Spock Report</b>
+                    <b>No Service Tests In Isolation Added(Spock)</b>
                   {/*</div>*/}
                 </div>
             }
