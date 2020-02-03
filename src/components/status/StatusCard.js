@@ -21,7 +21,7 @@ import archivedImage from "../../assets/Imgs/status/grey-archived.png";
 import deletedImage from "../../assets/Imgs/status/light-grey-deleted.png";
 import {getFirstNameFromFullName} from "../../util/StringUtil";
 import moment from "moment";
-import CustomSnackbar from "../snackbar/CustomSnackbar";
+import CustomSnackbar from "../alerts/CustomSnackbar";
 import {DELETED} from "../../constants/ReportStatus";
 import {
   showErrorAlert,
