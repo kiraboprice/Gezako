@@ -95,8 +95,6 @@ const CreateTest = (props) => {
   const { createTestNewTestId, showSuccessAlert, showErrorAlert} = props;
   useEffect(() => {
     if(createTestIsClicked === true) {
-      props.createTest(test);
-
       if(createTestNewTestId) {
         setShowAsyncAlertDialog(false);
 
