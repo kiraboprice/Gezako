@@ -20,6 +20,7 @@ import TextField from "@material-ui/core/TextField/TextField";
 import {COMPLETED, NEW} from "../../../constants/ReportStatus";
 
 import FileUpload from "../../fileupload/FileUpload";
+import AsyncAlertDialog from "../../alerts/AsyncAlertDialog";
 const qs = require('query-string');
 
 const CreateTest = (props) => {
@@ -68,9 +69,13 @@ const CreateTest = (props) => {
   const [createTestIsClicked, setCreateTestIsClicked] = useState(false);
   const [userSelectedAFile, setUserSelectedAFile] = useState(null);
   const [uploadSelectedFile, setUploadTheFile] = useState(null);
+  const [showAsyncAlertDialog, setShowAsyncAlertDialog] = useState(false);
   useEffect(() => {
     if(createTestIsClicked === true) {
+
       if (userSelectedAFile) { //if file is set, upload to storage
+        setShowAsyncAlertDialog(true); //no need to show this if the action will be quick - simply creating a test without uploading a report
+
         setUploadTheFile(true); //tell the child component to upload the file
         //wait for file download url to be populated by child component
         if(fileDownLoadUrl) {
@@ -93,9 +98,12 @@ const CreateTest = (props) => {
       props.createTest(test);
 
       if(createTestNewTestId) {
+        setShowAsyncAlertDialog(false);
+
         showSuccessAlert('Successfully created test');
         props.history.push(`/${phase}/test/${props.createTestNewTestId}`);
       } else {
+        setShowAsyncAlertDialog(false);
         showErrorAlert('Failed to create test');
       }
 
@@ -388,6 +396,12 @@ const CreateTest = (props) => {
             </button>
           </div>
         </form>
+
+        <AsyncAlertDialog
+            showAsyncAlertDialog = {showAsyncAlertDialog}
+            testTitle = {test? test.title : ""}
+        />
+
       </div>
   );
 };
