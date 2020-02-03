@@ -66,7 +66,7 @@ const TestDetails = (props) => {
   if (test) {
     if(test.toString == 'GET_REPORT_ERROR_NOT_EXISTS'.toString) {
       return (
-          <div id='report-details-section'>
+          <div id='test-details-section'>
             <p>Test does not exist.</p>
           </div>
       )
@@ -82,10 +82,10 @@ const TestDetails = (props) => {
 
       return (
           <div>
-            <div id='report-details-section'>
-              <div id="report-details-positioning">
+            <div id='test-details-section'>
+              <div id="test-details-summary">
                 <div id="section1">
-                  <span id="report-title-section1">{test.title}</span>
+                  <span id="test-title-summary">{test.title}</span>
                   <div id="uploaded-by">Uploaded by {test.createdBy}, {moment(
                       test.createdAt.toDate()).calendar()}</div>
 
@@ -93,14 +93,14 @@ const TestDetails = (props) => {
                                           style={{display: displayDevelopmentFields}}>Assigned
                     to {test.assignedTo.displayName}</div> : null}
 
-                  <button id="report-button-section1"
+                  <button id="test-button-summary"
                           style={{background: "#ff6f69", marginRight: "10px"}}
                           onClick={() => goToExternalLink(test.productSpec)}>
                     {test.techSpec ? 'Product Requirements Spec'
                         : 'No Product Requirements Spec Set'}
                   </button>
 
-                  <button id="report-button-section1"
+                  <button id="test-button-summary"
                           style={{background: "#ffeead"}}
                           onClick={() => goToExternalLink(test.techSpec)}>
                     {test.techSpec ? 'Technical Design Doc'
@@ -115,28 +115,28 @@ const TestDetails = (props) => {
                   </div>
 
                   <Link to={`/${test.phase}/update-report/${id}`}>
-                    <button id="report-button-section1" style={{
+                    <button id="test-button-summary" style={{
                       background: "#f0f0f0",
                       marginTop: "25px"
                     }}>Update Test
                     </button>
                   </Link>
                 </div>
-                <div id="section2">
+
+                <div id="status-card-section">
                   <StatusCard
                       id={id}
                       report={test}
                   />
                 </div>
 
-
               </div>
             </div>
 
             {test.fileDownLoadUrl
                 ?
-                <div id='report-details-section'>
-                  <div id="document-container">
+                <div id='test-details-section'>
+                  <div id="spock-report-container">
                     <b>Spock Report</b>
 
                     <div id='github-pr'>
@@ -147,15 +147,14 @@ const TestDetails = (props) => {
                     </div>
 
                     <div dangerouslySetInnerHTML={htmlReport}/>
+
                   </div>
                 </div>
-
                 :
-
-                <div id='report-details-section'>
-                  <div id="document-container">
+                <div id='test-details-section'>
+                  {/*<div id="spock-report-container">*/}
                     <b>No Spock Report</b>
-                  </div>
+                  {/*</div>*/}
                 </div>
             }
           </div>
@@ -164,7 +163,7 @@ const TestDetails = (props) => {
   }
   else {
     return (
-        <div id='report-details-section'>
+        <div id='test-details-section'>
           <p>Loading report...</p>
         </div>
     )

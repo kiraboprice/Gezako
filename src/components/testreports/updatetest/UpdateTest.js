@@ -363,7 +363,7 @@ const UpdateTest = (props) => {
 
   } else {
     return (
-        <div id='report-details-section'>
+        <div id='test-details-section'>
           <p>Loading report...</p>
         </div>
     )

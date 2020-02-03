@@ -159,7 +159,7 @@ div.block-text {
 }
 
 @media only screen and (max-width: 768px) {
-	#report-details-section {
+	#test-details-section {
 		width: 85%;
 		margin: 125px auto -85px auto;
 		transition: all ease-in-out 400ms;
