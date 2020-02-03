@@ -57,7 +57,6 @@ const TestDetails = (props) => {
     return <Redirect to='/login' />;
   }
 
-  // console.log('test');
   function goToExternalLink(productSpec) {
     window.open(productSpec) //open new tab
     // window.location.replace(productSpec) //stay on page
@@ -146,7 +145,7 @@ const TestDetails = (props) => {
                   <div id="spock-report-container">
                     <b>Service Tests In Isolation (Spock)</b>
 
-                    <div id='github-pr'>
+                    <div id='github-pr' style={{display: displayDevelopmentFields}}>
                       <a href={test.githubPR} target='_blank'>
                         {test.githubPR ? 'Github Pull Request'
                             : 'No Github Pull Request Opened'}
