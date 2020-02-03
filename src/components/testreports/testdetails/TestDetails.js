@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import {firestoreConnect} from "react-redux-firebase";
 import moment from 'moment'
 import {Link, Redirect} from 'react-router-dom'
 

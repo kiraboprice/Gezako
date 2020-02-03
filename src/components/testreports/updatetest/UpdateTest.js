@@ -7,7 +7,7 @@ import {
   unsubscribeGetReport, resetGetReport, resetUpdateReportState
 } from "../../../store/actions/reportActions";
 import * as firebase from "firebase";
-import CustomSnackbar from "../../snackbar/CustomSnackbar";
+import CustomSnackbar from "../../alerts/CustomSnackbar";
 import {getReportPhaseFromPathName} from "../../../util/StringUtil";
 import {compose} from "redux";
 import {

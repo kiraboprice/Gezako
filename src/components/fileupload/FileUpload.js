@@ -15,7 +15,8 @@ const FileUpload = (props) => {
   }, [props]);
 
   const handleFileSelected = (e) => {
-    setFile(e.target.files[0])
+    setFile(e.target.files[0]);
+    props.setUserSelectedAFile(true);
   };
 
   const handleUploadProgress= (progress) => {
@@ -27,7 +28,13 @@ const FileUpload = (props) => {
     props.setFileDownLoadUrl(fileDownLoadUrl);
   };
 
-  const handleUploadFile = (e) => {
+  useEffect(() => {
+    if(props.uploadSelectedFile === true){
+      uploadSelectedFile()
+    }
+  }, [props.uploadSelectedFile]);
+
+  const uploadSelectedFile = (e) => {
     var metadata = {
       contentType: 'text/html'
     };
@@ -79,9 +86,12 @@ const FileUpload = (props) => {
 
   return (
       <div>
-        <input type='file' name='file' onChange={handleFileSelected}
-               accept='html/*'/>
-        <button onClick={handleUploadFile} style={{background: "#ffeead"}}>Upload File</button>
+        <input
+            type='file'
+            name='file'
+            onChange={handleFileSelected}
+            accept='html/*'
+        />
       </div>
   );
 };
