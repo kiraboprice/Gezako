@@ -1,13 +1,14 @@
-#report-details-section {
+#test-details-section {
 	width: 40%;
 	position: relative;
-    margin: 100px auto 0 auto;
+    margin: 100px auto -85px auto;
     padding: 20px;
     transition: all ease-in-out 400ms;
-	box-shadow: 0 0 10px rgba(150, 150, 150, 0.2);
+	box-shadow: 0 0 10px #96969633;
+	overflow: auto;
 }
 
-#report-details-positioning {
+#test-details-summary {
 	display: flex;
 	align-items: center;
 	width: 100%;
@@ -18,7 +19,7 @@
 	padding-right: 15px;
 }
 
-#report-title-section1 {
+#test-title-summary {
 	font-weight: 700;
 }
 
@@ -28,7 +29,7 @@
 	padding: 10px 0;
 }
 
-#report-button-section1 {
+#test-button-summary {
 	outline: 0;
 	cursor: pointer;
 	border: 0;
@@ -38,11 +39,11 @@
 	background: #f0f0f0;
 }
 
-#section2 {
+#status-card-section {
 	flex: 1;
 }
 
-#document-container {
+#spock-report-container {
 	position: relative;
 }
 

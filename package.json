@@ -1,6 +1,6 @@
 {
   "name": "gezako",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Gezako Software Quality Assurance All your Software QA needs in one place.",
   "private": true,
   "main": "index.js",

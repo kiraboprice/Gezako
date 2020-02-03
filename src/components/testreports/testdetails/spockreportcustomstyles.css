@@ -1,12 +1,63 @@
 /** Spock Report Styles
  * DO NOT EDIT HERE. THESE STYLES REFORMAT THE DOCUMENT TO FIT THE PAGE
  */
+
+table{
+	word-break: break-all !important;
+	position: relative;
+	overflow: auto !important;
+}
+
+table td {
+	min-width: 10px;
+}
+
+table.features-table tr{
+	display: flex;
+	flex-wrap: wrap;
+}
+
 table.features-table {
 	width: 100% !important;
+	overflow: auto !important;
 }
 
 table.summary-table {
 	width: 100% !important;
+	overflow: auto !important;
+}
+
+table.ex-table th {
+	padding: 5px;
+	background: #fafafa !important;
+	box-shadow: 10px 10px 0px rgba(150, 150, 150, 0.2);
+	font-size: 14px !important;
+}
+
+.ex-value{
+	background: #f0f0f0 !important;
+	font-size: 14px;
+	box-shadow: 10px 10px 0px rgba(150, 150, 150, 0.2);
+}
+
+pre.title {
+	line-height: 28px;
+	letter-spacing: -1px;
+	color: #333;
+	font-size: 17px !important;
+	font-family: "Roboto", sans-serif !important;
+}
+  
+.narrative {
+	font-style: italic;
+	line-height: 23px;
+	letter-spacing: -1px;
+	position: relative;
+	overflow: auto !important;
+	color: #333;
+	word-break: break-all !important;
+	font-size: 17px !important;
+	font-family: "Roboto", sans-serif !important;
 }
 
 h2 {
@@ -33,11 +84,29 @@ table.summary-table td {
 	box-shadow: 10px 10px 0px rgba(150, 150, 150, 0.2);
 	padding: 6px;
 }
+
+.spec-examples{
+	overflow: auto !important;
+}
+
+.ex-table{
+	overflow: auto !important;
+}
+
+.ex-header{
+	flex: 1;
+}
+
+.ex-value{
+	flex: 1;
+}
+
 .feature-description {
 	font-size: 15px !important;
     background: #f0f0f0 !important;
-
-    line-height: 1.8em;
+	float: none;
+	position: relative;
+	line-height: 1.8em;
     margin-bottom: 15px;
 	padding: 12px;
 }
@@ -81,7 +150,8 @@ table.summary-table td {
 div.block-kind {
     margin: 2px;
     font-style: italic;
-    font-size: 15px;
+	font-size: 15px;
+	font-weight: 700;
 }
 
 div.block-text {
@@ -89,9 +159,9 @@ div.block-text {
 }
 
 @media only screen and (max-width: 768px) {
-	#report-details-section {
-		width: 80%;
-		margin: 125px auto 0 auto;
+	#test-details-section {
+		width: 85%;
+		margin: 125px auto -85px auto;
 		transition: all ease-in-out 400ms;
 	}
 }

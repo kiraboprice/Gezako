@@ -66,7 +66,7 @@ const TestDetails = (props) => {
   if (test) {
     if(test.toString == 'GET_REPORT_ERROR_NOT_EXISTS'.toString) {
       return (
-          <div id='report-details-section'>
+          <div id='test-details-section'>
             <p>Test does not exist.</p>
           </div>
       )
@@ -81,75 +81,89 @@ const TestDetails = (props) => {
       }
 
       return (
-          <div id='report-details-section'>
-            <div >
-              <div id="report-details-positioning">
+          <div>
+            <div id='test-details-section'>
+              <div id="test-details-summary">
                 <div id="section1">
-                  <span id="report-title-section1">{test.title}</span>
-                  <div id="uploaded-by">Uploaded by {test.createdBy}, {moment(test.createdAt.toDate()).calendar()}</div>
+                  <span id="test-title-summary">{test.title}</span>
+                  <div id="uploaded-by">Uploaded by {test.createdBy}, {moment(
+                      test.createdAt.toDate()).calendar()}</div>
 
-                  {test.assignedTo?<div id="uploaded-by" style={{display: displayDevelopmentFields}}>Assigned to {test.assignedTo.displayName}</div> : null }
+                  {test.assignedTo ? <div id="uploaded-by"
+                                          style={{display: displayDevelopmentFields}}>Assigned
+                    to {test.assignedTo.displayName}</div> : null}
 
-                  <button id="report-button-section1"
+                  <button id="test-button-summary"
                           style={{background: "#ff6f69", marginRight: "10px"}}
-                          onClick={()=> goToExternalLink(test.productSpec)}>
-                    {test.techSpec? 'Product Requirements Spec' : 'No Product Requirements Spec Set'}
+                          onClick={() => goToExternalLink(test.productSpec)}>
+                    {test.techSpec ? 'Product Requirements Spec'
+                        : 'No Product Requirements Spec Set'}
                   </button>
 
-                  <button id="report-button-section1"
+                  <button id="test-button-summary"
                           style={{background: "#ffeead"}}
-                          onClick={()=> goToExternalLink(test.techSpec)}>
-                    {test.techSpec? 'Technical Design Doc' : 'No Technical Design Doc Set'}
+                          onClick={() => goToExternalLink(test.techSpec)}>
+                    {test.techSpec ? 'Technical Design Doc'
+                        : 'No Technical Design Doc Set'}
                   </button>
 
                   <div id='postman-tests'>
-                    <a href= {test.postmanTest} target='_blank'>
-                      {test.postmanTest? 'Postman Tests' : 'No Postman Tests Added'}
+                    <a href={test.postmanTest} target='_blank'>
+                      {test.postmanTest ? 'Postman Tests'
+                          : 'No Postman Tests Added'}
                     </a>
                   </div>
 
-                  <div id='github-pr'>
-                    <a href= {test.githubPR} target='_blank'>
-                      {test.githubPR? 'Github Pull Request' : 'No Github Pull Request Opened'}
-                    </a>
-                  </div>
-
-                  <Link to={`/${test.phase}/update-report/${id}`} >
-                    <button id="report-button-section1" style={{background: "#f0f0f0", marginTop: "25px"}}>Update Test</button>
+                  <Link to={`/${test.phase}/update-report/${id}`}>
+                    <button id="test-button-summary" style={{
+                      background: "#f0f0f0",
+                      marginTop: "25px"
+                    }}>Update Test
+                    </button>
                   </Link>
                 </div>
-                <div id="section2">
+
+                <div id="status-card-section">
                   <StatusCard
-                      id = {id}
-                      report = {test}
+                      id={id}
+                      report={test}
                   />
                 </div>
 
-
               </div>
-
-              { test.fileDownLoadUrl
-                  ?
-                  <div id="document-container">
-                    Spock Report (Derek: Split this into different container)
-                    <div dangerouslySetInnerHTML={htmlReport}/>
-                  </div>
-
-                  :
-
-                  <div id="document-container">
-                    No Spock Report (Derek: Split this into different container)
-                  </div>
-              }
-
             </div>
+
+            {test.fileDownLoadUrl
+                ?
+                <div id='test-details-section'>
+                  <div id="spock-report-container">
+                    <b>Spock Report</b>
+
+                    <div id='github-pr'>
+                      <a href={test.githubPR} target='_blank'>
+                        {test.githubPR ? 'Github Pull Request'
+                            : 'No Github Pull Request Opened'}
+                      </a>
+                    </div>
+
+                    <div dangerouslySetInnerHTML={htmlReport}/>
+
+                  </div>
+                </div>
+                :
+                <div id='test-details-section'>
+                  {/*<div id="spock-report-container">*/}
+                    <b>No Spock Report</b>
+                  {/*</div>*/}
+                </div>
+            }
           </div>
       )
     }
   }
   else {
     return (
-        <div id='report-details-section'>
+        <div id='test-details-section'>
           <p>Loading report...</p>
         </div>
     )
