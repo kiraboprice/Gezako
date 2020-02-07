@@ -13,7 +13,7 @@ export const checkUserEmailIsValid = (email) => {
   else return !!email.includes("@tala.co");
 };
 
-export const getReportPhaseFromPathName = (pathname) => {
+export const getTestPhaseFromPathName = (pathname) => {
   if(pathname.includes('development')){
     return 'development'
   } else if (pathname.includes('completed')) {
@@ -23,6 +23,10 @@ export const getReportPhaseFromPathName = (pathname) => {
 
 export const getReportsCollectionUrl = () => {
     return BASE_DOCUMENT + '/reports'
+};
+
+export const getFeaturesCollectionUrl = () => {
+  return BASE_DOCUMENT + '/features'
 };
 
 export const getFirstNameFromFullName = (fullName) => {
@@ -42,4 +46,8 @@ export const isValidUrl = (url) => {
   } catch (_) {
     return false;
   }
+};
+
+export const getServiceNameFromPathName = (pathname, section) => {
+  return pathname.split(`/${section}/`)[1];
 };

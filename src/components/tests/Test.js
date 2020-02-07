@@ -6,17 +6,17 @@ import {COMPLETED_PHASE, DEVELOPMENT_PHASE} from "../../constants/Report";
 
 const Test = (props) => {
 
-  const [displayDevelopmentFields, setDisplayDevelopmentFields] = useState('');
-  const [displayCompletedFields, setDisplayCompletedFields] = useState('');
+  const [displayTestDevelopmentFields, setDisplayTestDevelopmentFields] = useState('');
+  const [displayTestCompletedFields, setDisplayTestCompletedFields] = useState('');
 
 
   useEffect(() => {
     if(props.report.phase === DEVELOPMENT_PHASE) {
-      setDisplayDevelopmentFields('block');
-      setDisplayCompletedFields('none')
+      setDisplayTestDevelopmentFields('block');
+      setDisplayTestCompletedFields('none')
     } else if(props.report.phase === COMPLETED_PHASE) {
-      setDisplayDevelopmentFields('none');
-      setDisplayCompletedFields('block');
+      setDisplayTestDevelopmentFields('none');
+      setDisplayTestCompletedFields('block');
     }
   }, [props]);
 // console.log("props.report", props.report);
@@ -25,15 +25,15 @@ const Test = (props) => {
           <div id='service'>{props.report.service}</div>
           <div id='title'>{props.report.title}</div>
 
-          <div id='title' style={{display: displayDevelopmentFields}}>
+          <div id='title' style={{display: displayTestDevelopmentFields}}>
             {props.report.status}
             </div>
 
-          <div id='title'style={{display: displayCompletedFields}}>
+          <div id='title'style={{display: displayTestCompletedFields}}>
             {props.report.numberOfTests}
             </div>
 
-          <div id='title' style={{display: displayDevelopmentFields}}>
+          <div id='title' style={{display: displayTestDevelopmentFields}}>
             {getAssigneeName(props.report)}
             </div>
 

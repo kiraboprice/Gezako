@@ -10,8 +10,8 @@ import {
   setPrevUrl, unsubscribeGetUsersApartFromCurrentUser
 } from "../../../store/actions/authActions";
 
-import './createTest.css';
-import {getReportPhaseFromPathName, isValidUrl} from "../../../util/StringUtil";
+import './createTestReport.css';
+import {getTestPhaseFromPathName, isValidUrl} from "../../../util/StringUtil";
 import {
   showErrorAlert,
   showSuccessAlert
@@ -23,11 +23,11 @@ import FileUpload from "../../fileupload/FileUpload";
 import AsyncAlertDialog from "../../alerts/AsyncAlertDialog";
 const qs = require('query-string');
 
-const CreateTest = (props) => {
+const CreateTestReport = (props) => {
   const serviceInQuery = qs.parse(props.location.search, { ignoreQueryPrefix: true }).service;
   //report fields
   const [title, setTitle] = useState(null);
-  const [phase, setPhase] = useState(getReportPhaseFromPathName(props.location.pathname));
+  const [phase, setPhase] = useState(getTestPhaseFromPathName(props.location.pathname));
   const [service, setService] = useState(serviceInQuery);
   const [type, setType] = useState('endpoint');
   const [fileDownLoadUrl, setFileDownLoadUrl] = useState(null);
@@ -41,8 +41,9 @@ const CreateTest = (props) => {
   const [uploadProgress, setUploadProgress] = useState(0);
 
   //set up UI
-  const [displayDevelopmentFields, setDisplayDevelopmentFields] = useState();
-  const [displayCompletedFields, setDisplayCompletedFields] = useState();
+  const [displayFeatureFields, setDisplayFeatureFields] = useState();
+  const [displayTestCompletedFields, setDisplayTestCompletedFields] = useState();
+  const [displayTestDevelopmentFields, setDisplayTestDevelopmentFields] = useState();
 
   useEffect(() => {
     props.getUsersApartFromCurrentUser();
@@ -54,11 +55,11 @@ const CreateTest = (props) => {
 
   useEffect(() => {
     if (phase === 'development') {
-      setDisplayDevelopmentFields('block');
-      setDisplayCompletedFields('none');
+      setDisplayTestDevelopmentFields('block');
+      setDisplayTestCompletedFields('none');
     } else if (phase === 'completed') {
-      setDisplayDevelopmentFields('none');
-      setDisplayCompletedFields('block');
+      setDisplayTestDevelopmentFields('none');
+      setDisplayTestCompletedFields('block');
     }
   }, []);
 
@@ -269,7 +270,7 @@ const CreateTest = (props) => {
 
   return (
       <div id='upload'>
-        <h3>Upload Spock Report</h3>
+        <h3>Create a Test</h3>
         {phase === 'completed' ? 'Upload Report for a Complete test'
             : 'Upload Report for a test in Development'}
 
@@ -330,7 +331,7 @@ const CreateTest = (props) => {
             </div>
 
             <div id='display-content'
-                 style={{display: displayDevelopmentFields}}>
+                 style={{display: displayTestDevelopmentFields}}>
               <label>Assign To: </label>
               <select name='assignedTo' onChange={handleChange}>
                 <option value=''></option>
@@ -339,7 +340,7 @@ const CreateTest = (props) => {
               </select>
             </div>
 
-            <div id='display-content' style={{display: displayCompletedFields}}>
+            <div id='display-content' style={{display: displayTestCompletedFields}}>
               <label>No. of Tests in Report: </label>
               <textarea name='numberOfTests'
                         onChange={handleChange}
@@ -390,7 +391,7 @@ const CreateTest = (props) => {
             {/* ! Make sure someone has actually uploaded and filled out the required spaces because
               I was able to submit (by accident) without uploading or filling out the spaces */}
             <button id='create-test' type='submit'>
-              Create Test
+              Create
             </button>
           </div>
         </form>
@@ -427,4 +428,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateTest);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTestReport);

@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from 'react'
 
-import firebase from "../../../fbConfig";
-import firestore from "../../../fbConfig";
-
 import {connect} from 'react-redux';
-import {BrowserRouter, Link, Redirect} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 
 import './completedtests.css';
 
@@ -36,7 +33,7 @@ import {getFirstNameFromFullName} from "../../../util/StringUtil";
 import moment from "moment";
 import ServiceStatsDialog from "./servicestats/ServiceStatsDialog";
 
-const CompletedTests = (props) => {
+const CompletedSpockTests = (props) => {
   const phase = 'completed';
   const [showStatsDialog, setShowStatsDialog] = useState();
 
@@ -101,7 +98,7 @@ const CompletedTests = (props) => {
           {endpointReports || completedFeatureReports ? null : <LoadingScreen />}
 
           <Link to={`/completed/upload-report?service=${service}`} >
-            <div id="create-new-report" style={{background: "#ffeead"}}> <img src={createReportIcon} alt="Create a report" /> </div>
+            <div id="create-new-item" style={{background: "#ffeead"}}> <img src={createReportIcon} alt="Create a report" /> </div>
           </Link>
 
           {
@@ -219,7 +216,7 @@ const CompletedTests = (props) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  console.log("STATE---------", state);
+  // console.log("STATE---------", state);
   //todo extract this to StringUtils
   function getServiceNameFromPathName(pathname) {
     const service = pathname.split('/completed/')[1];
@@ -260,4 +257,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps))(CompletedTests)
+    connect(mapStateToProps, mapDispatchToProps))(CompletedSpockTests)

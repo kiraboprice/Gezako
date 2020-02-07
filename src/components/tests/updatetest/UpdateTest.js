@@ -8,7 +8,7 @@ import {
 } from "../../../store/actions/reportActions";
 import * as firebase from "firebase";
 import CustomSnackbar from "../../alerts/CustomSnackbar";
-import {getReportPhaseFromPathName} from "../../../util/StringUtil";
+import {getTestPhaseFromPathName} from "../../../util/StringUtil";
 import {compose} from "redux";
 import {
   getUsersApartFromCurrentUser,
@@ -39,8 +39,8 @@ const UpdateTest = (props) => {
   const [uploadProgress, setUploadProgress] = useState(0);
 
   //set up UI
-  const [displayDevelopmentFields, setDisplayDevelopmentFields] = useState();
-  const [displayCompletedFields, setDisplayCompletedFields] = useState();
+  const [displayTestDevelopmentFields, setDisplayTestDevelopmentFields] = useState();
+  const [displayTestCompletedFields, setDisplayTestCompletedFields] = useState();
 
   useEffect(() => {
     props.getUsersApartFromCurrentUser();
@@ -52,14 +52,14 @@ const UpdateTest = (props) => {
 
   useEffect(() => {
     setId(props.match.params.id);
-    setPhase(getReportPhaseFromPathName(props.location.pathname));
+    setPhase(getTestPhaseFromPathName(props.location.pathname));
 
     if (phase === 'development') {
-      setDisplayDevelopmentFields('block');
-      setDisplayCompletedFields('none');
+      setDisplayTestDevelopmentFields('block');
+      setDisplayTestCompletedFields('none');
     } else if (phase === 'completed') {
-      setDisplayDevelopmentFields('none');
-      setDisplayCompletedFields('block');
+      setDisplayTestDevelopmentFields('none');
+      setDisplayTestCompletedFields('block');
     }
 
     props.getReport(props.match.params.id);
@@ -299,7 +299,7 @@ const UpdateTest = (props) => {
                 </select>
               </div>
 
-              <div id='display-content' style={{display: displayDevelopmentFields}}>
+              <div id='display-content' style={{display: displayTestDevelopmentFields}}>
                 <label>Assign To: </label>
                 <select name='assignedTo' onChange={handleAssignedToChange}>
                   <option value=''></option>
@@ -307,7 +307,7 @@ const UpdateTest = (props) => {
                 </select>
               </div>
 
-              <div id='display-content' style={{display: displayCompletedFields}}>
+              <div id='display-content' style={{display: displayTestCompletedFields}}>
                 <label>No. of Tests in Report: </label>
                 <textarea name='numberOfTests'
                           onChange={handleChange}

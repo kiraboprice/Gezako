@@ -14,7 +14,7 @@ import './/spockreportcustomstyles.css';
 
 import StatusCard from "../../status/StatusCard";
 
-import {getReportPhaseFromPathName} from "../../../util/StringUtil";
+import {getTestPhaseFromPathName} from "../../../util/StringUtil";
 import twitterIcon from "../../../assets/Icons/twitter.png";
 
 const TestDetails = (props) => {
@@ -30,18 +30,18 @@ const TestDetails = (props) => {
     };
   },[]); //componentWillUnmount
 
-  const [displayDevelopmentFields, setDisplayDevelopmentFields] = useState('');
-  const [displayCompletedFields, setDisplayCompletedFields] = useState('');
+  const [displayTestDevelopmentFields, setDisplayTestDevelopmentFields] = useState('');
+  const [displayTestCompletedFields, setDisplayTestCompletedFields] = useState('');
   const {getReport, unsubscribeGetReport, resetGetReport} = props;
 
   useEffect(() => {
-    const phase = getReportPhaseFromPathName(props.location.pathname);
+    const phase = getTestPhaseFromPathName(props.location.pathname);
     if(phase === 'development') {
-      setDisplayDevelopmentFields('block');
-      setDisplayCompletedFields('none');
+      setDisplayTestDevelopmentFields('block');
+      setDisplayTestCompletedFields('none');
     } else if (phase === 'completed') {
-      setDisplayDevelopmentFields('none');
-      setDisplayCompletedFields('block');
+      setDisplayTestDevelopmentFields('none');
+      setDisplayTestCompletedFields('block');
     }
 
     getReport(props.match.params.id);
@@ -89,7 +89,7 @@ const TestDetails = (props) => {
                       test.createdAt.toDate()).calendar()}</div>
 
                   {test.assignedTo ? <div id="uploaded-by"
-                                          style={{display: displayDevelopmentFields}}>Assigned
+                                          style={{display: displayTestDevelopmentFields}}>Assigned
                     to {test.assignedTo.displayName}</div> : null}
 
                   <button id="test-button-summary"
@@ -145,7 +145,7 @@ const TestDetails = (props) => {
                   <div id="spock-report-container">
                     <b>Service Tests In Isolation (Spock)</b>
 
-                    <div id='github-pr' style={{display: displayDevelopmentFields}}>
+                    <div id='github-pr' style={{display: displayTestDevelopmentFields}}>
                       <a href={test.githubPR} target='_blank'>
                         {test.githubPR ? 'Github Pull Request'
                             : 'No Github Pull Request Opened'}

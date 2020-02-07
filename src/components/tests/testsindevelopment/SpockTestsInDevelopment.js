@@ -18,7 +18,7 @@ import {
 } from "../../../store/actions/authActions";
 import NoReportsScreen from "../../noreports/NoReportsScreen";
 
-const TestsInDevelopment = (props) => {
+const SpockTestsInDevelopment = (props) => {
   const phase = 'development';
 
   //variables
@@ -64,7 +64,7 @@ const TestsInDevelopment = (props) => {
         <div id='reports-section'>
 
           <Link to={`/development/upload-report?service=${service}`} >
-          <div id="create-new-report" style={{background: "#ffeead"}} > <img src={createReportIcon} alt="Create a report" /> </div>
+          <div id="create-new-item" style={{background: "#ffeead"}} > <img src={createReportIcon} alt="Create a report" /> </div>
           </Link>
 
           {reportsAvailable ? false : <NoReportsScreen
@@ -129,4 +129,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default compose(
-    connect(mapStateToProps, mapDispatchToProps))(TestsInDevelopment)
+    connect(mapStateToProps, mapDispatchToProps))(SpockTestsInDevelopment)

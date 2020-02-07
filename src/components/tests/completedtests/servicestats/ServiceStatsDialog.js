@@ -104,7 +104,7 @@ const ServiceStatsDialog = (props) => {
                 margin="dense"
                 id="method"
                 label="Method Coverage"
-                type="email"
+                type="text"
                 fullWidth
                 value={methodCoverage}
                 onChange={handleChange}
@@ -113,7 +113,7 @@ const ServiceStatsDialog = (props) => {
                 margin="dense"
                 id="line"
                 label="Line Coverage"
-                type="email"
+                type="text"
                 fullWidth
                 value={lineCoverage}
                 onChange={handleChange}
@@ -122,7 +122,7 @@ const ServiceStatsDialog = (props) => {
                 margin="dense"
                 id="serviceSpec"
                 label="Service Spec"
-                type="email"
+                type="text"
                 fullWidth
                 value={serviceSpec}
                 onChange={handleChange}

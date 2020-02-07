@@ -14,10 +14,11 @@ export default class SideBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstActive: window.location.pathname.includes('completed') || window.location.pathname ===('/'),
-      secondActive: window.location.pathname.includes('development'),
-      thirdActive: window.location.pathname === '/performance',
-      fourthActive: window.location.pathname === '/tasks',
+      firstActive: window.location.pathname.includes('features') || window.location.pathname ===('/'),
+      secondActive: window.location.pathname.includes('completed'),
+      thirdActive: window.location.pathname.includes('development'),
+      fourthActive: window.location.pathname === '/performance',
+      fifthActive: window.location.pathname === '/tasks',
       showCollapsedMenu: true,
       expanded: true,
 
@@ -29,6 +30,7 @@ export default class SideBar extends Component {
     this.setSecondActive = this.setSecondActive.bind(this);
     this.setThirdActive = this.setThirdActive.bind(this);
     this.setFourthActive = this.setFourthActive.bind(this);
+    this.setFifthActive = this.setFifthActive.bind(this);
   }
 
   setFirstActive = () => {
@@ -36,6 +38,7 @@ export default class SideBar extends Component {
     this.setState({secondActive: false});
     this.setState({thirdActive: false});
     this.setState({fourthActive: false});
+    this.setState({fifthActive: false});
     this.setState({showMenuMobile: false});
   };
 
@@ -44,6 +47,7 @@ export default class SideBar extends Component {
     this.setState({secondActive: true});
     this.setState({thirdActive: false});
     this.setState({fourthActive: false});
+    this.setState({fifthActive: false});
     this.setState({showMenuMobile: false});
   };
 
@@ -52,6 +56,7 @@ export default class SideBar extends Component {
     this.setState({secondActive: false});
     this.setState({thirdActive: true});
     this.setState({fourthActive: false});
+    this.setState({fifthActive: false});
     this.setState({showMenuMobile: false});
   };
 
@@ -60,6 +65,16 @@ export default class SideBar extends Component {
     this.setState({secondActive: false});
     this.setState({thirdActive: false});
     this.setState({fourthActive: true});
+    this.setState({fifthActive: false});
+    this.setState({showMenuMobile: false});
+  };
+
+  setFifthActive = () => {
+    this.setState({firstActive: false});
+    this.setState({secondActive: false});
+    this.setState({thirdActive: false});
+    this.setState({fourthActive: false});
+    this.setState({fifthActive: true});
     this.setState({showMenuMobile: false});
   };
 
@@ -82,12 +97,44 @@ export default class SideBar extends Component {
 
                 <div onClick={this.setFirstActive}>
                   <Links
-                      title={this.state.expanded ? 'Tests'
+                      title={this.state.expanded ? 'Features'
                           : ''}
                       isExpanded={this.state.expanded}
                       haslinks={true}
                       icon={report}
                       active={this.state.firstActive}
+                      links={[
+                        [ "Android User Flows", '/features/userflow'],
+                        [ "Surveys", '/features/surveys'],
+                        [ "Rules", '/features/rules'],
+                        ["Loans", '/features/loans'],
+                        [ "Users", '/features/users'],
+                        [ "Auth", '/features/auth'],
+                        [ "Rails", '/features/rails'],
+                        [ "Comms", '/features/comms'],
+                        [ "Approval", '/features/approval'],
+                        [ "Scheduler", '/features/scheduler'],
+                        [ "DsRouter", '/features/dsrouter'],
+                        [ "Assignment", '/features/assignment'],
+                        [ "Dss", '/features/dss'],
+                        [ "Kyc", '/features/kyc'],
+                        [ "Attribution", '/features/attribution'],
+                        [ "Settlement", '/features/settlement'],
+                        [ "Verification", '/features/verification'],
+                        [ "Lendingpartner", '/features/lendingpartner'],
+                      ]}
+                      titleLink={'/features/userflow'}
+                  />
+                </div>
+
+                <div onClick={this.setSecondActive}>
+                  <Links
+                      title={this.state.expanded ? 'Tests for Service in Isolation'
+                          : ''}
+                      isExpanded={this.state.expanded}
+                      haslinks={true}
+                      icon={report}
+                      active={this.state.secondActive}
                       links={[
                         [ "Surveys", '/completed/surveys'],
                         [ "Rules", '/completed/rules'],
@@ -111,13 +158,14 @@ export default class SideBar extends Component {
                   />
                 </div>
 
-                <div onClick={this.setSecondActive}>
+                <div onClick={this.setThirdActive}>
                     <Links
-                        title={this.state.expanded ? 'Tests In Development'
+                        title={this.state.expanded ? 'Tests for Service in Isolation under Development'
                             : ''}
                         isExpanded={this.state.expanded}
                         icon={dev}
                         haslinks={true}
+                        active={this.state.thirdActive}
                         links={[
                           [ "Surveys", '/development/surveys'],
                           [ "Rules", '/development/rules'],
@@ -137,12 +185,11 @@ export default class SideBar extends Component {
                           [ "Verification", '/development/verification'],
                           [ "Lendingpartner", '/development/lendingpartner']
                         ]}
-                        active={this.state.secondActive}
                         titleLink={'/development/surveys'}
                     />
                 </div>
 
-                {/*<div onClick={this.setThirdActive}>*/}
+                {/*<div onClick={this.setFourthActive}>*/}
                   {/*<Link to='/performance'>*/}
                     {/*<Links*/}
                         {/*title={this.state.expanded ? 'Performance Tests' : ''}*/}

@@ -12,7 +12,7 @@ const Home = (props) => {
     setPrevUrl(props.location.pathname);
     return <Redirect to='/login' />;
   } else {
-    return <Redirect to='/completed/surveys' />
+    return <Redirect to='/features/userflow' />
   }
 };
 
