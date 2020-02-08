@@ -18,6 +18,8 @@ import {
 } from "../../../../store/actions/snackbarActions";
 import FeatureTest from "./FeatureTest";
 import twitterIcon from "../../../../assets/Icons/twitter.png";
+import UpdateFeatureTestDialog from "./UpdateFeatureTestDialog";
+import penIcon from "../../../../assets/Icons/pen.png";
 
 const FeatureDetails = (props) => {
 
@@ -59,6 +61,7 @@ const FeatureDetails = (props) => {
       }
 
       else if (getFeatureByIdResponse.response === "EXISTS"){
+        console.log('FEATURE RESPONSE---', getFeatureByIdResponse.feature);
         setFeature(getFeatureByIdResponse.feature);
 
         setDisplayLoadingFeatures('none');
@@ -77,9 +80,22 @@ const FeatureDetails = (props) => {
     }
   }, [getFeatureByIdResponse]);
 
+  /**
+  * Add feature test
+  * */
   const handleAddManualTestClicked = () => {
     setShowAddDialog(true);
     setTestTypeToAdd('manual'); //todo add this to constants
+  };
+
+  const handleAddSpockTestClicked = () => {
+    setShowAddDialog(true);
+    setTestTypeToAdd('spock'); //todo add this to constants
+  };
+
+  const handleAddPostmanTestClicked = () => {
+    setShowAddDialog(true);
+    setTestTypeToAdd('postman'); //todo add this to constants
   };
 
   const {showSuccessAlert, showErrorAlert} = props;
@@ -100,6 +116,24 @@ const FeatureDetails = (props) => {
     window.open(productSpec) //open new tab
     // window.location.replace(productSpec) //stay on page
   }
+
+  /**
+  * Update feature test
+  * */
+  const [onClickUpdateFeatureTest, setOnClickUpdateFeatureTest] = useState(null);
+  const [testToUpdate, setTestToUpdate] = useState(null);
+  const [testToUpdateIndex, setTestToUpdateIndex] = useState(null);
+  const [showUpdateFeatureTestDialog, setShowUpdateFeatureTestDialog] = useState(false);
+  useEffect(() => {
+    console.log('onClickUpdateFeatureTest----', onClickUpdateFeatureTest);
+    if (onClickUpdateFeatureTest){
+      setTestToUpdate(onClickUpdateFeatureTest.test); //todo get test to update from feature array?
+      setTestToUpdateIndex(onClickUpdateFeatureTest.index);
+      setShowUpdateFeatureTestDialog(true)
+    }
+  }, [onClickUpdateFeatureTest]);
+
+  const [updateFeatureTestResponse, setUpdateFeatureTestResponse] = useState(false);
 
   const { user, setPrevUrl } = props;
   if (!user) {
@@ -142,6 +176,7 @@ const FeatureDetails = (props) => {
                 {feature.techSpec ? 'Technical Design Doc'
                     : 'No Technical Design Doc Set'}
               </button>
+              <br/>
 
               <Link to={`/features/${service}/update/${id}`}>
                 <button id="test-button-summary" style={{
@@ -154,27 +189,34 @@ const FeatureDetails = (props) => {
           </div>
         </div>
 
-        {/*Manual Tests Card*/}
+        {/*Manual Tests
+           *
+        */}
         <div id='feature-reports' style={{width : '40%', position : 'relative', margin : '100px auto 0 auto', transition : 'all ease-in-out 400ms'}}>
           <h3>Manual Tests</h3>
           <div id='headers'>
             <div id='service'>Title</div>
             <div id='title'>Updated At</div>
-            <div id='end-column'>Created By</div>
+            <div id='title'>Created By</div>
+            <div id='end-column'></div>
           </div>
-          { feature.manualTests && feature.manualTests.map(test => {
+          { feature.manualTests && feature.manualTests.map((test, index) => {
           return (
           <div>
             <a href={test.link} target='_blank'
                rel="noopener noreferrer">
               <FeatureTest
+                  key={index} //this is required by React but we may not need it
+                  index={index}
                   test={test}
               />
             </a>
+            <div id="update-status-options" style={{marginTop : '20px'}}>
+              <button onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
+            </div>
             <hr></hr>
           </div>
-          )
-          })
+          )})
           }
           <button
               id="test-button-summary"
@@ -183,6 +225,81 @@ const FeatureDetails = (props) => {
           >
             Add Manual Test
           </button>
+          <br/>
+
+           {/*Spock Tests
+           *
+           */}
+          <h3>Add Test for Service in Isolation (Spock)</h3>
+          <div id='headers'>
+            <div id='service'>Title</div>
+            <div id='title'>Updated At</div>
+            <div id='title'>Created By</div>
+            <div id='end-column'></div>
+          </div>
+          { feature.spockTests && feature.spockTests.map((test, index) => {
+            return (
+                <div>
+                  <a href={test.link} target='_blank'
+                     rel="noopener noreferrer">
+                    <FeatureTest
+                        key={index} //this is required by React but we may not need it
+                        index={index}
+                        test={test}
+                    />
+                  </a>
+                  <div id="update-status-options" style={{marginTop : '20px'}}>
+                    <button onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
+                  </div>
+                  <hr></hr>
+                </div>
+            )})
+          }
+          <button
+              id="test-button-summary"
+              style={{background: "#f0f0f0", marginTop: "25px"}}
+              onClick={() => handleAddSpockTestClicked()}
+          >
+            Add Spock Test
+          </button>
+
+
+          {/*Postman Tests
+           *
+           */}
+          <h3>Add Integration Test (Postman)</h3>
+          <div id='headers'>
+            <div id='service'>Title</div>
+            <div id='title'>Updated At</div>
+            <div id='title'>Created By</div>
+            <div id='end-column'></div>
+          </div>
+          { feature.postmanTests && feature.postmanTests.map((test, index) => {
+            return (
+                <div>
+                  <a href={test.link} target='_blank'
+                     rel="noopener noreferrer">
+                    <FeatureTest
+                        key={index} //this is required by React but we may not need it
+                        index={index}
+                        test={test}
+                    />
+                  </a>
+                  <div id="update-status-options" style={{marginTop : '20px'}}>
+                    <button onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
+                  </div>
+                  <hr></hr>
+                </div>
+            )})
+          }
+          <button
+              id="test-button-summary"
+              style={{background: "#f0f0f0", marginTop: "25px"}}
+              onClick={() => handleAddPostmanTestClicked()}
+          >
+            Add Postman Test
+          </button>
+
         </div>
 
         <AddFeatureTestDialog
@@ -192,6 +309,16 @@ const FeatureDetails = (props) => {
             setShowAddDialog = {setShowAddDialog}
 
             setAddFeatureTestResponse = {setAddFeatureTestResponse}
+        />
+
+        <UpdateFeatureTestDialog
+            testToUpdate={testToUpdate}
+            testToUpdateIndex={testToUpdateIndex}
+            feature={feature}
+            showUpdateFeatureTestDialog={showUpdateFeatureTestDialog}
+            setShowUpdateFeatureTestDialog={setShowUpdateFeatureTestDialog}
+
+            setUpdateFeatureTestResponse={setUpdateFeatureTestResponse}
         />
 
         {/*Purely Functional Non-Ui components*/}

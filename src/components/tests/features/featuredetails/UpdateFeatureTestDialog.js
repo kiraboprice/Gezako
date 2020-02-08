@@ -14,42 +14,53 @@ import UpdateFeatureByIdDbHandler
 import {Timestamp} from "firebase";
 
 
-const AddFeatureTestDialog = (props) => {
+const UpdateFeatureTestDialog = (props) => {
 
   //local ui
-  const [title, setTitle] = useState(null);
-  const [link, setLink] = useState(null);
+  const [title, setTitle] = useState('');
+  const [link, setLink] = useState('');
 
-  const [showAddDialog, setShowAddDialog] = useState(false);
-  const [testTypeToAdd, setTestTypeToAdd] = useState(false);
+  const [testToUpdate, setTestToUpdate] = useState('');
+  const [testToUpdateIndex, setTestToUpdateIndex] = useState(null);
   const [feature, setFeature] = useState(false);
+
+  const [showUpdateFeatureTestDialog, setShowUpdateFeatureTestDialog] = useState(true);
 
   //when posting to db
   const [updateFeatureByIdInDb, setUpdateFeatureByIdInDb] = useState(false);
-  const [id, setId] = useState(null);
-
   const [updateFeatureByIdResponse, setUpdateFeatureByIdResponse] = useState(null);
 
   useEffect(() => {
-    console.log('SHOW ADD DIALOG!!!', props);
-    setShowAddDialog(props.showAddDialog);
-    setTestTypeToAdd(props.testTypeToAdd);
+    console.log('SHOW UPDATE DIALOG!!!', props);
+    setTitle(props.testToUpdate? props.testToUpdate.title : null);
+    setLink(props.testToUpdate? props.testToUpdate.link : null);
+
+    setTestToUpdate(props.testToUpdate);
+    setTestToUpdateIndex(props.testToUpdateIndex);
     setFeature(props.feature);
+
+    setShowUpdateFeatureTestDialog(props.showUpdateFeatureTestDialog);
   }, [props]);
 
   const handleClose = () => {
-    setShowAddDialog(false);
-    props.setShowAddDialog(false);
+    setShowUpdateFeatureTestDialog(false);
+    props.setShowUpdateFeatureTestDialog(false);
   };
 
   const handleChange = (e) => {
     const value = e.target.value;
     switch (e.target.id) {
       case 'title':
-        setTitle(value);
+        setTitle(value); //for updating local UI only
+
+        testToUpdate.title = value; //update object which will be posted to db
+        setTestToUpdate(testToUpdate);
         break;
       case 'link':
-        setLink(value);
+        setLink(value); //for updating local UI only
+
+        testToUpdate.link = value; //update object which will be posted to db
+        setTestToUpdate(testToUpdate);
         break;
       default:
         break;
@@ -58,67 +69,57 @@ const AddFeatureTestDialog = (props) => {
 
   const { user } = props;
   const handleSubmit = () => {
-    const newTest = {
-      'title': title,
-      'link': link,
-      type: testTypeToAdd,
-      createdBy: user.displayName,
-      userId: user.uid,
-      // createdAt: +new Date,
-      // createdAt: Date.now(),
-      createdAt: new Date(), //todo find a date format which works!
-      updatedAt: new Date()
+    const test = {
+      ...testToUpdate,
+      updatedBy: user.displayName,
+      updatedByUserId: user.uid,
+      // updatedAt: new Date() //todo find a date format which works!
+      // updatedAt:  new Timestamp(new Date) //todo find a date format which works!
+      // updatedAt:  Timestamp(new Date) //todo find a date format which works!
+      // updatedAt:  Timestamp(new Date.now()) //todo find a date format which works!
+      // updatedAt:  Timestamp(+ new Date()) //todo find a date format which works!
+      // updatedAt:  Timestamp(Date()) //todo find a date format which works!
+      // updatedAt:  Timestamp(Date()) //todo find a date format which works!
+      updatedAt: new Date() //todo find a date format which works!
     };
-    if (testTypeToAdd === 'manual') {
-      if (!feature.manualTests) {
-        feature.manualTests = [newTest];
-      } else {
-        feature.manualTests.push(newTest);
-      }
-    }
 
-    else if (testTypeToAdd === 'spock') {
-      console.log('ADDING SPOCK TEST 1');
-      if (!feature.spockTests) {
-        feature.spockTests = [newTest];
-      } else {
-        feature.spockTests.push(newTest);
-      }
+    if (testToUpdate.type === 'manual') {
+      feature.manualTests[testToUpdateIndex] = test;
+      setFeature(feature) //update feature in local props
     }
-
-    else if (testTypeToAdd === 'postman') {
-      if (!feature.postmanTests) {
-        feature.postmanTests = [newTest];
-      } else {
-        feature.postmanTests.push(newTest);
-      }
+    else if (testToUpdate.type === 'spock') {
+      feature.spockTests[testToUpdateIndex] = test;
+      setFeature(feature)
     }
-    setFeature(feature); //update feature in local props
+    else if (testToUpdate.type === 'postman') {
+      feature.postmanTests[testToUpdateIndex] = test;
+      setFeature(feature)
+    }
     setUpdateFeatureByIdInDb(true);
   };
 
   useEffect(() => { //listen for response
     if (updateFeatureByIdResponse){
-      setShowAddDialog(false);
-      props.setShowAddDialog(false);
+      setShowUpdateFeatureTestDialog(false);
+      props.setShowUpdateFeatureTestDialog(false);
 
       if(updateFeatureByIdResponse.response === "SUCCESS"){
-        props.setAddFeatureTestResponse({'response' : 'SUCCESS'});
+        props.setUpdateFeatureTestResponse({'response' : 'SUCCESS'});
       }
 
       else if (updateFeatureByIdResponse.response === "ERROR"){
-        props.setAddFeatureTestResponse({'response' : 'ERROR', 'error' : updateFeatureByIdResponse.error});
+        props.setUpdateFeatureTestResponse({'response' : 'ERROR', 'error' : updateFeatureByIdResponse.error});
       }
     }
   }, [updateFeatureByIdResponse]);
 
   return (
       <div>
-        <Dialog open={showAddDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Add {testTypeToAdd} Test</DialogTitle>
+        <Dialog open={showUpdateFeatureTestDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">Update {testToUpdate? testToUpdate.title: null}</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Add a {testTypeToAdd} test for the feature: {feature.title}
+              Update {testToUpdate? testToUpdate.title : null}
             </DialogContentText>
             <TextField
                 autoFocus
@@ -174,4 +175,4 @@ const mapDispatchToProps = (dispatch) => {
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps)
-)(AddFeatureTestDialog)
+)(UpdateFeatureTestDialog)

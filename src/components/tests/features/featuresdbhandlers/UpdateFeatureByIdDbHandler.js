@@ -33,12 +33,7 @@ const UpdateFeatureByIdDbHandler = (props) => {
     firebase.firestore().collection(collectionUrl)
     .doc(feature.id)
     .update({
-      title: feature.title,
-      productSpec: feature.productSpec || null,
-      techSpec: feature.techSpec || null,
-
-      manualTests: feature.manualTests || null,
-
+      ...feature,
       updatedAt: new Date(),
       updatedBy: {id: user.uid, displayName: user.displayName}
     }).then(() => {
@@ -53,7 +48,7 @@ const UpdateFeatureByIdDbHandler = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth.user,
+    user: state.auth.user
   }
 };
 
