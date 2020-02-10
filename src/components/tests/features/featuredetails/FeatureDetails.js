@@ -20,8 +20,14 @@ import FeatureTest from "./FeatureTest";
 import twitterIcon from "../../../../assets/Icons/twitter.png";
 import UpdateFeatureTestDialog from "./UpdateFeatureTestDialog";
 import penIcon from "../../../../assets/Icons/pen.png";
+import add_test_icon from "../../../../assets/Icons/plus.png";
 
 const FeatureDetails = (props) => {
+
+  //ui
+  const [manualTestsHidden, setManualTestsHidden] = useState("block");
+  const [postmanTestsHidden, setPostmanTestsHidden] = useState("block");
+  const [spockTestsHidden, setSpockTestsHidden] = useState("block");
 
   const [service, setService] = useState(getServiceNameFromPathName(props.location.pathname, 'features'));
 
@@ -192,87 +198,72 @@ const FeatureDetails = (props) => {
         {/*Manual Tests
            *
         */}
-        <div id='feature-reports' style={{width : '40%', position : 'relative', margin : '100px auto 0 auto', transition : 'all ease-in-out 400ms'}}>
+        <div id='test-details-section' style={{boxShadow: "0 0 0 rgba(0, 0, 0, 0.0)", display: displayFeatureDoesNotExist === "block" ? "none" : "block"}}>
           <h3>Manual Tests</h3>
-          <div id='headers'>
-            <div id='service'>Title</div>
-            <div id='title'>Updated At</div>
-            <div id='title'>Created By</div>
-            <div id='end-column'></div>
-          </div>
-          { feature.manualTests && feature.manualTests.map((test, index) => {
-          return (
-          <div>
-            <a href={test.link} target='_blank'
-               rel="noopener noreferrer">
-              <FeatureTest
-                  key={index} //this is required by React but we may not need it
-                  index={index}
-                  test={test}
-              />
-            </a>
-            <div id="update-status-options" style={{marginTop : '20px'}}>
-              <button onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
+
+          <button
+            id="hide_button"
+            onClick={() =>  manualTestsHidden === "block" ? setManualTestsHidden("none") : setManualTestsHidden("block")}>
+            {manualTestsHidden === "block" ? "hide" : "show"}
+          </button>
+
+          <button
+            id="add_test_button"
+            onClick={() => handleAddManualTestClicked()}>
+              <img src={add_test_icon} alt="add test" />
+          </button>
+
+          <div style={{display: manualTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
+            <div id='headers'>
+              <div id='service'>Title</div>
+              <div id='title'>Updated At</div>
+              <div id='title'>Created By</div>
             </div>
-            <hr></hr>
-          </div>
-          )})
-          }
-          <button
-              id="test-button-summary"
-              style={{background: "#f0f0f0", marginTop: "25px"}}
-              onClick={() => handleAddManualTestClicked()}
-          >
-            Add Manual Test
-          </button>
-          <br/>
-
-           {/*Spock Tests
-           *
-           */}
-          <h3>Add Test for Service in Isolation (Spock)</h3>
-          <div id='headers'>
-            <div id='service'>Title</div>
-            <div id='title'>Updated At</div>
-            <div id='title'>Created By</div>
-            <div id='end-column'></div>
-          </div>
-          { feature.spockTests && feature.spockTests.map((test, index) => {
+            { feature.manualTests && feature.manualTests.map((test, index) => {
             return (
-                <div>
-                  <a href={test.link} target='_blank'
-                     rel="noopener noreferrer">
-                    <FeatureTest
-                        key={index} //this is required by React but we may not need it
-                        index={index}
-                        test={test}
-                    />
-                  </a>
-                  <div id="update-status-options" style={{marginTop : '20px'}}>
-                    <button onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
-                  </div>
-                  <hr></hr>
-                </div>
+            <div>
+              <a href={test.link} target='_blank'
+                rel="noopener noreferrer">
+                <FeatureTest
+                    key={index} //this is required by React but we may not need it
+                    index={index}
+                    test={test}
+                />
+              </a>
+              <div id="end-column">
+                <button className="update_report" onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
+              </div>
+              <hr></hr>
+            </div>
             )})
-          }
-          <button
-              id="test-button-summary"
-              style={{background: "#f0f0f0", marginTop: "25px"}}
-              onClick={() => handleAddSpockTestClicked()}
-          >
-            Add Spock Test
-          </button>
+            }
+          </div>
 
+          <br/>
+          <br/>
 
           {/*Postman Tests
            *
            */}
           <h3>Add Integration Test (Postman)</h3>
+          <button
+              id="hide_button"
+              onClick={() =>  postmanTestsHidden === "block" ? setPostmanTestsHidden("none") : setPostmanTestsHidden("block")}>
+            {postmanTestsHidden === "block" ? "hide" : "show"}
+          </button>
+
+          <button
+              id="add_test_button"
+              onClick={() => handleAddPostmanTestClicked()}>
+            <img src={add_test_icon} alt="add test" />
+          </button>
+
+
+          <div style={{display: postmanTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
           <div id='headers'>
             <div id='service'>Title</div>
             <div id='title'>Updated At</div>
             <div id='title'>Created By</div>
-            <div id='end-column'></div>
           </div>
           { feature.postmanTests && feature.postmanTests.map((test, index) => {
             return (
@@ -285,20 +276,62 @@ const FeatureDetails = (props) => {
                         test={test}
                     />
                   </a>
-                  <div id="update-status-options" style={{marginTop : '20px'}}>
-                    <button onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
+                  <div id="end-column">
+                    <button className="update_report" onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
                   </div>
                   <hr></hr>
                 </div>
             )})
           }
+          </div>
+
+          <br/>
+          <br/>
+
+          {/*Spock Tests
+           *
+           */}
+          <h3>Add Test for Service in Isolation (Spock)</h3>
           <button
-              id="test-button-summary"
-              style={{background: "#f0f0f0", marginTop: "25px"}}
-              onClick={() => handleAddPostmanTestClicked()}
-          >
-            Add Postman Test
+              id="hide_button"
+              onClick={() =>  spockTestsHidden === "block" ? setSpockTestsHidden("none") : setSpockTestsHidden("block")}>
+            {spockTestsHidden === "block" ? "hide" : "show"}
           </button>
+
+          <button
+              id="add_test_button"
+              onClick={() => handleAddSpockTestClicked()}>
+            <img src={add_test_icon} alt="add test" />
+          </button>
+
+          <div style={{display: spockTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
+            <div id='headers'>
+              <div id='service'>Title</div>
+              <div id='title'>Updated At</div>
+              <div id='title'>Created By</div>
+            </div>
+            { feature.spockTests && feature.spockTests.map((test, index) => {
+              return (
+                  <div>
+                    <a href={test.link} target='_blank'
+                       rel="noopener noreferrer">
+                      <FeatureTest
+                          key={index} //this is required by React but we may not need it
+                          index={index}
+                          test={test}
+                      />
+                    </a>
+                    <div id="end-column">
+                      <button className="update_report" onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
+                    </div>
+                    <hr></hr>
+                  </div>
+              )})
+            }
+          </div>
+
+          <br/>
+          <br/>
 
         </div>
 

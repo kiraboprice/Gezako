@@ -1,0 +1,47 @@
+.update_report{
+    border: 0;
+    margin-top: -30px;
+    right: 0;
+    position: absolute;
+    background: transparent;
+}
+
+/*#manual_test_container{*/
+    /*transition: all ease-in-out 400ms;*/
+/*}*/
+
+#hide_button{
+    position: absolute;
+    right: 0;
+    outline: 0;
+    border: 0;
+    padding: 8.5px 12px;
+    background: #f0f0f0;
+    margin-top: -35px;
+    margin-right: 40px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 2.5px;
+}
+
+#add_test_button{
+    position: absolute;
+    right: 0;
+    outline: 0;
+    border: 0;
+    padding: 2px;
+    background: #f0f0f0;
+    margin-top: -35px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 2.5px;
+}
+
+#add_test_button img{
+    width: 25px;
+    height: 25px;
+}
+
+#feature-reports h3{
+    margin-top: 25px;
+}

@@ -15,10 +15,10 @@ const FeatureTest = (props) => {
           </div>
 
           <div id='title'>
-              {/*{moment(props.test.updatedAt.toDate()).calendar()}*/}
+              {moment(props.test.updatedAt.toDate()).calendar()}
           </div>
 
-          <div id='end-column'>
+          <div id='title'>
               {getFirstNameFromFullName(props.test.createdBy)}
           </div>
         </div>
