@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import moment from "moment";
 import {getFirstNameFromFullName} from "../../../../util/StringUtil";
-import penIcon from "../../../../assets/Icons/pen.png";
+import {getDateString} from "../../../../util/DateUtil";
 
 const FeatureTest = (props) => {
 
@@ -15,7 +14,7 @@ const FeatureTest = (props) => {
           </div>
 
           <div id='title'>
-              {moment(props.test.updatedAt.toDate()).calendar()}
+              {getDateString(props.test.updatedAt)}
           </div>
 
           <div id='title'>

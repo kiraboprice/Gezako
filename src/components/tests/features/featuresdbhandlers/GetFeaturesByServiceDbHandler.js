@@ -31,30 +31,9 @@ const GetFeaturesByServiceDbHandler = (props) => {
   }, [getFeaturesByServiceInDB]);
 
   const getFeaturesByService = (service) => {
-    console.log("getFeaturesByService---");
     console.log("getFeaturesByService PROPS ---", props);
 
-    const collectionUrl = getFeaturesCollectionUrl();
-    firebase.firestore().collection(`${collectionUrl}`)
-    .where('service', '==', `${service}`)
-    // .orderBy('title')
-    .onSnapshot(querySnapshot => {
-      let features = [];
-      if (querySnapshot.empty) {
-        console.log(`getFeaturesByService EMPTY`);
-        props.setGetFeaturesByServiceResponse({'response' : 'EMPTY'});
-      } else {
-        querySnapshot.forEach(doc => {
-          features.push({id: doc.id, ...doc.data()})
-        });
-        console.log(`getFeaturesByService NOT_EMPTY`);
-        props.setGetFeaturesByServiceResponse({'response' : 'NOT_EMPTY', 'features' : features});
-      }
 
-    }, err => {
-      console.log(`getFeaturesByService error: ${err}`);
-      props.setGetFeaturesByServiceResponse({'response' : 'ERROR'});
-    });
   };
 
   /**

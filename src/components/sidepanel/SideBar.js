@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 
 import menu from '../../assets/Icons/menu.png';
 import report from '../../assets/Icons/report.png';
+import features from '../../assets/Icons/features.png';
 import dev from '../../assets/Icons/dev.png';
 import perf from '../../assets/Icons/perf.png';
 import task from '../../assets/Icons/task.png';
@@ -101,7 +102,7 @@ export default class SideBar extends Component {
                           : ''}
                       isExpanded={this.state.expanded}
                       haslinks={true}
-                      icon={report}
+                      icon={features}
                       active={this.state.firstActive}
                       links={[
                         [ "Android User Flows", '/features/userflow'],

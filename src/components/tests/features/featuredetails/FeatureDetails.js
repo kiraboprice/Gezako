@@ -39,7 +39,7 @@ const FeatureDetails = (props) => {
   const [unsubscribeGetFeatureByIdInDb, setUnsubscribeGetFeatureByIdInDb] = useState(null);
 
   //UI
-  const [displayLoadingFeatures, setDisplayLoadingFeatures] = useState('block');
+  const [displayLoadingFeature, setDisplayLoadingFeature] = useState('block');
   const [displayFeatureDoesNotExist, setDisplayFeatureDoesNotExist] = useState('none');
   const [displayFeature, setDisplayFeature] = useState('none');
   const [displayError, setDisplayError] = useState('none');
@@ -60,7 +60,7 @@ const FeatureDetails = (props) => {
   useEffect(() => { //listen for response from get feature
     if (getFeatureByIdResponse){
       if(getFeatureByIdResponse.response === "NOT_EXIST"){
-        setDisplayLoadingFeatures('none');
+        setDisplayLoadingFeature('none');
         setDisplayFeatureDoesNotExist('block');
         setDisplayFeature('none');
         setDisplayError('none');
@@ -70,7 +70,7 @@ const FeatureDetails = (props) => {
         console.log('FEATURE RESPONSE---', getFeatureByIdResponse.feature);
         setFeature(getFeatureByIdResponse.feature);
 
-        setDisplayLoadingFeatures('none');
+        setDisplayLoadingFeature('none');
         setDisplayFeatureDoesNotExist('none');
         setDisplayFeature('block');
         setDisplayError('none');
@@ -78,7 +78,7 @@ const FeatureDetails = (props) => {
 
       else if (getFeatureByIdResponse.response === "ERROR"){
 
-        setDisplayLoadingFeatures('none');
+        setDisplayLoadingFeature('none');
         setDisplayFeatureDoesNotExist('none');
         setDisplayFeature('none');
         setDisplayError('block');
@@ -149,7 +149,7 @@ const FeatureDetails = (props) => {
 
   return (
       <div>
-        <div id='test-details-section' style={{display: displayLoadingFeatures}}>
+        <div id='test-details-section' style={{display: displayLoadingFeature}}>
           <p>Loading Feature...</p>
         </div>
 
@@ -184,13 +184,15 @@ const FeatureDetails = (props) => {
               </button>
               <br/>
 
-              <Link to={`/features/${service}/update/${id}`}>
-                <button id="test-button-summary" style={{
-                  background: "#f0f0f0",
-                  marginTop: "25px"
-                }}>Update Feature
-                </button>
-              </Link>
+              {/*CONTINUE HERE!!!*/}
+
+              {/*<Link to={`/features/${service}/update/${id}`}>*/}
+                {/*<button id="test-button-summary" style={{*/}
+                  {/*background: "#f0f0f0",*/}
+                  {/*marginTop: "25px"*/}
+                {/*}}>Update Feature*/}
+                {/*</button>*/}
+              {/*</Link>*/}
             </div>
           </div>
         </div>
@@ -315,7 +317,7 @@ const FeatureDetails = (props) => {
                   <div>
                     <a href={test.link} target='_blank'
                        rel="noopener noreferrer">
-                      <FeatureTest
+                    <FeatureTest
                           key={index} //this is required by React but we may not need it
                           index={index}
                           test={test}

@@ -8,7 +8,7 @@ const LoadingScreen = () =>{
   return(
       <div className="loading">
         <div className="load-gif">
-          <img src={loading_gif} alt="loading reports" />
+          <img src={loading_gif} alt="Loading.." />
         </div>
       </div>
   )

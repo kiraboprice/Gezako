@@ -28,6 +28,8 @@ import CreateFeature
   from "./components/tests/features/createfeature/CreateFeature";
 import FeatureDetails
   from "./components/tests/features/featuredetails/FeatureDetails";
+import UpdateFeature
+  from "./components/tests/features/updatefeature/UpdateFeature";
 
 
 const App = (props) => {
@@ -56,6 +58,7 @@ const App = (props) => {
               <Route exact path='/features/create' component={CreateFeature}/>
               <Route exact path='/features/:service' component={Features}/>
               <Route exact path='/features/:service/:id' component ={FeatureDetails}/>
+              <Route exact path='/features/:service/update/:id' component={UpdateFeature}/>
 
               <Route exact path='/completed/upload-report' component={CreateTest}/>
               <Route exact path='/completed/:service' component={CompletedSpockTests}/>

@@ -1,23 +1,24 @@
 import React, {Component, useEffect, useState} from 'react';
 import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import {
-  updateReport,
-  getReport,
-  unsubscribeGetReport, resetGetReport, resetUpdateReportState
-} from "../../../store/actions/reportActions";
+
 import * as firebase from "firebase";
-import CustomSnackbar from "../../alerts/CustomSnackbar";
-import {getTestPhaseFromPathName} from "../../../util/StringUtil";
+import CustomSnackbar from "../../../alerts/CustomSnackbar";
 import {compose} from "redux";
+
+import TextField from "@material-ui/core/TextField/TextField";
+import {blue} from "@material-ui/core/colors";
+import {
+  getReport, resetGetReport, resetUpdateReportState,
+  unsubscribeGetReport, updateReport
+} from "../../../../store/actions/reportActions";
 import {
   getUsersApartFromCurrentUser,
   unsubscribeGetUsersApartFromCurrentUser
-} from "../../../store/actions/authActions";
-import TextField from "@material-ui/core/TextField/TextField";
-import {blue} from "@material-ui/core/colors";
+} from "../../../../store/actions/authActions";
+import {getTestPhaseFromPathName} from "../../../../util/StringUtil";
 
-const UpdateTest = (props) => {
+const UpdateFeature = (props) => {
   const { report } = props;
 
   //report fields
@@ -245,7 +246,6 @@ const UpdateTest = (props) => {
               <input type='file' name='file' onChange={handleFileSelected} accept='html/*'/>
               <button onClick={handleUploadFile} style={{background: "#ffeead"}}>Upload File</button>
             </div>
-
             <form onSubmit={handleUpdate}>
 
               <div id='display-content'>
@@ -391,4 +391,4 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps)(UpdateTest))
+export default compose(connect(mapStateToProps, mapDispatchToProps)(UpdateFeature))

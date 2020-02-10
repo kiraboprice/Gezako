@@ -9,9 +9,6 @@ import {compose} from "redux";
 
 import createItemIcon from "../../../../assets/Icons/create.png";
 import {
-  resetCreateTestSuccess,
-} from "../../../../store/actions/reportActions";
-import {
   showErrorAlert,
   showSuccessAlert
 } from "../../../../store/actions/snackbarActions";
@@ -20,39 +17,60 @@ import GetFeaturesByServiceDbHandler
   from "../featuresdbhandlers/GetFeaturesByServiceDbHandler";
 import Feature from "../../Feature";
 import {getServiceNameFromPathName} from "../../../../util/StringUtil";
+import {
+  getFeaturesByService, resetGetFeaturesByService,
+  unsubscribeGetFeaturesByService
+} from "../../../../store/actions/featureActions";
+import LoadingScreen from "../../../loading/LoadingScreen";
 
 const Features = (props) => { //todo move this out of tests parent package/dir
 
-  const [getFeaturesByServiceInDB, setGetFeaturesByServiceInDB] = useState(false);
-  const [service, setService] = useState(getServiceNameFromPathName(props.location.pathname, 'features'));
+  //UI
+  const [displayLoadingFeatures, setDisplayLoadingFeatures] = useState('block');
+  const [displayFeaturesEmpty, setDisplayFeaturesEmpty] = useState('none');
+  const [displayFeatures, setDisplayFeatures] = useState('none');
+  const [displayError, setDisplayError] = useState('none');
 
-  const [getFeaturesByServiceResponse, setGetFeaturesByServiceResponse] = useState(null);
-  const [features, setFeatures] = useState(null);
+  const { service } = props;
+  const { getFeaturesByService, unsubscribeGetFeaturesByService, resetGetFeaturesByService } = props;
+  useEffect(() => {
+    getFeaturesByService(service);
 
-  const [unsubscribeGetFeaturesByServiceInDB, setUnsubscribeGetFeaturesByServiceInDB] = useState(null);
-
-  useEffect(() => { //get features on load
-    setGetFeaturesByServiceInDB(true);
     return function cleanup() {
-      setUnsubscribeGetFeaturesByServiceInDB(true);
+      unsubscribeGetFeaturesByService(service);
+      resetGetFeaturesByService();
     };
   }, [service]);
 
-  useEffect(() => { //listen for response
-    if (getFeaturesByServiceResponse){
-      if(getFeaturesByServiceResponse.response === "EMPTY"){
-
+  const { features } = props;
+  useEffect(() => {
+    // console.log('FEATURES....', props);
+    if (features){
+      if(features.length === 0){
+        setDisplayLoadingFeatures('none');
+        setDisplayFeaturesEmpty('block');
+        setDisplayError('none');
+        setDisplayFeatures('none');
       }
 
-      else if (getFeaturesByServiceResponse.response === "NOT_EMPTY"){
-        setFeatures(getFeaturesByServiceResponse.features)
+      else if (features === 'ERROR'){
+        setDisplayLoadingFeatures('none');
+        setDisplayFeaturesEmpty('none');
+        setDisplayError('block');
+        setDisplayFeatures('none');
       }
 
-      else if (getFeaturesByServiceResponse.response === "ERROR"){
-
+      else {
+        setDisplayLoadingFeatures('none');
+        setDisplayFeaturesEmpty('none');
+        setDisplayError('none');
+        setDisplayFeatures('block');
       }
     }
-  }, [getFeaturesByServiceResponse]);
+    else {
+      //
+    }
+  }, [features]);
 
   const { user, setPrevUrl } = props;
   if (!user) {
@@ -64,16 +82,22 @@ const Features = (props) => { //todo move this out of tests parent package/dir
       <div id='home'>
         <div id='reports-section'>
 
-          <Link to={`/features/create?service=${service}`} >
-            <div id="create-new-item" style={{background: "#ffeead"}}> <img src={createItemIcon} alt="Create a report" /> </div>
-          </Link>
+          {/*{features ? null : <LoadingScreen />}*/}
 
-          {/*{reportsAvailable ? false : <NoReportsScreen*/}
-              {/*service={service}*/}
-              {/*phase={phase}*/}
-          {/*/>*/}
+          <div id='test-details-section' style={{display: displayLoadingFeatures}}>
+            <p>Loading Features...</p>
+          </div>
 
-          <div id='features-reports'>
+          <div id='test-details-section' style={{display: displayFeaturesEmpty}}>
+            <p>No Features found</p>
+          </div>
+
+          <div id='test-details-section' style={{display: displayError}}>
+            <p>An Error Occurred.</p>
+          </div>
+
+
+          <div id='features-reports'  style={{display: displayFeatures}}>
             <div id='headers'>
               <div id='service'>Service/Type</div>
               <div id='title'>Title</div>
@@ -84,7 +108,6 @@ const Features = (props) => { //todo move this out of tests parent package/dir
               return (
                   <div>
                     <Link to={`/features/${feature.service}/${feature.id}`} key={feature.id}>
-                      {/*{console.log("feature", feature)}*/}
                       <Feature
                           feature = {feature}
                       />
@@ -96,17 +119,11 @@ const Features = (props) => { //todo move this out of tests parent package/dir
             }
           </div>
 
+          <Link to={`/features/create?service=${service}`} >
+            <div id="create-new-item" style={{background: "#ffeead"}}> <img src={createItemIcon} alt="Create a report" /> </div>
+          </Link>
+
         </div>
-
-        {/*Purely Functional Non-Ui components*/}
-        <GetFeaturesByServiceDbHandler
-            getFeaturesByServiceInDB = {getFeaturesByServiceInDB}
-            service = {service}
-
-            setGetFeaturesByServiceResponse = {setGetFeaturesByServiceResponse}
-
-            unsubscribeGetFeaturesByServiceInDB = {unsubscribeGetFeaturesByServiceInDB}
-        />
 
       </div>
   )
@@ -115,7 +132,11 @@ const Features = (props) => { //todo move this out of tests parent package/dir
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.auth.user
+    //initialise state
+    service: getServiceNameFromPathName(ownProps.location.pathname, 'features'),
+
+    user: state.auth.user,
+    features: state.feature.getFeaturesByService,
   }
 };
 
@@ -123,10 +144,13 @@ const mapDispatchToProps = dispatch => {
   return {
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
 
+    getFeaturesByService: (service) => dispatch(getFeaturesByService(service)),
+    unsubscribeGetFeaturesByService: (service) => dispatch(unsubscribeGetFeaturesByService(service)),
+    resetGetFeaturesByService: () => dispatch(resetGetFeaturesByService()),
+
     //alerts
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
     showErrorAlert: (message) => dispatch(showErrorAlert(message)),
-    resetCreateReportSuccess: (message) => dispatch(resetCreateTestSuccess(message)),
   };
 };
 

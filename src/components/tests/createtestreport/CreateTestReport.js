@@ -282,10 +282,6 @@ const CreateTestReport = (props) => {
             setFileDownLoadUrl={setFileDownLoadUrl}
         />
 
-        {/* ! Just a suggestion, maybe display this onSubmit? */}
-        <span id='uploading'>
-		  Uploading report: {uploadProgress}%
-	  </span>
         <form onSubmit={handleCreate} style={{marginTop: '25px'}}>
           <div>
 
@@ -388,9 +384,11 @@ const CreateTestReport = (props) => {
                   onChange={handleChangeForTextField}
               />
 
-            {/* ! Make sure someone has actually uploaded and filled out the required spaces because
-              I was able to submit (by accident) without uploading or filling out the spaces */}
-            <button id='create-test' type='submit'>
+            <span id='uploading'>
+		          Uploading report: {uploadProgress}%
+	          </span>
+
+              <button id='create-test' type='submit'>
               Create
             </button>
           </div>

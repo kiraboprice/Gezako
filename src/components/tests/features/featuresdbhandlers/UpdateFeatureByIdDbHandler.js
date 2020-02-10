@@ -21,13 +21,13 @@ const UpdateFeatureByIdDbHandler = (props) => {
   //listen for changes in local state
   useEffect(() => {
     if(updateFeatureByIdInDb === true && feature){
-      updateFeatureById(feature)
+      updateFeatureById(feature);
     }
   }, [updateFeatureByIdInDb]);
 
   const { user } = props;
   const updateFeatureById = (feature) => {
-    console.log("updateFeatureById PROPS ---", props);
+    console.log("updateFeatureByIdDbHandler PROPS ---", props);
     const collectionUrl = getFeaturesCollectionUrl();
 
     firebase.firestore().collection(collectionUrl)
@@ -38,8 +38,10 @@ const UpdateFeatureByIdDbHandler = (props) => {
       updatedBy: {id: user.uid, displayName: user.displayName}
     }).then(() => {
       props.setUpdateFeatureByIdResponse({'response' : 'SUCCESS'});
+
     }).catch(err => {
       props.setUpdateFeatureByIdResponse({'response' : 'ERROR', 'error' : err});
+
     });
   };
 

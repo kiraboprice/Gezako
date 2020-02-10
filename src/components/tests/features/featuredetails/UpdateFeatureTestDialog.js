@@ -31,7 +31,7 @@ const UpdateFeatureTestDialog = (props) => {
   const [updateFeatureByIdResponse, setUpdateFeatureByIdResponse] = useState(null);
 
   useEffect(() => {
-    console.log('SHOW UPDATE DIALOG!!!', props);
+    // console.log('SHOW UPDATE DIALOG!!!', props);
     setTitle(props.testToUpdate? props.testToUpdate.title : null);
     setLink(props.testToUpdate? props.testToUpdate.link : null);
 
@@ -73,14 +73,7 @@ const UpdateFeatureTestDialog = (props) => {
       ...testToUpdate,
       updatedBy: user.displayName,
       updatedByUserId: user.uid,
-      // updatedAt: new Date() //todo find a date format which works!
-      // updatedAt:  new Timestamp(new Date) //todo find a date format which works!
-      // updatedAt:  Timestamp(new Date) //todo find a date format which works!
-      // updatedAt:  Timestamp(new Date.now()) //todo find a date format which works!
-      // updatedAt:  Timestamp(+ new Date()) //todo find a date format which works!
-      // updatedAt:  Timestamp(Date()) //todo find a date format which works!
-      // updatedAt:  Timestamp(Date()) //todo find a date format which works!
-      updatedAt: new Date() //todo find a date format which works!
+      updatedAt: new Date()
     };
 
     if (testToUpdate.type === 'manual') {
@@ -95,13 +88,18 @@ const UpdateFeatureTestDialog = (props) => {
       feature.postmanTests[testToUpdateIndex] = test;
       setFeature(feature)
     }
+    // console.log("SETTING;;;; setUpdateFeatureByIdInDb ---", props);
     setUpdateFeatureByIdInDb(true);
   };
 
   useEffect(() => { //listen for response
+    console.log("updateFeatureTestDialog PROPS 1 ---", props);
     if (updateFeatureByIdResponse){
+      setUpdateFeatureByIdInDb(false); //reset prop in dbHandler
       setShowUpdateFeatureTestDialog(false);
       props.setShowUpdateFeatureTestDialog(false);
+
+      console.log("updateFeatureTestDialog PROPS 2 ---", props);
 
       if(updateFeatureByIdResponse.response === "SUCCESS"){
         props.setUpdateFeatureTestResponse({'response' : 'SUCCESS'});
@@ -116,11 +114,8 @@ const UpdateFeatureTestDialog = (props) => {
   return (
       <div>
         <Dialog open={showUpdateFeatureTestDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Update {testToUpdate? testToUpdate.title: null}</DialogTitle>
+          <DialogTitle id="form-dialog-title">Update Test}</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              Update {testToUpdate? testToUpdate.title : null}
-            </DialogContentText>
             <TextField
                 autoFocus
                 margin="dense"

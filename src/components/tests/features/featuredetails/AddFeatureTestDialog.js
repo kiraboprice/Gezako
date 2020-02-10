@@ -31,10 +31,15 @@ const AddFeatureTestDialog = (props) => {
   const [updateFeatureByIdResponse, setUpdateFeatureByIdResponse] = useState(null);
 
   useEffect(() => {
-    console.log('SHOW ADD DIALOG!!!', props);
+    // console.log('SHOW ADD DIALOG!!!', props);
     setShowAddDialog(props.showAddDialog);
     setTestTypeToAdd(props.testTypeToAdd);
     setFeature(props.feature);
+
+    return function cleanUp() { //clean up UI for next test to be added
+      setTitle('');
+      setLink('');
+    }
   }, [props]);
 
   const handleClose = () => {
@@ -64,9 +69,7 @@ const AddFeatureTestDialog = (props) => {
       type: testTypeToAdd,
       createdBy: user.displayName,
       userId: user.uid,
-      // createdAt: +new Date,
-      // createdAt: Date.now(),
-      createdAt: new Date(), //todo find a date format which works!
+      createdAt: new Date(),
       updatedAt: new Date()
     };
     if (testTypeToAdd === 'manual') {
@@ -99,6 +102,7 @@ const AddFeatureTestDialog = (props) => {
 
   useEffect(() => { //listen for response
     if (updateFeatureByIdResponse){
+      setUpdateFeatureByIdInDb(false); //reset prop in dbHandler
       setShowAddDialog(false);
       props.setShowAddDialog(false);
 
@@ -115,7 +119,9 @@ const AddFeatureTestDialog = (props) => {
   return (
       <div>
         <Dialog open={showAddDialog} onClose={handleClose} aria-labelledby="form-dialog-title">
-          <DialogTitle id="form-dialog-title">Add {testTypeToAdd} Test</DialogTitle>
+          <DialogTitle id="form-dialog-title">
+            {testTypeToAdd === 'spock' ?  `Add Gezako ${testTypeToAdd} test` : `Add ${testTypeToAdd} test`}
+          </DialogTitle>
           <DialogContent>
             <DialogContentText>
               Add a {testTypeToAdd} test for the feature: {feature.title}
