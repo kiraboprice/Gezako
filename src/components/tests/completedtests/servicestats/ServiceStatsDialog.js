@@ -25,6 +25,7 @@ const ServiceStatsDialog = (props) => {
   const [methodCoverage, setMethodCoverage] = useState();
   const [lineCoverage, setLineCoverage] = useState();
   const [serviceSpec, setServiceSpec] = useState();
+  const [numberOfTests, setNumberOfTests] = useState();
 
   useEffect(() => {
     setShowDialog(props.showDialog);
@@ -34,6 +35,7 @@ const ServiceStatsDialog = (props) => {
     setMethodCoverage(props.serviceStats? props.serviceStats.methodCoverage : '');
     setLineCoverage(props.serviceStats? props.serviceStats.lineCoverage : '');
     setServiceSpec(props.serviceStats? props.serviceStats.serviceSpec : '');
+    setNumberOfTests(props.serviceStats? props.serviceStats.numberOfTests : '');
   }, [props]);
 
   const handleClose = () => {
@@ -127,6 +129,16 @@ const ServiceStatsDialog = (props) => {
                 value={serviceSpec}
                 onChange={handleChange}
             />
+            {/* <TextField
+                autoFocus
+                margin="dense"
+                id="class"
+                label="Number of tests"
+                type="text"
+                fullWidth
+                value={numberOfTests}
+                onChange={handleChange}
+            /> */}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">

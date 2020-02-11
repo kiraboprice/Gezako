@@ -27,7 +27,7 @@ function incrementNumberOfTestsOnCreate(id, report) {
     if (!doc.exists) {
       //create report stats for that service if it doesnt exist
       console.log(`Service entry doesnt exist. Creating entry for ${report.service}`);
-      db.collection(`${BASE_DOCUMENT}/serviceStats`).doc(report.service).set(
+      db.collection(`${BASE_DOCUMENT}/servicestats`).doc(report.service).set(
           {
             numberOfTests: report.numberOfTests,
             updatedAt: admin.firestore.FieldValue.serverTimestamp()
@@ -49,7 +49,7 @@ function incrementNumberOfTestsOnCreate(id, report) {
 function updateserviceStatsOnCreate(serviceStats, report) {
   const newserviceStatsNumberOfTests = parseInt(serviceStats.numberOfTests) + parseInt(report.numberOfTests);
 
-  return db.collection(`${BASE_DOCUMENT}/serviceStats`).doc(report.service)
+  return db.collection(`${BASE_DOCUMENT}/servicestats`).doc(report.service)
   .update({
     numberOfTests: newserviceStatsNumberOfTests,
     updatedAt: admin.firestore.FieldValue.serverTimestamp()
@@ -62,7 +62,7 @@ function updateserviceStatsOnCreate(serviceStats, report) {
 }
 
 function incrementNumberOfTestsOnUpdate(id, newReport, oldReport) {
-  return db.collection(`${BASE_DOCUMENT}/serviceStats`).doc(newReport.service).get()
+  return db.collection(`${BASE_DOCUMENT}/servicestats`).doc(newReport.service).get()
   .then(doc => {
     updateserviceStatsOnUpdate(doc.data(), oldReport, newReport)
   })
@@ -87,7 +87,7 @@ const newNumberOfTests = parseInt(newReport.numberOfTests);
   console.log('newserviceStatsNumberOfTests:', newserviceStatsNumberOfTests);
 
   //todo this assumes that the service has not been updated. Remove ability to update the service coz why would you do this anyway?
-  return db.collection(`${BASE_DOCUMENT}/serviceStats`).doc(newReport.service)
+  return db.collection(`${BASE_DOCUMENT}/servicestats`).doc(newReport.service)
   .update({
     numberOfTests: newserviceStatsNumberOfTests,
     updatedAt: admin.firestore.FieldValue.serverTimestamp()
