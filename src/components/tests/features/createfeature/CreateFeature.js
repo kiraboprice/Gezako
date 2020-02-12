@@ -20,7 +20,6 @@ const CreateFeature = (props) => {
   //report fields
   const [title, setTitle] = useState(null);
   const [service, setService] = useState(serviceInQuery);
-  const [postmanTest, setPostmanTest] = useState(null);
   const [productSpec, setProductSpec] = useState(null);
   const [techSpec, setTechSpec] = useState(null);
 
@@ -49,8 +48,6 @@ const CreateFeature = (props) => {
       case 'title':
         setTitle(value);
         break;
-      case 'postmanTest':
-        setPostmanTest(value);
         break;
       case 'productSpec':
         setProductSpec(value);
@@ -82,7 +79,6 @@ const CreateFeature = (props) => {
     const feature = {
       title,
       service,
-      postmanTest,
       productSpec,
       techSpec
     };
@@ -127,8 +123,8 @@ const CreateFeature = (props) => {
               <label>Feature Allocation: </label>
               <select name='service' value={service}
                       onChange={handleChange}>
-
                 <option value='userflow'>userflow</option>
+                <option value='admin'>admin</option>
                 <option value='surveys'>Surveys</option>
                 <option value='rules'>Rules</option>
                 <option value='loans'>Loans</option>
@@ -156,16 +152,6 @@ const CreateFeature = (props) => {
                 type="web"
                 fullWidth
                 value={title}
-                onChange={handleChangeForTextField}
-            />
-
-            <TextField
-                margin="dense"
-                id="postmanTest"
-                label="Integration Tests Link"
-                type="web"
-                fullWidth
-                value={postmanTest}
                 onChange={handleChangeForTextField}
             />
             

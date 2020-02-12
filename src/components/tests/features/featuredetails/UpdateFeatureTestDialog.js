@@ -68,6 +68,37 @@ const UpdateFeatureTestDialog = (props) => {
   };
 
   const { user } = props;
+  const handleDelete = () => {
+    const test = {
+      ...testToUpdate,
+      updatedBy: user.displayName,
+      updatedByUserId: user.uid,
+      updatedAt: new Date()
+    };
+
+    if (testToUpdate.type === 'manual') {
+      feature.manualTests.splice(testToUpdateIndex, 1);
+      setFeature(feature)
+    }
+    else if (testToUpdate.type === 'postman') {
+      feature.postmanTests.splice(testToUpdateIndex, 1);
+      setFeature(feature)
+    }
+    else if (testToUpdate.type === 'spock') {
+      feature.spockTests.splice(testToUpdateIndex, 1);
+      setFeature(feature)
+    }
+    else if (testToUpdate.type === 'android') {
+      feature.androidTests.splice(testToUpdateIndex, 1);
+      setFeature(feature)
+    }
+    else if (testToUpdate.type === 'performance') {
+      feature.performanceTests.splice(testToUpdateIndex, 1);
+      setFeature(feature)
+    }
+    setUpdateFeatureByIdInDb(true);
+  };
+
   const handleSubmit = () => {
     const test = {
       ...testToUpdate,
@@ -80,15 +111,22 @@ const UpdateFeatureTestDialog = (props) => {
       feature.manualTests[testToUpdateIndex] = test;
       setFeature(feature) //update feature in local props
     }
-    else if (testToUpdate.type === 'spock') {
-      feature.spockTests[testToUpdateIndex] = test;
-      setFeature(feature)
-    }
     else if (testToUpdate.type === 'postman') {
       feature.postmanTests[testToUpdateIndex] = test;
       setFeature(feature)
     }
-    // console.log("SETTING;;;; setUpdateFeatureByIdInDb ---", props);
+    else if (testToUpdate.type === 'spock') {
+      feature.spockTests[testToUpdateIndex] = test;
+      setFeature(feature)
+    }
+    else if (testToUpdate.type === 'android') {
+      feature.androidTests[testToUpdateIndex] = test;
+      setFeature(feature)
+    }
+    else if (testToUpdate.type === 'performance') {
+      feature.performanceTests[testToUpdateIndex] = test;
+      setFeature(feature)
+    }
     setUpdateFeatureByIdInDb(true);
   };
 
@@ -140,8 +178,11 @@ const UpdateFeatureTestDialog = (props) => {
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
+            <Button onClick={handleDelete} color="primary">
+              Delete Test
+            </Button>
             <Button onClick={handleSubmit} color="primary">
-              Submit
+              Update Test
             </Button>
           </DialogActions>
         </Dialog>

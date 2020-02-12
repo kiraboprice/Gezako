@@ -100,12 +100,13 @@ export default class SideBar extends Component {
                   <Links
                       title={this.state.expanded ? 'Features'
                           : ''}
-                      isExpanded={this.state.expanded}
+                      isExpanded={true}
                       haslinks={true}
                       icon={features}
                       active={this.state.firstActive}
                       links={[
                         [ "Android User Flows", '/features/userflow'],
+                        [ "Admin (CARE) User Flows", '/features/admin'],
                         [ "Surveys", '/features/surveys'],
                         [ "Rules", '/features/rules'],
                         ["Loans", '/features/loans'],
@@ -132,7 +133,7 @@ export default class SideBar extends Component {
                   <Links
                       title={this.state.expanded ? 'Tests for Service in Isolation'
                           : ''}
-                      isExpanded={this.state.expanded}
+                      isExpanded={false}
                       haslinks={true}
                       icon={report}
                       active={this.state.secondActive}
@@ -163,7 +164,7 @@ export default class SideBar extends Component {
                     <Links
                         title={this.state.expanded ? 'Tests for Service in Isolation under Development'
                             : ''}
-                        isExpanded={this.state.expanded}
+                        isExpanded={false}
                         icon={dev}
                         haslinks={true}
                         active={this.state.thirdActive}
@@ -224,7 +225,7 @@ export default class SideBar extends Component {
                 <div onClick={this.setFirstActive}>
                   <Links
                       title='Spock Reports'
-                      isExpanded={this.state.isExpandedMobile}
+                      isExpanded={true}
                       haslinks={true}
                       icon={report}
                       links={[['Loans', this.state.firstActive],
@@ -238,7 +239,7 @@ export default class SideBar extends Component {
                 <div onClick={this.setSecondActive}>
                   <Links
                       title='Development'
-                      isExpanded={this.state.isExpandedMobile}
+                      isExpanded={false}
                       haslinks={true}
                       icon={dev}
                       active={this.state.secondActive}

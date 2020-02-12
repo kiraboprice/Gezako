@@ -351,9 +351,9 @@ const UpdateTest = (props) => {
                   onChange={handleChangeForTextField}
               />
 
-              <span id='uploading'>
-                Uploading report: {uploadProgress}%
-              </span>
+              {/*<span id='uploading'>*/}
+                {/*Uploading report: {uploadProgress}%*/}
+              {/*</span>*/}
               <button type="submit">Update</button>
             </form>
           </div>

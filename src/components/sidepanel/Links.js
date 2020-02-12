@@ -1,49 +1,57 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
+import {compose} from "redux";
+import connect from "react-redux/es/connect/connect";
 
-export default class Links extends Component {
-    state = {
-      expandIcon: ' +',
-      isExpanded: false
+const Links = (props) =>  {
+
+
+  const [expandIcon, setExpandIcon] = useState(' +');
+  const [isExpanded, setIsExpanded] = useState(false);
+  useEffect(() => {
+    setIsExpanded(props.isExpanded);
+    return function cleanup() {
+      //
     };
+  }, []);
 
-  handleClick = (index) => {
-    this.setState({
-      activeLinkIndex: index
-    });
+  const handleExpandButtonClick = () => {
+    if (expandIcon === ' +') {
+      setExpandIcon(' -');
+      setIsExpanded(true);
+    } else {
+      setExpandIcon(' +');
+      setIsExpanded(false);
+    }
   };
 
-  render() {
-    const { activeLinkIndex } = this.state;
+  const [activeLinkIndex, setActiveLinkIndex] = useState();
+  const handleClick = (index) => {
+    setActiveLinkIndex(index)
+  };
 
     return (
-        <div id={this.props.active ? 'active' : 'link'}>
-          <Link to={this.props.titleLink}>
+        <div id={props.active ? 'active' : 'link'}>
+          <Link to={props.titleLink}>
             <span id='report_navigation_title'>
-              <img id='link-img' src={this.props.icon} alt={this.props.title}></img>{this.props.title}</span>
+              <img id='link-img' src={props.icon} alt={props.title}></img>{props.title}</span>
           </Link>
 
-          <span id='expandIcon' onClick={
-            () => {
-              this.state.expandIcon === ' +' ?
-                  this.setState({expandIcon: ' -', isExpanded: true}) : this.setState(
-                  {expandIcon: ' +', isExpanded: false})
-            }
-          }>
-                  {this.props.haslinks && this.props.isExpanded
-                      ? this.state.expandIcon : null}
+          <span id='expandIcon' onClick={() => handleExpandButtonClick()}>
+                  {props.haslinks
+                      ? expandIcon : null}
                   </span>
 
           {
-            this.props.haslinks ?
-                <div id={this.state.isExpanded && this.props.isExpanded
+            props.haslinks ?
+                <div id={isExpanded
                     ? 'mini-links' : 'no_links_display'}>
                   <ul>
-                    {this.props.links.map((link, index) => {
+                    {props.links.map((link, index) => {
                       return (
                           <Link to={link[1]} key={index}>
                             <li
-                                onClick={() => this.handleClick(index)}
+                                onClick={() => handleClick(index)}
                                 style={ index === activeLinkIndex ? {fontWeight: '700', textDecoration: 'underline'} : null}
                             >{link[0]}</li>
                           </Link>
@@ -55,5 +63,6 @@ export default class Links extends Component {
           }
         </div>
     )
-  }
-}
+  };
+
+export default Links

@@ -13,15 +13,12 @@ import {
   showSuccessAlert
 } from "../../../../store/actions/snackbarActions";
 import {setPrevUrl} from "../../../../store/actions/authActions";
-import GetFeaturesByServiceDbHandler
-  from "../featuresdbhandlers/GetFeaturesByServiceDbHandler";
 import Feature from "../../Feature";
 import {getServiceNameFromPathName} from "../../../../util/StringUtil";
 import {
   getFeaturesByService, resetGetFeaturesByService,
   unsubscribeGetFeaturesByService
 } from "../../../../store/actions/featureActions";
-import LoadingScreen from "../../../loading/LoadingScreen";
 
 const Features = (props) => { //todo move this out of tests parent package/dir
 
@@ -82,7 +79,8 @@ const Features = (props) => { //todo move this out of tests parent package/dir
       <div id='home'>
         <div id='reports-section'>
 
-          {/*{features ? null : <LoadingScreen />}*/}
+
+          <span id="test-title-summary">Features for {service}</span>
 
           <div id='test-details-section' style={{display: displayLoadingFeatures}}>
             <p>Loading Features...</p>
@@ -99,7 +97,6 @@ const Features = (props) => { //todo move this out of tests parent package/dir
 
           <div id='features-reports'  style={{display: displayFeatures}}>
             <div id='headers'>
-              <div id='service'>Service/Type</div>
               <div id='title'>Title</div>
               <div id='title'>Updated At</div>
               <div id='end-column'>Created By</div>

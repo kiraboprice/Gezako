@@ -11,7 +11,6 @@ const Feature = (props) => {
 // console.log("props.report", props.report);
   return(
         <div id='report'>
-          <div id='service'>{props.feature.service}</div>
           <div id='title'>{props.feature.title}</div>
           <div id='title'>{moment(props.feature.updatedAt.toDate()).calendar()}</div>
           <div id='end-column'>{getFirstNameFromFullName(props.feature.createdBy)}</div>

@@ -80,8 +80,15 @@ const AddFeatureTestDialog = (props) => {
       }
     }
 
+    else if (testTypeToAdd === 'postman') {
+      if (!feature.postmanTests) {
+        feature.postmanTests = [newTest];
+      } else {
+        feature.postmanTests.push(newTest);
+      }
+    }
+
     else if (testTypeToAdd === 'spock') {
-      console.log('ADDING SPOCK TEST 1');
       if (!feature.spockTests) {
         feature.spockTests = [newTest];
       } else {
@@ -89,11 +96,19 @@ const AddFeatureTestDialog = (props) => {
       }
     }
 
-    else if (testTypeToAdd === 'postman') {
-      if (!feature.postmanTests) {
-        feature.postmanTests = [newTest];
+    else if (testTypeToAdd === 'android') {
+      if (!feature.androidTests) {
+        feature.androidTests = [newTest];
       } else {
-        feature.postmanTests.push(newTest);
+        feature.androidTests.push(newTest);
+      }
+    }
+
+    else if (testTypeToAdd === 'performance') {
+      if (!feature.performanceTests) {
+        feature.performanceTests = [newTest];
+      } else {
+        feature.performanceTests.push(newTest);
       }
     }
     setFeature(feature); //update feature in local props

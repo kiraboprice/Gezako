@@ -384,9 +384,9 @@ const CreateTestReport = (props) => {
                   onChange={handleChangeForTextField}
               />
 
-            <span id='uploading'>
-		          Uploading report: {uploadProgress}%
-	          </span>
+            {/*<span id='uploading'>*/}
+		          {/*Uploading report: {uploadProgress}%*/}
+	          {/*</span>*/}
 
               <button id='create-test' type='submit'>
               Create

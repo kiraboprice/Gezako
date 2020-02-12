@@ -28,6 +28,8 @@ const FeatureDetails = (props) => {
   const [manualTestsHidden, setManualTestsHidden] = useState("block");
   const [postmanTestsHidden, setPostmanTestsHidden] = useState("block");
   const [spockTestsHidden, setSpockTestsHidden] = useState("block");
+  const [androidTestsHidden, setAndroidTestsHidden] = useState("block");
+  const [performanceTestsHidden, setPerformanceTestsHidden] = useState("block");
 
   const [service, setService] = useState(getServiceNameFromPathName(props.location.pathname, 'features'));
 
@@ -94,14 +96,24 @@ const FeatureDetails = (props) => {
     setTestTypeToAdd('manual'); //todo add this to constants
   };
 
+  const handleAddPostmanTestClicked = () => {
+    setShowAddDialog(true);
+    setTestTypeToAdd('postman'); //todo add this to constants
+  };
+
   const handleAddSpockTestClicked = () => {
     setShowAddDialog(true);
     setTestTypeToAdd('spock'); //todo add this to constants
   };
 
-  const handleAddPostmanTestClicked = () => {
+  const handleAddAndroidTestClicked = () => {
     setShowAddDialog(true);
-    setTestTypeToAdd('postman'); //todo add this to constants
+    setTestTypeToAdd('android'); //todo add this to constants
+  };
+
+  const handleAddPerformanceTestClicked = () => {
+    setShowAddDialog(true);
+    setTestTypeToAdd('performance'); //todo add this to constants
   };
 
   const {showSuccessAlert, showErrorAlert} = props;
@@ -184,9 +196,7 @@ const FeatureDetails = (props) => {
               </button>
               <br/>
 
-              {/*CONTINUE HERE!!!*/}
-
-              {/*<Link to={`/features/${service}/update/${id}`}>*/}
+              {/*<Link to={`/features/${service}/update`}>*/}
                 {/*<button id="test-button-summary" style={{*/}
                   {/*background: "#f0f0f0",*/}
                   {/*marginTop: "25px"*/}
@@ -318,6 +328,96 @@ const FeatureDetails = (props) => {
                     <a href={test.link} target='_blank'
                        rel="noopener noreferrer">
                     <FeatureTest
+                          key={index} //this is required by React but we may not need it
+                          index={index}
+                          test={test}
+                      />
+                    </a>
+                    <div id="end-column">
+                      <button className="update_report" onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
+                    </div>
+                    <hr></hr>
+                  </div>
+              )})
+            }
+          </div>
+
+          <br/>
+          <br/>
+
+          {/*Android Tests
+           *
+           */}
+          <h3>Add Android App Automated Tests</h3>
+          <button
+              id="hide_button"
+              onClick={() =>  androidTestsHidden === "block" ? setAndroidTestsHidden("none") : setAndroidTestsHidden("block")}>
+            {androidTestsHidden === "block" ? "hide" : "show"}
+          </button>
+
+          <button
+              id="add_test_button"
+              onClick={() => handleAddSpockTestClicked()}>
+            <img src={add_test_icon} alt="add test" />
+          </button>
+
+          <div style={{display: androidTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
+            <div id='headers'>
+              <div id='service'>Title</div>
+              <div id='title'>Updated At</div>
+              <div id='title'>Created By</div>
+            </div>
+            { feature.androidTests && feature.androidTests.map((test, index) => {
+              return (
+                  <div>
+                    <a href={test.link} target='_blank'
+                       rel="noopener noreferrer">
+                      <FeatureTest
+                          key={index} //this is required by React but we may not need it
+                          index={index}
+                          test={test}
+                      />
+                    </a>
+                    <div id="end-column">
+                      <button className="update_report" onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
+                    </div>
+                    <hr></hr>
+                  </div>
+              )})
+            }
+          </div>
+
+          <br/>
+          <br/>
+
+          {/*Performance Tests
+           *
+           */}
+          <h3>Add Load Performance Tests (Gatling)</h3>
+          <button
+              id="hide_button"
+              onClick={() =>  performanceTestsHidden === "block" ? setPerformanceTestsHidden("none") : setPerformanceTestsHidden("block")}>
+            {performanceTestsHidden === "block" ? "hide" : "show"}
+          </button>
+
+          <button
+              id="add_test_button"
+              onClick={() => handleAddPerformanceTestClicked()}>
+            <img src={add_test_icon} alt="add test" />
+          </button>
+
+          <div style={{display: performanceTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
+            <div id='headers'>
+              <div id='service'>Title</div>
+              <div id='title'>Updated At</div>
+              <div id='title'>Created By</div>
+            </div>
+            { feature.performanceTests && feature.performanceTests.map((test, index) => {
+              return (
+                  <div>
+                    <a href={test.link} target='_blank'
+                       rel="noopener noreferrer">
+                      <FeatureTest
                           key={index} //this is required by React but we may not need it
                           index={index}
                           test={test}
