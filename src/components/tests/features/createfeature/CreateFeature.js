@@ -141,7 +141,9 @@ const CreateFeature = (props) => {
                 <option value='attribution'>Attribution</option>
                 <option value='settlement'>Settlement</option>
                 <option value='verification'>Verification</option>
-                <option value='lendingpartner'>Lendingpartner</option>
+                <option value='lendingpartner'>Lending Partner</option>
+                <option value='providermediator'>Provider Mediator (Legacy)</option>
+                <option value='account'>Account (Legacy)</option>
               </select>
             </div>
 

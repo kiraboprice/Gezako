@@ -10,6 +10,10 @@ import features from '../../assets/Icons/features.png';
 import dev from '../../assets/Icons/dev.png';
 import perf from '../../assets/Icons/perf.png';
 import task from '../../assets/Icons/task.png';
+import {
+  ANDROID_USER_FLOWS_NAME,
+  ANDROID_USER_FLOWS_VALUE
+} from "../../constants/Services";
 
 export default class SideBar extends Component {
   constructor(props) {
@@ -105,7 +109,7 @@ export default class SideBar extends Component {
                       icon={features}
                       active={this.state.firstActive}
                       links={[
-                        [ "Android User Flows", '/features/userflow'],
+                        [ ANDROID_USER_FLOWS_NAME, `/features/${ANDROID_USER_FLOWS_VALUE}`],
                         [ "Admin (CARE) User Flows", '/features/admin'],
                         [ "Surveys", '/features/surveys'],
                         [ "Rules", '/features/rules'],
@@ -123,7 +127,9 @@ export default class SideBar extends Component {
                         [ "Attribution", '/features/attribution'],
                         [ "Settlement", '/features/settlement'],
                         [ "Verification", '/features/verification'],
-                        [ "Lendingpartner", '/features/lendingpartner'],
+                        [ "Lending Partner", '/features/lendingpartner'],
+                        [ "Provider Mediator (Legacy)", '/features/providermediator'],
+                        [ "Account (Legacy)", '/features/account']
                       ]}
                       titleLink={'/features/userflow'}
                   />
@@ -155,6 +161,8 @@ export default class SideBar extends Component {
                         [ "Settlement", '/completed/settlement'],
                         [ "Verification", '/completed/verification'],
                         [ "Lendingpartner", '/completed/lendingpartner'],
+                        [ "Provider Mediator (Legacy)", '/features/providermediator'],
+                        [ "Account (Legacy)", '/features/account']
                       ]}
                       titleLink={'/completed/surveys'}
                   />
@@ -185,7 +193,10 @@ export default class SideBar extends Component {
                           [ "Attribution", '/development/attribution'],
                           [ "Settlement", '/development/settlement'],
                           [ "Verification", '/development/verification'],
-                          [ "Lendingpartner", '/development/lendingpartner']
+                          [ "Lendingpartner", '/development/lendingpartner'],
+                          [ "Provider Mediator (Legacy)", '/features/providermediator'],
+                          [ "Account (Legacy)", '/features/account']
+
                         ]}
                         titleLink={'/development/surveys'}
                     />

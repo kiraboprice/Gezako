@@ -17,7 +17,7 @@ import {
 import TextField from "@material-ui/core/TextField/TextField";
 import {blue} from "@material-ui/core/colors";
 
-const UpdateTest = (props) => {
+const UpdateTestReport = (props) => {
   const { report } = props;
 
   //report fields
@@ -284,6 +284,8 @@ const UpdateTest = (props) => {
                   <option value='settlement'>Settlement</option>
                   <option value='verification'>Verification</option>
                   <option value='lendingpartner'>Lendingpartner</option>
+                  <option value='providermediator'>Provider Mediator (Legacy)</option>
+                  <option value='account'>Account (Legacy)</option>
                 </select>
               </div>
 
@@ -391,4 +393,4 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps)(UpdateTest))
+export default compose(connect(mapStateToProps, mapDispatchToProps)(UpdateTestReport))

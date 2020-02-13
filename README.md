@@ -15,7 +15,7 @@ To run the project, run
 `npm install` to install the dependencies listed in the package.json file (you may need to occasionaly run this command 
 if this file is updated)
 
-`npm serve`. 
+`npm start`. 
 (you may need sudo if you're on linux)
 
 Since this is a shared testing and staging environment, do not make deletions from the Firebase database unless you have permission to do so.
