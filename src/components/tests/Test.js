@@ -37,6 +37,7 @@ const Test = (props) => {
             {getAssigneeName(props.report)}
             </div>
 
+          <div id='title'>{moment(props.report.createdAt.toDate()).calendar()}</div>
           <div id='title'>{moment(props.report.updatedAt.toDate()).calendar()}</div>
           <div id='end-column'>{getFirstNameFromFullName(props.report.createdBy)}</div>
         </div>

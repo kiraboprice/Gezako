@@ -147,8 +147,8 @@ export const getCompletedFeatureReportsByService = (phase, service) => {
     .where('service', '==', `${service}`)
     .where('phase', '==', `completed`)
     .where('type', '==', 'feature')
-    // .orderBy('updatedAt', 'desc') //todo add this back when field exists for all reports
-    .orderBy('createdAt', 'desc')
+    // .orderBy('updatedAt', 'desc')
+    .orderBy('title')
     .onSnapshot(querySnapshot => {
       let completedFeatureReports = [];
       if (querySnapshot.empty) {
@@ -174,7 +174,7 @@ export const unsubscribeGetCompletedFeatureReportsByService = (phase, service) =
     .where('service', '==', `${service}`)
     .where('phase', '==', `completed`)
     .where('type', '==', 'feature')
-    .orderBy('updatedAt', 'desc')
+    .orderBy('title')
     .onSnapshot(() => { });
   }
 };
@@ -193,8 +193,8 @@ export const getCompletedEndpointReportsByService = (phase, service) => {
     .where('service', '==', `${service}`)
     .where('phase', '==', `completed`)
     .where('type', '==', 'endpoint')
-    // .orderBy('updatedAt', 'desc') //todo add this back
-    .orderBy('createdAt', 'desc')
+    // .orderBy('updatedAt', 'desc')
+    .orderBy('title')
     .onSnapshot(querySnapshot => {
       let endpointReports = [];
       if (querySnapshot.empty) {
@@ -219,7 +219,7 @@ export const unsubscribeGetCompletedEndpointReportsByService = (phase, service) 
     firebase.firestore().collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
     .where('type', '==', 'endpoint')
-    .orderBy('updatedAt', 'desc')
+    .orderBy('title')
     .onSnapshot(() => { });
   }
 };
@@ -240,7 +240,7 @@ export const getReportsInDevelopment = (phase, service) => {
     firebase.firestore().collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
     .where('phase', '==', 'development')
-    .orderBy('updatedAt', 'desc')
+    .orderBy('createdAt', 'desc')
     .onSnapshot(querySnapshot => {
       let reportsInDevelopment = [];
       if (querySnapshot.empty) {
@@ -264,7 +264,7 @@ export const unsubscribeGetReportsInDevelopment = (phase, service) => {
   return (dispatch, getState) => {
     firebase.firestore().collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
-    .orderBy('updatedAt', 'desc')
+    .orderBy('createdAt', 'desc')
     .onSnapshot(() => { });
   }
 };

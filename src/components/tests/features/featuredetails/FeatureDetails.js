@@ -21,8 +21,18 @@ import twitterIcon from "../../../../assets/Icons/twitter.png";
 import UpdateFeatureTestDialog from "./UpdateFeatureTestDialog";
 import penIcon from "../../../../assets/Icons/pen.png";
 import add_test_icon from "../../../../assets/Icons/plus.png";
+import Test from "../../Test";
+import CreateOrEditComment from "../../../comments/CreateOrEditComment";
+import {
+  getFeatureComments,
+  getFeaturesByService
+} from "../../../../store/actions/featureActions";
+import Comment from "../../../comments/Comment";
 
 const FeatureDetails = (props) => {
+
+  //props needed for ui
+  const { id, service } = props;
 
   //ui
   const [manualTestsHidden, setManualTestsHidden] = useState("block");
@@ -31,11 +41,8 @@ const FeatureDetails = (props) => {
   const [androidTestsHidden, setAndroidTestsHidden] = useState("block");
   const [performanceTestsHidden, setPerformanceTestsHidden] = useState("block");
 
-  const [service, setService] = useState(getServiceNameFromPathName(props.location.pathname, 'features'));
-
   //get feature from db
   const [getFeatureByIdInDb, setGetFeatureByIdInDb] = useState(false);
-  const [id, setId] = useState(props.match.params.id);
   const [getFeatureByIdResponse, setGetFeatureByIdResponse] = useState(null);
   const [feature, setFeature] = useState('');
   const [unsubscribeGetFeatureByIdInDb, setUnsubscribeGetFeatureByIdInDb] = useState(null);
@@ -153,6 +160,17 @@ const FeatureDetails = (props) => {
 
   const [updateFeatureTestResponse, setUpdateFeatureTestResponse] = useState(false);
 
+
+
+  /**
+   * Comments
+   * */
+  const { getFeatureComments } = props;
+  useEffect(() => {
+    getFeatureComments(id);
+  }, [id]);
+  const { comments } = props;
+
   const { user, setPrevUrl } = props;
   if (!user) {
     setPrevUrl(props.location.pathname);
@@ -196,13 +214,13 @@ const FeatureDetails = (props) => {
               </button>
               <br/>
 
-              {/*<Link to={`/features/${service}/update`}>*/}
-                {/*<button id="test-button-summary" style={{*/}
-                  {/*background: "#f0f0f0",*/}
-                  {/*marginTop: "25px"*/}
-                {/*}}>Update Feature*/}
-                {/*</button>*/}
-              {/*</Link>*/}
+              <Link to={`/features/${service}/update`}>
+                <button id="test-button-summary" style={{
+                  background: "#f0f0f0",
+                  marginTop: "25px"
+                }}>Update Feature FIX THIS BUTTON!
+                </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -435,6 +453,25 @@ const FeatureDetails = (props) => {
           <br/>
           <br/>
 
+          <button id="test-button-summary" style={{
+            background: "#f0f0f0",
+            marginTop: "25px"
+          }}>Load Comments (show # of comments here!!)
+          </button>
+
+          { comments && comments.map(comment => {
+            return (
+                <div key={comment.id}>
+                    <Comment
+                        comment={comment}
+                    />
+                </div>
+            )
+          })
+          }
+
+          <CreateOrEditComment />
+
         </div>
 
         <AddFeatureTestDialog
@@ -469,17 +506,26 @@ const FeatureDetails = (props) => {
   )
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
+    //initialise state
+    service: getServiceNameFromPathName(ownProps.location.pathname, 'features'),
+    id: ownProps.match.params.id,
+
     user: state.auth.user,
+    comments: state.feature.getFeatureComments,
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
+
+    getFeatureComments: (featureId) => dispatch(getFeatureComments(featureId)),
+
+    //alerts
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
-    showErrorAlert: (message) => dispatch(showErrorAlert(message)),
+    showErrorAlert: (message) => dispatch(showErrorAlert(message))
   }
 };
 

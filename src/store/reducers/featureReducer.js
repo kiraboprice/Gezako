@@ -98,6 +98,63 @@ const featureReducer = (state = initState, action) => {
         updateFeatureResult: null
       };
 
+
+      /**
+       * Comments
+       */
+    case 'CREATE_FEATURE_COMMENT_SUCCESS':
+      // console.log('CREATE_FEATURE_COMMENT_SUCCESS', action.id);
+      return {
+        ...state,
+        createFeatureComment: action.id
+      };
+
+    case 'CREATE_FEATURE_COMMENT_ERROR':
+      // console.log('CREATE_FEATURE_COMMENT_ERROR', action.error);
+      return state;
+
+    case 'GET_FEATURE_COMMENTS_BY_FEATURE_ID_EMPTY':
+      console.log('GET_FEATURE_COMMENTS_BY_FEATURE_ID_EMPTY', action.error);
+      return {
+        ...state,
+        getFeatureComments: []
+      };
+
+    case 'GET_FEATURE_COMMENTS_BY_FEATURE_ID_SUCCESS':
+      console.log('GET_FEATURE_COMMENTS_BY_FEATURE_ID_SUCCESS');
+      return {
+        ...state,
+        getFeatureComments: action.comments
+      };
+
+
+    case 'GET_FEATURE_COMMENTS_BY_FEATURE_ID_ERROR':
+      // console.log('GET_FEATURE_COMMENTS_BY_FEATURE_ID_ERROR', action.error);
+      return state;
+
+    case 'UPDATE_FEATURE_COMMENT_SUCCESS':
+      console.log('UPDATE_FEATURE_COMMENT_SUCCESS');
+      return {
+        ...state,
+        updateFeatureComment: 'success'
+      };
+
+    case 'UPDATE_FEATURE_COMMENT_ERROR':
+      // console.log('UPDATE_FEATURE_COMMENT_ERROR', action.error);
+      return state;
+
+    case 'DELETE_FEATURE_COMMENT_SUCCESS':
+      console.log('DELETE_FEATURE_COMMENT_SUCCESS');
+      return {
+        ...state,
+        deleteFeatureComment: 'success'
+      };
+
+    case 'DELETE_FEATURE_COMMENT_ERROR':
+      // console.log('DELETE_FEATURE_COMMENT_ERROR', action.error);
+      return state;
+
+
       default:
       return state;
 

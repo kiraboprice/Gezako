@@ -152,11 +152,13 @@ const CompletedSpockTests = (props) => {
 
           <div id='features-reports'>
             <h4>Features</h4>
+            Sorted by Title
             <div id='headers'>
               {/* TODO Upgrade Headers so that it is more scalable */}
               <div id='service'>Service</div>
               <div id='title'>Title</div>
               <div id='title'># of tests</div>
+              <div id='title'>Created At</div>
               <div id='title'>Updated At</div>
               <div id='end-column'>Created By</div>
             </div>
@@ -178,11 +180,13 @@ const CompletedSpockTests = (props) => {
 
           <div id='endpoints-reports'>
             <h4>Endpoints</h4>
+            Sorted by Title
             <div id='headers'>
               {/* TODO Upgrade Headers so that it is more scalable */}
               <div id='service'>Service</div>
               <div id='title'>Title</div>
               <div id='title'># of tests</div>
+              <div id='title'>Created At</div>
               <div id='title'>Updated At</div>
               <div id='end-column'>Created By</div>
             </div>
