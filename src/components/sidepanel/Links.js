@@ -34,13 +34,14 @@ const Links = (props) =>  {
         <div id={props.active ? 'active' : 'link'}>
           <Link to={props.titleLink}>
             <span id='report_navigation_title'>
-              <img id='link-img' src={props.icon} alt={props.title}></img>{props.title}</span>
+              <img id='link-img' src={props.icon} alt={props.title}></img>{props.title}
+            </span>
           </Link>
 
           <span id='expandIcon' onClick={() => handleExpandButtonClick()}>
-                  {props.haslinks
-                      ? expandIcon : null}
-                  </span>
+            {props.haslinks
+                ? expandIcon : null}
+          </span>
 
           {
             props.haslinks ?

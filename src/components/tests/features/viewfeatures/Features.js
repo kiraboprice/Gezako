@@ -92,7 +92,7 @@ const Features = (props) => { //todo move this out of tests parent package/dir
           </div>
 
           <span id="test-title-summary">Features for {service}</span>
-          Sorted by Title
+          <span id="sorted-by">Sorted by Title</span>
           <div id='features-reports'  style={{display: displayFeatures}}>
             <div id='headers'>
               <div id='title'>Title</div>
