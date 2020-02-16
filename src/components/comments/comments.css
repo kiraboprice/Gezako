@@ -1,3 +1,14 @@
+#comments-container{
+    float: right;
+    top: 0;
+    position: fixed;
+    right: 0;
+    max-width: 350px;
+    min-width: 350px;
+    margin-top: 75px;
+    margin-right: 50px;
+}
+
 #comment-add-container{
     display: flex;
     width: 100%;
@@ -6,22 +17,22 @@
 }
 
 #comment-picture{
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
     background: #ccc;
     object-fit: cover;
     margin-right: 5px;
-    border: solid 1px rgb(220, 220, 220);
+    border: solid 2px rgb(220, 220, 220);
     border-radius: 100%;
 }
 
 #active-container{
-    width: 90%;
+    width: 100%;
 }
 
 #comment-textarea{
-    width: 100%;
+    width: 91%;
     background: #fafafa;
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
@@ -33,7 +44,7 @@
 }
 
 #comment-textarea-active{
-    width: 100%;
+    width: 91%;
     background: #fafafa;
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
@@ -55,4 +66,26 @@
 #cancel-button{
     padding: 10px;
     cursor: pointer;
+}
+
+#comment-authorname{
+    margin-right: 5px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+#comment-time{
+    font-size: 14px;
+    color: grey;
+}
+
+#comment-text{
+    font-size: 14px;
+    line-height: 1.6em;
+}
+
+#modify-comment{
+    font-size: 14px;
+    color: grey;
+
 }

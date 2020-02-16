@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 import './navbar.css';
 
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
 import {signOut} from '../../store/actions/authActions'
 
 const NavBar = (props) => {
