@@ -453,26 +453,26 @@ const FeatureDetails = (props) => {
           <br/>
           <br/>
 
-          <button id="test-button-summary" style={{
-            background: "#f0f0f0",
-            marginTop: "25px"
-          }}>Load Comments (show # of comments here!!)
-          </button>
-
-          { comments && comments.map(comment => {
-            return (
-                <div key={comment.id}>
-                    <Comment
-                        comment={comment}
-                    />
-                </div>
-            )
-          })
-          }
-
-          <CreateOrEditComment />
-
         </div>
+
+        <button id="test-button-summary" style={{
+          background: "#f0f0f0",
+          marginTop: "25px"
+        }}>Load Comments (show # of comments here!!)
+        </button>
+
+        { comments && comments.map(comment => {
+          return (
+              <div key={comment.id}>
+                <Comment
+                    comment={comment}
+                />
+              </div>
+          )
+        })
+        }
+
+        <CreateOrEditComment />
 
         <AddFeatureTestDialog
             showAddDialog = {showAddDialog}
