@@ -1,26 +1,28 @@
 import React, {Component, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
-import {compose} from "redux";
-import connect from "react-redux/es/connect/connect";
+
+import showButton from "../../assets/Imgs/show.png";
+import hideButton from "../../assets/Imgs/hide.png";
 
 const Links = (props) =>  {
 
-
-  const [expandIcon, setExpandIcon] = useState(' +');
+  const [showOrHideButton, setShowOrHideButton] = useState(showButton);
   const [isExpanded, setIsExpanded] = useState(false);
   useEffect(() => {
     setIsExpanded(props.isExpanded);
-    return function cleanup() {
-      //
-    };
+    isExpanded ? setShowOrHideButton(hideButton) : setShowOrHideButton(showButton);
   }, []);
 
+  useEffect(() => {
+    isExpanded ? setShowOrHideButton(hideButton) : setShowOrHideButton(showButton);
+  }, [isExpanded]);
+
   const handleExpandButtonClick = () => {
-    if (expandIcon === ' +') {
-      setExpandIcon(' -');
+    if (showOrHideButton === showButton) {
+      setShowOrHideButton(hideButton);
       setIsExpanded(true);
     } else {
-      setExpandIcon(' +');
+      setShowOrHideButton(showButton);
       setIsExpanded(false);
     }
   };
@@ -38,9 +40,9 @@ const Links = (props) =>  {
             </span>
           </Link>
 
-          <span id='expandIcon' onClick={() => handleExpandButtonClick()}>
-            {props.haslinks
-                ? expandIcon : null}
+          <span id='showOrHideButton' onClick={() => handleExpandButtonClick()}>
+            {props.haslinks ? <img src={showOrHideButton} alt='expand button'></img> : null}
+
           </span>
 
           {
