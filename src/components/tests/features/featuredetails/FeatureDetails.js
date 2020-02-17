@@ -453,25 +453,26 @@ const FeatureDetails = (props) => {
           <br/>
           <br/>
 
+        </div>
+        
+        <div id="comments-container">
           <button id="test-button-summary" style={{
             background: "#f0f0f0",
             marginTop: "25px"
-          }}>Load Comments (show # of comments here!!)
+          }}> {comments ? comments.length === 0 ? "No" : "Load" : null} {comments ? comments.length === 0 ? "" : comments.length : null} comment{comments ? comments.length === 0 ? "s" : "" : comments ? comments.length > 1 ? "s" : "" : ""} 
           </button>
 
           { comments && comments.map(comment => {
             return (
                 <div key={comment.id}>
-                    <Comment
-                        comment={comment}
-                    />
+                  <Comment
+                      comment={comment}
+                  />
                 </div>
             )
           })
           }
-
           <CreateOrEditComment />
-
         </div>
 
         <AddFeatureTestDialog

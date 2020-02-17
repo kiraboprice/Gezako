@@ -96,7 +96,7 @@ export default class SideBar extends Component {
               }> {this.state.showCollapsedMenu ? 'x' : <img id='menu_bar' src={menu} alt='menu bar'></img>}
               </div>
               <div id='sidepanel' style={{
-                width: this.state.expanded ? '21%' : '55px',
+                width: this.state.expanded ? '21%' : '85px',
                 transition: 'all ease-in-out 200ms'
               }}>
 
