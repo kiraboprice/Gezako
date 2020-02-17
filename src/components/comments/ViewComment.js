@@ -32,6 +32,7 @@ const ViewComment = (props) => {
     }
   };
 
+  const { user } = props;
   const loggedInUserIsCommentAuthor = () => {
     return user.uid === props.comment.authorId
     };
@@ -47,11 +48,15 @@ const ViewComment = (props) => {
               <span id="comment-authorname">{props.comment.authorName}</span>
               - <span id="comment-time">{moment(props.comment.createdAt.toDate()).calendar()}</span>
               <div id="comment-text">{props.comment.text}</div>
+              {console.log("loggedInUserIsCommentAuthor", loggedInUserIsCommentAuthor())}
               {
                 loggedInUserIsCommentAuthor() ?
-                    <span id="modify-comment" onClick={() => handleOnClickEdit()}>Edit</span> - <span id="modify-comment" onClick={() => handleOnClickDelete()}>Delete</span>
+                    <div>
+                      <span id="modify-comment" onClick={() => handleOnClickEdit()}>Edit</span> - <span id="modify-comment" onClick={() => handleOnClickDelete()}>Delete</span>
+                    </div>
                     :
                     null
+
               }
             </div>
           </div>
