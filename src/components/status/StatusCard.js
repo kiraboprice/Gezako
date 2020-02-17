@@ -87,7 +87,7 @@ const StatusCard = (props) => {
     }
 
     if(status === DELETED){
-      if((user.uid === stateFromProps.report.userId)){
+      if(user.uid === stateFromProps.report.userId){
         deleteReport(stateFromProps.id)
       }
       else {

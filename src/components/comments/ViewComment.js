@@ -19,17 +19,22 @@ const ViewComment = (props) => {
   }, [props]);
 
   const { updateFeatureComment } = props;
-  const handleOnClickEdit = () => {
-    setShowEditComment(true);
-    // updateFeatureComment(props.featureId, props.comment.id, commentForUpdate);
-
+  const handleOnClickEdit = () => { //this is for extra security but not required
+    if(loggedInUserIsCommentAuthor()) {
+      setShowEditComment(true);
+    }
   };
 
   const { deleteFeatureComment } = props;
   const handleOnClickDelete = () => {
-    deleteFeatureComment(props.featureId, props.comment.id);
+    if(loggedInUserIsCommentAuthor()) { //this is for extra security but not required
+      deleteFeatureComment(props.featureId, props.comment.id);
+    }
   };
 
+  const loggedInUserIsCommentAuthor = () => {
+    return user.uid === props.comment.authorId
+    };
 
   return(
         <div id='report'>
@@ -42,8 +47,12 @@ const ViewComment = (props) => {
               <span id="comment-authorname">{props.comment.authorName}</span>
               - <span id="comment-time">{moment(props.comment.createdAt.toDate()).calendar()}</span>
               <div id="comment-text">{props.comment.text}</div>
-
-              <span id="modify-comment" onClick={() => handleOnClickEdit()}>Edit</span> - <span id="modify-comment" onClick={() => handleOnClickDelete()}>Delete</span>
+              {
+                loggedInUserIsCommentAuthor() ?
+                    <span id="modify-comment" onClick={() => handleOnClickEdit()}>Edit</span> - <span id="modify-comment" onClick={() => handleOnClickDelete()}>Delete</span>
+                    :
+                    null
+              }
             </div>
           </div>
 
@@ -68,7 +77,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateFeatureComment: (featureId, commentId, comment) => dispatch(updateFeatureComment(featureId, commentId, comment)),
     deleteFeatureComment: (featureId, commentId) => dispatch(deleteFeatureComment(featureId, commentId)),
   }
 };
