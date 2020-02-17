@@ -56,7 +56,6 @@ const ViewComment = (props) => {
                     </div>
                     :
                     null
-
               }
             </div>
           </div>

@@ -460,12 +460,18 @@ const FeatureDetails = (props) => {
         </div>
         
         <div id="comments-container">
-          <button id="test-button-summary" style={{
-            background: "#f0f0f0",
-            marginTop: "25px"
-          }}> {comments ? comments.length === 0 ? "No" : "Load" : null} {comments ? comments.length === 0 ? "" : comments.length : null} comment{comments ? comments.length === 0 ? "s" : "" : comments ? comments.length > 1 ? "s" : "" : ""} 
-          </button>
 
+          {/*Long term Note: Bring this button back when we have too many firestore
+          reads and decide to only load comments on demand to optimise load time and cost*/}
+
+          {/*<button id="test-button-summary" style={{*/}
+            {/*background: "#f0f0f0",*/}
+            {/*marginTop: "25px"*/}
+          {/*}}> {comments ? comments.length === 0 ? "No" : "Load" : null} {comments ? comments.length === 0 ? "" : comments.length : null} comment{comments ? comments.length === 0 ? "s" : "" : comments ? comments.length > 1 ? "s" : "" : ""} */}
+          {/*</button>*/}
+
+          {/*todo Rich/Derek place this in it's own css style thing (not the copied "uploaded-by" used below)*/}
+          <div id="uploaded-by">Comments</div>
           { comments && comments.map(comment => {
             return (
                 <div key={comment.id}>
