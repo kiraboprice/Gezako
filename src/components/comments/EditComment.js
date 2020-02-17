@@ -36,7 +36,6 @@ const EditComment = (props) => {
     }
   };
 
-
   const handleOnClickCancel = () => {
     props.setShowEditComment(false)
   };
