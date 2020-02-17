@@ -188,18 +188,16 @@ export const resetGetFeatureComments = () => {
   }
 };
 
-export const updateFeatureComment = (featureId, commentId, comment) => {
+export const updateFeatureComment = (featureId, comment) => {
   return (dispatch, getState) => {
     const collectionUrl = getFeaturesCollectionUrl();
     // console.log('updateFeatureComment action', featureId);
     const user = getState().auth.user;
 
     firebase.firestore().collection(`${collectionUrl}/${featureId}/comments`)
-    .doc(commentId)
+    .doc(comment.id)
     .update({
-      ...comment,
-      updatedAt: new Date(), //todo construct this from the calling function
-      updatedBy: {id: user.uid, displayName: user.displayName} //todo construct  this from the calling function
+      ...comment
     }).then(() => {
       dispatch({type: 'UPDATE_FEATURE_COMMENT_SUCCESS'});
     }).catch(err => {
@@ -209,7 +207,6 @@ export const updateFeatureComment = (featureId, commentId, comment) => {
 };
 
 export const deleteFeatureComment = (featureId, commentId) => {
-  // console.log(`deleteFeatureComment---- ${id}`);
   const collectionUrl = getFeaturesCollectionUrl();
   return (dispatch, getState) => {
     firebase.firestore().collection(`${collectionUrl}/${featureId}/comments`)

@@ -22,7 +22,7 @@ import UpdateFeatureTestDialog from "./UpdateFeatureTestDialog";
 import penIcon from "../../../../assets/Icons/pen.png";
 import add_test_icon from "../../../../assets/Icons/plus.png";
 import Test from "../../Test";
-import CreateOrEditComment from "../../../comments/CreateOrEditComment";
+import CreateOrEditComment from "../../../comments/CreateComment";
 import {
   getFeatureComments,
   getFeaturesByService, resetGetFeatureComments, unsubscribeGetFeatureComments
@@ -470,6 +470,7 @@ const FeatureDetails = (props) => {
             return (
                 <div key={comment.id}>
                   <ViewComment
+                      featureId={id}
                       comment={comment}
                   />
                 </div>

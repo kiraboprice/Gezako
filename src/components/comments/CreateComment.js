@@ -10,7 +10,7 @@ import {Timestamp} from "firebase";
 import * as firebase from "firebase";
 // import * as firebase from "firebase";
 
-const CreateOrEditComment = (props) => {
+const CreateComment = (props) => {
   const { user } = props;
   const [commentTextAreaActive, setCommentTextAreaActive] = useState(false);
 
@@ -26,7 +26,8 @@ const CreateOrEditComment = (props) => {
       //     user.photoURL,
       //     // new Date(),
       //     Timestamp.fromDate(new Date()),
-      //     text
+      //     text,
+      //     Timestamp.fromDate(new Date())
       // );
 
       const comment = {
@@ -36,10 +37,13 @@ const CreateOrEditComment = (props) => {
         //createdAt : new Date(),
         // createdAt : Timestamp.fromDate(new Date()),
         createdAt : firebase.firestore.Timestamp.fromDate(new Date()),
-        text : text
-        // updatedAt: new Date()
+        text : text,
+        updatedAt : firebase.firestore.Timestamp.fromDate(new Date()),
       };
-      createFeatureComment(props.featureId, comment)
+
+      createFeatureComment(props.featureId, comment);
+      //reset UI
+      setText('');
     }
   };
 
@@ -90,4 +94,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateOrEditComment)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateComment)

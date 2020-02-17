@@ -5,12 +5,14 @@ export  class Comment {
       authorName,
       authorPhotoUrl,
       createdAt,
-      text
+      text,
+      updatedAt
       ) {
     this.authorId = authorId;
     this.authorName = authorName;
     this.authorPhotoUrl = authorPhotoUrl;
     this.createdAt = createdAt;
     this.text = text;
+    this.updatedAt = updatedAt;
   }
 }
