@@ -113,24 +113,30 @@ const featureReducer = (state = initState, action) => {
       // console.log('CREATE_FEATURE_COMMENT_ERROR', action.error);
       return state;
 
-    case 'GET_FEATURE_COMMENTS_BY_FEATURE_ID_EMPTY':
-      console.log('GET_FEATURE_COMMENTS_BY_FEATURE_ID_EMPTY', action.error);
+    case 'GET_FEATURE_COMMENTS_EMPTY':
+      console.log('GET_FEATURE_COMMENTS_EMPTY', action.error);
       return {
         ...state,
         getFeatureComments: []
       };
 
-    case 'GET_FEATURE_COMMENTS_BY_FEATURE_ID_SUCCESS':
-      console.log('GET_FEATURE_COMMENTS_BY_FEATURE_ID_SUCCESS');
+    case 'GET_FEATURE_COMMENTS_SUCCESS':
+      console.log('GET_FEATURE_COMMENTS_SUCCESS');
       return {
         ...state,
         getFeatureComments: action.comments
       };
 
-
-    case 'GET_FEATURE_COMMENTS_BY_FEATURE_ID_ERROR':
-      // console.log('GET_FEATURE_COMMENTS_BY_FEATURE_ID_ERROR', action.error);
+    case 'GET_FEATURE_COMMENTS_ERROR':
+      // console.log('GET_FEATURE_COMMENTS_ERROR', action.error);
       return state;
+
+    case 'RESET_GET_FEATURE_COMMENTS':
+      // console.log('RESET_GET_FEATURE_COMMENTS', action.error);
+      return {
+        ...state,
+        getFeatureComments: null
+      };
 
     case 'UPDATE_FEATURE_COMMENT_SUCCESS':
       console.log('UPDATE_FEATURE_COMMENT_SUCCESS');

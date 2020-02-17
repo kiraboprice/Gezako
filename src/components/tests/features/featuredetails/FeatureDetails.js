@@ -25,9 +25,9 @@ import Test from "../../Test";
 import CreateOrEditComment from "../../../comments/CreateOrEditComment";
 import {
   getFeatureComments,
-  getFeaturesByService
+  getFeaturesByService, resetGetFeatureComments, unsubscribeGetFeatureComments
 } from "../../../../store/actions/featureActions";
-import Comment from "../../../comments/Comment";
+import ViewComment from "../../../comments/ViewComment";
 
 const FeatureDetails = (props) => {
 
@@ -161,13 +161,17 @@ const FeatureDetails = (props) => {
   const [updateFeatureTestResponse, setUpdateFeatureTestResponse] = useState(false);
 
 
-
   /**
    * Comments
    * */
-  const { getFeatureComments } = props;
+  const { getFeatureComments, unsubscribeGetFeatureComments, resetGetFeatureComments } = props;
   useEffect(() => {
     getFeatureComments(id);
+
+    return function cleanup() {
+      unsubscribeGetFeatureComments(id);
+      resetGetFeatureComments();
+    };
   }, [id]);
   const { comments } = props;
 
@@ -465,14 +469,16 @@ const FeatureDetails = (props) => {
           { comments && comments.map(comment => {
             return (
                 <div key={comment.id}>
-                  <Comment
+                  <ViewComment
                       comment={comment}
                   />
                 </div>
             )
           })
           }
-          <CreateOrEditComment />
+          <CreateOrEditComment
+              featureId =  {id}
+          />
         </div>
 
         <AddFeatureTestDialog
@@ -522,7 +528,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
 
+    //comments
     getFeatureComments: (featureId) => dispatch(getFeatureComments(featureId)),
+    unsubscribeGetFeatureComments: (featureId) => dispatch(unsubscribeGetFeatureComments(featureId)),
+    resetGetFeatureComments: () => dispatch(resetGetFeatureComments()),
 
     //alerts
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
