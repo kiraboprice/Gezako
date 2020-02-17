@@ -53,7 +53,7 @@ class Login extends Component {
                   Gezako
                 </h1>
                 <h2 id='small_text'>
-                  Streamlined Software Quality Assurance.
+                  Organising the Software Testing & QA Process.
                 </h2>
 
                 <div id='button' onClick={this.signIn}>
