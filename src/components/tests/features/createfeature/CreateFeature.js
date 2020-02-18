@@ -126,6 +126,8 @@ const CreateFeature = (props) => {
               <label>Feature Allocation: </label>
               <select name='service' value={service}
                       onChange={handleChange}>
+                <option value={services.ANDROID_USER_FLOWS_VALUE}>{services.ANDROID_USER_FLOWS_NAME}</option>
+                <option value={services.ADMIN_USER_FLOWS_VALUE}>{services.ADMIN_USER_FLOWS_NAME}</option>
                 <option value={services.SURVEYS_VALUE}>{services.SURVEYS_NAME}</option>
                 <option value={services.RULES_VALUE}>{services.RULES_NAME}</option>
                 <option value={services.LOANS_VALUE}>{services.LOANS_NAME}</option>
