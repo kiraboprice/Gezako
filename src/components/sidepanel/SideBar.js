@@ -10,10 +10,7 @@ import features from '../../assets/Icons/features.png';
 import dev from '../../assets/Icons/dev.png';
 import perf from '../../assets/Icons/perf.png';
 import task from '../../assets/Icons/task.png';
-import {
-  ANDROID_USER_FLOWS_NAME,
-  ANDROID_USER_FLOWS_VALUE
-} from "../../constants/Services";
+import * as services from "../../constants/Services";
 
 export default class SideBar extends Component {
   constructor(props) {
@@ -109,27 +106,27 @@ export default class SideBar extends Component {
                       icon={features}
                       active={this.state.firstActive}
                       links={[
-                        [ ANDROID_USER_FLOWS_NAME, `/features/${ANDROID_USER_FLOWS_VALUE}`],
-                        [ "Admin (CARE) User Flows", '/features/admin'],
-                        [ "Surveys", '/features/surveys'],
-                        [ "Rules", '/features/rules'],
-                        ["Loans", '/features/loans'],
-                        [ "Users", '/features/users'],
-                        [ "Auth", '/features/auth'],
-                        [ "Rails", '/features/rails'],
-                        [ "Comms", '/features/comms'],
-                        [ "Approval", '/features/approval'],
-                        [ "Scheduler", '/features/scheduler'],
-                        [ "DsRouter", '/features/dsrouter'],
-                        [ "Assignment", '/features/assignment'],
-                        [ "Dss", '/features/dss'],
-                        [ "Kyc", '/features/kyc'],
-                        [ "Attribution", '/features/attribution'],
-                        [ "Settlement", '/features/settlement'],
-                        [ "Verification", '/features/verification'],
-                        [ "Lending Partner", '/features/lendingpartner'],
-                        [ "Provider Mediator (Legacy)", '/features/providermediator'],
-                        [ "Account (Legacy)", '/features/account']
+                        [ services.ANDROID_USER_FLOWS_NAME, `/features/${services.ANDROID_USER_FLOWS_VALUE}`],
+                        [ services.ADMIN_USER_FLOWS_NAME, `/features/${services.ADMIN_USER_FLOWS_VALUE}`],
+                        [ services.SURVEYS_NAME , `/features/${services.SURVEYS_VALUE}`],
+                        [ services.RULES_NAME, `/features/${services.RULES_VALUE}`],
+                        [ services.LOANS_NAME, `/features/${services.LOANS_VALUE}`],
+                        [ services.USERS_NAME, `/features/${services.USERS_VALUE}`],
+                        [ services.AUTH_NAME, `/features/${services.AUTH_VALUE}`],
+                        [ services.RAILS_NAME, `/features/${services.RAILS_VALUE}`],
+                        [ services.COMMS_NAME, `/features/${services.COMMS_VALUE}`],
+                        [ services.APPROVAL_NAME, `/features/${services.APPROVAL_VALUE}`],
+                        [ services.SCHEDULER_NAME, `/features/${services.SCHEDULER_VALUE}`],
+                        [ services.DSROUTER_NAME, `/features/${services.DSROUTER_VALUE}`],
+                        [ services.ASSIGNMENT_NAME, `/features/${services.ASSIGNMENT_VALUE}`],
+                        [ services.DSS_NAME, `/features/${services.DSS_VALUE}`],
+                        [ services.KYC_NAME, `/features/${services.KYC_VALUE}`],
+                        [ services.ATTRIBUTION_NAME, `/features/${services.ATTRIBUTION_VALUE}`],
+                        [ services.SETTLEMENT_NAME, `/features/${services.SETTLEMENT_VALUE}`],
+                        [ services.VERIFICATION_NAME, `/features/${services.VERIFICATION_VALUE}`],
+                        [ services.LENDING_PARTNER_NAME, `/features/${services.LENDING_PARTNER_VALUE}`],
+                        [ services.PROVIDER_MEDIATOR_LEGACY_NAME, `/features/${services.PROVIDER_MEDIATOR_LEGACY_VALUE}`],
+                        [ services.ACCOUNT_LEGACY_NAME, `/features/${services.ACCOUNT_LEGACY_VALUE}`]
                       ]}
                       titleLink={'/features/userflow'}
                   />
@@ -144,25 +141,25 @@ export default class SideBar extends Component {
                       icon={report}
                       active={this.state.secondActive}
                       links={[
-                        [ "Surveys", '/completed/surveys'],
-                        [ "Rules", '/completed/rules'],
-                        ["Loans", '/completed/loans'],
-                        [ "Users", '/completed/users'],
-                        [ "Auth", '/completed/auth'],
-                        [ "Rails", '/completed/rails'],
-                        [ "Comms", '/completed/comms'],
-                        [ "Approval", '/completed/approval'],
-                        [ "Scheduler", '/completed/scheduler'],
-                        [ "DsRouter", '/completed/dsrouter'],
-                        [ "Assignment", '/completed/assignment'],
-                        [ "Dss", '/completed/dss'],
-                        [ "Kyc", '/completed/kyc'],
-                        [ "Attribution", '/completed/attribution'],
-                        [ "Settlement", '/completed/settlement'],
-                        [ "Verification", '/completed/verification'],
-                        [ "Lendingpartner", '/completed/lendingpartner'],
-                        [ "Provider Mediator (Legacy)", '/features/providermediator'],
-                        [ "Account (Legacy)", '/features/account']
+                        [ services.SURVEYS_NAME , `/completed/${services.SURVEYS_VALUE}`],
+                        [ services.RULES_NAME, `/completed/${services.RULES_VALUE}`],
+                        [ services.LOANS_NAME, `/completed/${services.LOANS_VALUE}`],
+                        [ services.USERS_NAME, `/completed/${services.USERS_VALUE}`],
+                        [ services.AUTH_NAME, `/completed/${services.AUTH_VALUE}`],
+                        [ services.RAILS_NAME, `/completed/${services.RAILS_VALUE}`],
+                        [ services.COMMS_NAME, `/completed/${services.COMMS_VALUE}`],
+                        [ services.COMMS_NAME, `/completed/${services.APPROVAL_VALUE}`],
+                        [ services.SCHEDULER_NAME, `/completed/${services.SCHEDULER_VALUE}`],
+                        [ services.DSROUTER_NAME, `/completed/${services.DSROUTER_VALUE}`],
+                        [ services.ASSIGNMENT_NAME, `/completed/${services.ASSIGNMENT_VALUE}`],
+                        [ services.DSS_NAME, `/completed/${services.DSS_VALUE}`],
+                        [ services.KYC_NAME, `/completed/${services.KYC_VALUE}`],
+                        [ services.ATTRIBUTION_NAME, `/completed/${services.ATTRIBUTION_VALUE}`],
+                        [ services.SETTLEMENT_NAME, `/completed/${services.SETTLEMENT_VALUE}`],
+                        [ services.VERIFICATION_NAME, `/completed/${services.VERIFICATION_VALUE}`],
+                        [ services.LENDING_PARTNER_NAME, `/completed/${services.LENDING_PARTNER_VALUE}`],
+                        [ services.PROVIDER_MEDIATOR_LEGACY_NAME, `/completed/${services.PROVIDER_MEDIATOR_LEGACY_VALUE}`],
+                        [ services.ACCOUNT_LEGACY_NAME, `/completed/${services.ACCOUNT_LEGACY_VALUE}`]
                       ]}
                       titleLink={'/completed/surveys'}
                   />
@@ -177,26 +174,25 @@ export default class SideBar extends Component {
                         haslinks={true}
                         active={this.state.thirdActive}
                         links={[
-                          [ "Surveys", '/development/surveys'],
-                          [ "Rules", '/development/rules'],
-                          ["Loans", '/development/loans'],
-                          [ "Users", '/development/users'],
-                          [ "Auth", '/development/auth'],
-                          [ "Rails", '/development/rails'],
-                          [ "Comms", '/development/comms'],
-                          [ "Approval", '/development/approval'],
-                          [ "Scheduler", '/development/scheduler'],
-                          [ "DsRouter", '/development/dsrouter'],
-                          [ "Assignment", '/development/assignment'],
-                          [ "Dss", '/development/dss'],
-                          [ "Kyc", '/development/kyc'],
-                          [ "Attribution", '/development/attribution'],
-                          [ "Settlement", '/development/settlement'],
-                          [ "Verification", '/development/verification'],
-                          [ "Lendingpartner", '/development/lendingpartner'],
-                          [ "Provider Mediator (Legacy)", '/features/providermediator'],
-                          [ "Account (Legacy)", '/features/account']
-
+                          [ services.SURVEYS_NAME , `/development/${services.SURVEYS_VALUE}`],
+                          [ services.RULES_NAME, `/development/${services.RULES_VALUE}`],
+                          [ services.LOANS_NAME, `/development/${services.LOANS_VALUE}`],
+                          [ services.USERS_NAME, `/development/${services.USERS_VALUE}`],
+                          [ services.AUTH_NAME, `/development/${services.AUTH_VALUE}`],
+                          [ services.RAILS_NAME, `/development/${services.RAILS_VALUE}`],
+                          [ services.COMMS_NAME, `/development/${services.COMMS_VALUE}`],
+                          [ services.COMMS_NAME, `/development/${services.APPROVAL_VALUE}`],
+                          [ services.SCHEDULER_NAME, `/development/${services.SCHEDULER_VALUE}`],
+                          [ services.DSROUTER_NAME, `/development/${services.DSROUTER_VALUE}`],
+                          [ services.ASSIGNMENT_NAME, `/development/${services.ASSIGNMENT_VALUE}`],
+                          [ services.DSS_NAME, `/development/${services.DSS_VALUE}`],
+                          [ services.KYC_NAME, `/development/${services.KYC_VALUE}`],
+                          [ services.ATTRIBUTION_NAME, `/development/${services.ATTRIBUTION_VALUE}`],
+                          [ services.SETTLEMENT_NAME, `/development/${services.SETTLEMENT_VALUE}`],
+                          [ services.VERIFICATION_NAME, `/development/${services.VERIFICATION_VALUE}`],
+                          [ services.LENDING_PARTNER_NAME, `/development/${services.LENDING_PARTNER_VALUE}`],
+                          [ services.PROVIDER_MEDIATOR_LEGACY_NAME, `/development/${services.PROVIDER_MEDIATOR_LEGACY_VALUE}`],
+                          [ services.ACCOUNT_LEGACY_NAME, `/development/${services.ACCOUNT_LEGACY_VALUE}`]
                         ]}
                         titleLink={'/development/surveys'}
                     />

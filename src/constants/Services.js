@@ -50,7 +50,7 @@ export const SETTLEMENT_NAME = "Settlement";
 export const SETTLEMENT_VALUE = "settlement";
 
 export const VERIFICATION_NAME = "Verification";
-export const VERIFICATIONS_VALUE = "verification";
+export const VERIFICATION_VALUE = "verification";
 
 export const LENDING_PARTNER_NAME = "Lending Partner";
 export const LENDING_PARTNER_VALUE = "lendingpartner";
