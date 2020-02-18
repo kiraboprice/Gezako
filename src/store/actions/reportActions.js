@@ -4,7 +4,10 @@ import {BASE_DOCUMENT} from "../../constants/FireStore";
 
 import axios from 'axios';
 import * as ReportStatus from "../../constants/ReportStatus";
-import {getReportsCollectionUrl} from "../../util/StringUtil";
+import {
+  getFeaturesCollectionUrl,
+  getReportsCollectionUrl
+} from "../../util/StringUtil";
 import React from "react";
 
 //this is not in use
@@ -377,5 +380,101 @@ export const updateServiceStats = (service, serviceStats) => {
     }).catch(err => {
       dispatch({type: 'UPDATE_REPORT_STATS_ERROR', err});
     });
+  }
+};
+
+
+/**
+ *  Comments
+ */
+
+export const createSpockReportComment = (reportId, comment) => {
+  // console.log("createSpockReportComment---", report);
+  const collectionUrl = getReportsCollectionUrl();
+  return (dispatch, getState) => {
+    const user = getState().auth.user;
+    firebase.firestore().collection(`${collectionUrl}/${reportId}/comments`)
+    .add({
+      ...comment
+    }).then((docRef) => {
+      dispatch({type: 'CREATE_SPOCK_REPORT_COMMENT_SUCCESS', id: docRef.id});
+    }).catch(err => {
+      dispatch({type: 'CREATE_SPOCK_REPORT_COMMENT_ERROR', err});
+    });
+  }
+};
+
+export const getSpockReportComments = (reportId) => {
+  const collectionUrl = getReportsCollectionUrl();
+  console.log('getSpockReportComments', reportId);
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${collectionUrl}/${reportId}/comments`)
+    .orderBy('createdAt')
+    .onSnapshot(querySnapshot => {
+      let comments = [];
+      if (querySnapshot.empty) {
+        // console.log(`getSpockReportComments EMPTY`);
+        dispatch({type: 'GET_SPOCK_REPORT_COMMENTS_EMPTY'});
+      } else {
+        querySnapshot.forEach(doc => {
+          comments.push({id: doc.id, ...doc.data()})
+        });
+        // console.log(`getSpockReportComments NOT_EMPTY`);
+        dispatch({type: 'GET_SPOCK_REPORT_COMMENTS_SUCCESS', comments : comments});
+      }
+
+    }, err => {
+      console.log(`getSpockReportComments error: ${err}`);
+      dispatch({type: 'GET_SPOCK_REPORT_COMMENTS_ERROR', error: err});
+    });
+  }
+};
+
+export const unsubscribeGetSpockReportComments = (reportId) => {
+  const collectionUrl = getReportsCollectionUrl();
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${collectionUrl}/${reportId}/comments`)
+    .orderBy('createdAt')
+    .onSnapshot(() => { });
+  }
+};
+
+export const resetGetSpockReportComments = () => {
+  return (dispatch) => {
+    dispatch({type: 'RESET_GET_SPOCK_REPORT_COMMENTS'});
+  }
+};
+
+
+export const updateSpockReportComment = (reportId, comment) => {
+  return (dispatch, getState) => {
+    const collectionUrl = getReportsCollectionUrl();
+    // console.log('updateSpockReportComment action', featureId);
+    const user = getState().auth.user;
+
+    firebase.firestore().collection(`${collectionUrl}/${reportId}/comments`)
+    .doc(comment.id)
+    .update({
+      ...comment
+    }).then(() => {
+      dispatch({type: 'UPDATE_SPOCK_REPORT_COMMENT_SUCCESS'});
+    }).catch(err => {
+      dispatch({type: 'UPDATE_SPOCK_REPORT_COMMENT_ERROR', err});
+    });
+  }
+};
+
+export const deleteSpockReportComment = (reportId, commentId) => {
+  const collectionUrl = getReportsCollectionUrl();
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${collectionUrl}/${reportId}/comments`)
+    .doc(commentId)
+    .delete().then(
+        result => {
+          dispatch({type: 'DELETE_SPOCK_REPORT_COMMENT_SUCCESS'});
+        }, err => {
+          dispatch({type: 'DELETE_SPOCK_REPORT_COMMENT_ERROR', error: err});
+        }
+    );
   }
 };

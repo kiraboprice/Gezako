@@ -21,7 +21,9 @@ Since this is a shared testing and staging environment, do not make deletions fr
 
 ## Testing on staging
 To use the staging test environment, 
-run `firebase deploy -P staging1` to deploy to the staging environment
+- build the project 
+`sudo npm run build`
+- run `firebase deploy -P staging1` to deploy to the staging environment
 Staging env can be accessed via `gezako-staging.web.app`
 
 ## Deploying and testing functions

@@ -146,7 +146,6 @@ export const createFeatureComment = (featureId, comment) => {
   }
 };
 
-
 export const getFeatureComments = (featureId) => {
   const collectionUrl = getFeaturesCollectionUrl();
   console.log('getCommentsByFeatureId....', featureId);
@@ -156,13 +155,13 @@ export const getFeatureComments = (featureId) => {
     .onSnapshot(querySnapshot => {
       let comments = [];
       if (querySnapshot.empty) {
-        console.log(`getCommentsByFeatureId EMPTY`);
+        // console.log(`getCommentsByFeatureId EMPTY`);
         dispatch({type: 'GET_FEATURE_COMMENTS_EMPTY'});
       } else {
         querySnapshot.forEach(doc => {
           comments.push({id: doc.id, ...doc.data()})
         });
-        console.log(`getCommentsByFeatureId NOT_EMPTY`);
+        // console.log(`getCommentsByFeatureId NOT_EMPTY`);
         dispatch({type: 'GET_FEATURE_COMMENTS_SUCCESS', comments : comments});
       }
 
