@@ -16,6 +16,7 @@ import {
 } from "../../../store/actions/authActions";
 import TextField from "@material-ui/core/TextField/TextField";
 import {blue} from "@material-ui/core/colors";
+import * as services from "../../../constants/Services";
 
 const UpdateTestReport = (props) => {
   const { report } = props;
@@ -267,27 +268,27 @@ const UpdateTestReport = (props) => {
               <div id='display-content'>
                 <label>Service: </label>
                 <select name='service' value={service} onChange={handleChange}>
-                  <option value='surveys'>Surveys</option>
-                  <option value='rules'>Rules</option>
-                  <option value='loans'>Loans</option>
-                  <option value='users'>Users</option>
-                  <option value='auth'>Auth</option>
-                  <option value='rails'>Rails</option>
-                  <option value='comms'>Comms</option>
-                  <option value='approval'>Approval</option>
-                  <option value='scheduler'>Scheduler</option>
-                  <option value='dsrouter'>DsRouter</option>
-                  <option value='assignment'>Assignment</option>
-                  <option value='dss'>Dss</option>
-                  <option value='kyc'>Kyc</option>
-                  <option value='attribution'>Attribution</option>
-                  <option value='settlement'>Settlement</option>
-                  <option value='verification'>Verification</option>
-                  <option value='lendingpartner'>Lendingpartner</option>
-                  <option value='providermediator'>Provider Mediator (Legacy)</option>
-                  <option value='account'>Account (Legacy)</option>
-                </select>
-              </div>
+                <option value={services.SURVEYS_VALUE}>{services.SURVEYS_NAME}</option>
+                <option value={services.RULES_VALUE}>{services.RULES_NAME}</option>
+                <option value={services.LOANS_VALUE}>{services.LOANS_NAME}</option>
+                <option value={services.USERS_VALUE}>{services.USERS_NAME}</option>
+                <option value={services.AUTH_VALUE}>{services.AUTH_NAME}</option>
+                <option value={services.RAILS_VALUE}>{services.RAILS_NAME}</option>
+                <option value={services.COMMS_VALUE}>{services.COMMS_NAME}</option>
+                <option value={services.APPROVAL_VALUE}>{services.APPROVAL_NAME}</option>
+                <option value={services.SCHEDULER_VALUE}>{services.SCHEDULER_NAME}</option>
+                <option value={services.DSROUTER_VALUE}>{services.DSROUTER_NAME}</option>
+                <option value={services.ASSIGNMENT_VALUE}>{services.ASSIGNMENT_NAME}</option>
+                <option value={services.DSS_VALUE}>{services.DSS_NAME}</option>
+                <option value={services.KYC_VALUE}>{services.KYC_NAME}</option>
+                <option value={services.ATTRIBUTION_VALUE}>{services.ATTRIBUTION_NAME}</option>
+                <option value={services.SETTLEMENT_VALUE}>{services.SETTLEMENT_NAME}</option>
+                <option value={services.VERIFICATION_VALUE}>{services.VERIFICATION_NAME}</option>
+                <option value={services.LENDING_PARTNER_VALUE}>{services.LENDING_PARTNER_NAME}</option>
+                <option value={services.PROVIDER_MEDIATOR_LEGACY_VALUE}>{services.PROVIDER_MEDIATOR_LEGACY_NAME}</option>
+                <option value={services.ACCOUNT_LEGACY_VALUE}>{services.ACCOUNT_LEGACY_NAME}</option>
+              </select>
+            </div>
 
               <div id='display-content'>
                 <label>Report Type: </label>
