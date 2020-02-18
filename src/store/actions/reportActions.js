@@ -383,7 +383,6 @@ export const updateServiceStats = (service, serviceStats) => {
   }
 };
 
-
 /**
  *  Comments
  */
