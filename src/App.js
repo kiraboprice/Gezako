@@ -16,7 +16,7 @@ import CreateTask from "./components/tasks/CreateTask";
 
 import TaskDetails from "./components/tasks/TaskDetails";
 import { connect } from 'react-redux'
-import ReportDetails from "./components/tests/testdetails/TestDetails";
+import ReportDetails from "./components/tests/spockreportdetails/SpockReportDetails";
 import CreateTest from "./components/tests/createtestreport/CreateTestReport";
 import PerformanceTests from "./components/perfomance/PerformanceTests";
 import UpdateTest from "./components/tests/updatetest/UpdateTestReport";

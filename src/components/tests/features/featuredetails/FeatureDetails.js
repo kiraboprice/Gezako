@@ -28,6 +28,7 @@ import {
   getFeaturesByService, resetGetFeatureComments, unsubscribeGetFeatureComments
 } from "../../../../store/actions/featureActions";
 import ViewComment from "../../../comments/ViewComment";
+import CreateComment from "../../../comments/CreateComment";
 
 const FeatureDetails = (props) => {
 
@@ -458,7 +459,8 @@ const FeatureDetails = (props) => {
           <br/>
 
         </div>
-        
+
+        {/*---------------COMMENTS BEGIN HERE--------------------*/}
         <div id="comments-container">
 
           {/*Long term Note: Bring this button back when we have too many firestore
@@ -483,10 +485,11 @@ const FeatureDetails = (props) => {
             )
           })
           }
-          <CreateOrEditComment
+          <CreateComment
               featureId =  {id}
           />
         </div>
+        {/*---------------COMMENTS END HERE--------------------*/}
 
         <AddFeatureTestDialog
             showAddDialog = {showAddDialog}
@@ -527,7 +530,7 @@ const mapStateToProps = (state, ownProps) => {
     id: ownProps.match.params.id,
 
     user: state.auth.user,
-    comments: state.feature.getFeatureComments,
+    comments: state.feature.getFeatureComments
   }
 };
 

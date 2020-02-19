@@ -8,6 +8,7 @@ import {
 // import {Comment} from "Comment"; //todo check why this cant be imported
 import {Timestamp} from "firebase";
 import * as firebase from "firebase";
+import {createSpockReportComment} from "../../store/actions/reportActions";
 // import * as firebase from "firebase";
 
 const CreateComment = (props) => {
@@ -17,14 +18,13 @@ const CreateComment = (props) => {
   const [text, setText] = useState('');
 
 
-  const { createFeatureComment } = props;
+  const { createFeatureComment, createSpockReportComment } = props;
   const handleOnClickSave = () => {
     if (text !== '') { //todo Rich: sanitise this input further and add validation! (do the same for email inputs)
       // const comment = new Comment(
       //     user.uid,
       //     user.displayName,
       //     user.photoURL,
-      //     // new Date(),
       //     Timestamp.fromDate(new Date()),
       //     text,
       //     Timestamp.fromDate(new Date())
@@ -34,14 +34,17 @@ const CreateComment = (props) => {
         authorId : user.uid,
         authorName : user.displayName,
         authorPhotoUrl : user.photoURL,
-        //createdAt : new Date(),
-        // createdAt : Timestamp.fromDate(new Date()),
         createdAt : firebase.firestore.Timestamp.fromDate(new Date()),
         text : text,
-        updatedAt : firebase.firestore.Timestamp.fromDate(new Date()),
+        updatedAt : firebase.firestore.Timestamp.fromDate(new Date())
       };
 
-      createFeatureComment(props.featureId, comment);
+      if(props.featureId) { //if the parent component is a feature, treat this as a feature comment
+        createFeatureComment(props.featureId, comment);
+      }
+      else if(props.reportId) {//if the parent component is a report, treat this as a report comment
+        createSpockReportComment(props.reportId, comment);
+      }
       //reset UI
       setText('');
     }
@@ -91,6 +94,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     createFeatureComment: (featureId, comment) => dispatch(createFeatureComment(featureId, comment)),
+    createSpockReportComment: (reportId, comment) => dispatch(createSpockReportComment(reportId, comment)),
   }
 };
 

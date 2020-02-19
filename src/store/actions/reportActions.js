@@ -388,7 +388,8 @@ export const updateServiceStats = (service, serviceStats) => {
  */
 
 export const createSpockReportComment = (reportId, comment) => {
-  // console.log("createSpockReportComment---", report);
+  console.log("createSpockReportComment---", reportId);
+  console.log("createSpockReportComment---", comment);
   const collectionUrl = getReportsCollectionUrl();
   return (dispatch, getState) => {
     const user = getState().auth.user;

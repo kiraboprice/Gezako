@@ -8,6 +8,7 @@ import {
 // import {Comment} from "Comment"; //todo check why this cant be imported
 import {Timestamp} from "firebase";
 import * as firebase from "firebase";
+import {updateSpockReportComment} from "../../store/actions/reportActions";
 
 const EditComment = (props) => {
   const { user } = props;
@@ -24,13 +25,18 @@ const EditComment = (props) => {
     setText(e.target.value);
   };
 
-  const { updateFeatureComment } = props;
+  const { updateFeatureComment, updateSpockReportComment } = props;
   const handleOnClickSave = () => {
     if (text !== '') { //todo Rich: sanitise this input further and add validation! (do the same for email inputs)
       props.comment.text = text;
       props.comment.updatedAt = firebase.firestore.Timestamp.fromDate(new Date());
 
-      updateFeatureComment(props.featureId, comment);
+      if(props.featureId) { //if the parent component is a feature, treat this as a feature comment
+        updateFeatureComment(props.featureId, comment);
+      }
+      else if(props.reportId) {//if the parent component is a report, treat this as a report comment
+        updateSpockReportComment(props.reportId, comment);
+      }
 
       props.setShowEditComment(false) //hide the edit component
     }
@@ -73,7 +79,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateFeatureComment: (featureId, comment) => dispatch(updateFeatureComment(featureId, comment))
+    updateFeatureComment: (featureId, comment) => dispatch(updateFeatureComment(featureId, comment)),
+    updateSpockReportComment: (reportId, comment) => dispatch(updateSpockReportComment(reportId, comment))
   }
 };
 
