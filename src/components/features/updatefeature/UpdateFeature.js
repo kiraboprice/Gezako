@@ -33,10 +33,11 @@ const UpdateFeature = (props) => {
   const [productSpec, setProductSpec] = useState(null);
   const [techSpec, setTechSpec] = useState(null);
 
+  const { getFeature, unsubscribeGetFeature, resetGetFeature  } = props;
   useEffect(() => {
     setId(props.match.params.id);
 
-    props.getFeature(props.match.params.id);
+    getFeature(props.match.params.id);
 
     return function cleanup() {
       unsubscribeGetFeature(props.match.params.id);
@@ -54,19 +55,6 @@ const UpdateFeature = (props) => {
     }
     console.log('FEATTUTRREEEEEE----', feature);
   }, [feature]);
-
-  const handleChange = (e) => {
-    const value = e.target.value;
-    console.log('handleChange: ', value);
-    switch (e.target.name) {
-      case 'service':
-        setService(value);
-        break;
-      default:
-        break;
-    }
-
-  };
 
   const handleChangeForTextField = (e) => {
     const value = e.target.value;
