@@ -7,7 +7,7 @@ After installing the Firebase CLI, Clone the code and list all environments with
 `firebase projects:list`.
 
 ## Testing on local
-run  `firebase use staging` to set the project context to staging
+run  `firebase use staging1` to set the project context to staging
 If you can't see the test environment in your firebase project list, contact the admin to add your account.
 
 To run the project, run 
