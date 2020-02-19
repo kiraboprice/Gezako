@@ -22,12 +22,12 @@ import UpdateFeatureTestDialog from "./UpdateFeatureTestDialog";
 import penIcon from "../../../../assets/Icons/pen.png";
 import add_test_icon from "../../../../assets/Icons/plus.png";
 import Test from "../../Test";
-import CreateOrEditComment from "../../../comments/CreateOrEditComment";
+import CreateOrEditComment from "../../../comments/CreateComment";
 import {
   getFeatureComments,
-  getFeaturesByService
+  getFeaturesByService, resetGetFeatureComments, unsubscribeGetFeatureComments
 } from "../../../../store/actions/featureActions";
-import Comment from "../../../comments/Comment";
+import ViewComment from "../../../comments/ViewComment";
 
 const FeatureDetails = (props) => {
 
@@ -161,13 +161,17 @@ const FeatureDetails = (props) => {
   const [updateFeatureTestResponse, setUpdateFeatureTestResponse] = useState(false);
 
 
-
   /**
    * Comments
    * */
-  const { getFeatureComments } = props;
+  const { getFeatureComments, unsubscribeGetFeatureComments, resetGetFeatureComments } = props;
   useEffect(() => {
     getFeatureComments(id);
+
+    return function cleanup() {
+      unsubscribeGetFeatureComments(id);
+      resetGetFeatureComments();
+    };
   }, [id]);
   const { comments } = props;
 
@@ -456,23 +460,32 @@ const FeatureDetails = (props) => {
         </div>
         
         <div id="comments-container">
-          <button id="test-button-summary" style={{
-            background: "#f0f0f0",
-            marginTop: "25px"
-          }}> {comments ? comments.length === 0 ? "No" : "Load" : null} {comments ? comments.length === 0 ? "" : comments.length : null} comment{comments ? comments.length === 0 ? "s" : "" : comments ? comments.length > 1 ? "s" : "" : ""} 
-          </button>
 
+          {/*Long term Note: Bring this button back when we have too many firestore
+          reads and decide to only load comments on demand to optimise load time and cost*/}
+
+          {/*<button id="test-button-summary" style={{*/}
+            {/*background: "#f0f0f0",*/}
+            {/*marginTop: "25px"*/}
+          {/*}}> {comments ? comments.length === 0 ? "No" : "Load" : null} {comments ? comments.length === 0 ? "" : comments.length : null} comment{comments ? comments.length === 0 ? "s" : "" : comments ? comments.length > 1 ? "s" : "" : ""} */}
+          {/*</button>*/}
+
+          {/*todo Rich/Derek place this in it's own css style thing (not the copied "uploaded-by" used below)*/}
+          <div id="uploaded-by">Comments</div>
           { comments && comments.map(comment => {
             return (
                 <div key={comment.id}>
-                  <Comment
+                  <ViewComment
+                      featureId={id}
                       comment={comment}
                   />
                 </div>
             )
           })
           }
-          <CreateOrEditComment />
+          <CreateOrEditComment
+              featureId =  {id}
+          />
         </div>
 
         <AddFeatureTestDialog
@@ -522,7 +535,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
 
+    //comments
     getFeatureComments: (featureId) => dispatch(getFeatureComments(featureId)),
+    unsubscribeGetFeatureComments: (featureId) => dispatch(unsubscribeGetFeatureComments(featureId)),
+    resetGetFeatureComments: () => dispatch(resetGetFeatureComments()),
 
     //alerts
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),

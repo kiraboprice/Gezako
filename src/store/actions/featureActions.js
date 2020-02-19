@@ -137,12 +137,7 @@ export const createFeatureComment = (featureId, comment) => {
     const user = getState().auth.user;
     firebase.firestore().collection(`${collectionUrl}/${featureId}/comments`)
     .add({
-      ...comment,
-      //just leaving this here to show possibility of using profile in an action. but this is not scalable. if the displayName ever gets updated, we'd need a cloud function which listens on the user collection for this user specifically, then updates everywhere.
-      createdBy: user.displayName,
-      userId: user.uid,
-      createdAt: new Date(),
-      updatedAt: new Date() //todo built all this shit from the calling component
+      ...comment
     }).then((docRef) => {
       dispatch({type: 'CREATE_FEATURE_COMMENT_SUCCESS', id: docRef.id});
     }).catch(err => {
@@ -151,45 +146,57 @@ export const createFeatureComment = (featureId, comment) => {
   }
 };
 
-
 export const getFeatureComments = (featureId) => {
   const collectionUrl = getFeaturesCollectionUrl();
   console.log('getCommentsByFeatureId....', featureId);
   return (dispatch, getState) => {
     firebase.firestore().collection(`${collectionUrl}/${featureId}/comments`)
-    .orderBy('createdAt', 'desc')
-    .get().then(querySnapshot => {
+    .orderBy('createdAt')
+    .onSnapshot(querySnapshot => {
       let comments = [];
       if (querySnapshot.empty) {
-        console.log(`getCommentsByFeatureId EMPTY`);
-        dispatch({type: 'GET_FEATURE_COMMENTS_BY_FEATURE_ID_EMPTY'});
+        // console.log(`getCommentsByFeatureId EMPTY`);
+        dispatch({type: 'GET_FEATURE_COMMENTS_EMPTY'});
       } else {
         querySnapshot.forEach(doc => {
           comments.push({id: doc.id, ...doc.data()})
         });
-        console.log(`getCommentsByFeatureId NOT_EMPTY`);
-        dispatch({type: 'GET_FEATURE_COMMENTS_BY_FEATURE_ID_SUCCESS', comments : comments});
+        // console.log(`getCommentsByFeatureId NOT_EMPTY`);
+        dispatch({type: 'GET_FEATURE_COMMENTS_SUCCESS', comments : comments});
       }
 
     }, err => {
       console.log(`getCommentsByFeatureId error: ${err}`);
-      dispatch({type: 'GET_FEATURE_COMMENTS_BY_FEATURE_ID_ERROR', error: err});
+      dispatch({type: 'GET_FEATURE_COMMENTS_ERROR', error: err});
     });
   }
 };
 
-export const updateFeatureComment = (featureId, commentId, comment) => {
+export const unsubscribeGetFeatureComments = (featureId) => {
+  const collectionUrl = getFeaturesCollectionUrl();
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${collectionUrl}/${featureId}/comments`)
+    .orderBy('createdAt')
+    .onSnapshot(() => { });
+  }
+};
+
+export const resetGetFeatureComments = () => {
+  return (dispatch) => {
+    dispatch({type: 'RESET_GET_FEATURE_COMMENTS'});
+  }
+};
+
+export const updateFeatureComment = (featureId, comment) => {
   return (dispatch, getState) => {
     const collectionUrl = getFeaturesCollectionUrl();
     // console.log('updateFeatureComment action', featureId);
     const user = getState().auth.user;
 
     firebase.firestore().collection(`${collectionUrl}/${featureId}/comments`)
-    .doc(commentId)
+    .doc(comment.id)
     .update({
-      ...comment,
-      updatedAt: new Date(), //todo construct this from the calling function
-      updatedBy: {id: user.uid, displayName: user.displayName} //todo construct  this from the calling function
+      ...comment
     }).then(() => {
       dispatch({type: 'UPDATE_FEATURE_COMMENT_SUCCESS'});
     }).catch(err => {
@@ -199,7 +206,6 @@ export const updateFeatureComment = (featureId, commentId, comment) => {
 };
 
 export const deleteFeatureComment = (featureId, commentId) => {
-  // console.log(`deleteFeatureComment---- ${id}`);
   const collectionUrl = getFeaturesCollectionUrl();
   return (dispatch, getState) => {
     firebase.firestore().collection(`${collectionUrl}/${featureId}/comments`)

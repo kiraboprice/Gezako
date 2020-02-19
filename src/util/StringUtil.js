@@ -1,11 +1,15 @@
 import {BASE_DOCUMENT} from "../constants/FireStore";
 
 export const checkUserEmailIsValid = (email) => {
-  const testEmails = [
+  // const testEmails = [ //prod test emails
+  //   "derekleiro@gmail.com"
+  // ];
+
+  const testEmails = [ //stage test emails
     "powermukisa@gmail.com",
     "derekleiro@gmail.com",
     "leiro.derek@gmail.com",
-    "richkitibwa@gmail.com",
+    "richkitibwa@gmail.com"
   ];
   if(testEmails.includes(email)){
     return true

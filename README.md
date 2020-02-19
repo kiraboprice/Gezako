@@ -6,9 +6,8 @@ Follow guidelines on how to set up Firebase here: https://firebase.google.com/do
 After installing the Firebase CLI, Clone the code and list all environments with 
 `firebase projects:list`.
 
-To use the staging test environment, run 
-`firebase use staging1`.
-
+## Testing on local
+run  `firebase use staging` to set the project context to staging
 If you can't see the test environment in your firebase project list, contact the admin to add your account.
 
 To run the project, run 
@@ -19,6 +18,13 @@ if this file is updated)
 (you may need sudo if you're on linux)
 
 Since this is a shared testing and staging environment, do not make deletions from the Firebase database unless you have permission to do so.
+
+## Testing on staging
+To use the staging test environment, 
+- build the project 
+`sudo npm run build`
+- run `firebase deploy -P staging1` to deploy to the staging environment
+Staging env can be accessed via `gezako-staging.web.app`
 
 ## Deploying and testing functions
 `firebase deploy --only functions`
@@ -35,6 +41,7 @@ to the prod config. You can then follow the firestore links in the logs to help 
 the indices
 
 - update the firebase config in fbConfig.js to point to prod config
+- update testEmails so that only prod emails are used: check `StringUtil.js`
 - use firebase prod config inorder to push functions to correct project:
 `firebase use prod` - probably not needed (taken care of by firebase deploy?)
 - update functions

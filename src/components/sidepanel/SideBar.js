@@ -134,7 +134,7 @@ export default class SideBar extends Component {
 
                 <div onClick={this.setSecondActive}>
                   <Links
-                      title={this.state.expanded ? 'Tests for Service in Isolation'
+                      title={this.state.expanded ? 'Completed Spock Tests'
                           : ''}
                       isExpanded={false}
                       haslinks={true}
@@ -167,7 +167,7 @@ export default class SideBar extends Component {
 
                 <div onClick={this.setThirdActive}>
                     <Links
-                        title={this.state.expanded ? 'Tests for Service in Isolation under Development'
+                        title={this.state.expanded ? 'Spock Tests under Development'
                             : ''}
                         isExpanded={false}
                         icon={dev}

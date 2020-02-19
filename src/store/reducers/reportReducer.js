@@ -229,6 +229,68 @@ const reportReducer = (state = initState, action) => {
         ...state,
         serviceStats: null
       };
+
+      /**
+       * Comments
+       */
+    case 'CREATE_SPOCK_REPORT_COMMENT_SUCCESS':
+      // console.log('CREATE_SPOCK_REPORT_COMMENT_SUCCESS', action.id);
+      return {
+        ...state,
+        createSpockReportComment: action.id
+      };
+
+    case 'CREATE_SPOCK_REPORT_COMMENT_ERROR':
+      // console.log('CREATE_SPOCK_REPORT_COMMENT_ERROR', action.error);
+      return state;
+
+    case 'GET_SPOCK_REPORT_COMMENTS_EMPTY':
+      console.log('GET_SPOCK_REPORT_COMMENTS_EMPTY', action.error);
+      return {
+        ...state,
+        getSpockReportComments: []
+      };
+
+    case 'GET_SPOCK_REPORT_COMMENTS_SUCCESS':
+      console.log('GET_SPOCK_REPORT_COMMENTS_SUCCESS');
+      return {
+        ...state,
+        getSpockReportComments: action.comments
+      };
+
+    case 'GET_SPOCK_REPORT_COMMENTS_ERROR':
+      // console.log('GET_SPOCK_REPORT_COMMENTS_ERROR', action.error);
+      return state;
+
+    case 'RESET_GET_SPOCK_REPORT_COMMENTS':
+      // console.log('RESET_GET_FEATURE_COMMENTS', action.error);
+      return {
+        ...state,
+        getSpockReportComments: null
+      };
+
+    case 'UPDATE_SPOCK_REPORT_COMMENT_SUCCESS':
+      // console.log('UPDATE_SPOCK_REPORT_COMMENT_SUCCESS');
+      return {
+        ...state,
+        updateSpockReportComment: 'success'
+      };
+
+    case 'UPDATE_SPOCK_REPORT_COMMENT_ERROR':
+      // console.log('UPDATE_SPOCK_REPORT_COMMENT_ERROR', action.error);
+      return state;
+
+    case 'DELETE_SPOCK_REPORT_COMMENT_SUCCESS':
+      // console.log('DELETE_SPOCK_REPORT_COMMENT_SUCCESS');
+      return {
+        ...state,
+        deleteSpockReportComment: 'success'
+      };
+
+    case 'DELETE_SPOCK_REPORT_COMMENT_ERROR':
+      // console.log('DELETE_SPOCK_REPORT_COMMENT_ERROR', action.error);
+      return state;
+
     default:
       return state;
 
