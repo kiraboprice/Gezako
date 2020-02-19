@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import './report.css';
+import '../tests/report.css';
 import {getFirstNameFromFullName} from "../../util/StringUtil";
 import moment from "moment";
 

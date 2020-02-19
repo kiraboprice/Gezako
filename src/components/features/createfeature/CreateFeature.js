@@ -7,14 +7,12 @@ import TextField from "@material-ui/core/TextField/TextField";
 import {
   showErrorAlert,
   showSuccessAlert
-} from "../../../../store/actions/snackbarActions";
-import {setPrevUrl} from "../../../../store/actions/authActions";
-import ServiceStatsDialog
-  from "../../completedtests/servicestats/ServiceStatsDialog";
+} from "../../../store/actions/snackbarActions";
+import {setPrevUrl} from "../../../store/actions/authActions";
 import CreateFeatureDbHandler
   from "../featuresdbhandlers/CreateFeatureDbHandler";
 
-import * as services from "../../../../constants/Services";
+import * as services from "../../../constants/Services";
 
 const qs = require('query-string');
 
@@ -50,7 +48,6 @@ const CreateFeature = (props) => {
     switch (e.target.id) {
       case 'title':
         setTitle(value);
-        break;
         break;
       case 'productSpec':
         setProductSpec(value);

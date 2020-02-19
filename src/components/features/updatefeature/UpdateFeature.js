@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
 import * as firebase from "firebase";
-import CustomSnackbar from "../../../alerts/CustomSnackbar";
+import CustomSnackbar from "../../alerts/CustomSnackbar";
 import {compose} from "redux";
 
 import TextField from "@material-ui/core/TextField/TextField";
@@ -11,16 +11,16 @@ import {blue} from "@material-ui/core/colors";
 import {
   getReport, resetGetReport, resetUpdateReportState,
   unsubscribeGetReport, updateReport
-} from "../../../../store/actions/reportActions";
+} from "../../../store/actions/reportActions";
 import {
   getUsersApartFromCurrentUser,
   unsubscribeGetUsersApartFromCurrentUser
-} from "../../../../store/actions/authActions";
-import {getTestPhaseFromPathName} from "../../../../util/StringUtil";
+} from "../../../store/actions/authActions";
+import {getTestPhaseFromPathName} from "../../../util/StringUtil";
 import {
   getFeature, resetGetFeature,
   unsubscribeGetFeature, updateFeature
-} from "../../../../store/actions/featureActions";
+} from "../../../store/actions/featureActions";
 
 const UpdateFeature = (props) => {
   const { feature } = props;

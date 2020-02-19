@@ -7,7 +7,7 @@ import './completedtests.css';
 
 import {compose} from "redux";
 import penIcon from "../../../assets/Icons/pen.png";
-import Test from "../Test";
+import SpockTest from "../SpockTest";
 import LoadingScreen from "../../loading/LoadingScreen";
 
 import createReportIcon from "../../../assets/Icons/create.png";
@@ -167,7 +167,7 @@ const CompletedSpockTests = (props) => {
                     <div>
                       {/*<div key={index}>*/}
                       <Link to={'/completed/test/' + report.id} key={report.id}>
-                        <Test
+                        <SpockTest
                             report={report}
                         />
                       </Link>
@@ -195,7 +195,7 @@ const CompletedSpockTests = (props) => {
                   <div>
                     {/*<div key={index}>*/}
                     <Link to={'/completed/test/' + report.id} key={report.id}>
-                      <Test
+                      <SpockTest
                           report={report}
                       />
                     </Link>

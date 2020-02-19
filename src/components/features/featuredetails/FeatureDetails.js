@@ -4,31 +4,28 @@ import { compose } from 'redux'
 import moment from 'moment'
 import {Link, Redirect} from 'react-router-dom'
 
-import {setPrevUrl} from "../../../../store/actions/authActions";
+import {setPrevUrl} from "../../../store/actions/authActions";
 
 import './featuredetails.css';
 
-import {getServiceNameFromPathName} from "../../../../util/StringUtil";
+import {getServiceNameFromPathName} from "../../../util/StringUtil";
 import GetFeatureByIdDbHandler
   from "../featuresdbhandlers/GetFeatureByIdDbHandler";
 import AddFeatureTestDialog from "./AddFeatureTestDialog";
 import {
   showErrorAlert,
   showSuccessAlert
-} from "../../../../store/actions/snackbarActions";
+} from "../../../store/actions/snackbarActions";
 import FeatureTest from "./FeatureTest";
-import twitterIcon from "../../../../assets/Icons/twitter.png";
 import UpdateFeatureTestDialog from "./UpdateFeatureTestDialog";
-import penIcon from "../../../../assets/Icons/pen.png";
-import add_test_icon from "../../../../assets/Icons/plus.png";
-import Test from "../../Test";
-import CreateOrEditComment from "../../../comments/CreateComment";
+import penIcon from "../../../assets/Icons/pen.png";
+import add_test_icon from "../../../assets/Icons/plus.png";
 import {
   getFeatureComments,
   getFeaturesByService, resetGetFeatureComments, unsubscribeGetFeatureComments
-} from "../../../../store/actions/featureActions";
-import ViewComment from "../../../comments/ViewComment";
-import CreateComment from "../../../comments/CreateComment";
+} from "../../../store/actions/featureActions";
+import ViewComment from "../../comments/ViewComment";
+import CreateComment from "../../comments/CreateComment";
 
 const FeatureDetails = (props) => {
 

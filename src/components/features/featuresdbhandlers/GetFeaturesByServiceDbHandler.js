@@ -4,8 +4,8 @@ import connect from "react-redux/es/connect/connect";
 import {
   getFeaturesCollectionUrl,
   getReportsCollectionUrl
-} from "../../../../util/StringUtil";
-import firebase from "../../../../fbConfig";
+} from "../../../util/StringUtil";
+import firebase from "../../../fbConfig";
 
 const GetFeaturesByServiceDbHandler = (props) => {
 

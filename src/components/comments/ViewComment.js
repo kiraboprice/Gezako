@@ -8,7 +8,7 @@ import connect from "react-redux/es/connect/connect";
 import CreateOrEditComment from "./CreateComment";
 import EditComment from "./EditComment";
 import AddFeatureTestDialog
-  from "../tests/features/featuredetails/AddFeatureTestDialog";
+  from "../features/featuredetails/AddFeatureTestDialog";
 import {deleteSpockReportComment} from "../../store/actions/reportActions";
 
 const ViewComment = (props) => {
