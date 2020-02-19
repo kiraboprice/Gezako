@@ -18,7 +18,7 @@ import TextField from "@material-ui/core/TextField/TextField";
 import {blue} from "@material-ui/core/colors";
 import * as services from "../../../constants/Services";
 
-const UpdateTestReport = (props) => {
+const UpdateSpockTestReport = (props) => {
   const { report } = props;
 
   //report fields
@@ -394,4 +394,4 @@ const mapDispatchToProps = dispatch => {
   }
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps)(UpdateTestReport))
+export default compose(connect(mapStateToProps, mapDispatchToProps)(UpdateSpockTestReport))

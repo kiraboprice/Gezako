@@ -4,7 +4,7 @@ import {getAssigneeName, getFirstNameFromFullName} from "../../util/StringUtil";
 import moment from "moment";
 import {COMPLETED_PHASE, DEVELOPMENT_PHASE} from "../../constants/Report";
 
-const Test = (props) => {
+const SpockTest = (props) => {
 
   const [displayTestDevelopmentFields, setDisplayTestDevelopmentFields] = useState('');
   const [displayTestCompletedFields, setDisplayTestCompletedFields] = useState('');
@@ -44,4 +44,4 @@ const Test = (props) => {
     )
 };
 
-export default Test
+export default SpockTest

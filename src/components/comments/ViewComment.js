@@ -8,7 +8,8 @@ import connect from "react-redux/es/connect/connect";
 import CreateOrEditComment from "./CreateComment";
 import EditComment from "./EditComment";
 import AddFeatureTestDialog
-  from "../tests/features/featuredetails/AddFeatureTestDialog";
+  from "../features/featuredetails/AddFeatureTestDialog";
+import {deleteSpockReportComment} from "../../store/actions/reportActions";
 
 const ViewComment = (props) => {
 
@@ -25,10 +26,15 @@ const ViewComment = (props) => {
     }
   };
 
-  const { deleteFeatureComment } = props;
+  const { deleteFeatureComment, deleteSpockReportComment } = props;
   const handleOnClickDelete = () => {
     if(loggedInUserIsCommentAuthor()) { //this is for extra security but not required
-      deleteFeatureComment(props.featureId, props.comment.id);
+      if(props.featureId) { //if the parent component is a feature, treat this as a feature comment
+        deleteFeatureComment(props.featureId, props.comment.id);
+      }
+      else if(props.reportId) {//if the parent component is a report, treat this as a report comment
+        deleteSpockReportComment(props.reportId, props.comment.id);
+      }
     }
   };
 
@@ -63,6 +69,7 @@ const ViewComment = (props) => {
           { showEditComment?
             <EditComment
                 featureId =  {props.featureId}
+                reportId =  {props.reportId}
                 comment =  {props.comment}
                 setShowEditComment = {setShowEditComment}
             />
@@ -82,6 +89,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteFeatureComment: (featureId, commentId) => dispatch(deleteFeatureComment(featureId, commentId)),
+    deleteSpockReportComment: (reportId, commentId) => dispatch(deleteSpockReportComment(reportId, commentId)),
   }
 };
 

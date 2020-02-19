@@ -6,22 +6,33 @@ import {Link, Redirect} from 'react-router-dom'
 
 import {setPrevUrl} from "../../../store/actions/authActions";
 import {
-  downloadReport, getReport, resetGetReport, resetReportDownload, unsubscribeGetReport
+  downloadReport,
+  getReport,
+  getSpockReportComments,
+  resetGetReport, resetGetSpockReportComments,
+  resetReportDownload,
+  unsubscribeGetReport, unsubscribeGetSpockReportComments
 } from "../../../store/actions/reportActions";
 
-import './/testdetails.css';
+import './/spockreportdetails.css';
 import './/spockreportcustomstyles.css';
 
 import StatusCard from "../../status/StatusCard";
 
 import {getTestPhaseFromPathName} from "../../../util/StringUtil";
 import twitterIcon from "../../../assets/Icons/twitter.png";
+import ViewComment from "../../comments/ViewComment";
+import CreateComment from "../../comments/CreateComment";
 
-const TestDetails = (props) => {
+const SpockReportDetails = (props) => {
+  //props needed for ui
+  const { id } = props;
+
   const {user, test} = props;
 
   const {reportDownload} = props;
-  const id = props.match.params.id;
+
+
 
   const {setPrevUrl, downloadReport, resetReportDownload} = props;
   useEffect(() => {
@@ -34,6 +45,9 @@ const TestDetails = (props) => {
   const [displayTestCompletedFields, setDisplayTestCompletedFields] = useState('');
   const {getReport, unsubscribeGetReport, resetGetReport} = props;
 
+  /**
+   * Init display and getReport
+   * */
   useEffect(() => {
     const phase = getTestPhaseFromPathName(props.location.pathname);
     if(phase === 'development') {
@@ -51,6 +65,21 @@ const TestDetails = (props) => {
       resetGetReport();
     };
   },[]); //componentWillUnmount
+
+
+  /**
+   * Comments
+   * */
+  const { getSpockReportComments, unsubscribeGetSpockReportComments, resetGetSpockReportComments } = props;
+  useEffect(() => {
+    getSpockReportComments(id);
+
+    return function cleanup() {
+      unsubscribeGetSpockReportComments(id);
+      resetGetSpockReportComments();
+    };
+  }, [id]);
+  const { comments } = props;
 
   if (!user) {
     setPrevUrl(props.location.pathname);
@@ -163,6 +192,37 @@ const TestDetails = (props) => {
                   {/*</div>*/}
                 </div>
             }
+
+            {/*---------------COMMENTS BEGIN HERE--------------------*/}
+            <div id="comments-container">
+              {/*Long term Note: Bring this button back when we have too many firestore
+          reads and decide to only load comments on demand to optimise load time and cost*/}
+
+              {/*<button id="test-button-summary" style={{*/}
+              {/*background: "#f0f0f0",*/}
+              {/*marginTop: "25px"*/}
+              {/*}}> {comments ? comments.length === 0 ? "No" : "Load" : null} {comments ? comments.length === 0 ? "" : comments.length : null} comment{comments ? comments.length === 0 ? "s" : "" : comments ? comments.length > 1 ? "s" : "" : ""} */}
+              {/*</button>*/}
+
+              {/*todo Rich/Derek place this in it's own css style thing (not the copied "uploaded-by" used below)*/}
+              <div id="uploaded-by">Comments</div>
+              { comments && comments.map(comment => {
+                return (
+                    <div key={comment.id}>
+                      <ViewComment
+                          reportId={id}
+                          comment={comment}
+                      />
+                    </div>
+                )
+              })
+              }
+              <CreateComment
+                  reportId =  {id}
+              />
+            </div>
+            {/*---------------COMMENTS END HERE--------------------*/}
+
           </div>
       )
     }
@@ -177,14 +237,18 @@ const TestDetails = (props) => {
 
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   // console.log('TestDetails state----------');
   // console.log(state);
 
   return {
+    //initialise state
+    id: ownProps.match.params.id,
+
     user: state.auth.user,
     test: state.report.getReport,
     reportDownload: state.report.reportDownload,
+    comments: state.report.getSpockReportComments
   }
 };
 
@@ -196,8 +260,13 @@ const mapDispatchToProps = (dispatch) => {
 
     downloadReport: (test) => dispatch(downloadReport(test)),
     setPrevUrl: (url) => dispatch(setPrevUrl(url)),
-    resetReportDownload: () => dispatch(resetReportDownload())
+    resetReportDownload: () => dispatch(resetReportDownload()),
+
+    //comments
+    getSpockReportComments: (reportId) => dispatch(getSpockReportComments(reportId)),
+    unsubscribeGetSpockReportComments: (reportId) => dispatch(unsubscribeGetSpockReportComments(reportId)),
+    resetGetSpockReportComments: () => dispatch(resetGetSpockReportComments())
   }
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps))(TestDetails);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(SpockReportDetails);

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import {getFirstNameFromFullName} from "../../../../util/StringUtil";
-import {getDateString} from "../../../../util/DateUtil";
+import {getFirstNameFromFullName} from "../../../util/StringUtil";
+import {getDateString} from "../../../util/DateUtil";
 
 const FeatureTest = (props) => {
 

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import Test from "../Test";
+import SpockTest from "../SpockTest";
 import {Link} from "react-router-dom";
 import {compose} from "redux";
 import moment from 'moment'
@@ -91,7 +91,7 @@ const SpockTestsInDevelopment = (props) => {
                     <div>
                       <Link to={'/development/test/' + report.id} key={report.id}>
                         {console.log("assignedTo", report.assignedTo)}
-                        <Test
+                        <SpockTest
                             report = {report}
                         />
                       </Link>

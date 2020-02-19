@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {compose} from "redux";
 import connect from "react-redux/es/connect/connect";
-import {getFeaturesCollectionUrl} from "../../../../util/StringUtil";
-import firebase from "../../../../fbConfig";
+import {getFeaturesCollectionUrl} from "../../../util/StringUtil";
+import firebase from "../../../fbConfig";
 
 const UpdateFeatureByIdDbHandler = (props) => {
 

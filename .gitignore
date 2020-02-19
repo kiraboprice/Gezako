@@ -27,3 +27,6 @@ yarn-error.log*
 # package
 /dist
 
+# firebase hosting file]
+.firebase/hosting.*
+

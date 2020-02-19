@@ -4,30 +4,28 @@ import { compose } from 'redux'
 import moment from 'moment'
 import {Link, Redirect} from 'react-router-dom'
 
-import {setPrevUrl} from "../../../../store/actions/authActions";
+import {setPrevUrl} from "../../../store/actions/authActions";
 
 import './featuredetails.css';
 
-import {getServiceNameFromPathName} from "../../../../util/StringUtil";
+import {getServiceNameFromPathName} from "../../../util/StringUtil";
 import GetFeatureByIdDbHandler
   from "../featuresdbhandlers/GetFeatureByIdDbHandler";
 import AddFeatureTestDialog from "./AddFeatureTestDialog";
 import {
   showErrorAlert,
   showSuccessAlert
-} from "../../../../store/actions/snackbarActions";
+} from "../../../store/actions/snackbarActions";
 import FeatureTest from "./FeatureTest";
-import twitterIcon from "../../../../assets/Icons/twitter.png";
 import UpdateFeatureTestDialog from "./UpdateFeatureTestDialog";
-import penIcon from "../../../../assets/Icons/pen.png";
-import add_test_icon from "../../../../assets/Icons/plus.png";
-import Test from "../../Test";
-import CreateOrEditComment from "../../../comments/CreateComment";
+import penIcon from "../../../assets/Icons/pen.png";
+import add_test_icon from "../../../assets/Icons/plus.png";
 import {
   getFeatureComments,
   getFeaturesByService, resetGetFeatureComments, unsubscribeGetFeatureComments
-} from "../../../../store/actions/featureActions";
-import ViewComment from "../../../comments/ViewComment";
+} from "../../../store/actions/featureActions";
+import ViewComment from "../../comments/ViewComment";
+import CreateComment from "../../comments/CreateComment";
 
 const FeatureDetails = (props) => {
 
@@ -200,6 +198,7 @@ const FeatureDetails = (props) => {
           <div id="test-details-summary">
             <div id="section1">
               <span id="test-title-summary">{feature.title}</span>
+              <div id="description-test">{feature.description}</div>
               <div id="uploaded-by">Created by {feature.createdBy}, {moment(
                   feature.createdAt? feature.createdAt.toDate() : null).calendar()}</div>
 
@@ -458,7 +457,8 @@ const FeatureDetails = (props) => {
           <br/>
 
         </div>
-        
+
+        {/*---------------COMMENTS BEGIN HERE--------------------*/}
         <div id="comments-container">
 
           {/*Long term Note: Bring this button back when we have too many firestore
@@ -483,10 +483,11 @@ const FeatureDetails = (props) => {
             )
           })
           }
-          <CreateOrEditComment
+          <CreateComment
               featureId =  {id}
           />
         </div>
+        {/*---------------COMMENTS END HERE--------------------*/}
 
         <AddFeatureTestDialog
             showAddDialog = {showAddDialog}
@@ -527,7 +528,7 @@ const mapStateToProps = (state, ownProps) => {
     id: ownProps.match.params.id,
 
     user: state.auth.user,
-    comments: state.feature.getFeatureComments,
+    comments: state.feature.getFeatureComments
   }
 };
 

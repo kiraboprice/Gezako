@@ -3,11 +3,11 @@ import 'firebase/auth';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
 import Login from './components/login/Login';
-import CompletedSpockTests from './components/tests/completedtests/CompletedSpockTests';
+import CompletedSpockTests from './components/tests/completedspocktests/CompletedSpockTests';
 
 import './assets/fonts/fonts.css';
 import './app.css';
-import SpockTestsInDevelopment from './components/tests/testsindevelopment/SpockTestsInDevelopment';
+import SpockTestsInDevelopment from './components/tests/spocktestsindevelopment/SpockTestsInDevelopment';
 
 import Navigation from "./components/navbar/NavBar";
 import SideBar from "./components/sidepanel/SideBar";
@@ -16,20 +16,20 @@ import CreateTask from "./components/tasks/CreateTask";
 
 import TaskDetails from "./components/tasks/TaskDetails";
 import { connect } from 'react-redux'
-import ReportDetails from "./components/tests/testdetails/TestDetails";
-import CreateTest from "./components/tests/createtestreport/CreateTestReport";
+import ReportDetails from "./components/tests/spockreportdetails/SpockReportDetails";
+import CreateTest from "./components/tests/createspocktestreport/CreateSpockTestReport";
 import PerformanceTests from "./components/perfomance/PerformanceTests";
-import UpdateTest from "./components/tests/updatetest/UpdateTestReport";
+import UpdateTest from "./components/tests/updatespockreport/UpdateSpockTestReport";
 import Home from "./components/tests/home/Home";
 import CustomSnackbar from "./components/alerts/CustomSnackbar";
 import ErrorBoundary from "./components/error/ErrorBoundary";
-import Features from "./components/tests/features/viewfeatures/Features";
+import Features from "./components/features/viewfeatures/Features";
 import CreateFeature
-  from "./components/tests/features/createfeature/CreateFeature";
+  from "./components/features/createfeature/CreateFeature";
 import FeatureDetails
-  from "./components/tests/features/featuredetails/FeatureDetails";
+  from "./components/features/featuredetails/FeatureDetails";
 import UpdateFeature
-  from "./components/tests/features/updatefeature/UpdateFeature";
+  from "./components/features/updatefeature/UpdateFeature";
 
 
 const App = (props) => {

@@ -10,7 +10,7 @@ import {
   setPrevUrl, unsubscribeGetUsersApartFromCurrentUser
 } from "../../../store/actions/authActions";
 
-import './createTestReport.css';
+import './createSpockTestReport.css';
 import {getTestPhaseFromPathName, isValidUrl} from "../../../util/StringUtil";
 import {
   showErrorAlert,
@@ -25,7 +25,7 @@ import FileUpload from "../../fileupload/FileUpload";
 import AsyncAlertDialog from "../../alerts/AsyncAlertDialog";
 const qs = require('query-string');
 
-const CreateTestReport = (props) => {
+const CreateSpockTestReport = (props) => {
   const serviceInQuery = qs.parse(props.location.search, { ignoreQueryPrefix: true }).service;
   //report fields
   const [title, setTitle] = useState(null);
@@ -430,4 +430,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateTestReport);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateSpockTestReport);

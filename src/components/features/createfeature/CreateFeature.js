@@ -7,14 +7,12 @@ import TextField from "@material-ui/core/TextField/TextField";
 import {
   showErrorAlert,
   showSuccessAlert
-} from "../../../../store/actions/snackbarActions";
-import {setPrevUrl} from "../../../../store/actions/authActions";
-import ServiceStatsDialog
-  from "../../completedtests/servicestats/ServiceStatsDialog";
+} from "../../../store/actions/snackbarActions";
+import {setPrevUrl} from "../../../store/actions/authActions";
 import CreateFeatureDbHandler
   from "../featuresdbhandlers/CreateFeatureDbHandler";
 
-import * as services from "../../../../constants/Services";
+import * as services from "../../../constants/Services";
 
 const qs = require('query-string');
 
@@ -22,6 +20,7 @@ const CreateFeature = (props) => {
   const serviceInQuery = qs.parse(props.location.search, { ignoreQueryPrefix: true }).service;
   //report fields
   const [title, setTitle] = useState(null);
+  const [description, setDescription] = useState(null);
   const [service, setService] = useState(serviceInQuery);
   const [productSpec, setProductSpec] = useState(null);
   const [techSpec, setTechSpec] = useState(null);
@@ -51,6 +50,8 @@ const CreateFeature = (props) => {
       case 'title':
         setTitle(value);
         break;
+      case 'description':
+        setDescription(value);
         break;
       case 'productSpec':
         setProductSpec(value);
@@ -81,6 +82,7 @@ const CreateFeature = (props) => {
     // console.log("PROPS---", props);
     const feature = {
       title,
+      description,
       service,
       productSpec,
       techSpec
@@ -153,10 +155,20 @@ const CreateFeature = (props) => {
             <TextField
                 margin="dense"
                 id="title"
-                label="Feature Title"
+                label="Title"
                 type="web"
                 fullWidth
                 value={title}
+                onChange={handleChangeForTextField}
+            />
+
+            <TextField
+                margin="dense"
+                id="description"
+                label="Description"
+                type="web"
+                fullWidth
+                value={description}
                 onChange={handleChangeForTextField}
             />
             

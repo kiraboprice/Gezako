@@ -7,18 +7,18 @@ import './features.css';
 
 import {compose} from "redux";
 
-import createItemIcon from "../../../../assets/Icons/create.png";
+import createItemIcon from "../../../assets/Icons/create.png";
 import {
   showErrorAlert,
   showSuccessAlert
-} from "../../../../store/actions/snackbarActions";
-import {setPrevUrl} from "../../../../store/actions/authActions";
-import Feature from "../../Feature";
-import {getServiceNameFromPathName} from "../../../../util/StringUtil";
+} from "../../../store/actions/snackbarActions";
+import {setPrevUrl} from "../../../store/actions/authActions";
+import Feature from "../Feature";
+import {getServiceNameFromPathName} from "../../../util/StringUtil";
 import {
   getFeaturesByService, resetGetFeaturesByService,
   unsubscribeGetFeaturesByService
-} from "../../../../store/actions/featureActions";
+} from "../../../store/actions/featureActions";
 
 const Features = (props) => { //todo move this out of tests parent package/dir
 
@@ -92,7 +92,7 @@ const Features = (props) => { //todo move this out of tests parent package/dir
           </div>
 
           <span id="test-title-summary">Features for {service}</span>
-          <span id="sorted-by">Sorted by Title</span>
+          <span id="sorted-by">Sorted by Date Created</span>
           <div id='features-reports'  style={{display: displayFeatures}}>
             <div id='headers'>
               <div id='title'>Title</div>

@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
 import * as firebase from "firebase";
-import CustomSnackbar from "../../../alerts/CustomSnackbar";
+import CustomSnackbar from "../../alerts/CustomSnackbar";
 import {compose} from "redux";
 
 import TextField from "@material-ui/core/TextField/TextField";
@@ -11,16 +11,16 @@ import {blue} from "@material-ui/core/colors";
 import {
   getReport, resetGetReport, resetUpdateReportState,
   unsubscribeGetReport, updateReport
-} from "../../../../store/actions/reportActions";
+} from "../../../store/actions/reportActions";
 import {
   getUsersApartFromCurrentUser,
   unsubscribeGetUsersApartFromCurrentUser
-} from "../../../../store/actions/authActions";
-import {getTestPhaseFromPathName} from "../../../../util/StringUtil";
+} from "../../../store/actions/authActions";
+import {getTestPhaseFromPathName} from "../../../util/StringUtil";
 import {
   getFeature, resetGetFeature,
   unsubscribeGetFeature, updateFeature
-} from "../../../../store/actions/featureActions";
+} from "../../../store/actions/featureActions";
 
 const UpdateFeature = (props) => {
   const { feature } = props;
@@ -29,13 +29,15 @@ const UpdateFeature = (props) => {
   const [id, setId] = useState(null);
   const [service, setService] = useState(null);
   const [title, setTitle] = useState(null);
+  const [description, setDescription] = useState(null);
   const [productSpec, setProductSpec] = useState(null);
   const [techSpec, setTechSpec] = useState(null);
 
+  const { getFeature, unsubscribeGetFeature, resetGetFeature  } = props;
   useEffect(() => {
     setId(props.match.params.id);
 
-    props.getFeature(props.match.params.id);
+    getFeature(props.match.params.id);
 
     return function cleanup() {
       unsubscribeGetFeature(props.match.params.id);
@@ -46,6 +48,7 @@ const UpdateFeature = (props) => {
   useEffect(() => {
     if(feature){
       setTitle(feature.title);
+      setDescription(feature.description);
       setService(feature.service);
       setProductSpec(feature.productSpec);
       setTechSpec(feature.techSpec);
@@ -53,25 +56,15 @@ const UpdateFeature = (props) => {
     console.log('FEATTUTRREEEEEE----', feature);
   }, [feature]);
 
-  const handleChange = (e) => {
-    const value = e.target.value;
-    console.log('handleChange: ', value);
-    switch (e.target.name) {
-      case 'service':
-        setService(value);
-        break;
-      default:
-        break;
-    }
-
-  };
-
   const handleChangeForTextField = (e) => {
     const value = e.target.value;
     // console.log('handleChange: ', value);
     switch (e.target.id) {
       case 'title':
         setTitle(value);
+        break;
+      case 'description':
+        setDescription(value);
         break;
       case 'productSpec':
         setProductSpec(value);
@@ -89,6 +82,7 @@ const UpdateFeature = (props) => {
     e.preventDefault();
     const featureForUpdate = {
       title,
+      description,
       service,
       productSpec,
       techSpec
@@ -120,6 +114,15 @@ const UpdateFeature = (props) => {
                   type="web"
                   fullWidth
                   value={title}
+                  onChange={handleChangeForTextField}
+              />
+              <TextField
+                  margin="dense"
+                  id="description"
+                  label="Description"
+                  type="web"
+                  fullWidth
+                  value={description}
                   onChange={handleChangeForTextField}
               />
               <TextField

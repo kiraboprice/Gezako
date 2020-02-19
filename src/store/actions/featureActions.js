@@ -12,7 +12,7 @@ export const getFeaturesByService = (service) => {
   return (dispatch, getState) => {
     firebase.firestore().collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
-    .orderBy('title')
+    .orderBy('createdAt', 'desc')
     .onSnapshot(querySnapshot => {
       let features = [];
       if (querySnapshot.empty) {
