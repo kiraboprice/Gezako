@@ -16,7 +16,6 @@ const CreateComment = (props) => {
 
   const [text, setText] = useState('');
 
-
   const { createFeatureComment } = props;
   const handleOnClickSave = () => {
     if (text !== '') { //todo Rich: sanitise this input further and add validation! (do the same for email inputs)

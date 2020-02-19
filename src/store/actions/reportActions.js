@@ -444,7 +444,6 @@ export const resetGetSpockReportComments = () => {
   }
 };
 
-
 export const updateSpockReportComment = (reportId, comment) => {
   return (dispatch, getState) => {
     const collectionUrl = getReportsCollectionUrl();
