@@ -198,6 +198,7 @@ const FeatureDetails = (props) => {
           <div id="test-details-summary">
             <div id="section1">
               <span id="test-title-summary">{feature.title}</span>
+              <div id="description-test">{feature.description}</div>
               <div id="uploaded-by">Created by {feature.createdBy}, {moment(
                   feature.createdAt? feature.createdAt.toDate() : null).calendar()}</div>
 

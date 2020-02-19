@@ -6,6 +6,12 @@
     background: transparent;
 }
 
+#description-test {
+    font-size: 14px;
+    color: grey;
+    padding: 10px 0;
+}
+
 /*#manual_test_container{*/
     /*transition: all ease-in-out 400ms;*/
 /*}*/

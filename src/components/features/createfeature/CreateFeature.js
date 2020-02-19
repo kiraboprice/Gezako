@@ -20,6 +20,7 @@ const CreateFeature = (props) => {
   const serviceInQuery = qs.parse(props.location.search, { ignoreQueryPrefix: true }).service;
   //report fields
   const [title, setTitle] = useState(null);
+  const [description, setDescription] = useState(null);
   const [service, setService] = useState(serviceInQuery);
   const [productSpec, setProductSpec] = useState(null);
   const [techSpec, setTechSpec] = useState(null);
@@ -48,6 +49,9 @@ const CreateFeature = (props) => {
     switch (e.target.id) {
       case 'title':
         setTitle(value);
+        break;
+      case 'description':
+        setDescription(value);
         break;
       case 'productSpec':
         setProductSpec(value);
@@ -78,6 +82,7 @@ const CreateFeature = (props) => {
     // console.log("PROPS---", props);
     const feature = {
       title,
+      description,
       service,
       productSpec,
       techSpec
@@ -150,10 +155,20 @@ const CreateFeature = (props) => {
             <TextField
                 margin="dense"
                 id="title"
-                label="Feature Title"
+                label="Title"
                 type="web"
                 fullWidth
                 value={title}
+                onChange={handleChangeForTextField}
+            />
+
+            <TextField
+                margin="dense"
+                id="description"
+                label="Description"
+                type="web"
+                fullWidth
+                value={description}
                 onChange={handleChangeForTextField}
             />
             

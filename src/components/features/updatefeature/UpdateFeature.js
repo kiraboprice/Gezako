@@ -29,6 +29,7 @@ const UpdateFeature = (props) => {
   const [id, setId] = useState(null);
   const [service, setService] = useState(null);
   const [title, setTitle] = useState(null);
+  const [description, setDescription] = useState(null);
   const [productSpec, setProductSpec] = useState(null);
   const [techSpec, setTechSpec] = useState(null);
 
@@ -46,6 +47,7 @@ const UpdateFeature = (props) => {
   useEffect(() => {
     if(feature){
       setTitle(feature.title);
+      setDescription(feature.description);
       setService(feature.service);
       setProductSpec(feature.productSpec);
       setTechSpec(feature.techSpec);
@@ -73,6 +75,9 @@ const UpdateFeature = (props) => {
       case 'title':
         setTitle(value);
         break;
+      case 'description':
+        setDescription(value);
+        break;
       case 'productSpec':
         setProductSpec(value);
         break;
@@ -89,6 +94,7 @@ const UpdateFeature = (props) => {
     e.preventDefault();
     const featureForUpdate = {
       title,
+      description,
       service,
       productSpec,
       techSpec
@@ -120,6 +126,15 @@ const UpdateFeature = (props) => {
                   type="web"
                   fullWidth
                   value={title}
+                  onChange={handleChangeForTextField}
+              />
+              <TextField
+                  margin="dense"
+                  id="description"
+                  label="Description"
+                  type="web"
+                  fullWidth
+                  value={description}
                   onChange={handleChangeForTextField}
               />
               <TextField
