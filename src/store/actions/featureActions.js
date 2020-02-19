@@ -103,14 +103,14 @@ export const deleteFeature = (id) => {
 export const updateFeature = (id, feature) => {
   return (dispatch, getState) => {
     const collectionUrl = getFeaturesCollectionUrl();
-    // console.log('updateFeature action', id, feature);
+    // console.log('updateFeature action----', id, feature);
     const user = getState().auth.user;
 
     firebase.firestore().collection(collectionUrl)
     .doc(id)
     .update({
       ...feature,
-      updatedAt: new Date(), //todo construct this from the calling function
+      updatedAt: new Date(), //todo Rich: construct this from the calling function
       updatedBy: {id: user.uid, displayName: user.displayName} //todo construct  this from the calling function
     }).then(() => {
       dispatch({type: 'UPDATE_FEATURE_SUCCESS'});
