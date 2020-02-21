@@ -65,16 +65,16 @@ const FeatureDetails = (props) => {
   useEffect(() => { //listen for response from get feature
     if (getFeatureByIdResponse){
       if(getFeatureByIdResponse.response === "NOT_EXIST"){
-        setUiToBeDisplayed('notExist')
+        setUiToBeDisplayed('notExist');
       }
 
       else if (getFeatureByIdResponse.response === "EXISTS"){
-        setFeature(getFeatureByIdResponse.response);
-        setUiToBeDisplayed('main')
+        setFeature(getFeatureByIdResponse.feature);
+        setUiToBeDisplayed('main');
       }
 
       else if (getFeatureByIdResponse.response === "ERROR"){
-        setUiToBeDisplayed('error')
+        setUiToBeDisplayed('error');
       }
     }
   }, [getFeatureByIdResponse]);
