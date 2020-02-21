@@ -249,17 +249,20 @@ const FeatureDetails = (props) => {
           </button>
 
           <div style={{display: manualTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
-            {console.log('feature.manualTests:---', feature)}
-            <div style={{
-              display: feature.manualTests.length === 0 ? "none" : "block",
-              transition: "all ease-in-out 400ms"
-            }}>
-              <div id='headers'>
-                <div id='service'>Title</div>
-                <div id='title'>Updated At</div>
-                <div id='title'>Created By</div>
-              </div>
-            </div>
+            {feature.manualTests? //todo this will not be needed for feature Features as they'll have empty arrays set for tests (like empty array of manualTests) when a feature is first created
+                <div style={{
+                  display: feature.manualTests.length === 0 ? "none" : "block",
+                  transition: "all ease-in-out 400ms"
+                }}>
+                  <div id='headers'>
+                    <div id='service'>Title</div>
+                    <div id='title'>Updated At</div>
+                    <div id='title'>Created By</div>
+                  </div>
+                </div>
+                :
+                null
+            }
             { feature.manualTests && feature.manualTests.map((test, index) => {
             return (
             <div>
@@ -281,12 +284,11 @@ const FeatureDetails = (props) => {
           </div>
 
           <br/>
-          <br/>
 
           {/*Postman Tests
            *
            */}
-          <h3>Add Integration Test (Postman)</h3>
+          <h3>Postman Tests (Integration Tests)</h3>
           <button
               id="hide_button"
               onClick={() =>  postmanTestsHidden === "block" ? setPostmanTestsHidden("none") : setPostmanTestsHidden("block")}>
@@ -301,11 +303,20 @@ const FeatureDetails = (props) => {
 
 
           <div style={{display: postmanTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
-          <div id='headers'>
-            <div id='service'>Title</div>
-            <div id='title'>Updated At</div>
-            <div id='title'>Created By</div>
-          </div>
+            {feature.postmanTests? //todo this will not be needed for feature Features as they'll have empty arrays set for tests (like empty array of androidTests) when a feature is first created
+                <div style={{
+                  display: feature.postmanTests.length === 0 ? "none" : "block",
+                  transition: "all ease-in-out 400ms"
+                }}>
+                  <div id='headers'>
+                    <div id='service'>Title</div>
+                    <div id='title'>Updated At</div>
+                    <div id='title'>Created By</div>
+                  </div>
+                </div>
+                :
+                null
+            }
           { feature.postmanTests && feature.postmanTests.map((test, index) => {
             return (
                 <div>
@@ -327,12 +338,11 @@ const FeatureDetails = (props) => {
           </div>
 
           <br/>
-          <br/>
 
           {/*Spock Tests
            *
            */}
-          <h3>Add Test for Service in Isolation (Spock)</h3>
+          <h3>Spock Tests (Tests for Service in Isolation)</h3>
           <button
               id="hide_button"
               onClick={() =>  spockTestsHidden === "block" ? setSpockTestsHidden("none") : setSpockTestsHidden("block")}>
@@ -346,11 +356,20 @@ const FeatureDetails = (props) => {
           </button>
 
           <div style={{display: spockTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
-            <div id='headers'>
-              <div id='service'>Title</div>
-              <div id='title'>Updated At</div>
-              <div id='title'>Created By</div>
-            </div>
+            {feature.spockTests? //todo this will not be needed for feature Features as they'll have empty arrays set for tests (like empty array of androidTests) when a feature is first created
+                <div style={{
+                  display: feature.spockTests.length === 0 ? "none" : "block",
+                  transition: "all ease-in-out 400ms"
+                }}>
+                  <div id='headers'>
+                    <div id='service'>Title</div>
+                    <div id='title'>Updated At</div>
+                    <div id='title'>Created By</div>
+                  </div>
+                </div>
+                :
+                null
+            }
             { feature.spockTests && feature.spockTests.map((test, index) => {
               return (
                   <div>
@@ -372,12 +391,11 @@ const FeatureDetails = (props) => {
           </div>
 
           <br/>
-          <br/>
 
           {/*Android Tests
            *
            */}
-          <h3>Add Android App Automated Tests</h3>
+          <h3>Android Automation Tests (Espresso)</h3>
           <button
               id="hide_button"
               onClick={() =>  androidTestsHidden === "block" ? setAndroidTestsHidden("none") : setAndroidTestsHidden("block")}>
@@ -391,11 +409,21 @@ const FeatureDetails = (props) => {
           </button>
 
           <div style={{display: androidTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
-            <div id='headers'>
-              <div id='service'>Title</div>
-              <div id='title'>Updated At</div>
-              <div id='title'>Created By</div>
-            </div>
+            {feature.androidTests? //todo this will not be needed for feature Features as they'll have empty arrays set for tests (like empty array of androidTests) when a feature is first created
+              <div style={{
+                display: feature.androidTests.length === 0 ? "none" : "block",
+                transition: "all ease-in-out 400ms"
+              }}>
+                <div id='headers'>
+                  <div id='service'>Title</div>
+                  <div id='title'>Updated At</div>
+                  <div id='title'>Created By</div>
+                </div>
+              </div>
+                :
+                null
+            }
+
             { feature.androidTests && feature.androidTests.map((test, index) => {
               return (
                   <div>
@@ -417,12 +445,11 @@ const FeatureDetails = (props) => {
           </div>
 
           <br/>
-          <br/>
 
           {/*Performance Tests
            *
            */}
-          <h3>Add Load Performance Tests (Gatling)</h3>
+          <h3>Load Performance Tests (Gatling)</h3>
           <button
               id="hide_button"
               onClick={() =>  performanceTestsHidden === "block" ? setPerformanceTestsHidden("none") : setPerformanceTestsHidden("block")}>
@@ -436,11 +463,20 @@ const FeatureDetails = (props) => {
           </button>
 
           <div style={{display: performanceTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
-            <div id='headers'>
-              <div id='service'>Title</div>
-              <div id='title'>Updated At</div>
-              <div id='title'>Created By</div>
-            </div>
+              {feature.performanceTests? //todo this will not be needed for feature Features as they'll have empty arrays set for tests (like empty array of androidTests) when a feature is first created
+                  <div style={{
+                    display: feature.performanceTests.length === 0 ? "none" : "block",
+                    transition: "all ease-in-out 400ms"
+                  }}>
+                    <div id='headers'>
+                      <div id='service'>Title</div>
+                      <div id='title'>Updated At</div>
+                      <div id='title'>Created By</div>
+                    </div>
+                  </div>
+                  :
+                  null
+              }
             { feature.performanceTests && feature.performanceTests.map((test, index) => {
               return (
                   <div>
@@ -461,7 +497,6 @@ const FeatureDetails = (props) => {
             }
           </div>
 
-          <br/>
           <br/>
 
         </div>

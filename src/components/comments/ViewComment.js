@@ -45,24 +45,30 @@ const ViewComment = (props) => {
 
   return(
         <div id='report'>
-          {/*note: DEREK: the style={{display in the div below causes the Image to be on top of everything else. weird*/}
-          {/*<div id="comment-add-container">*/}
-            <div id="comment-add-container" style={{display: showEditComment ? 'none' : 'block'}}>
-            <img id="comment-picture" src={props.comment.authorPhotoUrl} alt={props.comment.authorName} />
+          <div style={{display: showEditComment ? 'none' : 'block'}}>
+            <div id="comment-add-container">
+              <img id="comment-picture" src={props.comment.authorPhotoUrl}
+                   alt={props.comment.authorName}/>
 
-            <div id="author-details">
-              <span id="comment-authorname">{props.comment.authorName}</span>
-              - <span id="comment-time">{moment(props.comment.createdAt.toDate()).calendar()}</span>
-              <div id="comment-text">{props.comment.text}</div>
-              {console.log("loggedInUserIsCommentAuthor", loggedInUserIsCommentAuthor())}
-              {
-                loggedInUserIsCommentAuthor() ?
-                    <div>
-                      <span id="modify-comment" onClick={() => handleOnClickEdit()}>Edit</span> - <span id="modify-comment" onClick={() => handleOnClickDelete()}>Delete</span>
-                    </div>
-                    :
-                    null
-              }
+              <div id="author-details">
+                <span id="comment-authorname">{props.comment.authorName}</span>
+                - <span id="comment-time">{moment(
+                  props.comment.createdAt.toDate()).calendar()}</span>
+                <div id="comment-text">{props.comment.text}</div>
+                {console.log("loggedInUserIsCommentAuthor",
+                    loggedInUserIsCommentAuthor())}
+                {
+                  loggedInUserIsCommentAuthor() ?
+                      <div>
+                      <span id="modify-comment"
+                            onClick={() => handleOnClickEdit()}>Edit</span> - <span
+                          id="modify-comment"
+                          onClick={() => handleOnClickDelete()}>Delete</span>
+                      </div>
+                      :
+                      null
+                }
+              </div>
             </div>
           </div>
 
