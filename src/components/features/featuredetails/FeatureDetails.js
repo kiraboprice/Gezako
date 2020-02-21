@@ -490,6 +490,7 @@ const FeatureDetails = (props) => {
         {/*---------------COMMENTS END HERE--------------------*/}
 
         <AddFeatureTestDialog
+            id = {id}
             showAddDialog = {showAddDialog}
             testTypeToAdd = {testTypeToAdd}
             feature = {feature}
@@ -499,6 +500,7 @@ const FeatureDetails = (props) => {
         />
 
         <UpdateFeatureTestDialog
+            id = {id}
             testToUpdate={testToUpdate}
             testToUpdateIndex={testToUpdateIndex}
             feature={feature}

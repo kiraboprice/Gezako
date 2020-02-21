@@ -6,7 +6,6 @@ import {
   getFeatureComments, updateFeatureComment
 } from "../../store/actions/featureActions";
 // import {Comment} from "Comment"; //todo check why this cant be imported
-import {Timestamp} from "firebase";
 import * as firebase from "firebase";
 import {updateSpockReportComment} from "../../store/actions/reportActions";
 
