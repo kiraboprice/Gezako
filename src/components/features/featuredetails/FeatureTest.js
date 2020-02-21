@@ -76,11 +76,26 @@ const FeatureTest = (props) => {
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [testTypeToAdd, setTestTypeToAdd] = useState();
   const [addFeatureTestResponse, setAddFeatureTestResponse] = useState();
-  const handleAddManualTestClicked = () => {
+  const handleAddTestClicked = () => {
     setShowAddDialog(true);
-    setTestTypeToAdd('manual'); //todo add this to constants
+    setTestTypeToAdd(props.testType);
   };
 
+  /**
+   * Add feature test
+   * */
+  const {showSuccessAlert, showErrorAlert} = props;
+  useEffect(() => { //todo check why this isnt working
+    if (addFeatureTestResponse){
+      if(addFeatureTestResponse.response === "SUCCESS"){
+        showSuccessAlert('Successfully created test');
+      }
+
+      else if (addFeatureTestResponse.response === "ERROR"){
+        showErrorAlert('Failed to create test');
+      }
+    }
+  }, [addFeatureTestResponse]);
 
   /**
    * Update feature test
@@ -102,7 +117,7 @@ const FeatureTest = (props) => {
 
   return(
       <div>
-        <h3>Manual Tests</h3>
+        <h3>{props.testType} Tests</h3>
 
         <button
             id="hide_button"
@@ -112,7 +127,7 @@ const FeatureTest = (props) => {
 
         <button
             id="add_test_button"
-            onClick={() => handleAddManualTestClicked()}>
+            onClick={() => handleAddTestClicked()}>
           <img src={add_test_icon} alt="add test" />
         </button>
 
@@ -140,9 +155,9 @@ const FeatureTest = (props) => {
         </button>
 
         <div style={{display: testsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
-          {props.feature.manualTests? //todo this will not be needed for feature Features as they'll have empty arrays set for tests (like empty array of manualTests) when a feature is first created
+          {props.tests? //todo this will not be needed for feature Features as they'll have empty arrays set for tests (like empty array of manualTests) when a feature is first created
               <div style={{
-                display: props.feature.manualTests.length === 0 ? "none" : "block",
+                display: props.tests.length === 0 ? "none" : "block",
                 transition: "all ease-in-out 400ms"
               }}>
                 <div id='headers'>
@@ -154,7 +169,7 @@ const FeatureTest = (props) => {
               :
               null
           }
-          { props.feature.manualTests && props.feature.manualTests.map((test, index) => {
+          { props.tests && props.tests.map((test, index) => {
             return (
                 <div>
                   <a href={test.link} target='_blank'
@@ -209,6 +224,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllUsers: () => dispatch(getAllUsers()),
     unsubscribeGetAllUsers: () => dispatch(getAllUsers()),
+
+    //alerts
+    showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
+    showErrorAlert: (message) => dispatch(showErrorAlert(message))
   }
 };
 

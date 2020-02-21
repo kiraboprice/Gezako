@@ -6,8 +6,7 @@ import {Link, Redirect} from 'react-router-dom'
 
 import {
   getAllUsers,
-  getUsersApartFromCurrentUser,
-  setPrevUrl, unsubscribeGetUsersApartFromCurrentUser
+  setPrevUrl
 } from "../../../store/actions/authActions";
 
 import './featuredetails.css';
@@ -15,15 +14,6 @@ import './featuredetails.css';
 import {getServiceNameFromPathName} from "../../../util/StringUtil";
 import GetFeatureByIdDbHandler
   from "../featuresdbhandlers/GetFeatureByIdDbHandler";
-import AddFeatureTestDialog from "./AddFeatureTestDialog";
-import {
-  showErrorAlert,
-  showSuccessAlert
-} from "../../../store/actions/snackbarActions";
-import FeatureTestRow from "./FeatureTestRow";
-import UpdateFeatureTestDialog from "./UpdateFeatureTestDialog";
-import penIcon from "../../../assets/Icons/pen.png";
-import add_test_icon from "../../../assets/Icons/plus.png";
 import {
   getFeatureComments,
   getFeaturesByService, resetGetFeatureComments, unsubscribeGetFeatureComments
@@ -39,12 +29,6 @@ const FeatureDetails = (props) => {
   //props needed for ui
   const { id, service } = props;
 
-  //ui
-  const [postmanTestsHidden, setPostmanTestsHidden] = useState("block");
-  const [spockTestsHidden, setSpockTestsHidden] = useState("block");
-  const [androidTestsHidden, setAndroidTestsHidden] = useState("block");
-  const [performanceTestsHidden, setPerformanceTestsHidden] = useState("block");
-
   //get feature from db
   const [getFeatureByIdInDb, setGetFeatureByIdInDb] = useState(false);
   const [getFeatureByIdResponse, setGetFeatureByIdResponse] = useState(null);
@@ -53,11 +37,6 @@ const FeatureDetails = (props) => {
 
   //UI
   const [uiToBeDisplayed, setUiToBeDisplayed] = useState('loading');
-
-  //Update feature tests
-  const [showAddDialog, setShowAddDialog] = useState(false);
-  const [testTypeToAdd, setTestTypeToAdd] = useState();
-  const [addFeatureTestResponse, setAddFeatureTestResponse] = useState();
 
   useEffect(() => { //get feature on load
     setGetFeatureByIdInDb(true);
@@ -83,43 +62,6 @@ const FeatureDetails = (props) => {
       }
     }
   }, [getFeatureByIdResponse]);
-
-  /**
-  * Add feature test
-  * */
-  const handleAddPostmanTestClicked = () => {
-    setShowAddDialog(true);
-    setTestTypeToAdd('postman'); //todo add this to constants
-  };
-
-  const handleAddSpockTestClicked = () => {
-    setShowAddDialog(true);
-    setTestTypeToAdd('spock'); //todo add this to constants
-  };
-
-  const handleAddAndroidTestClicked = () => {
-    setShowAddDialog(true);
-    setTestTypeToAdd('android'); //todo add this to constants
-  };
-
-  const handleAddPerformanceTestClicked = () => {
-    setShowAddDialog(true);
-    setTestTypeToAdd('performance'); //todo add this to constants
-  };
-
-  const {showSuccessAlert, showErrorAlert} = props;
-  useEffect(() => { //listen for response from update feature
-    if (addFeatureTestResponse){
-      if(addFeatureTestResponse.response === "SUCCESS"){
-        // console.log('IN SUCCESS!!!!!!!');
-        showSuccessAlert('Successfully created test');
-      }
-
-      else if (addFeatureTestResponse.response === "ERROR"){
-        showErrorAlert('Failed to create test');
-      }
-    }
-  }, [addFeatureTestResponse]);
 
     function goToExternalLink(productSpec) {
     window.open(productSpec) //open new tab
@@ -238,221 +180,41 @@ const FeatureDetails = (props) => {
           <FeatureTest
               id = {id}
               feature = {feature}
+              tests = {feature.manualTests}
+              testType = 'manual' //todo add this to constants
           />
           <br/>
 
-          {/*Postman Tests
-           *
-           */}
-          <h3>Postman Tests (Integration Tests)</h3>
-          <button
-              id="hide_button"
-              onClick={() =>  postmanTestsHidden === "block" ? setPostmanTestsHidden("none") : setPostmanTestsHidden("block")}>
-            {postmanTestsHidden === "block" ? "hide" : "show"}
-          </button>
-
-          <button
-              id="add_test_button"
-              onClick={() => handleAddPostmanTestClicked()}>
-            <img src={add_test_icon} alt="add test" />
-          </button>
-
-
-          <div style={{display: postmanTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
-            {feature.postmanTests? //todo this will not be needed for feature Features as they'll have empty arrays set for tests (like empty array of androidTests) when a feature is first created
-                <div style={{
-                  display: feature.postmanTests.length === 0 ? "none" : "block",
-                  transition: "all ease-in-out 400ms"
-                }}>
-                  <div id='headers'>
-                    <div id='service'>Title</div>
-                    <div id='title'>Updated At</div>
-                    <div id='title'>Created By</div>
-                  </div>
-                </div>
-                :
-                null
-            }
-          { feature.postmanTests && feature.postmanTests.map((test, index) => {
-            return (
-                <div>
-                  <a href={test.link} target='_blank'
-                     rel="noopener noreferrer">
-                    <FeatureTestRow
-                        key={index} //this is required by React but we may not need it
-                        index={index}
-                        test={test}
-                    />
-                  </a>
-                  <div id="end-column">
-                    <button className="update_report" onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
-                  </div>
-                  <hr></hr>
-                </div>
-            )})
-          }
-          </div>
-
+          <FeatureTest
+              id = {id}
+              feature = {feature}
+              tests = {feature.postmanTests}
+              testType = 'postman' //todo add this to constants
+          />
           <br/>
 
-          {/*Spock Tests
-           *
-           */}
-          <h3>Spock Tests (Tests for Service in Isolation)</h3>
-          <button
-              id="hide_button"
-              onClick={() =>  spockTestsHidden === "block" ? setSpockTestsHidden("none") : setSpockTestsHidden("block")}>
-            {spockTestsHidden === "block" ? "hide" : "show"}
-          </button>
-
-          <button
-              id="add_test_button"
-              onClick={() => handleAddSpockTestClicked()}>
-            <img src={add_test_icon} alt="add test" />
-          </button>
-
-          <div style={{display: spockTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
-            {feature.spockTests? //todo this will not be needed for feature Features as they'll have empty arrays set for tests (like empty array of androidTests) when a feature is first created
-                <div style={{
-                  display: feature.spockTests.length === 0 ? "none" : "block",
-                  transition: "all ease-in-out 400ms"
-                }}>
-                  <div id='headers'>
-                    <div id='service'>Title</div>
-                    <div id='title'>Updated At</div>
-                    <div id='title'>Created By</div>
-                  </div>
-                </div>
-                :
-                null
-            }
-            { feature.spockTests && feature.spockTests.map((test, index) => {
-              return (
-                  <div>
-                    <a href={test.link} target='_blank'
-                       rel="noopener noreferrer">
-                    <FeatureTestRow
-                          key={index} //this is required by React but we may not need it
-                          index={index}
-                          test={test}
-                      />
-                    </a>
-                    <div id="end-column">
-                      <button className="update_report" onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
-                    </div>
-                    <hr></hr>
-                  </div>
-              )})
-            }
-          </div>
-
+          <FeatureTest
+              id = {id}
+              feature = {feature}
+              tests = {feature.spockTests}
+              testType = 'spock' //todo add this to constants
+          />
           <br/>
 
-          {/*Android Tests
-           *
-           */}
-          <h3>Android Automation Tests (Espresso)</h3>
-          <button
-              id="hide_button"
-              onClick={() =>  androidTestsHidden === "block" ? setAndroidTestsHidden("none") : setAndroidTestsHidden("block")}>
-            {androidTestsHidden === "block" ? "hide" : "show"}
-          </button>
-
-          <button
-              id="add_test_button"
-              onClick={() => handleAddSpockTestClicked()}>
-            <img src={add_test_icon} alt="add test" />
-          </button>
-
-          <div style={{display: androidTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
-            {feature.androidTests? //todo this will not be needed for feature Features as they'll have empty arrays set for tests (like empty array of androidTests) when a feature is first created
-              <div style={{
-                display: feature.androidTests.length === 0 ? "none" : "block",
-                transition: "all ease-in-out 400ms"
-              }}>
-                <div id='headers'>
-                  <div id='service'>Title</div>
-                  <div id='title'>Updated At</div>
-                  <div id='title'>Created By</div>
-                </div>
-              </div>
-                :
-                null
-            }
-
-            { feature.androidTests && feature.androidTests.map((test, index) => {
-              return (
-                  <div>
-                    <a href={test.link} target='_blank'
-                       rel="noopener noreferrer">
-                      <FeatureTestRow
-                          key={index} //this is required by React but we may not need it
-                          index={index}
-                          test={test}
-                      />
-                    </a>
-                    <div id="end-column">
-                      <button className="update_report" onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
-                    </div>
-                    <hr></hr>
-                  </div>
-              )})
-            }
-          </div>
-
+          <FeatureTest
+              id = {id}
+              feature = {feature}
+              tests = {feature.androidTests}
+              testType = 'android' //todo add this to constants
+          />
           <br/>
 
-          {/*Performance Tests
-           *
-           */}
-          <h3>Load Performance Tests (Gatling)</h3>
-          <button
-              id="hide_button"
-              onClick={() =>  performanceTestsHidden === "block" ? setPerformanceTestsHidden("none") : setPerformanceTestsHidden("block")}>
-            {performanceTestsHidden === "block" ? "hide" : "show"}
-          </button>
-
-          <button
-              id="add_test_button"
-              onClick={() => handleAddPerformanceTestClicked()}>
-            <img src={add_test_icon} alt="add test" />
-          </button>
-
-          <div style={{display: performanceTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
-              {feature.performanceTests? //todo this will not be needed for feature Features as they'll have empty arrays set for tests (like empty array of androidTests) when a feature is first created
-                  <div style={{
-                    display: feature.performanceTests.length === 0 ? "none" : "block",
-                    transition: "all ease-in-out 400ms"
-                  }}>
-                    <div id='headers'>
-                      <div id='service'>Title</div>
-                      <div id='title'>Updated At</div>
-                      <div id='title'>Created By</div>
-                    </div>
-                  </div>
-                  :
-                  null
-              }
-            { feature.performanceTests && feature.performanceTests.map((test, index) => {
-              return (
-                  <div>
-                    <a href={test.link} target='_blank'
-                       rel="noopener noreferrer">
-                      <FeatureTestRow
-                          key={index} //this is required by React but we may not need it
-                          index={index}
-                          test={test}
-                      />
-                    </a>
-                    <div id="end-column">
-                      <button className="update_report" onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
-                    </div>
-                    <hr></hr>
-                  </div>
-              )})
-            }
-          </div>
-
+          <FeatureTest
+              id = {id}
+              feature = {feature}
+              tests = {feature.performanceTests}
+              testType = 'performance' //todo add this to constants
+          />
           <br/>
 
         </div>
@@ -487,28 +249,6 @@ const FeatureDetails = (props) => {
           />
         </div>
         {/*---------------COMMENTS END HERE--------------------*/}
-
-        <AddFeatureTestDialog
-            id = {id}
-            showAddDialog = {showAddDialog}
-            testTypeToAdd = {testTypeToAdd}
-            feature = {feature}
-            setShowAddDialog = {setShowAddDialog}
-
-            setAddFeatureTestResponse = {setAddFeatureTestResponse}
-        />
-
-        <UpdateFeatureTestDialog
-            id = {id}
-            testToUpdate={testToUpdate}
-            testToUpdateIndex={testToUpdateIndex}
-            feature={feature}
-            showUpdateFeatureTestDialog={showUpdateFeatureTestDialog}
-            setShowUpdateFeatureTestDialog={setShowUpdateFeatureTestDialog}
-
-            setUpdateFeatureTestResponse={setUpdateFeatureTestResponse}
-        />
-
       </div>
   )
 };
@@ -535,11 +275,7 @@ const mapDispatchToProps = (dispatch) => {
     resetGetFeatureComments: () => dispatch(resetGetFeatureComments()),
 
     getAllUsers: () => dispatch(getAllUsers()),
-    unsubscribeGetAllUsers: () => dispatch(getAllUsers()),
-
-    //alerts
-    showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
-    showErrorAlert: (message) => dispatch(showErrorAlert(message))
+    unsubscribeGetAllUsers: () => dispatch(getAllUsers())
   }
 };
 
