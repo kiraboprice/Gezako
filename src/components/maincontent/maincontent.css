@@ -1,0 +1,9 @@
+#info-before-default-section {
+	width: 40%;
+	position: relative;
+    margin: 100px auto -85px auto;
+    padding: 20px;
+    transition: all ease-in-out 400ms;
+	box-shadow: 0 0 10px #96969633;
+	overflow: auto;
+}

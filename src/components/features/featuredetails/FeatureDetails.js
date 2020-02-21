@@ -26,6 +26,7 @@ import {
 } from "../../../store/actions/featureActions";
 import ViewComment from "../../comments/ViewComment";
 import CreateComment from "../../comments/CreateComment";
+import InfoBeforeDefaultUI from "../../maincontent/Feature";
 
 const FeatureDetails = (props) => {
 
@@ -46,10 +47,7 @@ const FeatureDetails = (props) => {
   const [unsubscribeGetFeatureByIdInDb, setUnsubscribeGetFeatureByIdInDb] = useState(null);
 
   //UI
-  const [displayLoadingFeature, setDisplayLoadingFeature] = useState('block');
-  const [displayFeatureDoesNotExist, setDisplayFeatureDoesNotExist] = useState('none');
-  const [displayFeature, setDisplayFeature] = useState('none');
-  const [displayError, setDisplayError] = useState('none');
+  const [uiToBeDisplayed, setUiToBeDisplayed] = useState('loading');
 
   //Update feature tests
   const [showAddDialog, setShowAddDialog] = useState(false);
@@ -67,28 +65,16 @@ const FeatureDetails = (props) => {
   useEffect(() => { //listen for response from get feature
     if (getFeatureByIdResponse){
       if(getFeatureByIdResponse.response === "NOT_EXIST"){
-        setDisplayLoadingFeature('none');
-        setDisplayFeatureDoesNotExist('block');
-        setDisplayFeature('none');
-        setDisplayError('none');
+        setUiToBeDisplayed('notExist')
       }
 
       else if (getFeatureByIdResponse.response === "EXISTS"){
-        console.log('FEATURE RESPONSE---', getFeatureByIdResponse.feature);
-        setFeature(getFeatureByIdResponse.feature);
-
-        setDisplayLoadingFeature('none');
-        setDisplayFeatureDoesNotExist('none');
-        setDisplayFeature('block');
-        setDisplayError('none');
+        setFeature(getFeatureByIdResponse.response);
+        setUiToBeDisplayed('main')
       }
 
       else if (getFeatureByIdResponse.response === "ERROR"){
-
-        setDisplayLoadingFeature('none');
-        setDisplayFeatureDoesNotExist('none');
-        setDisplayFeature('none');
-        setDisplayError('block');
+        setUiToBeDisplayed('error')
       }
     }
   }, [getFeatureByIdResponse]);
@@ -158,7 +144,6 @@ const FeatureDetails = (props) => {
 
   const [updateFeatureTestResponse, setUpdateFeatureTestResponse] = useState(false);
 
-
   /**
    * Comments
    * */
@@ -179,22 +164,38 @@ const FeatureDetails = (props) => {
     return <Redirect to='/login' />;
   }
 
+  //load UI
+  if(uiToBeDisplayed === 'loading') {
+    return (
+        <div>
+        <InfoBeforeDefaultUI message='Loading Feature...' />
+          {/*Purely Functional Non-Ui components - leaving this here as an example to show how to avoid using Redux*/}
+        <GetFeatureByIdDbHandler
+            getFeatureByIdInDb={getFeatureByIdInDb}
+            id={id}
+
+            setGetFeatureByIdResponse={setGetFeatureByIdResponse}
+
+            unsubscribeGetFeatureByIdInDb={unsubscribeGetFeatureByIdInDb}
+        />
+        </div>
+    )
+  }
+
+  else if (uiToBeDisplayed === 'notExist') {
+    return <InfoBeforeDefaultUI message='Feature does not exist.' />
+
+  }
+
+  else if (uiToBeDisplayed === 'error') {
+    return <InfoBeforeDefaultUI message='An Error Occurred.' />
+
+  }
+  //load default UI
   return (
       <div>
-        <div id='test-details-section' style={{display: displayLoadingFeature}}>
-          <p>Loading Feature...</p>
-        </div>
-
-        <div id='test-details-section' style={{display: displayFeatureDoesNotExist}}>
-          <p>Feature does not exist.</p>
-        </div>
-
-        <div id='test-details-section' style={{display: displayError}}>
-          <p>An Error Occurred.</p>
-        </div>
-
         {/*Summary Card*/}
-        <div id='test-details-section' style={{display: displayFeature}}>
+        <div id='test-details-section'>
           <div id="test-details-summary">
             <div id="section1">
               <span id="test-title-summary">{feature.title}</span>
@@ -228,10 +229,11 @@ const FeatureDetails = (props) => {
           </div>
         </div>
 
-        {/*Manual Tests
-           *
-        */}
-        <div id='test-details-section' style={{boxShadow: "0 0 0 rgba(0, 0, 0, 0.0)", display: displayFeatureDoesNotExist === "block" ? "none" : "block"}}>
+        {/**Manual Tests
+         *
+         **/
+        }
+        <div id='test-details-section' style={{boxShadow: "0 0 0 rgba(0, 0, 0, 0.0)"}}>
           <h3>Manual Tests</h3>
 
           <button
@@ -247,10 +249,16 @@ const FeatureDetails = (props) => {
           </button>
 
           <div style={{display: manualTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
-            <div id='headers'>
-              <div id='service'>Title</div>
-              <div id='title'>Updated At</div>
-              <div id='title'>Created By</div>
+            {console.log('feature.manualTests:---', feature)}
+            <div style={{
+              display: feature.manualTests.length === 0 ? "none" : "block",
+              transition: "all ease-in-out 400ms"
+            }}>
+              <div id='headers'>
+                <div id='service'>Title</div>
+                <div id='title'>Updated At</div>
+                <div id='title'>Created By</div>
+              </div>
             </div>
             { feature.manualTests && feature.manualTests.map((test, index) => {
             return (
@@ -510,15 +518,6 @@ const FeatureDetails = (props) => {
             setUpdateFeatureTestResponse={setUpdateFeatureTestResponse}
         />
 
-        {/*Purely Functional Non-Ui components - leaving this here as an example, instead of using redux*/}
-        <GetFeatureByIdDbHandler
-            getFeatureByIdInDb = {getFeatureByIdInDb}
-            id = {id}
-
-            setGetFeatureByIdResponse = {setGetFeatureByIdResponse}
-
-            unsubscribeGetFeatureByIdInDb = {unsubscribeGetFeatureByIdInDb}
-        />
       </div>
   )
 };
