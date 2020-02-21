@@ -78,6 +78,8 @@ const UpdateFeature = (props) => {
 
   };
 
+  const { user  } = props;
+  const { updateFeature  } = props;
   const handleUpdate = (e) => {
     e.preventDefault();
     const featureForUpdate = {
@@ -85,10 +87,12 @@ const UpdateFeature = (props) => {
       description,
       service,
       productSpec,
-      techSpec
+      techSpec,
+      updatedAt: firebase.firestore.Timestamp.fromDate(new Date()),
+      updatedBy: {id: user.uid, displayName: user.displayName}
     };
 
-    props.updateFeature(id, featureForUpdate);
+    updateFeature(id, featureForUpdate);
 
     // props.history.push(`features/${feature.service}/${feature.id}`);
     // props.history.replace(`features/${feature.service}/${feature.id}`);
@@ -97,7 +101,6 @@ const UpdateFeature = (props) => {
     return <Redirect to={`features/${feature.service}/${feature.id}`} />;
   };
 
-  const { user } = props;
   if (!user) return <Redirect to='/login' />;
 
   if (title) {
@@ -172,7 +175,7 @@ const mapDispatchToProps = dispatch => {
     unsubscribeGetFeature: (id) => dispatch(unsubscribeGetFeature(id)),
     resetGetFeature: () => dispatch(resetGetFeature()),
 
-    updateFeature: (id, report) => dispatch(updateFeature(id, report)),
+    updateFeature: (id, feature) => dispatch(updateFeature(id, feature)),
     // resetUpdateFeatureState: () => dispatch(resetUpdateFeatureState())
   }
 };

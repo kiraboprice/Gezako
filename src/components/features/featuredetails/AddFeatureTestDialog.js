@@ -9,9 +9,8 @@ import DialogContentText
   from "@material-ui/core/DialogContentText/DialogContentText";
 import TextField from "@material-ui/core/TextField/TextField";
 import DialogActions from "@material-ui/core/DialogActions/DialogActions";
-import UpdateFeatureByIdDbHandler
-  from "../featuresdbhandlers/UpdateFeatureByIdDbHandler";
 import {Timestamp} from "firebase";
+import {updateFeature} from "../../../store/actions/featureActions";
 
 
 const AddFeatureTestDialog = (props) => {
@@ -24,13 +23,10 @@ const AddFeatureTestDialog = (props) => {
   const [testTypeToAdd, setTestTypeToAdd] = useState(false);
   const [feature, setFeature] = useState(false);
 
-  //when posting to db
-  const [updateFeatureByIdInDb, setUpdateFeatureByIdInDb] = useState(false);
   const [id, setId] = useState(null);
 
-  const [updateFeatureByIdResponse, setUpdateFeatureByIdResponse] = useState(null);
-
   useEffect(() => {
+    setId(props.id);
     // console.log('SHOW ADD DIALOG!!!', props);
     setShowAddDialog(props.showAddDialog);
     setTestTypeToAdd(props.testTypeToAdd);
@@ -62,6 +58,7 @@ const AddFeatureTestDialog = (props) => {
   };
 
   const { user } = props;
+  const { updateFeature  } = props;
   const handleSubmit = () => {
     const newTest = {
       'title': title,
@@ -111,25 +108,25 @@ const AddFeatureTestDialog = (props) => {
         feature.performanceTests.push(newTest);
       }
     }
-    setFeature(feature); //update feature in local props
-    setUpdateFeatureByIdInDb(true);
+
+    updateFeature(id, feature);
   };
 
+  const { updateFeatureResult } = props;
   useEffect(() => { //listen for response
-    if (updateFeatureByIdResponse){
-      setUpdateFeatureByIdInDb(false); //reset prop in dbHandler
+    if (updateFeatureResult){
       setShowAddDialog(false);
       props.setShowAddDialog(false);
 
-      if(updateFeatureByIdResponse.response === "SUCCESS"){
+      if(updateFeatureResult.response === "success"){
         props.setAddFeatureTestResponse({'response' : 'SUCCESS'});
       }
 
-      else if (updateFeatureByIdResponse.response === "ERROR"){
-        props.setAddFeatureTestResponse({'response' : 'ERROR', 'error' : updateFeatureByIdResponse.error});
+      else if (updateFeatureResult.response === "error"){
+        props.setAddFeatureTestResponse({'response' : 'ERROR', 'error' : updateFeatureResult.error});
       }
     }
-  }, [updateFeatureByIdResponse]);
+  }, [updateFeatureResult]);
 
   return (
       <div>
@@ -170,26 +167,21 @@ const AddFeatureTestDialog = (props) => {
             </Button>
           </DialogActions>
         </Dialog>
-
-        {/*Purely Functional Non-Ui components*/}
-        <UpdateFeatureByIdDbHandler
-            updateFeatureByIdInDb = {updateFeatureByIdInDb}
-            feature = {feature}
-
-            setUpdateFeatureByIdResponse = {setUpdateFeatureByIdResponse}
-        />
       </div>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth.user
+    user: state.auth.user,
+    updateFeatureResult: state.feature.updateFeatureResult
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    updateFeature: (id, feature) => dispatch(updateFeature(id, feature)),
+    // resetUpdateFeature: () => dispatch(resetUpdateFeature())
   }
 };
 

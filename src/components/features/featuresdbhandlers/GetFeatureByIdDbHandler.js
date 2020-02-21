@@ -28,7 +28,7 @@ const GetFeatureByIdDbHandler = (props) => {
   }, [getFeatureByIdInDb]);
 
   const getFeatureById = (id) => {
-    console.log("getFeatureById PROPS ---", props);
+    // console.log("getFeatureById PROPS ---", props);
     const collectionUrl = getFeaturesCollectionUrl();
 
     firebase.firestore().collection(`${collectionUrl}`)

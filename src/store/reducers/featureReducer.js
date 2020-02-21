@@ -88,11 +88,14 @@ const featureReducer = (state = initState, action) => {
       };
 
     case 'UPDATE_FEATURE_ERROR':
-      // console.log('UPDATE_FEATURE_ERROR', action.error);
-      return state;
+      console.log('UPDATE_FEATURE_ERROR', action.error);
+      return {
+        ...state,
+        updateFeatureResult: 'error'
+      };
 
-    case 'RESET_UPDATE_FEATURE_STATE':
-      console.log('RESET_UPDATE_FEATURE_STATE');
+    case 'RESET_UPDATE_FEATURE':
+      console.log('RESET_UPDATE_FEATURE');
       return {
         ...state,
         updateFeatureResult: null
@@ -114,14 +117,14 @@ const featureReducer = (state = initState, action) => {
       return state;
 
     case 'GET_FEATURE_COMMENTS_EMPTY':
-      console.log('GET_FEATURE_COMMENTS_EMPTY', action.error);
+      // console.log('GET_FEATURE_COMMENTS_EMPTY', action.error);
       return {
         ...state,
         getFeatureComments: []
       };
 
     case 'GET_FEATURE_COMMENTS_SUCCESS':
-      console.log('GET_FEATURE_COMMENTS_SUCCESS');
+      // console.log('GET_FEATURE_COMMENTS_SUCCESS');
       return {
         ...state,
         getFeatureComments: action.comments

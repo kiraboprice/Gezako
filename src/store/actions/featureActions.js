@@ -109,9 +109,7 @@ export const updateFeature = (id, feature) => {
     firebase.firestore().collection(collectionUrl)
     .doc(id)
     .update({
-      ...feature,
-      updatedAt: new Date(), //todo Rich: construct this from the calling function
-      updatedBy: {id: user.uid, displayName: user.displayName} //todo construct  this from the calling function
+      ...feature
     }).then(() => {
       dispatch({type: 'UPDATE_FEATURE_SUCCESS'});
     }).catch(err => {
@@ -120,7 +118,7 @@ export const updateFeature = (id, feature) => {
   }
 };
 
-export const resetUpdateReportState = () => {
+export const resetUpdateFeature = () => {
   return (dispatch) => {
     dispatch({type: 'RESET_UPDATE_FEATURE_STATE'});
   }
@@ -148,7 +146,7 @@ export const createFeatureComment = (featureId, comment) => {
 
 export const getFeatureComments = (featureId) => {
   const collectionUrl = getFeaturesCollectionUrl();
-  console.log('getCommentsByFeatureId....', featureId);
+  // console.log('getCommentsByFeatureId....', featureId);
   return (dispatch, getState) => {
     firebase.firestore().collection(`${collectionUrl}/${featureId}/comments`)
     .orderBy('createdAt')
