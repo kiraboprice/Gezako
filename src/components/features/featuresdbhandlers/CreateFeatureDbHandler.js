@@ -28,8 +28,7 @@ const CreateFeatureDbHandler = (props) => {
   const {user} = props;
 
   const createFeature = (feature) => {
-    console.log("createFeature---", feature);
-    console.log("createFeature PROPS 1---", props);
+    // console.log("createFeature---", feature);
 
     const collectionUrl = getFeaturesCollectionUrl();
       firebase.firestore().collection(collectionUrl).add({
@@ -40,10 +39,10 @@ const CreateFeatureDbHandler = (props) => {
         createdAt: new Date(),
         updatedAt: new Date()
       }).then((docRef) => {
-        console.log("createFeature PROPS 2---", props);
+        // console.log("createFeature PROPS 2---", props);
         props.setCreateFeatureSuccess({id: docRef.id});
       }).catch(err => {
-        console.log("createFeature ERR---", err);
+        // console.log("createFeature ERR---", err);
         props.setCreateFeatureError(err);
       });
   };

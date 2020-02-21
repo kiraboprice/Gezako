@@ -117,14 +117,14 @@ const featureReducer = (state = initState, action) => {
       return state;
 
     case 'GET_FEATURE_COMMENTS_EMPTY':
-      console.log('GET_FEATURE_COMMENTS_EMPTY', action.error);
+      // console.log('GET_FEATURE_COMMENTS_EMPTY', action.error);
       return {
         ...state,
         getFeatureComments: []
       };
 
     case 'GET_FEATURE_COMMENTS_SUCCESS':
-      console.log('GET_FEATURE_COMMENTS_SUCCESS');
+      // console.log('GET_FEATURE_COMMENTS_SUCCESS');
       return {
         ...state,
         getFeatureComments: action.comments

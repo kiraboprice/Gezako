@@ -55,8 +55,6 @@ const ViewComment = (props) => {
                 - <span id="comment-time">{moment(
                   props.comment.createdAt.toDate()).calendar()}</span>
                 <div id="comment-text">{props.comment.text}</div>
-                {console.log("loggedInUserIsCommentAuthor",
-                    loggedInUserIsCommentAuthor())}
                 {
                   loggedInUserIsCommentAuthor() ?
                       <div>

@@ -40,7 +40,6 @@ const FeatureDetails = (props) => {
 
   useEffect(() => { //get feature on load
     setGetFeatureByIdInDb(true);
-    console.log('getFeatureByIdInDb', getFeatureByIdInDb);
     return function cleanup() {
       setUnsubscribeGetFeatureByIdInDb(true);
     };
@@ -63,7 +62,17 @@ const FeatureDetails = (props) => {
     }
   }, [getFeatureByIdResponse]);
 
-    function goToExternalLink(productSpec) {
+  const { getAllUsers, unsubscribeGetAllUsers} = props;
+  useEffect(() => {
+    getAllUsers();
+
+    return function cleanup() {
+      unsubscribeGetAllUsers()
+    };
+  }, []);
+  const { allUsers } = props;
+
+  function goToExternalLink(productSpec) {
     window.open(productSpec) //open new tab
     // window.location.replace(productSpec) //stay on page
   }
@@ -76,7 +85,6 @@ const FeatureDetails = (props) => {
   const [testToUpdateIndex, setTestToUpdateIndex] = useState(null);
   const [showUpdateFeatureTestDialog, setShowUpdateFeatureTestDialog] = useState(false);
   useEffect(() => {
-    console.log('onClickUpdateFeatureTest----', onClickUpdateFeatureTest);
     if (onClickUpdateFeatureTest){
       setTestToUpdate(onClickUpdateFeatureTest.test); //todo get test to update from feature array?
       setTestToUpdateIndex(onClickUpdateFeatureTest.index);
@@ -182,6 +190,7 @@ const FeatureDetails = (props) => {
               feature = {feature}
               tests = {feature.manualTests}
               testType = 'manual' //todo add this to constants
+              users = {allUsers}
           />
           <br/>
 
@@ -190,6 +199,7 @@ const FeatureDetails = (props) => {
               feature = {feature}
               tests = {feature.postmanTests}
               testType = 'postman' //todo add this to constants
+              users = {allUsers}
           />
           <br/>
 
@@ -198,6 +208,7 @@ const FeatureDetails = (props) => {
               feature = {feature}
               tests = {feature.spockTests}
               testType = 'spock' //todo add this to constants
+              users = {allUsers}
           />
           <br/>
 
@@ -206,6 +217,7 @@ const FeatureDetails = (props) => {
               feature = {feature}
               tests = {feature.androidTests}
               testType = 'android' //todo add this to constants
+              users = {allUsers}
           />
           <br/>
 

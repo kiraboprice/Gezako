@@ -22,16 +22,6 @@ const FeatureTest = (props) => {
 
   const [testsHidden, setTestsHidden] = useState("block");
 
-  const { getAllUsers, unsubscribeGetAllUsers} = props;
-  useEffect(() => {
-    getAllUsers();
-
-    return function cleanup() {
-      unsubscribeGetAllUsers()
-    };
-  }, []);
-  const { allUsers } = props;
-
   useEffect(() => {
 
   }, [props]);
@@ -105,7 +95,7 @@ const FeatureTest = (props) => {
   const [testToUpdateIndex, setTestToUpdateIndex] = useState(null);
   const [showUpdateFeatureTestDialog, setShowUpdateFeatureTestDialog] = useState(false);
   useEffect(() => {
-    console.log('onClickUpdateFeatureTest----', onClickUpdateFeatureTest);
+    // console.log('onClickUpdateFeatureTest----', onClickUpdateFeatureTest);
     if (onClickUpdateFeatureTest){
       setTestToUpdate(onClickUpdateFeatureTest.test); //todo get test to update from feature array?
       setTestToUpdateIndex(onClickUpdateFeatureTest.index);
@@ -142,10 +132,10 @@ const FeatureTest = (props) => {
         </div>
 
         <div id='feature-test-assigned-to'>
-          <label>Assign To: </label>
+          <label>Assigned To: </label>
           <select name='assignedTo' onChange={handleAssignedToChange}>
             <option value=''></option>
-            {allUsers && allUsers.map(user => <option value={user.id}>{user.displayName}</option>)}
+            {props.allUsers && props.allUsers.map(user => <option value={user.id}>{user.displayName}</option>)}
           </select>
         </div>
 
@@ -222,9 +212,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllUsers: () => dispatch(getAllUsers()),
-    unsubscribeGetAllUsers: () => dispatch(getAllUsers()),
-
     //alerts
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
     showErrorAlert: (message) => dispatch(showErrorAlert(message))

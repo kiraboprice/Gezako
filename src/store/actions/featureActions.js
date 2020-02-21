@@ -146,7 +146,7 @@ export const createFeatureComment = (featureId, comment) => {
 
 export const getFeatureComments = (featureId) => {
   const collectionUrl = getFeaturesCollectionUrl();
-  console.log('getCommentsByFeatureId....', featureId);
+  // console.log('getCommentsByFeatureId....', featureId);
   return (dispatch, getState) => {
     firebase.firestore().collection(`${collectionUrl}/${featureId}/comments`)
     .orderBy('createdAt')

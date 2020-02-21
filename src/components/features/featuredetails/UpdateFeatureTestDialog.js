@@ -131,12 +131,12 @@ const UpdateFeatureTestDialog = (props) => {
 
   const { updateFeatureResult } = props;
   useEffect(() => { //listen for response
-    console.log("updateFeatureTestDialog PROPS 1 ---", props);
+    // console.log("updateFeatureTestDialog PROPS 1 ---", props);
     if (updateFeatureResult){
       setShowUpdateFeatureTestDialog(false);
       props.setShowUpdateFeatureTestDialog(false);
 
-      console.log("updateFeatureTestDialog PROPS 2 ---", props);
+      // console.log("updateFeatureTestDialog PROPS 2 ---", props);
 
       if(updateFeatureResult.response === "success"){
         props.setUpdateFeatureTestResponse({'response' : 'SUCCESS'});

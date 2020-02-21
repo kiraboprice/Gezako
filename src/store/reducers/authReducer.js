@@ -50,7 +50,7 @@ const authReducer = (state = initState, action) => {
       return state;
 
     case 'GET_USERS_SUCCESS':
-      console.log('GET_USERS_SUCCESS', action.users);
+      // console.log('GET_USERS_SUCCESS', action.users);
       return {
         ...state,
         users: action.users
@@ -60,7 +60,7 @@ const authReducer = (state = initState, action) => {
       return state;
 
     case 'RESET_GET_USERS_SUCCESS': //we may never need to call this?
-      console.log('RESET_GET_USERS_SUCCESS');
+      // console.log('RESET_GET_USERS_SUCCESS');
       return {
         ...state,
         users: null
@@ -73,7 +73,7 @@ const authReducer = (state = initState, action) => {
       return state;
 
     case 'GET_ALL_USERS_SUCCESS':
-      console.log('GET_ALL_USERS_SUCCESS', action.allUsers);
+      // console.log('GET_ALL_USERS_SUCCESS', action.allUsers);
       return {
         ...state,
         allUsers: action.allUsers
@@ -83,7 +83,7 @@ const authReducer = (state = initState, action) => {
       return state;
 
     case 'RESET_GET_ALL_USERS_SUCCESS': //we may never need to call this?
-      console.log('RESET_GET_ALL_USERS_SUCCESS');
+      // console.log('RESET_GET_ALL_USERS_SUCCESS');
       return {
         ...state,
         allUsers: null
