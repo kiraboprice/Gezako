@@ -67,6 +67,29 @@ const authReducer = (state = initState, action) => {
       };
 
       /**
+       * Get All Users
+       */
+    case 'GET_ALL_USERS_NO_USERS':
+      return state;
+
+    case 'GET_ALL_USERS_SUCCESS':
+      console.log('GET_ALL_USERS_SUCCESS', action.allUsers);
+      return {
+        ...state,
+        allUsers: action.allUsers
+      };
+
+    case 'GET_ALL_USERS_ERROR':
+      return state;
+
+    case 'RESET_GET_ALL_USERS_SUCCESS': //we may never need to call this?
+      console.log('RESET_GET_ALL_USERS_SUCCESS');
+      return {
+        ...state,
+        allUsers: null
+      };
+
+      /**
        * Get User By Id
        */
     case 'GET_USER_BY_ID_THEN_MAP_NO_USER':

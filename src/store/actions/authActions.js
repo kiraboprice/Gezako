@@ -105,6 +105,41 @@ export const resetGetUsersApartFromCurrentUser = () => {
   }
 };
 
+export const getAllUsers = () => {
+  return (dispatch, getState) => {
+    const user = getState().auth.user;
+    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).get()
+    .then((snapshot) => {
+      let users = [];
+      if (snapshot.empty) {
+        dispatch({type: 'GET_ALL_USERS_NO_USERS'});
+      } else {
+        snapshot.forEach(doc => {
+          if(doc.data().email !== user.email){
+            users.push({id: doc.id, ...doc.data()})
+          }
+        });
+        dispatch({type: 'GET_ALL_USERS_SUCCESS', allUsers: users});
+      }
+    }).catch(err => {
+      dispatch({type: 'GET_ALL_USERS_ERROR', err});
+    });
+  }
+};
+
+export const unsubscribeGetAllUsers = () => {
+  return (dispatch, getState) => {
+    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).get()
+    .then((snapshot) => { });
+  }
+};
+
+export const resetGetAllUsers = () => {
+  return (dispatch) => {
+    dispatch({type: 'RESET_GET_ALL_USERS_SUCCESS'});
+  }
+};
+
 /**
  * Get user by ID then store them in a map of id to userObject
  * @param id

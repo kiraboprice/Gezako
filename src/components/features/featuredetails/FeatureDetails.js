@@ -4,7 +4,11 @@ import { compose } from 'redux'
 import moment from 'moment'
 import {Link, Redirect} from 'react-router-dom'
 
-import {setPrevUrl} from "../../../store/actions/authActions";
+import {
+  getAllUsers,
+  getUsersApartFromCurrentUser,
+  setPrevUrl, unsubscribeGetUsersApartFromCurrentUser
+} from "../../../store/actions/authActions";
 
 import './featuredetails.css';
 
@@ -16,7 +20,7 @@ import {
   showErrorAlert,
   showSuccessAlert
 } from "../../../store/actions/snackbarActions";
-import FeatureTest from "./FeatureTest";
+import FeatureTestRow from "./FeatureTestRow";
 import UpdateFeatureTestDialog from "./UpdateFeatureTestDialog";
 import penIcon from "../../../assets/Icons/pen.png";
 import add_test_icon from "../../../assets/Icons/plus.png";
@@ -27,6 +31,8 @@ import {
 import ViewComment from "../../comments/ViewComment";
 import CreateComment from "../../comments/CreateComment";
 import InfoBeforeDefaultUI from "../../maincontent/Feature";
+import * as status from "../../../constants/Feature_TestStatus";
+import FeatureTest from "./FeatureTest";
 
 const FeatureDetails = (props) => {
 
@@ -34,7 +40,6 @@ const FeatureDetails = (props) => {
   const { id, service } = props;
 
   //ui
-  const [manualTestsHidden, setManualTestsHidden] = useState("block");
   const [postmanTestsHidden, setPostmanTestsHidden] = useState("block");
   const [spockTestsHidden, setSpockTestsHidden] = useState("block");
   const [androidTestsHidden, setAndroidTestsHidden] = useState("block");
@@ -82,11 +87,6 @@ const FeatureDetails = (props) => {
   /**
   * Add feature test
   * */
-  const handleAddManualTestClicked = () => {
-    setShowAddDialog(true);
-    setTestTypeToAdd('manual'); //todo add this to constants
-  };
-
   const handleAddPostmanTestClicked = () => {
     setShowAddDialog(true);
     setTestTypeToAdd('postman'); //todo add this to constants
@@ -234,55 +234,11 @@ const FeatureDetails = (props) => {
          **/
         }
         <div id='test-details-section' style={{boxShadow: "0 0 0 rgba(0, 0, 0, 0.0)"}}>
-          <h3>Manual Tests</h3>
 
-          <button
-            id="hide_button"
-            onClick={() =>  manualTestsHidden === "block" ? setManualTestsHidden("none") : setManualTestsHidden("block")}>
-            {manualTestsHidden === "block" ? "hide" : "show"}
-          </button>
-
-          <button
-            id="add_test_button"
-            onClick={() => handleAddManualTestClicked()}>
-              <img src={add_test_icon} alt="add test" />
-          </button>
-
-          <div style={{display: manualTestsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
-            {feature.manualTests? //todo this will not be needed for feature Features as they'll have empty arrays set for tests (like empty array of manualTests) when a feature is first created
-                <div style={{
-                  display: feature.manualTests.length === 0 ? "none" : "block",
-                  transition: "all ease-in-out 400ms"
-                }}>
-                  <div id='headers'>
-                    <div id='service'>Title</div>
-                    <div id='title'>Updated At</div>
-                    <div id='title'>Created By</div>
-                  </div>
-                </div>
-                :
-                null
-            }
-            { feature.manualTests && feature.manualTests.map((test, index) => {
-            return (
-            <div>
-              <a href={test.link} target='_blank'
-                rel="noopener noreferrer">
-                <FeatureTest
-                    key={index} //this is required by React but we may not need it
-                    index={index}
-                    test={test}
-                />
-              </a>
-              <div id="end-column">
-                <button className="update_report" onClick={()=>setOnClickUpdateFeatureTest({'test' : test, 'index' : index})} ><img src={penIcon} alt="Update"/> </button>
-              </div>
-              <hr></hr>
-            </div>
-            )})
-            }
-          </div>
-
+          <FeatureTest
+              id = {id}
+              feature = {feature}
+          />
           <br/>
 
           {/*Postman Tests
@@ -322,7 +278,7 @@ const FeatureDetails = (props) => {
                 <div>
                   <a href={test.link} target='_blank'
                      rel="noopener noreferrer">
-                    <FeatureTest
+                    <FeatureTestRow
                         key={index} //this is required by React but we may not need it
                         index={index}
                         test={test}
@@ -375,7 +331,7 @@ const FeatureDetails = (props) => {
                   <div>
                     <a href={test.link} target='_blank'
                        rel="noopener noreferrer">
-                    <FeatureTest
+                    <FeatureTestRow
                           key={index} //this is required by React but we may not need it
                           index={index}
                           test={test}
@@ -429,7 +385,7 @@ const FeatureDetails = (props) => {
                   <div>
                     <a href={test.link} target='_blank'
                        rel="noopener noreferrer">
-                      <FeatureTest
+                      <FeatureTestRow
                           key={index} //this is required by React but we may not need it
                           index={index}
                           test={test}
@@ -482,7 +438,7 @@ const FeatureDetails = (props) => {
                   <div>
                     <a href={test.link} target='_blank'
                        rel="noopener noreferrer">
-                      <FeatureTest
+                      <FeatureTestRow
                           key={index} //this is required by React but we may not need it
                           index={index}
                           test={test}
@@ -564,6 +520,7 @@ const mapStateToProps = (state, ownProps) => {
     id: ownProps.match.params.id,
 
     user: state.auth.user,
+    allUsers: state.auth.allUsers,
     comments: state.feature.getFeatureComments
   }
 };
@@ -576,6 +533,9 @@ const mapDispatchToProps = (dispatch) => {
     getFeatureComments: (featureId) => dispatch(getFeatureComments(featureId)),
     unsubscribeGetFeatureComments: (featureId) => dispatch(unsubscribeGetFeatureComments(featureId)),
     resetGetFeatureComments: () => dispatch(resetGetFeatureComments()),
+
+    getAllUsers: () => dispatch(getAllUsers()),
+    unsubscribeGetAllUsers: () => dispatch(getAllUsers()),
 
     //alerts
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
