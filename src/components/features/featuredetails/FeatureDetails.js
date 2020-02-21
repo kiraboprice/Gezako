@@ -510,7 +510,7 @@ const FeatureDetails = (props) => {
             setUpdateFeatureTestResponse={setUpdateFeatureTestResponse}
         />
 
-        {/*Purely Functional Non-Ui components*/}
+        {/*Purely Functional Non-Ui components - leaving this here as an example, instead of using redux*/}
         <GetFeatureByIdDbHandler
             getFeatureByIdInDb = {getFeatureByIdInDb}
             id = {id}
