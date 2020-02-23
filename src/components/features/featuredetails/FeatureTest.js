@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import add_test_icon from "../../../assets/Icons/plus.png";
-import * as status from "../../../constants/Feature_TestStatus";
+import * as ts from "../../../constants/Feature_TestStatus";
 import penIcon from "../../../assets/Icons/pen.png";
 import {getAllUsers, setPrevUrl} from "../../../store/actions/authActions";
 import {
   getFeatureComments, resetGetFeatureComments,
-  unsubscribeGetFeatureComments
+  unsubscribeGetFeatureComments, updateFeature
 } from "../../../store/actions/featureActions";
 import {
   showErrorAlert,
@@ -17,44 +17,73 @@ import AddFeatureTestDialog from "./AddFeatureTestDialog";
 import UpdateFeatureTestDialog from "./UpdateFeatureTestDialog";
 import FeatureTestRow from "./FeatureTestRow";
 import {getServiceNameFromPathName} from "../../../util/StringUtil";
+import * as firebase from "firebase";
+import InfoBeforeDefaultUI from "../../maincontent/Feature";
 
 const FeatureTest = (props) => {
 
   const [testsHidden, setTestsHidden] = useState("block");
+  const [status, setStatus] = useState('');
+  const [assignedTo, setAssignedTo] = useState(null);
+
+  const [feature, setFeature] = useState(null); //use for updating the test metadata
 
   useEffect(() => {
-
+    setFeature(props.feature);
   }, [props]);
 
+  //once feature is set from props. set UI here
+  const [uiToBeDisplayed, setUiToBeDisplayed] = useState('loading');
+  useEffect(() => {
+    if (feature) {
+      switch (props.testType) {
+        case 'manual': //todo add this to constants
+          setStatus(feature.manualTestsMetadata? feature.manualTestsMetadata.status: ts.NO_TESTS_ADDED_VALUE); //default to no tests added
+          setAssignedTo(feature.manualTestsMetadata? feature.manualTestsMetadata.assignedTo: null);
+          break;
+
+        case 'postman': //todo add this to constants
+          setStatus(feature.postmanTestsMetadata? feature.postmanTestsMetadata.status: ts.NO_TESTS_ADDED_VALUE);
+          setAssignedTo(feature.postmanTestsMetadata? feature.postmanTestsMetadata.assignedTo: null);
+          break;
+
+        case 'spock': //todo add this to constants
+          setStatus(feature.spockTestsMetadata? feature.spockTestsMetadata.status: ts.NO_TESTS_ADDED_VALUE);
+          setAssignedTo(feature.spockTestsMetadata? feature.spockTestsMetadata.assignedTo: null);
+          break;
+
+        case 'android': //todo add this to constants
+          setStatus(feature.androidTestsMetadata? feature.androidTestsMetadata.status: ts.NO_TESTS_ADDED_VALUE);
+          setAssignedTo(feature.androidTestsMetadata? feature.androidTestsMetadata.assignedTo: null);
+          break;
+
+        case 'performance': //todo add this to constants
+          setStatus(feature.performanceTestsMetadata? feature.performanceTestsMetadata.status: ts.NO_TESTS_ADDED_VALUE);
+          setAssignedTo(feature.performanceTestsMetadata? feature.performanceTestsMetadata.assignedTo: null);
+          break;
+        default:
+          break;
+      }
+
+      //setup ui
+      setUiToBeDisplayed('main');
+    }
+  }, [feature]);
+
+  console.log("assignedTo---", assignedTo);
   const handleChange = (e) => {
     const value = e.target.value;
-    console.log('handleChange: ', value);
+    // console.log('handleChange: ', value);
     switch (e.target.name) {
-      case 'title':
-        // setTitle(value);
+      case 'status':
+        setStatus(value);
         break;
-      case 'phase':
-        // setPhase(value);
-        break;
-      case 'service':
-        // setService(value);
-        break;
-
-      case 'type':
-        // setType(value);
-        break;
-
-      case 'numberOfTests':
-        // setNumberOfTests(value);
-        break;
-
       default:
         break;
     }
 
   };
 
-  const [assignedTo, setAssignedTo] = useState(null);
   const handleAssignedToChange = (e) => {
     const sel = document.getElementsByName('assignedTo')[0];
     const opt = sel.options[sel.selectedIndex];
@@ -62,13 +91,71 @@ const FeatureTest = (props) => {
     setAssignedTo({'id': value, 'displayName': opt.text});
   };
 
-  //Update feature tests
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [testTypeToAdd, setTestTypeToAdd] = useState();
   const [addFeatureTestResponse, setAddFeatureTestResponse] = useState();
   const handleAddTestClicked = () => {
     setShowAddDialog(true);
     setTestTypeToAdd(props.testType);
+  };
+
+  const { updateFeature } = props;
+  const { user } = props;
+  const handleOnClickUpdateTestMetadata = () => {
+
+    const metadata = {
+      assignedTo: assignedTo,
+      status: status,
+      updatedAt: firebase.firestore.Timestamp.fromDate(new Date()),
+      updatedBy: {'id': user.uid, 'displayName': user.displayName} //todo Rich or Derek in all places where we set the updateBy value, set this as the new format/standard:  only one feild with a json array
+    };
+
+    switch (props.testType) {
+      case 'manual': //todo add  to constants
+        feature.manualTestsMetadata = metadata;
+        updateFeature(props.id, feature);
+        break;
+
+      case 'postman': //todo add  to constants
+          console.log("metadata----", metadata);
+        feature.postmanTestsMetadata = metadata;
+        updateFeature(props.id, feature);
+        break;
+
+      case 'spock': //todo add  to constants
+        feature.spockTestsMetadata = metadata;
+        updateFeature(props.id, feature);
+        break;
+
+      case 'android': //todo add  to constants
+        feature.androidTestsMetadata = metadata;
+        updateFeature(props.id, feature);
+        break;
+
+      case 'performance': //todo add  to constants
+        feature.performanceTestsMetadata = metadata;
+        updateFeature(props.id, feature);
+        break;
+
+      default:
+        break;
+    }
+    
+  };
+
+  const getStatusLineColor = () => {
+    switch (status) {
+      case ts.NO_TESTS_ADDED_VALUE:
+        return 'grey';
+      case ts.ADDING_TESTS_VALUE:
+        return 'maroon';
+      case ts.DONE_VALUE:
+        return 'darkgreen';
+      case ts.NA_VALUE:
+        return 'darkgrey';
+      default:
+        break;
+    }
   };
 
   /**
@@ -105,9 +192,18 @@ const FeatureTest = (props) => {
 
   const [updateFeatureTestResponse, setUpdateFeatureTestResponse] = useState(false);
 
+  //load UI
+  if(uiToBeDisplayed === 'loading') {
+    return (
+        <div>
+          <InfoBeforeDefaultUI message='Loading...' />
+        </div>
+    )
+  }
+
   return(
       <div>
-        <h3>{props.testType} Tests</h3>
+        <span><h3>{props.testType} tests</h3></span>
 
         <button
             id="hide_button"
@@ -121,28 +217,31 @@ const FeatureTest = (props) => {
           <img src={add_test_icon} alt="add test" />
         </button>
 
-        <div id = 'feature-test-status'>
-          <label>Status: </label>
+        <span id ="feature-test-status">
+            <label>Status: </label>
           <select name='status' value={status} onChange={handleChange}>
-            <option value={status.NO_TESTS_ADDED_VALUE}>{status.NO_TESTS_ADDED_NAME}</option>
-            <option value={status.ADDING_TESTS_VALUE}>{status.ADDING_TESTS_NAME}</option>
-            <option value={status.DONE_VALUE}>{status.DONE_NAME}</option>
-            <option value={status.NA_VALUE}>{status.NA_NAME}</option>
+            <option value={ts.NO_TESTS_ADDED_VALUE}>{ts.NO_TESTS_ADDED_NAME}</option>
+            <option value={ts.ADDING_TESTS_VALUE}>{ts.ADDING_TESTS_NAME}</option>
+            <option value={ts.DONE_VALUE}>{ts.DONE_NAME}</option>
+            <option value={ts.NA_VALUE}>{ts.NA_NAME}</option>
           </select>
-        </div>
+        </span>
 
-        <div id='feature-test-assigned-to'>
+        <span id='feature-test-assigned-to'>
           <label>Assigned To: </label>
           <select name='assignedTo' onChange={handleAssignedToChange}>
-            <option value=''></option>
-            {props.allUsers && props.allUsers.map(user => <option value={user.id}>{user.displayName}</option>)}
+            <option value={assignedTo? assignedTo.id : null}>{assignedTo? assignedTo.displayName : null}</option>
+            {props.users && props.users.map(user => <option value={user.id}>{user.displayName}</option>)}
           </select>
-        </div>
+        </span>
 
-        <button id="test-button-summary" style={{
-          background: "#f0f0f0"
-        }}>Update
+        <button id="test-button-summary"
+                style={{background: "#f0f0f0"}}
+                onClick={()=>handleOnClickUpdateTestMetadata()} >
+          Update
         </button>
+
+         <div id="status-line" style={{background: getStatusLineColor(status)}}></div>
 
         <div style={{display: testsHidden === "block" ? "block" : "none", transition: "all ease-in-out 400ms"}}>
           {props.tests? //todo this will not be needed for feature Features as they'll have empty arrays set for tests (like empty array of manualTests) when a feature is first created
@@ -206,7 +305,8 @@ const FeatureTest = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    allUsers: state.auth.allUsers,
+    user: state.auth.user,
+    updateFeatureResult: state.feature.updateFeatureResult
   }
 };
 
@@ -214,7 +314,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     //alerts
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
-    showErrorAlert: (message) => dispatch(showErrorAlert(message))
+    showErrorAlert: (message) => dispatch(showErrorAlert(message)),
+
+    updateFeature: (id, feature) => dispatch(updateFeature(id, feature)),
   }
 };
 

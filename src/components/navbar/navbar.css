@@ -45,7 +45,7 @@
     cursor: pointer;
     border-radius: 100%;
     object-fit: cover;
-    border: solid grey 1px;
+    border: solid 2px #fafafa;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 

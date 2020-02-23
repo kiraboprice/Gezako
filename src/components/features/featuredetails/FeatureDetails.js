@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-import moment from 'moment'
-import {Link, Redirect} from 'react-router-dom'
+import React, {useEffect, useState} from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import moment from 'moment';
+import {Link, Redirect} from 'react-router-dom';
 
 import {
   getAllUsers,
@@ -23,6 +23,8 @@ import CreateComment from "../../comments/CreateComment";
 import InfoBeforeDefaultUI from "../../maincontent/Feature";
 import * as status from "../../../constants/Feature_TestStatus";
 import FeatureTest from "./FeatureTest";
+
+import external_link from "../../../assets/Icons/external_link.png";
 
 const FeatureDetails = (props) => {
 
@@ -154,15 +156,17 @@ const FeatureDetails = (props) => {
                   feature.createdAt? feature.createdAt.toDate() : null).calendar()}</div>
 
               <button id="test-button-summary"
-                      style={{background: "#ff6f69", marginRight: "10px"}}
+                      style={{color: "black", marginRight: "15px", background: "transparent", fontWeight: "700", textDecoration: "underline", padding: "10px 0"}}
                       onClick={() => goToExternalLink(feature.productSpec)}>
+                        <img id="external-link" src={external_link} alt="Opens the link in a new tab"/>
                 {feature.techSpec ? 'Product Requirements Spec'
                     : 'No Product Requirements Spec Set'}
               </button>
 
               <button id="test-button-summary"
-                      style={{background: "#ffeead"}}
+                      style={{color: "black", background: "transparent", fontWeight: "700", textDecoration: "underline", padding: "10px 0"}}
                       onClick={() => goToExternalLink(feature.techSpec)}>
+                        <img id="external-link" src={external_link} alt="Opens the link in a new tab"/>
                 {feature.techSpec ? 'Technical Design Doc'
                     : 'No Technical Design Doc Set'}
               </button>
@@ -226,6 +230,7 @@ const FeatureDetails = (props) => {
               feature = {feature}
               tests = {feature.performanceTests}
               testType = 'performance' //todo add this to constants
+              users = {allUsers}
           />
           <br/>
 

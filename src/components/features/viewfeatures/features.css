@@ -56,9 +56,5 @@ coverage
 }
 
 #sorted-by{
-    position: absolute;
-    right: 0;
-    padding: 5px 10px;
-    background: #f0f0f0;
-    margin-top: -5px;
+  font-size: 15px;
 }

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import './report.css';
-import {getAssigneeName, getFirstNameFromFullName} from "../../util/StringUtil";
+import {getAssigneeNameForReport, getFirstNameFromFullName} from "../../util/StringUtil";
 import moment from "moment";
 import {COMPLETED_PHASE, DEVELOPMENT_PHASE} from "../../constants/Report";
 
@@ -34,7 +34,7 @@ const SpockTest = (props) => {
             </div>
 
           <div id='title' style={{display: displayTestDevelopmentFields}}>
-            {getAssigneeName(props.report)}
+            {getAssigneeNameForReport(props.report)}
             </div>
 
           <div id='title'>{moment(props.report.createdAt.toDate()).calendar()}</div>

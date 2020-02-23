@@ -205,22 +205,25 @@ const SpockReportDetails = (props) => {
               {/*</button>*/}
 
               {/*todo Rich/Derek place this in it's own css style thing (not the copied "uploaded-by" used below)*/}
-              <div id="uploaded-by">Comments</div>
-              { comments && comments.map(comment => {
-                return (
-                    <div key={comment.id}>
-                      <ViewComment
-                          reportId={id}
-                          comment={comment}
-                      />
-                    </div>
-                )
-              })
-              }
-              <CreateComment
-                  reportId =  {id}
-              />
-            </div>
+              <div id="comments-container-inner">
+
+                <div id="uploaded-by">Comments</div>
+                  { comments && comments.map(comment => {
+                    return (
+                        <div key={comment.id}>
+                          <ViewComment
+                              reportId={id}
+                              comment={comment}
+                          />
+                        </div>
+                    )
+                  })
+                  }
+                  <CreateComment
+                      reportId =  {id}
+                  />
+                </div>
+              </div>
             {/*---------------COMMENTS END HERE--------------------*/}
 
           </div>

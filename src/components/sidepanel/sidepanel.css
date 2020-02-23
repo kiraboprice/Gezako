@@ -3,11 +3,24 @@
     position: fixed;
     margin-left: 2%;
     width: 65px;
-    height: 100%;
+    height: 90%;
     padding-right: 15px;
     overflow: auto;
     transition: all ease-in-out 400ms;
     font-size: 90%;
+}
+
+#sidepanel::-webkit-scrollbar {
+    width: 5px;
+    cursor: pointer;
+}
+
+  /* Handle on hover */
+#sidepanel::-webkit-scrollbar-thumb:hover {
+    background: rgb(68, 68, 68); 
+    cursor: pointer;
+    /* ? Some nice color there: rgb(234, 65, 93) */
+    transition: ease-in-out all 400ms;
 }
 
 #expand-icon{
@@ -31,6 +44,16 @@
     width: 17.5px;
     z-index: 9999999999999999999999;
     height: 17.5px;
+}
+
+#showOrHideButton img{
+    width: 17.5px;
+    height: 17.5px;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    margin-right: 10px;
+    vertical-align: middle;
 }
 
 /* background: #fde59633; */
@@ -82,7 +105,6 @@ a{
 }
 
 #mini-links{
-    font-family: 'Roboto', sans-serif;
     display: block;
     transition: all ease-in-out 400ms;
 }

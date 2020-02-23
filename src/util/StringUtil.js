@@ -37,11 +37,17 @@ export const getFirstNameFromFullName = (fullName) => {
   return fullName ? fullName.split(' ').slice(0, -1).join(' ') : null
 };
 
-export const getAssigneeName = (report) => {
+export const getAssigneeNameForReport = (report) => {
   return report.assignedTo ?
       getFirstNameFromFullName(report.assignedTo.displayName) :
       null
 };
+
+// export const getAssigneeNameForFeatureTest = (metadata) => {
+//   return metadata.assignedTo ?
+//       getFirstNameFromFullName(metadata.assignedTo.displayName) :
+//       null
+// };
 
 export const isValidUrl = (url) => {
   try {

@@ -7,8 +7,9 @@
 }
 
 #description-test {
-    font-size: 14px;
-    color: grey;
+    font-size: 15px;
+    line-height: 1.6em;
+    color: black;
     padding: 10px 0;
 }
 
@@ -50,4 +51,48 @@
 
 #feature-reports h3{
     margin-top: 25px;
+}
+
+#feature-test-status select{
+    outline: 0;
+    flex: 4;
+    cursor: pointer;
+    border: 0;
+    padding: 5px;
+    border-radius: 2.5px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    background: #f0f0f0;
+}
+
+#feature-test-assigned-to select{
+    outline: 0;
+    flex: 4;
+    cursor: pointer;
+    border: 0;
+    margin-right: 15px;
+    padding: 5px;
+    border-radius: 2.5px;
+    margin-bottom: 15px;
+    background: #f0f0f0;
+}
+
+#feature-test-status label{
+    font-size: 14px;
+}
+
+#feature-test-assigned-to label{
+    font-size: 14px;
+}
+
+#external-link{
+    width: 12px;
+    height: 12px;
+    margin-right: 2.5px;
+}
+
+#status-line{
+    padding: 2px;
+    width: 100%;
+    position: relative;
 }
