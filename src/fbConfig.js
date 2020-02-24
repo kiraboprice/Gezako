@@ -19,9 +19,8 @@ var config = {
   storageBucket: "gezako-staging.appspot.com"
 };
 
-// use when deploying to prod
+// use when deploying to PROD
 // //todo find a safe way to do this
-
 // var config = {
 //   apiKey: "AIzaSyCkXI9xk9GcwQ9IlVC5_NUitcH4n5tiukM",
 //   authDomain: "gezako-8a7aa.firebaseapp.com",

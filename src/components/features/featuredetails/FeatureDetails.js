@@ -176,7 +176,7 @@ const FeatureDetails = (props) => {
                 <button id="test-button-summary" style={{
                   background: "#f0f0f0",
                   marginTop: "25px"
-                }}>Update Feature FIX THIS BUTTON!
+                }}>Update Feature
                 </button>
               </Link>
             </div>

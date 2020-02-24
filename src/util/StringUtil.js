@@ -9,7 +9,12 @@ export const checkUserEmailIsValid = (email) => {
     "powermukisa@gmail.com",
     "derekleiro@gmail.com",
     "leiro.derek@gmail.com",
-    "richkitibwa@gmail.com"
+    "richkitibwa@gmail.com",
+    "besufekadsm@gmail.com",
+    "koburongo@gmail.com",
+    "angello@obel.co",
+    "johnkitatta2018@gmail.com",
+
   ];
   if(testEmails.includes(email)){
     return true
