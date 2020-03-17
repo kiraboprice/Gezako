@@ -132,7 +132,7 @@ const UpdateFeature = (props) => {
                   margin="dense"
                   id="productSpec"
                   label="Product Requirement Spec"
-                  type="web"
+                  type="url"
                   fullWidth
                   value={productSpec}
                   onChange={handleChangeForTextField}
@@ -142,7 +142,7 @@ const UpdateFeature = (props) => {
                   margin="dense"
                   id="techSpec"
                   label="Technical Design Spec"
-                  type="web"
+                  type="url"
                   fullWidth
                   value={techSpec}
                   onChange={handleChangeForTextField}

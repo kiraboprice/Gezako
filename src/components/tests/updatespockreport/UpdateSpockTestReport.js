@@ -318,7 +318,7 @@ const UpdateSpockTestReport = (props) => {
                   margin="dense"
                   id="githubPR"
                   label="Github Pull Request Link"
-                  type="web"
+                  type="url"
                   fullWidth
                   value={githubPR}
                   onChange={handleChangeForTextField}
@@ -328,7 +328,7 @@ const UpdateSpockTestReport = (props) => {
                   margin="dense"
                   id="postmanTest"
                   label="Postman Tests Link"
-                  type="web"
+                  type="url"
                   fullWidth
                   value={postmanTest}
                   onChange={handleChangeForTextField}
@@ -338,7 +338,7 @@ const UpdateSpockTestReport = (props) => {
                   margin="dense"
                   id="productSpec"
                   label="Product Requirement Spec"
-                  type="web"
+                  type="url"
                   fullWidth
                   value={productSpec}
                   onChange={handleChangeForTextField}
@@ -348,7 +348,7 @@ const UpdateSpockTestReport = (props) => {
                   margin="dense"
                   id="techSpec"
                   label="Technical Design Spec"
-                  type="web"
+                  type="url"
                   fullWidth
                   value={techSpec}
                   onChange={handleChangeForTextField}
