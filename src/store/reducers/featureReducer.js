@@ -20,7 +20,7 @@ const featureReducer = (state = initState, action) => {
       console.log('GET_FEATURES_BY_SERVICE_ERROR', action.error);
       return {
         ...state,
-        getFeaturesByService: 'ERROR'
+        getFeaturesByService: []
       };
 
     case 'GET_FEATURES_BY_SERVICE_SUCCESS':

@@ -1,39 +1,32 @@
-import React, {Component} from 'react'
+import React, {useState ,useEffect} from 'react'
 
 import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
-import {signIn, setPrevUrl} from '../../store/actions/authActions'
+import {signIn, setPrevUrl } from '../../store/actions/authActions'
 
 import backgroundImage from '../../assets/Imgs/bg.jpg';
 import twitterIcon from '../../assets/Icons/twitter.png';
 
 import './login.css';
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.signIn = this.signIn.bind(this);
-  }
+const Login =(props)=> {
+  const { setPrevUrl, signIn } = props; 
+  const { user, userAuthError, prevUrl } = props;
+  // useEffect(() =>{
+  //
+  // },[user]);
 
-  signIn() {
-    //todo show loading icon here
-    this.props.signIn()
-  }
-
-  render() {
-    const { user, userAuthError, prevUrl, setPrevUrl } = this.props;
-
-    if(user!== null) {
-      if(prevUrl!== null) {
-        setPrevUrl(null);
-        return <Redirect to= {prevUrl} />
-      } else {
-        return <Redirect to='/' />
-      }
+  if(user!== null) {
+    if(prevUrl!== null) {
+      setPrevUrl(null);
+      return <Redirect to= {prevUrl} />
+    } else {
+      return <Redirect to='/' />
     }
+  }
 
-    return (
+return (
         <div className="login">
           <img id='back_image' src={backgroundImage} alt='background cover'></img>
           <div id='cover'></div>
@@ -55,8 +48,7 @@ class Login extends Component {
                 <h2 id='small_text'>
                   Organising the Software Testing & QA Process.
                 </h2>
-
-                <div id='button' onClick={this.signIn}>
+                <div id='button' onClick={signIn}>
                   LOGIN IN WITH GOOGLE
                 </div>
                 <div id='errorText' className="errorText">
@@ -87,8 +79,7 @@ class Login extends Component {
           </ul>
         </div>
     );
-  }
-}
+};
 
 const mapStateToProps = (state) => {
   return {

@@ -30,9 +30,9 @@ const Features = (props) => { //todo move this out of tests parent package/dir
 
   const { service } = props;
   const { getFeaturesByService, unsubscribeGetFeaturesByService, resetGetFeaturesByService } = props;
-  useEffect(() => {
-    getFeaturesByService(service);
-
+  useEffect(() => { 
+      getFeaturesByService(service);
+       
     return function cleanup() {
       unsubscribeGetFeaturesByService(service);
       resetGetFeaturesByService();
@@ -41,7 +41,6 @@ const Features = (props) => { //todo move this out of tests parent package/dir
 
   const { features } = props;
   useEffect(() => {
-    // console.log('FEATURES....', props);
     if (features){
       if(features.length === 0){
         setDisplayLoadingFeatures('none');
