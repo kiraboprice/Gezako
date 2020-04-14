@@ -6,8 +6,9 @@
   "main": "index.js",
   "dependencies": {
     "@babel/core": "^7.7.5",
-    "@material-ui/core": "^4.8.3",
+    "@material-ui/core": "^4.9.9",
     "@material-ui/lab": "^4.0.0-alpha.39",
+    "@material/menu": "^5.1.0",
     "axios": "^0.19.1",
     "firebase": "^6.6.2",
     "http2": "^3.3.7",
