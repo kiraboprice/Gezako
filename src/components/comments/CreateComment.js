@@ -56,7 +56,7 @@ const CreateComment = (props) => {
   return(
         <div id='report'>
           <div id="comment-add-container">
-            <img id="comment-picture" src={user.photoURL} alt={user.displayName} />
+            <img id="comment-picture" src={user.photoURL} />
 
             <div id="active-container">
             <textarea
