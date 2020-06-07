@@ -26,7 +26,7 @@ export const signIn = () => {
      // if(!StringUtils.checkUserEmailIsValid(resp.user.email)) {
      //   const userEmail = resp.user.email;
      //   notTalaEmployeeOrTestUserDispatchSent = true;
-     //   return dispatch({ type: 'NOT_TALA_EMPLOYEE_OR_TEST_USER', userEmail });
+     //   return dispatch({ type: 'NOT_REGISTERED_UNDER_A_COMPANY_OR_TEST_USER', userEmail });
      // }
      // else{
      //   // console.log(resp.user)
@@ -39,7 +39,7 @@ export const signIn = () => {
      // }
     }).then((user) => {
       if(!notTalaEmployeeOrTestUserDispatchSent){
-        //dispatch this action only if the user email was valid. else do nothing. the NOT_TALA_EMPLOYEE_OR_TEST_USER action would have already been dispatched
+        //dispatch this action only if the user email was valid. else do nothing. the NOT_REGISTERED_UNDER_A_COMPANY_OR_TEST_USER action would have already been dispatched
         // console.log("IN signIn--------");
         // dispatch({ type: 'LOGIN_SUCCESS', user }) //this causes an error when the user first logs in.
         //using the onAuthStateChanged in index.js for now
