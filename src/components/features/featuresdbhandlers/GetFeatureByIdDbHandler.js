@@ -27,11 +27,9 @@ const GetFeatureByIdDbHandler = (props) => {
     }
   }, [getFeatureByIdInDb]);
 
+  const {user} = props;
   const getFeatureById = (id) => {
-    // console.log("getFeatureById PROPS ---", props);
-    const collectionUrl = getFeaturesCollectionUrl();
-
-    firebase.firestore().collection(`${collectionUrl}`)
+    firebase.firestore().collection(getFeaturesCollectionUrl(user.company))
     .doc(id)
     .onSnapshot(snapshot => {
       if (!snapshot.exists) {
@@ -62,7 +60,7 @@ const GetFeatureByIdDbHandler = (props) => {
   }, [unsubscribeGetFeatureByIdInDb]);
 
   const unsubscribeGetFeatureById = (id) => {
-    const collectionUrl = getFeaturesCollectionUrl();
+    const collectionUrl = getFeaturesCollectionUrl(user.company);
     firebase.firestore().collection(`${collectionUrl}`)
     .doc(id)
     .onSnapshot(() => { });

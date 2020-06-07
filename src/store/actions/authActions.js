@@ -2,6 +2,7 @@ import firebase from "../../fbConfig"
 
 import {BASE_DOCUMENT} from "../../constants/FireStore";
 import * as StringUtils from "../../util/StringUtil";
+import {getUsersCollectionUrl} from "../../util/StringUtil";
 
 let notTalaEmployeeOrTestUserDispatchSent = false;
 
@@ -71,7 +72,7 @@ export const setPrevUrl = (url) => {
 export const getUsersApartFromCurrentUser = () => {
   return (dispatch, getState) => {
     const user = getState().auth.user;
-    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).get()
+    firebase.firestore().collection(getUsersCollectionUrl(getState().auth.user.company)).get()
     .then((snapshot) => {
       let users = [];
       if (snapshot.empty) {
@@ -94,7 +95,7 @@ export const getUsersApartFromCurrentUser = () => {
 
 export const unsubscribeGetUsersApartFromCurrentUser = () => {
   return (dispatch, getState) => {
-    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).get()
+    firebase.firestore().collection(getUsersCollectionUrl(getState().auth.user.company)).get()
     .then((snapshot) => { });
   }
 };
@@ -108,7 +109,7 @@ export const resetGetUsersApartFromCurrentUser = () => {
 export const getAllUsers = () => {
   return (dispatch, getState) => {
     const user = getState().auth.user;
-    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).get()
+    firebase.firestore().collection(getUsersCollectionUrl(getState().auth.user.company)).get()
     .then((snapshot) => {
       let users = [];
       if (snapshot.empty) {
@@ -129,7 +130,7 @@ export const getAllUsers = () => {
 
 export const unsubscribeGetAllUsers = () => {
   return (dispatch, getState) => {
-    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).get()
+    firebase.firestore().collection(getUsersCollectionUrl(getState().auth.user.company)).get()
     .then((snapshot) => { });
   }
 };
@@ -147,7 +148,7 @@ export const resetGetAllUsers = () => {
  */
 export const getUserByIdThenStoreInMap = (id) => {
   return (dispatch, getState) => {
-    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).doc(id).get()
+    firebase.firestore().collection(getUsersCollectionUrl(getState().auth.user.company)).doc(id).get()
     .then(doc => {
       if (!doc.exists) {
         dispatch({type: 'GET_USER_BY_ID_THEN_MAP_NO_USER'});

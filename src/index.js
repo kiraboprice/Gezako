@@ -31,7 +31,7 @@ firebase.auth().onAuthStateChanged(user => {
     else{
       const company = StringUtils.getCompanyNameFromEmail(user.email)
       notTalaEmployeeOrTestUserDispatchSent = false;
-      firebase.firestore().collection(BASE_DOCUMENT+ `/${company}/users`).doc(user.uid).set({
+      firebase.firestore().collection(BASE_DOCUMENT+ `${company}/users`).doc(user.uid).set({
         displayName: user.displayName,
         email: user.email,
         photoURL: user.photoURL

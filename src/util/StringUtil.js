@@ -64,12 +64,20 @@ export const getTestPhaseFromPathName = (pathname) => {
   }
 };
 
-export const getReportsCollectionUrl = () => {
-    return BASE_DOCUMENT + '/reports'
+export const getReportsCollectionUrl = (company) => {
+    return BASE_DOCUMENT + `${company}/reports`
 };
 
-export const getFeaturesCollectionUrl = () => {
-  return BASE_DOCUMENT + '/features'
+export const getFeaturesCollectionUrl = (company) => {
+  return BASE_DOCUMENT + `${company}/features`
+};
+
+export const getUsersCollectionUrl = (company) => {
+  return BASE_DOCUMENT + `${company}/users`
+};
+
+export const getServiceStatsCollectionUrl = (company) => {
+  return BASE_DOCUMENT + `${company}/servicestats`
 };
 
 export const getFirstNameFromFullName = (fullName) => {

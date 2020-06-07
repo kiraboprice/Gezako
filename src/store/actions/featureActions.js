@@ -7,9 +7,9 @@ import {
 } from "../../util/StringUtil";
 
 export const getFeaturesByService = (service) => {
-  const collectionUrl = getFeaturesCollectionUrl();
   console.log('getFeaturesByService....', service);
   return (dispatch, getState) => {
+    const collectionUrl = getFeaturesCollectionUrl(getState().auth.user.company);
     firebase.firestore().collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
     .orderBy('createdAt', 'desc')
@@ -34,8 +34,8 @@ export const getFeaturesByService = (service) => {
 };
 
 export const unsubscribeGetFeaturesByService = (service) => {
-  const collectionUrl = getFeaturesCollectionUrl();
   return (dispatch, getState) => {
+    const collectionUrl = getFeaturesCollectionUrl(getState().auth.user.company);
     firebase.firestore().collection(`${collectionUrl}`)
     .where('service', '==', `${service}`)
     // .orderBy('title')
@@ -50,9 +50,8 @@ export const resetGetFeaturesByService = () => {
 };
 
 export const getFeature = (id) => {
-  // console.log(`getFeature---- ${id}`);
-  const collectionUrl = getFeaturesCollectionUrl();
   return (dispatch, getState) => {
+    const collectionUrl = getFeaturesCollectionUrl(getState().auth.user.company);
     firebase.firestore().collection(`${collectionUrl}`)
     .doc(id)
     .onSnapshot(snapshot => {
@@ -70,8 +69,8 @@ export const getFeature = (id) => {
 };
 
 export const unsubscribeGetFeature = (id) => {
-  const collectionUrl = getFeaturesCollectionUrl();
   return (dispatch, getState) => {
+    const collectionUrl = getFeaturesCollectionUrl(getState().auth.user.company);
     firebase.firestore().collection(`${collectionUrl}`)
     .doc(id)
     .onSnapshot(() => { });
@@ -85,9 +84,8 @@ export const resetGetFeature = () => {
 };
 
 export const deleteFeature = (id) => {
-  // console.log(`deleteFeature---- ${id}`);
-  const collectionUrl = getFeaturesCollectionUrl();
   return (dispatch, getState) => {
+    const collectionUrl = getFeaturesCollectionUrl(getState().auth.user.company);
     firebase.firestore().collection(`${collectionUrl}`)
     .doc(id)
     .delete().then(
@@ -102,7 +100,7 @@ export const deleteFeature = (id) => {
 
 export const updateFeature = (id, feature) => {
   return (dispatch, getState) => {
-    const collectionUrl = getFeaturesCollectionUrl();
+    const collectionUrl = getFeaturesCollectionUrl(getState().auth.user.company);
     // console.log('updateFeature action----', id, feature);
     const user = getState().auth.user;
 
@@ -130,8 +128,8 @@ export const resetUpdateFeature = () => {
 
 export const createFeatureComment = (featureId, comment) => {
   // console.log("createFeatureComment---", report);
-  const collectionUrl = getFeaturesCollectionUrl();
   return (dispatch, getState) => {
+    const collectionUrl = getFeaturesCollectionUrl(getState().auth.user.company);
     const user = getState().auth.user;
     firebase.firestore().collection(`${collectionUrl}/${featureId}/comments`)
     .add({
@@ -145,9 +143,9 @@ export const createFeatureComment = (featureId, comment) => {
 };
 
 export const getFeatureComments = (featureId) => {
-  const collectionUrl = getFeaturesCollectionUrl();
   // console.log('getCommentsByFeatureId....', featureId);
   return (dispatch, getState) => {
+    const collectionUrl = getFeaturesCollectionUrl(getState().auth.user.company);
     firebase.firestore().collection(`${collectionUrl}/${featureId}/comments`)
     .orderBy('createdAt')
     .onSnapshot(querySnapshot => {
@@ -171,8 +169,8 @@ export const getFeatureComments = (featureId) => {
 };
 
 export const unsubscribeGetFeatureComments = (featureId) => {
-  const collectionUrl = getFeaturesCollectionUrl();
   return (dispatch, getState) => {
+    const collectionUrl = getFeaturesCollectionUrl(getState().auth.user.company);
     firebase.firestore().collection(`${collectionUrl}/${featureId}/comments`)
     .orderBy('createdAt')
     .onSnapshot(() => { });
@@ -187,7 +185,7 @@ export const resetGetFeatureComments = () => {
 
 export const updateFeatureComment = (featureId, comment) => {
   return (dispatch, getState) => {
-    const collectionUrl = getFeaturesCollectionUrl();
+    const collectionUrl = getFeaturesCollectionUrl(getState().auth.user.company);
     // console.log('updateFeatureComment action', featureId);
     const user = getState().auth.user;
 
@@ -204,8 +202,8 @@ export const updateFeatureComment = (featureId, comment) => {
 };
 
 export const deleteFeatureComment = (featureId, commentId) => {
-  const collectionUrl = getFeaturesCollectionUrl();
   return (dispatch, getState) => {
+    const collectionUrl = getFeaturesCollectionUrl(getState().auth.user.company);
     firebase.firestore().collection(`${collectionUrl}/${featureId}/comments`)
     .doc(commentId)
     .delete().then(

@@ -30,8 +30,8 @@ const CreateFeatureDbHandler = (props) => {
   const createFeature = (feature) => {
     // console.log("createFeature---", feature);
 
-    const collectionUrl = getFeaturesCollectionUrl();
-      firebase.firestore().collection(collectionUrl).add({
+    const collectionUrl = getFeaturesCollectionUrl(user.company);
+    firebase.firestore().collection(collectionUrl).add({
         ...feature,
         //just leaving this here to show possibility of using profile in an action. but this is not scalable. if the displayName ever gets updated, we'd need a cloud function which listens on the user collection for this user specifically, then updates everywhere.
         createdBy: user.displayName,
