@@ -2,6 +2,7 @@ import firebase from "../../fbConfig"
 
 import {BASE_DOCUMENT} from "../../constants/FireStore";
 import * as StringUtils from "../../util/StringUtil";
+import {getUsersCollectionUrl} from "../../util/StringUtil";
 
 let notTalaEmployeeOrTestUserDispatchSent = false;
 
@@ -26,7 +27,7 @@ export const signIn = () => {
      // if(!StringUtils.checkUserEmailIsValid(resp.user.email)) {
      //   const userEmail = resp.user.email;
      //   notTalaEmployeeOrTestUserDispatchSent = true;
-     //   return dispatch({ type: 'NOT_TALA_EMPLOYEE_OR_TEST_USER', userEmail });
+     //   return dispatch({ type: 'NOT_REGISTERED_UNDER_A_COMPANY_OR_TEST_USER', userEmail });
      // }
      // else{
      //   // console.log(resp.user)
@@ -39,7 +40,7 @@ export const signIn = () => {
      // }
     }).then((user) => {
       if(!notTalaEmployeeOrTestUserDispatchSent){
-        //dispatch this action only if the user email was valid. else do nothing. the NOT_TALA_EMPLOYEE_OR_TEST_USER action would have already been dispatched
+        //dispatch this action only if the user email was valid. else do nothing. the NOT_REGISTERED_UNDER_A_COMPANY_OR_TEST_USER action would have already been dispatched
         // console.log("IN signIn--------");
         // dispatch({ type: 'LOGIN_SUCCESS', user }) //this causes an error when the user first logs in.
         //using the onAuthStateChanged in index.js for now
@@ -71,7 +72,7 @@ export const setPrevUrl = (url) => {
 export const getUsersApartFromCurrentUser = () => {
   return (dispatch, getState) => {
     const user = getState().auth.user;
-    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).get()
+    firebase.firestore().collection(getUsersCollectionUrl(getState().auth.user.company)).get()
     .then((snapshot) => {
       let users = [];
       if (snapshot.empty) {
@@ -94,7 +95,7 @@ export const getUsersApartFromCurrentUser = () => {
 
 export const unsubscribeGetUsersApartFromCurrentUser = () => {
   return (dispatch, getState) => {
-    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).get()
+    firebase.firestore().collection(getUsersCollectionUrl(getState().auth.user.company)).get()
     .then((snapshot) => { });
   }
 };
@@ -108,7 +109,7 @@ export const resetGetUsersApartFromCurrentUser = () => {
 export const getAllUsers = () => {
   return (dispatch, getState) => {
     const user = getState().auth.user;
-    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).get()
+    firebase.firestore().collection(getUsersCollectionUrl(getState().auth.user.company)).get()
     .then((snapshot) => {
       let users = [];
       if (snapshot.empty) {
@@ -129,7 +130,7 @@ export const getAllUsers = () => {
 
 export const unsubscribeGetAllUsers = () => {
   return (dispatch, getState) => {
-    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).get()
+    firebase.firestore().collection(getUsersCollectionUrl(getState().auth.user.company)).get()
     .then((snapshot) => { });
   }
 };
@@ -147,7 +148,7 @@ export const resetGetAllUsers = () => {
  */
 export const getUserByIdThenStoreInMap = (id) => {
   return (dispatch, getState) => {
-    firebase.firestore().collection(`${BASE_DOCUMENT}/users`).doc(id).get()
+    firebase.firestore().collection(getUsersCollectionUrl(getState().auth.user.company)).doc(id).get()
     .then(doc => {
       if (!doc.exists) {
         dispatch({type: 'GET_USER_BY_ID_THEN_MAP_NO_USER'});

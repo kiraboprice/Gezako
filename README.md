@@ -40,7 +40,7 @@ if there are new db indices, attempt to access them locally by first changing th
 to the prod config. You can then follow the firestore links in the logs to help you auto set up 
 the indices
 
-- update the firebase config in fbConfig.js to point to prod config
+- update the firebase config in `fbConfig.js` to point to prod config
 - update `testEmails` so that only prod emails are used: check `StringUtil.js`
 - use firebase prod config inorder to push functions to correct project:
 `firebase use prod` - probably not needed (taken care of by firebase deploy?)

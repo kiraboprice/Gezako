@@ -1,1 +1,1 @@
-export const BASE_DOCUMENT = "company/tala";
+export const BASE_DOCUMENT = "company/";

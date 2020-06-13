@@ -26,16 +26,17 @@ firebase.auth().onAuthStateChanged(user => {
     if(!StringUtils.checkUserEmailIsValid(user.email)) {
       const userEmail = user.email;
       notTalaEmployeeOrTestUserDispatchSent = true;
-      store.dispatch({ type: 'NOT_TALA_EMPLOYEE_OR_TEST_USER', userEmail })
+      store.dispatch({ type: 'NOT_REGISTERED_UNDER_A_COMPANY_OR_TEST_USER', userEmail })
     }
     else{
-      // console.log("IN ELSE--------");
+      const company = StringUtils.getCompanyNameFromEmail(user.email)
       notTalaEmployeeOrTestUserDispatchSent = false;
-      firebase.firestore().collection(BASE_DOCUMENT+ '/users').doc(user.uid).set({
+      firebase.firestore().collection(BASE_DOCUMENT+ `${company}/users`).doc(user.uid).set({
         displayName: user.displayName,
         email: user.email,
         photoURL: user.photoURL
       });
+      user["company"] = company
       store.dispatch({ type: 'LOGIN_SUCCESS', user })
     }
   }

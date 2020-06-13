@@ -28,7 +28,7 @@ const authReducer = (state = initState, action) => {
         userAuthError: "Log in failed. error:" + action.err.message
       };
 
-    case 'NOT_TALA_EMPLOYEE_OR_TEST_USER':
+    case 'NOT_REGISTERED_UNDER_A_COMPANY_OR_TEST_USER':
       return {
         ...state,
         user: null,
