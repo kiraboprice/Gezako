@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import './navbar.css';
 
@@ -47,6 +48,7 @@ const NavBar = (props) => {
           >
 
             <MenuItem>{user.displayName}</MenuItem>
+            <Link to="/settings"><MenuItem>Settings</MenuItem></Link>
             <MenuItem onClick={() => handleOnClickLogout()}>Log out</MenuItem>
 
           </Menu>

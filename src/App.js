@@ -24,13 +24,14 @@ import Home from "./components/tests/home/Home";
 import CustomSnackbar from "./components/alerts/CustomSnackbar";
 import ErrorBoundary from "./components/error/ErrorBoundary";
 import Features from "./components/features/viewfeatures/Features";
+import Settings from "./components/settings/Settings";
+import Template from 'components/settings/template (rename)/Template(rename)';
 import CreateFeature
   from "./components/features/createfeature/CreateFeature";
 import FeatureDetails
   from "./components/features/featuredetails/FeatureDetails";
 import UpdateFeature
   from "./components/features/updatefeature/UpdateFeature";
-
 
 const App = (props) => {
   const { user } = props;
@@ -77,6 +78,8 @@ const App = (props) => {
               <Route exact path='/create-task' component={CreateTask}/>
               <Route exact path='/tasks' component={Tasks}/>
               <Route exact path='/task/:id' component={TaskDetails}/>
+              <Route exact path='/settings' component={Settings}/>
+              <Route exact path='/settings/general' component={Template}/>
             </Switch>
 
             </ErrorBoundary>

@@ -80,6 +80,10 @@ export const getServiceStatsCollectionUrl = (company) => {
   return BASE_DOCUMENT + `${company}/servicestats`
 };
 
+export const getAppsUrl = (company) => {
+  return BASE_DOCUMENT + `${company}/apps`
+};
+
 export const getFirstNameFromFullName = (fullName) => {
   return fullName ? fullName.split(' ').slice(0, -1).join(' ') : null
 };

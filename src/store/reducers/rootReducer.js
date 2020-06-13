@@ -3,6 +3,7 @@ import featureReducer from "./featureReducer";
 import taskReducer from './taskReducer';
 import reportReducer from "./reportReducer";
 import snackbarReducer from "./snackbarReducer";
+import settingsReducer from "./settingsReducer";
 
 import { combineReducers } from 'redux'
 
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
   feature: featureReducer,
   task: taskReducer,
   report: reportReducer,
-  snackbar: snackbarReducer
+  snackbar: snackbarReducer,
+  settings: settingsReducer
 });
 
 export default rootReducer

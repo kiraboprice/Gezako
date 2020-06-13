@@ -1,0 +1,27 @@
+#settings-title{
+    font-size: 18px;
+    font-weight: 100;
+}
+
+.settings-section{
+    margin: 25px 10px;
+}
+
+.section-title{
+    font-size: 17px;
+    font-weight: 100;
+    margin: 20px 0;
+}
+
+#add-config{
+    padding: 5px 10px;
+    background: #f0f0f0;
+    margin-left: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.section-service{
+    margin: 5px 5px 0 0;
+    cursor: pointer;
+}
