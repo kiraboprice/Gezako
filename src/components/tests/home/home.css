@@ -1,0 +1,23 @@
+#home-cards-section{
+    display: flex;
+    width: 100%;
+}
+
+.home-card{
+    flex: 1;
+    margin: 7.5px;
+    padding: 20px;
+    border: solid 1px #f0f0f0;
+    box-shadow: -5px 10px 0 rgba(150, 150, 150, 0.1);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.home-card-title{
+    font-weight: 100;
+    font-size: 18px;
+}
+
+.home-card-info{
+    margin-top: 10px;
+}
