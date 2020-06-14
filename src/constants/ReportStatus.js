@@ -7,4 +7,3 @@ export const DONE = "Done";
 export const COMPLETED = "Completed";
 export const ARCHIVED = "Archived";
 export const DELETED = "Deleted";
-

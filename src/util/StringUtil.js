@@ -1,4 +1,6 @@
 import {BASE_DOCUMENT} from "../constants/FireStore";
+import {Link} from "react-router-dom";
+import React from "react";
 
 //prod test emails
 // const testEmails = [ // - UNCOMMENT THIS WHEN DEPLOYING TO PROD!!!
@@ -111,4 +113,36 @@ export const isValidUrl = (url) => {
 
 export const getServiceNameFromPathName = (pathname, section) => {
   return pathname.split(`/${section}/`)[1];
+};
+
+export const createValue = (text) => {
+  //todo - Price - remove spaces and replace with underscore
+  return text.toLowerCase();
+};
+
+export const getFeatureLinks = (apps) => {
+  let links = []
+  { apps && apps.map(app => {
+    links.push([app.title, `/features/${app.value}`])
+  })
+  }
+  return links
+};
+
+export const getCompletedSpockTestLinks = (apps) => {
+  let links = []
+  { apps && apps.map(app => {
+    links.push([app.title, `/completed/${app.value}`])
+  })
+  }
+  return links
+};
+
+export const getDevelopmentSpockTestLinks = (apps) => {
+  let links = []
+  { apps && apps.map(app => {
+    links.push([app.title, `/development/${app.value}`])
+  })
+  }
+  return links
 };

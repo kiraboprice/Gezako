@@ -12,7 +12,7 @@ import {setPrevUrl} from "../../../store/actions/authActions";
 import CreateFeatureDbHandler
   from "../featuresdbhandlers/CreateFeatureDbHandler";
 
-import * as services from "../../../constants/Services";
+import {getApps} from "../../../store/actions/settingsActions";
 
 const qs = require('query-string');
 
@@ -31,6 +31,16 @@ const CreateFeature = (props) => {
   const [createFeatureInDB, setCreateFeatureInDB] = useState(false);
   const [createFeatureSuccess, setCreateFeatureSuccess] = useState(null);
   const [createFeatureError, setCreateFeatureError] = useState(null);
+
+  const { apps } = props;
+  const { getApps } = props;
+  useEffect(() => {
+    getApps();
+    return function cleanup() {
+      // unsubscribeGetApps(); //todo - power implement
+      // resetGetApps(); //todo - power implement
+    };
+  }, [apps]);
 
   function handleChange(e) {
     const value = e.target.value;
@@ -128,27 +138,7 @@ const CreateFeature = (props) => {
               <label>Feature Allocation: </label>
               <select name='service' value={service}
                       onChange={handleChange}>
-                <option value={services.ANDROID_USER_FLOWS_VALUE}>{services.ANDROID_USER_FLOWS_NAME}</option>
-                <option value={services.ADMIN_USER_FLOWS_VALUE}>{services.ADMIN_USER_FLOWS_NAME}</option>
-                <option value={services.SURVEYS_VALUE}>{services.SURVEYS_NAME}</option>
-                <option value={services.RULES_VALUE}>{services.RULES_NAME}</option>
-                <option value={services.LOANS_VALUE}>{services.LOANS_NAME}</option>
-                <option value={services.USERS_VALUE}>{services.USERS_NAME}</option>
-                <option value={services.AUTH_VALUE}>{services.AUTH_NAME}</option>
-                <option value={services.RAILS_VALUE}>{services.RAILS_NAME}</option>
-                <option value={services.COMMS_VALUE}>{services.COMMS_NAME}</option>
-                <option value={services.APPROVAL_VALUE}>{services.APPROVAL_NAME}</option>
-                <option value={services.SCHEDULER_VALUE}>{services.SCHEDULER_NAME}</option>
-                <option value={services.DSROUTER_VALUE}>{services.DSROUTER_NAME}</option>
-                <option value={services.ASSIGNMENT_VALUE}>{services.ASSIGNMENT_NAME}</option>
-                <option value={services.DSS_VALUE}>{services.DSS_NAME}</option>
-                <option value={services.KYC_VALUE}>{services.KYC_NAME}</option>
-                <option value={services.ATTRIBUTION_VALUE}>{services.ATTRIBUTION_NAME}</option>
-                <option value={services.SETTLEMENT_VALUE}>{services.SETTLEMENT_NAME}</option>
-                <option value={services.VERIFICATION_VALUE}>{services.VERIFICATION_NAME}</option>
-                <option value={services.LENDING_PARTNER_VALUE}>{services.LENDING_PARTNER_NAME}</option>
-                <option value={services.PROVIDER_MEDIATOR_LEGACY_VALUE}>{services.PROVIDER_MEDIATOR_LEGACY_NAME}</option>
-                <option value={services.ACCOUNT_LEGACY_VALUE}>{services.ACCOUNT_LEGACY_NAME}</option>
+                {apps && apps.map(app => <option value={app.value}>{app.title}</option>)}
               </select>
             </div>
 
@@ -171,7 +161,7 @@ const CreateFeature = (props) => {
                 value={description}
                 onChange={handleChangeForTextField}
             />
-            
+
             <TextField
                 margin="dense"
                 id="productSpec"
@@ -214,7 +204,8 @@ const CreateFeature = (props) => {
 const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
-    createTestNewTestId: state.report.createTestNewTestId
+    createTestNewTestId: state.report.createTestNewTestId,
+    apps: state.settings.apps
   };
 };
 
@@ -224,6 +215,8 @@ const mapDispatchToProps = dispatch => {
 
     showSuccessAlert: (message) => dispatch(showSuccessAlert(message)),
     showErrorAlert: (message) => dispatch(showErrorAlert(message)),
+
+    getApps: (message) => dispatch(getApps(message))
   };
 };
 

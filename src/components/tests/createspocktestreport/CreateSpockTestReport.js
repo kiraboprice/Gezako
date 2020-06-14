@@ -19,10 +19,9 @@ import {
 import TextField from "@material-ui/core/TextField/TextField";
 import {COMPLETED, NEW} from "../../../constants/ReportStatus";
 
-import * as services from "../../../constants/Services";
-
 import FileUpload from "../../fileupload/FileUpload";
 import AsyncAlertDialog from "../../alerts/AsyncAlertDialog";
+import {getApps} from "../../../store/actions/settingsActions";
 const qs = require('query-string');
 
 const CreateSpockTestReport = (props) => {
@@ -46,6 +45,15 @@ const CreateSpockTestReport = (props) => {
   const [displayFeatureFields, setDisplayFeatureFields] = useState();
   const [displayTestCompletedFields, setDisplayTestCompletedFields] = useState();
   const [displayTestDevelopmentFields, setDisplayTestDevelopmentFields] = useState();
+
+  const { apps, getApps } = props;
+  useEffect(() => {
+    getApps();
+    return function cleanup() {
+      // unsubscribeGetApps(); //todo - power implement
+      // resetGetApps(); //todo - power implement
+    };
+  }, [apps]);
 
   useEffect(() => {
     props.getUsersApartFromCurrentUser();
@@ -299,25 +307,7 @@ const CreateSpockTestReport = (props) => {
               <label>Service: </label>
               <select name='service' value={service}
                       onChange={handleChange}>
-                <option value={services.SURVEYS_VALUE}>{services.SURVEYS_NAME}</option>
-                <option value={services.RULES_VALUE}>{services.RULES_NAME}</option>
-                <option value={services.LOANS_VALUE}>{services.LOANS_NAME}</option>
-                <option value={services.USERS_VALUE}>{services.USERS_NAME}</option>
-                <option value={services.AUTH_VALUE}>{services.AUTH_NAME}</option>
-                <option value={services.RAILS_VALUE}>{services.RAILS_NAME}</option>
-                <option value={services.COMMS_VALUE}>{services.COMMS_NAME}</option>
-                <option value={services.APPROVAL_VALUE}>{services.APPROVAL_NAME}</option>
-                <option value={services.SCHEDULER_VALUE}>{services.SCHEDULER_NAME}</option>
-                <option value={services.DSROUTER_VALUE}>{services.DSROUTER_NAME}</option>
-                <option value={services.ASSIGNMENT_VALUE}>{services.ASSIGNMENT_NAME}</option>
-                <option value={services.DSS_VALUE}>{services.DSS_NAME}</option>
-                <option value={services.KYC_VALUE}>{services.KYC_NAME}</option>
-                <option value={services.ATTRIBUTION_VALUE}>{services.ATTRIBUTION_NAME}</option>
-                <option value={services.SETTLEMENT_VALUE}>{services.SETTLEMENT_NAME}</option>
-                <option value={services.VERIFICATION_VALUE}>{services.VERIFICATION_NAME}</option>
-                <option value={services.LENDING_PARTNER_VALUE}>{services.LENDING_PARTNER_NAME}</option>
-                <option value={services.PROVIDER_MEDIATOR_LEGACY_VALUE}>{services.PROVIDER_MEDIATOR_LEGACY_NAME}</option>
-                <option value={services.ACCOUNT_LEGACY_VALUE}>{services.ACCOUNT_LEGACY_NAME}</option>
+                {apps && apps.map(app => <option value={app.value}>{app.title}</option>)}
               </select>
             </div>
 
@@ -335,8 +325,7 @@ const CreateSpockTestReport = (props) => {
               <label>Assign To: </label>
               <select name='assignedTo' onChange={handleChange}>
                 <option value=''></option>
-                {users && users.map(user => <option
-                    value={user.id}>{user.displayName}</option>)}
+                {users && users.map(user => <option value={user.id}>{user.displayName}</option>)}
               </select>
             </div>
 
@@ -367,7 +356,7 @@ const CreateSpockTestReport = (props) => {
                 value={postmanTest}
                 onChange={handleChangeForTextField}
             />
-            
+
             <TextField
                 margin="dense"
                 id="productSpec"
@@ -411,7 +400,8 @@ const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
     users: state.auth.users,
-    createTestNewTestId: state.report.createTestNewTestId
+    createTestNewTestId: state.report.createTestNewTestId,
+    apps: state.settings.apps
   };
 };
 
@@ -427,6 +417,7 @@ const mapDispatchToProps = dispatch => {
 
     resetCreateTestSuccess: (message) => dispatch(resetCreateTestSuccess(message)),
 
+    getApps: () => dispatch(getApps())
   };
 };
 

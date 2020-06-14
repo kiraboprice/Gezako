@@ -49,7 +49,7 @@ the indices
 - build the project 
 `sudo npm run build`
 - deploy the project 
-`firebase deploy -P gezako-8a7aa`
+`firebase deploy -P gezako-8a7aa` to deploy to prod
 
 Note: only the admin user has access to
 prod instance and can deploy.

@@ -16,7 +16,7 @@ import {
 } from "../../../store/actions/authActions";
 import TextField from "@material-ui/core/TextField/TextField";
 import {blue} from "@material-ui/core/colors";
-import * as services from "../../../constants/Services";
+import {getApps} from "../../../store/actions/settingsActions";
 
 const UpdateSpockTestReport = (props) => {
   const { report } = props;
@@ -42,6 +42,15 @@ const UpdateSpockTestReport = (props) => {
   //set up UI
   const [displayTestDevelopmentFields, setDisplayTestDevelopmentFields] = useState();
   const [displayTestCompletedFields, setDisplayTestCompletedFields] = useState();
+
+  const { apps, getApps } = props;
+  useEffect(() => {
+    getApps();
+    return function cleanup() {
+      // unsubscribeGetApps(); //todo - power implement
+      // resetGetApps(); //todo - power implement
+    };
+  }, [apps]);
 
   useEffect(() => {
     props.getUsersApartFromCurrentUser();
@@ -268,26 +277,8 @@ const UpdateSpockTestReport = (props) => {
               <div id='display-content'>
                 <label>Service: </label>
                 <select name='service' value={service} onChange={handleChange}>
-                <option value={services.SURVEYS_VALUE}>{services.SURVEYS_NAME}</option>
-                <option value={services.RULES_VALUE}>{services.RULES_NAME}</option>
-                <option value={services.LOANS_VALUE}>{services.LOANS_NAME}</option>
-                <option value={services.USERS_VALUE}>{services.USERS_NAME}</option>
-                <option value={services.AUTH_VALUE}>{services.AUTH_NAME}</option>
-                <option value={services.RAILS_VALUE}>{services.RAILS_NAME}</option>
-                <option value={services.COMMS_VALUE}>{services.COMMS_NAME}</option>
-                <option value={services.APPROVAL_VALUE}>{services.APPROVAL_NAME}</option>
-                <option value={services.SCHEDULER_VALUE}>{services.SCHEDULER_NAME}</option>
-                <option value={services.DSROUTER_VALUE}>{services.DSROUTER_NAME}</option>
-                <option value={services.ASSIGNMENT_VALUE}>{services.ASSIGNMENT_NAME}</option>
-                <option value={services.DSS_VALUE}>{services.DSS_NAME}</option>
-                <option value={services.KYC_VALUE}>{services.KYC_NAME}</option>
-                <option value={services.ATTRIBUTION_VALUE}>{services.ATTRIBUTION_NAME}</option>
-                <option value={services.SETTLEMENT_VALUE}>{services.SETTLEMENT_NAME}</option>
-                <option value={services.VERIFICATION_VALUE}>{services.VERIFICATION_NAME}</option>
-                <option value={services.LENDING_PARTNER_VALUE}>{services.LENDING_PARTNER_NAME}</option>
-                <option value={services.PROVIDER_MEDIATOR_LEGACY_VALUE}>{services.PROVIDER_MEDIATOR_LEGACY_NAME}</option>
-                <option value={services.ACCOUNT_LEGACY_VALUE}>{services.ACCOUNT_LEGACY_NAME}</option>
-              </select>
+                  {apps && apps.map(app => <option value={app.value}>{app.title}</option>)}
+                </select>
             </div>
 
               <div id='display-content'>
@@ -376,7 +367,8 @@ const mapStateToProps = (state) => {
   return {
     user: state.auth.user,
     report: state.report.getReport,
-    users: state.auth.users
+    users: state.auth.users,
+    apps: state.settings.apps
   }
 };
 
@@ -390,7 +382,9 @@ const mapDispatchToProps = dispatch => {
     resetUpdateReportState: () => dispatch(resetUpdateReportState()),
 
     getUsersApartFromCurrentUser: () => dispatch(getUsersApartFromCurrentUser()),
-    unsubscribeGetUsersApartFromCurrentUser: () => dispatch(unsubscribeGetUsersApartFromCurrentUser())
+    unsubscribeGetUsersApartFromCurrentUser: () => dispatch(unsubscribeGetUsersApartFromCurrentUser()),
+
+    getApps: () => dispatch(getApps())
   }
 };
 

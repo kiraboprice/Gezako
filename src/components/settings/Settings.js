@@ -6,11 +6,13 @@ import "./settings.css";
 import { createApp } from "store/actions/settingsActions";
 import { getApps } from "store/actions/settingsActions";
 import SpockTest from "../tests/SpockTest";
+import * as StringUtil from "../../util/StringUtil";
 
 const Settings = (props) => {
 	const [testTitle, setTestTitle] = useState(null);
 
 	const { apps } = props;
+	const { getApps, createApp } = props;
 
 	useEffect(() => {
 		getApps();
@@ -20,10 +22,10 @@ const Settings = (props) => {
 		};
 	}, [apps]);
 
-	const { getApps, createApp } = props;
 	const onClickCreateApp = () => {
 		const app = {
-			"title": testTitle
+			"title": testTitle,
+			"value": StringUtil.createValue(testTitle) //todo caution: manually update value for existing Tala data
 		}
 		createApp(app)
 	};
@@ -133,7 +135,7 @@ const Settings = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		user: state.auth.user,
-		apps: state.settings.apps,
+		apps: state.settings.apps
 	};
 };
 
